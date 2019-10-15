@@ -16,5 +16,17 @@ namespace FrbaOfertas.AbmRol
         {
             InitializeComponent();
         }
+
+        private void botonAlta_Click(object sender, EventArgs e)
+        {
+            Alta alta = new Alta();
+            alta.Show();
+        }
+
+        private void botonListado_Click(object sender, EventArgs e)
+        {
+            Listado listado = new Listado();
+            listado.Show();
+        }
     }
 }
