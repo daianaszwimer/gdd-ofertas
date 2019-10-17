@@ -38,7 +38,9 @@ namespace FrbaOfertas.AbmRol
 
         private void confirmarAlta_Click(object sender, EventArgs e)
         {
-            SqlCommand insertarNuevoRol = new SqlCommand(string.Format("INSERT INTO rol (rol_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", nombre.Text), dbOfertas);
+            SqlCommand insertarNuevoRol = 
+                new SqlCommand(string.Format("INSERT INTO rol (rol_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", nombre.Text), dbOfertas);
+
             SqlDataReader dataReader = insertarNuevoRol.ExecuteReader();
 
             if (dataReader.Read())
@@ -61,12 +63,13 @@ namespace FrbaOfertas.AbmRol
         {
             List<int> funcionalidadesSeleccionadas = funcionalidadesASeleccionar.CheckedIndices.Cast<int>().ToList();
 
+            //TODO: si no selecciona ninguna
             string valoresAInsertarEnFuncionalidadxRol = "";
             foreach (var funcionalidad in funcionalidadesSeleccionadas)
             {
-                valoresAInsertarEnFuncionalidadxRol += "(" + idRol.ToString() + "," + (funcionalidad + 1).ToString() + "), ";
+                valoresAInsertarEnFuncionalidadxRol += "(" + idRol.ToString() + "," + (funcionalidad + 1).ToString() + "),";
             }
-            valoresAInsertarEnFuncionalidadxRol = valoresAInsertarEnFuncionalidadxRol.Remove(valoresAInsertarEnFuncionalidadxRol.Length - 2);
+            valoresAInsertarEnFuncionalidadxRol = valoresAInsertarEnFuncionalidadxRol.Remove(valoresAInsertarEnFuncionalidadxRol.Length - 1);
 
             SqlCommand insertarFuncionalidadesxRol =
                 new SqlCommand("INSERT INTO funcionalidadxrol (rol_id, funcionalidad_id) VALUES " + valoresAInsertarEnFuncionalidadxRol, dbOfertas);

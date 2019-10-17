@@ -14,8 +14,8 @@ namespace FrbaOfertas.AbmRol
     public partial class Listado : Utils
     {
         DataTable table = new DataTable();
-        List<RolYFuncionalidades> rolesYFuncionalidades = new List<RolYFuncionalidades>();
-
+        List<RolxFuncionalidades> rolesYfuncionalidades = new List<RolxFuncionalidades>();
+        
         public Listado()
         {
             InitializeComponent();
@@ -24,68 +24,91 @@ namespace FrbaOfertas.AbmRol
             table.Columns.Add("Rol", typeof(string));
             table.Columns.Add("Funcionalidades", typeof(string));
 
-            /*table.Rows.Add("Cliente", "ABM Cliente, ABM Proveedor");
-            table.Rows.Add("Proveedor", "Compra de oferta");*/
-
             tablaDeResultados.DataSource = table;
         }
 
-        private void mostrarTodo_Click(object sender, EventArgs e)
+        private void limpiar_Click(object sender, EventArgs e)
         {
-            SqlCommand seleccionarTodosLosRoles = 
-                new SqlCommand("SELECT r.rol_nombre AS Rol, ISNULL(f.descripcion, '-') AS Funcionalidades FROM rol r LEFT JOIN funcionalidadxrol fxr ON fxr.rol_id = r.rol_id LEFT JOIN funcionalidad f ON fxr.funcionalidad_id = f.id GROUP BY r.rol_nombre, f.descripcion", dbOfertas);
-            SqlDataReader dataReader = seleccionarTodosLosRoles.ExecuteReader();
+            table.Clear();
+        }
+
+        private void buscar_Click(object sender, EventArgs e)
+        {
+            string consultaRoles = 
+                "SELECT r.rol_nombre AS Rol, ISNULL(f.descripcion, '-') AS Funcionalidades " +
+                    "FROM rol r LEFT JOIN funcionalidadxrol fxr ON fxr.rol_id = r.rol_id " +
+                               "LEFT JOIN funcionalidad f ON fxr.funcionalidad_id = f.id";
+
+            string rolAFiltrar = rolTextBox.Text;
+            object funcionalidadSeleccionada = funcionalidadesComboBox.SelectedItem;
+
+            if (!string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada != null)
+            {
+                consultaRoles += string.Format(" WHERE r.rol_nombre LIKE '%{0}%' AND f.descripcion = '{1}'", rolAFiltrar, funcionalidadSeleccionada);
+            }
+            else if (string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada != null)
+            {
+                consultaRoles += string.Format(" WHERE f.descripcion = '{0}'", funcionalidadSeleccionada);
+            }
+            else if (!string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada == null)
+            {
+                consultaRoles += string.Format(" WHERE r.rol_nombre LIKE '%{0}%'", rolAFiltrar);
+            }
+
+            SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, dbOfertas);
+            SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
+
+            rolesYfuncionalidades = convertirRespuestaAListaDeRolesYFuncionalidades(dataReader);
+
+            dataReader.Close();
+
+            foreach (var RxF in rolesYfuncionalidades)
+            {
+                string funcionalidades = string.Join(", ", RxF.funcionalidades);
+                table.Rows.Add(RxF.rol, funcionalidades);
+            }
+        }
+
+        private List<RolxFuncionalidades> convertirRespuestaAListaDeRolesYFuncionalidades(SqlDataReader dataReader)
+        {
+            List<RolxFuncionalidades> listaDeRxF = new List<RolxFuncionalidades>();
 
             while (dataReader.Read())
             {
                 string rol = dataReader.GetValue(0).ToString();
                 string funcionalidad = dataReader.GetValue(1).ToString();
 
-                if (rolesYFuncionalidades.Any(ryf => ryf.rol.Equals(rol)))
+                if (listaDeRxF.Any(RxF => RxF.rol.Equals(rol)))
                 {
-                    foreach (var ryF in rolesYFuncionalidades)
+                    foreach (var RxF in listaDeRxF)
                     {
-                        if (ryF.rol.Equals(rol))
+                        if (RxF.rol.Equals(rol))
                         {
-                            ryF.funcionalidades.Add(funcionalidad);
+                            RxF.funcionalidades.Add(funcionalidad);
                         }
                     }
                 }
                 else
                 {
-                    var ryf2 = new RolYFuncionalidades();
-                    ryf2.rol = rol;
-                    ryf2.funcionalidades.Add(funcionalidad);
-                    rolesYFuncionalidades.Add(ryf2);
+                    var RxF = new RolxFuncionalidades();
+                    RxF.rol = rol;
+                    RxF.funcionalidades.Add(funcionalidad);
+                    listaDeRxF.Add(RxF);
                 }
-                
-                //funcionalidadesASeleccionar.Items.Add(funcionalidad, false);
+
             }
 
-            dataReader.Close();
-
-            foreach (var ryf in rolesYFuncionalidades)
-            {
-                string funcionalidades = "";
-                foreach (var f in ryf.funcionalidades)
-                {
-                    funcionalidades += ", ";
-                    funcionalidades += f;
-                }
-                funcionalidades = funcionalidades.Remove(funcionalidades.Length - 2);
-
-                table.Rows.Add(ryf.rol, funcionalidades);
-            }
+            return listaDeRxF;
         }
 
     }
 
-    public class RolYFuncionalidades
+    public class RolxFuncionalidades
     {
         public string rol { get; set; }
         public List<string> funcionalidades { get; set; }
 
-        public RolYFuncionalidades()
+        public RolxFuncionalidades()
         {
             funcionalidades = new List<string>();
         }
