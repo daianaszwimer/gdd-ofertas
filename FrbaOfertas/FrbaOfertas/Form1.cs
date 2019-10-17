@@ -13,29 +13,13 @@ using System.Security.Cryptography;
 
 namespace FrbaOfertas
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Utils
     {
-
-        SqlConnection dbOfertas;
 
         public Form1()
         {
             InitializeComponent();
             conectarseABaseDeDatosOfertas();
-        }
-
-        public void conectarseABaseDeDatosOfertas() 
-        {
-            try
-            {
-                string dbOfertasConnectionString = ConfigurationManager.ConnectionStrings["dbOfertas"].ConnectionString;
-                dbOfertas = new SqlConnection(dbOfertasConnectionString);
-                dbOfertas.Open();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("No se pudo conectar a la base de datos");
-            }
         }
 
         private void login_Click(object sender, EventArgs e)
@@ -46,7 +30,7 @@ namespace FrbaOfertas
             /*
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
-            SqlCommand chequearLogIn = new SqlCommand("SELECT username, pass FROM usuario WHERE username='" + username.Text + "' AND pass='" + this.SHA256Encrypt(password.Text) + "'", dbOfertas);
+            SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT username, pass FROM usuario WHERE username='{0}' AND pass='{1}'", username.Text, this.SHA256Encrypt(password.Text)), dbOfertas);
             
             SqlDataReader dataReader = chequearLogIn.ExecuteReader();
             if (dataReader.Read())

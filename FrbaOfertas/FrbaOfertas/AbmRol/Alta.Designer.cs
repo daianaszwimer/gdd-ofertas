@@ -32,6 +32,7 @@
             this.nombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.funcionalidadesASeleccionar = new System.Windows.Forms.CheckedListBox();
+            this.confirmarAlta = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -67,11 +68,22 @@
             this.funcionalidadesASeleccionar.Size = new System.Drawing.Size(187, 94);
             this.funcionalidadesASeleccionar.TabIndex = 4;
             // 
+            // confirmarAlta
+            // 
+            this.confirmarAlta.Location = new System.Drawing.Point(142, 222);
+            this.confirmarAlta.Name = "confirmarAlta";
+            this.confirmarAlta.Size = new System.Drawing.Size(75, 23);
+            this.confirmarAlta.TabIndex = 5;
+            this.confirmarAlta.Text = "Confirmar";
+            this.confirmarAlta.UseVisualStyleBackColor = true;
+            this.confirmarAlta.Click += new System.EventHandler(this.confirmarAlta_Click);
+            // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.confirmarAlta);
             this.Controls.Add(this.funcionalidadesASeleccionar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nombre);
@@ -89,5 +101,6 @@
         private System.Windows.Forms.TextBox nombre;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckedListBox funcionalidadesASeleccionar;
+        private System.Windows.Forms.Button confirmarAlta;
     }
 }
