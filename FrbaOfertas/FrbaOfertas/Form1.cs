@@ -30,35 +30,59 @@ namespace FrbaOfertas
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
             SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT username, pass FROM usuario WHERE username='{0}' AND pass='{1}'", username.Text, this.SHA256Encrypt(password.Text)), dbOfertas);
             
-            SqlDataReader dataReader = chequearLogIn.ExecuteReader();
-            if (dataReader.Read())
+            SqlCommand consultarEstadoUsuario = new SqlCommand(string.Format("SELECT habilitado FROM usuario WHERE username='" + username.Text + "'"), dbOfertas);
+            SqlDataReader estadoUsuario = consultarEstadoUsuario.ExecuteReader();
+            estadoUsuario.Read();
+            string estado = estadoUsuario.GetValue(0).ToString();
+            
+           
+            if (estado.Equals("1"))
             {
-                dataReader.Close();
-                MessageBox.Show("Log In exitoso");
-                SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = 0 WHERE username='" + username.Text + "'"), dbOfertas); 
-                SqlDataReader dataReader1 = loginCorrecto.ExecuteReader();
-                dataReader1.Close();
-                this.Hide();
-                abmRol.Show();
+                estadoUsuario.Close();
+                SqlDataReader estadoLogin = chequearLogIn.ExecuteReader();
+                if (estadoLogin.Read())
+                {
+                    estadoLogin.Close();
+                    MessageBox.Show("Log In exitoso");
+                    SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = 0 WHERE username='" + username.Text + "'"), dbOfertas);
+                    SqlDataReader dataReader = loginCorrecto.ExecuteReader();
+                    dataReader.Close();
+                    
+                    this.Hide();
+                    abmRol.Show();
+                }
+                else
+                {
+                    try
+                    {
+                        estadoLogin.Close();
+                        SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = intentos_fallidos_login+1 WHERE username='" + username.Text + "'"), dbOfertas);
+                        SqlDataReader dataReader = loginIncorrecto.ExecuteReader();
+                        MessageBox.Show("Datos incorrectos");
+                        dataReader.Close();
+
+                        this.Show();
+                        
+                    }
+                    catch (System.Data.SqlClient.SqlException)
+                    {
+                        SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET habilitado = 0 WHERE username='" + username.Text + "'"), dbOfertas);
+                        SqlDataReader dataReader = inhabilitarUsuario.ExecuteReader();
+                        MessageBox.Show("Limite login");
+                        dataReader.Close();
+
+                        this.Show();
+                    }
+                }
             }
             else
             {
-                try
-                {
-                    dataReader.Close();
-                    SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = intentos_fallidos_login+1 WHERE username='" + username.Text + "'"), dbOfertas); 
-                    SqlDataReader dataReader2 = loginIncorrecto.ExecuteReader();
-                    MessageBox.Show("Datos incorrectos");
-                    this.Show();
-                    dataReader2.Close();
-                }
-                catch (System.Data.SqlClient.SqlException ex)
-                {
-                    this.Hide();
-                    MessageBox.Show("Limite login");
-
-                }
+                MessageBox.Show("USUARIO INHABILITADO", "Error de Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                estadoUsuario.Close();
+                
+                this.Show();
             }
+
         }
 
         public string SHA256Encrypt(string input)

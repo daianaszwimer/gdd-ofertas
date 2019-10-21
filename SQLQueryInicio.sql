@@ -8,7 +8,9 @@ drop table	dbo.funcionalidadxrol,
 create table usuario(
 	username varchar(50) PRIMARY KEY NOT NULL,
 	pass varchar(500) NOT NULL,
-	intentos_fallidos_login int default 0)
+	intentos_fallidos_login int DEFAULT 0,
+	habilitado bit default 1, 
+	CHECK(intentos_fallidos_login<4))
 
 create table funcionalidad(
 	id int identity not null primary key,
@@ -23,7 +25,10 @@ create table funcionalidadxrol(
 	funcionalidad_id int not null REFERENCES funcionalidad)
 
 insert into usuario (username, pass)
-	values ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7')
+	values ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'),
+	('maru','aaa')
+
+
 
 insert into funcionalidad (descripcion)
 	values ('ABM Cliente'),('ABM Proveedor'),('Carga de credito'),
