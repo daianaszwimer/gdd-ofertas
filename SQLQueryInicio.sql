@@ -9,8 +9,8 @@ create table usuario(
 	username varchar(50) PRIMARY KEY NOT NULL,
 	pass varchar(500) NOT NULL,
 	intentos_fallidos_login int DEFAULT 0,
-	habilitado bit default 1, 
-	CHECK(intentos_fallidos_login<4))
+	habilitado int default 1, 
+	CHECK(intentos_fallidos_login<=3))
 
 create table funcionalidad(
 	id int identity not null primary key,

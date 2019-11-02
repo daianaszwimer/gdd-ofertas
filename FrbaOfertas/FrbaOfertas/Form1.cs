@@ -28,26 +28,21 @@ namespace FrbaOfertas
             
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
-            SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT username, pass FROM usuario WHERE username='{0}' AND pass='{1}'", username.Text, this.SHA256Encrypt(password.Text)), dbOfertas);
-            
-            SqlCommand consultarEstadoUsuario = new SqlCommand(string.Format("SELECT habilitado FROM usuario WHERE username='" + username.Text + "'"), dbOfertas);
-            SqlDataReader estadoUsuario = consultarEstadoUsuario.ExecuteReader();
-            estadoUsuario.Read();
-            string estado = estadoUsuario.GetValue(0).ToString();
-            
-           
-            if (estado.Equals("1"))
+            SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT username FROM usuario WHERE username='{0}'", username.Text), dbOfertas);
+            SqlDataReader estadoUsuario = chequearUsuario.ExecuteReader();
+            if (estadoUsuario.HasRows) // USUARIO EXISTE 
             {
                 estadoUsuario.Close();
+                SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT username, pass FROM usuario WHERE username='{0}' AND pass='{1}'", username.Text, this.SHA256Encrypt(password.Text)), dbOfertas);
                 SqlDataReader estadoLogin = chequearLogIn.ExecuteReader();
                 if (estadoLogin.Read())
                 {
-                    estadoLogin.Close();
+                    estadoLogin.Close(); // HABILITADO OK
                     MessageBox.Show("Log In exitoso");
                     SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = 0 WHERE username='" + username.Text + "'"), dbOfertas);
                     SqlDataReader dataReader = loginCorrecto.ExecuteReader();
                     dataReader.Close();
-                    
+
                     this.Hide();
                     abmRol.Show();
                 }
@@ -55,34 +50,31 @@ namespace FrbaOfertas
                 {
                     try
                     {
-                        estadoLogin.Close();
+                        estadoLogin.Close(); // HABILITADO (error 1* y 2* vez)
                         SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = intentos_fallidos_login+1 WHERE username='" + username.Text + "'"), dbOfertas);
                         SqlDataReader dataReader = loginIncorrecto.ExecuteReader();
                         MessageBox.Show("Datos incorrectos");
                         dataReader.Close();
 
                         this.Show();
-                        
                     }
-                    catch (System.Data.SqlClient.SqlException)
+                    catch (System.Data.SqlClient.SqlException) // INHABILITADO (error 3* vez)
                     {
+                        estadoLogin.Close();
                         SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET habilitado = 0 WHERE username='" + username.Text + "'"), dbOfertas);
                         SqlDataReader dataReader = inhabilitarUsuario.ExecuteReader();
-                        MessageBox.Show("Limite login");
+                        MessageBox.Show("USUARIO INHABILITADO", "Error de Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         dataReader.Close();
 
                         this.Show();
                     }
                 }
             }
-            else
+            else // USUARIO NO EXISTE
             {
-                MessageBox.Show("USUARIO INHABILITADO", "Error de Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("USUARIO NO REGISTRADO", "Atencion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 estadoUsuario.Close();
-                
-                this.Show();
             }
-
         }
 
         public string SHA256Encrypt(string input)
