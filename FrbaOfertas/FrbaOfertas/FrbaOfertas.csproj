@@ -93,6 +93,12 @@
     <Compile Include="CrearOferta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="EntregaDeOferta\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntregaDeOferta\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Facturar\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

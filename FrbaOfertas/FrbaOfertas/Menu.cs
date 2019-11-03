@@ -13,9 +13,8 @@ namespace FrbaOfertas
 {
     public partial class Menu : Utils
     {
-        public Menu()
+        public Menu(String usuario)
         {
-            String usuario = "admin";
             InitializeComponent();
             conectarseABaseDeDatosOfertas();
             List<String> funcionalidades = obtenerFuncionalidadesSegunUsuario(usuario);
@@ -74,7 +73,7 @@ namespace FrbaOfertas
                 case "Carga de credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CragaCredito.Form1()).Show(); }; break;
                 case "Confeccion y publicacion de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CrearOferta.Form1()).Show(); }; break;
                 case "Compra de oferta": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ComprarOferta.Form1()).Show(); }; break;
-                case "Entrega/Consumo de oferta": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmCliente.Form1()).Show(); }; break;
+                case "Entrega/Consumo de oferta": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new EntregaDeOferta.Form1()).Show(); }; break;
                 case "Facturacion a Proveedor": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new Facturar.Form1()).Show(); }; break;
                 case "Listado Estadistico": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ListadoEstadistico.Form1()).Show(); }; break;
             }
