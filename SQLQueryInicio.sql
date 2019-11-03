@@ -1,10 +1,10 @@
 use GD2C2019
 
-drop table	dbo.rolxusuario,
+drop table dbo.rolxusuario,
 			dbo.funcionalidadxrol,
 			dbo.usuario,
 			dbo.funcionalidad,
-			dbo.rol,
+			dbo.rol
 
 create table usuario(
 	username varchar(50) PRIMARY KEY NOT NULL,
@@ -34,9 +34,9 @@ insert into usuario (username, pass)
 	('maru','aaa')
 
 insert into funcionalidad (descripcion)
-	values ('ABM Cliente'),('ABM Proveedor'),('Carga de credito'),
-			('Alta de oferta'),('Compra de oferta'),('Baja de oferta'),
-			('Facturacion'),('Estadisticas')
+	values ('ABM Rol'),('ABM Cliente'),('ABM Proveedor'),('Carga de credito'),
+			('Confección y publicacion de Ofertas'),('Compra de oferta'),('Entrega/Consumo de oferta'),
+			('Facturacion a Proveedor'),('Listado Estadistico')
 
 insert into rol (rol_nombre)
 	values ('Administrador General'),('Cliente')
