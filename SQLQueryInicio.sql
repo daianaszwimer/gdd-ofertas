@@ -1,10 +1,32 @@
 use GD2C2019
 
-drop table dbo.rolxusuario,
-			dbo.funcionalidadxrol,
-			dbo.usuario,
-			dbo.funcionalidad,
-			dbo.rol
+
+
+IF OBJECT_ID('cliente', 'U') IS NOT NULL 
+  DROP TABLE cliente;
+
+IF OBJECT_ID('domicilio', 'U') IS NOT NULL 
+  DROP TABLE domicilio;
+
+IF OBJECT_ID('localidad', 'U') IS NOT NULL 
+  DROP TABLE localidad;
+
+IF OBJECT_ID('rolxusuario', 'U') IS NOT NULL 
+  DROP TABLE rolxusuario;
+
+IF OBJECT_ID('funcionalidadxrol', 'U') IS NOT NULL 
+  DROP TABLE funcionalidadxrol;
+		
+IF OBJECT_ID('rol', 'U') IS NOT NULL 
+  DROP TABLE rol;
+
+IF OBJECT_ID('funcionalidad', 'U') IS NOT NULL 
+  DROP TABLE funcionalidad;			
+
+IF OBJECT_ID('dbo.usuario', 'U') IS NOT NULL 
+  DROP TABLE dbo.usuario; 
+
+
 
 create table usuario(
 	username varchar(50) PRIMARY KEY NOT NULL,
@@ -12,6 +34,34 @@ create table usuario(
 	intentos_fallidos_login int DEFAULT 0,
 	habilitado int default 1, 
 	CHECK(intentos_fallidos_login<=3))
+
+create table localidad(
+	id int identity not null primary key,
+	nombre varchar(50)
+)
+
+create table domicilio(
+	id int identity not null primary key,
+	idLocalidad int REFERENCES localidad,
+	calle varchar(30),
+	piso int,
+	depto varchar(3),
+	codpostal int
+)
+
+create table cliente(
+	id int identity not null primary key,
+	--username varchar(50) not null REFERENCES usuario,
+	nombre varchar(50),
+	apellido varchar(50),
+	dni int,
+	mail varchar(50),
+	telefono int,
+	fechaNacimiento datetime,
+	idDomicilio int not null REFERENCES domicilio
+	--TODO: credito
+	--		habilitado
+)
 
 create table funcionalidad(
 	id int identity not null primary key,
@@ -35,7 +85,7 @@ insert into usuario (username, pass)
 
 insert into funcionalidad (descripcion)
 	values ('ABM Rol'),('ABM Cliente'),('ABM Proveedor'),('Carga de credito'),
-			('Confección y publicacion de Ofertas'),('Compra de oferta'),('Entrega/Consumo de oferta'),
+			('Confecciï¿½n y publicacion de Ofertas'),('Compra de oferta'),('Entrega/Consumo de oferta'),
 			('Facturacion a Proveedor'),('Listado Estadistico')
 
 insert into rol (rol_nombre)
