@@ -16,5 +16,18 @@ namespace FrbaOfertas.AbmCliente
         {
             InitializeComponent();
         }
+
+        private void newCliente_Click(object sender, EventArgs e)
+        {
+            Alta alta = new Alta();
+            alta.Show();
+        }
+
+        private void editCliente_Click(object sender, EventArgs e)
+        {
+            Listado listado = new Listado();
+            listado.Show();
+        }
+
     }
 }
