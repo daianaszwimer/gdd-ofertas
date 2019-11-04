@@ -69,7 +69,9 @@ create table funcionalidad(
 
 create table rol(
 	rol_id int identity not null primary key,
-	rol_nombre varchar(100))
+	rol_nombre varchar(100),
+	rol_habilitado bit default 1,
+	rol_eliminado bit default 0)
 
 create table funcionalidadxrol(
 	rol_id int not null REFERENCES rol,
@@ -85,7 +87,7 @@ insert into usuario (username, pass)
 
 insert into funcionalidad (descripcion)
 	values ('ABM Rol'),('ABM Cliente'),('ABM Proveedor'),('Carga de credito'),
-			('Confecci�n y publicacion de Ofertas'),('Compra de oferta'),('Entrega/Consumo de oferta'),
+			('Confeccion y publicacion de Ofertas'),('Compra de oferta'),('Entrega/Consumo de oferta'),
 			('Facturacion a Proveedor'),('Listado Estadistico')
 
 insert into rol (rol_nombre)

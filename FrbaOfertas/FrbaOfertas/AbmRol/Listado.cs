@@ -20,11 +20,32 @@ namespace FrbaOfertas.AbmRol
         {
             InitializeComponent();
             conectarseABaseDeDatosOfertas();
-           
+
+            table.Columns.Add("Id", typeof(string));
             table.Columns.Add("Rol", typeof(string));
             table.Columns.Add("Funcionalidades", typeof(string));
+            table.Columns.Add("Habilitado", typeof(bool));
 
             tablaDeResultados.DataSource = table;
+            tablaDeResultados.CellContentClick += tablaDeResultados_CellContentClick;
+            
+            DataGridViewButtonColumn columnaModificar = new DataGridViewButtonColumn();
+            
+            columnaModificar.HeaderText = "Modificar";
+            tablaDeResultados.Columns.Add(columnaModificar);  
+
+        }
+
+        private void tablaDeResultados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (e.ColumnIndex == 0) // Si es un boton de modificar
+            {
+                int id = Convert.ToInt32(tablaDeResultados[1, e.RowIndex].Value);
+                var RxF = rolesYfuncionalidades.Find(rol => rol.id == id);
+                (new AbmRol.Modificacion(RxF)).Show();
+            }
         }
 
         private void limpiar_Click(object sender, EventArgs e)
@@ -34,25 +55,26 @@ namespace FrbaOfertas.AbmRol
 
         private void buscar_Click(object sender, EventArgs e)
         {
+            table.Clear();
             string consultaRoles = 
-                "SELECT r.rol_nombre AS Rol, ISNULL(f.descripcion, '-') AS Funcionalidades " +
+                "SELECT r.rol_id, r.rol_habilitado, r.rol_nombre AS Rol, ISNULL(f.descripcion, '-') AS Funcionalidades " +
                     "FROM rol r LEFT JOIN funcionalidadxrol fxr ON fxr.rol_id = r.rol_id " +
-                               "LEFT JOIN funcionalidad f ON fxr.funcionalidad_id = f.id";
+                               "LEFT JOIN funcionalidad f ON fxr.funcionalidad_id = f.id WHERE r.rol_eliminado = 0";
 
             string rolAFiltrar = rolTextBox.Text;
             object funcionalidadSeleccionada = funcionalidadesComboBox.SelectedItem;
 
             if (!string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada != null)
             {
-                consultaRoles += string.Format(" WHERE r.rol_nombre LIKE '%{0}%' AND f.descripcion = '{1}'", rolAFiltrar, funcionalidadSeleccionada);
+                consultaRoles += string.Format(" AND r.rol_nombre LIKE '%{0}%' AND f.descripcion = '{1}'", rolAFiltrar, funcionalidadSeleccionada);
             }
             else if (string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada != null)
             {
-                consultaRoles += string.Format(" WHERE f.descripcion = '{0}'", funcionalidadSeleccionada);
+                consultaRoles += string.Format(" AND f.descripcion = '{0}'", funcionalidadSeleccionada);
             }
             else if (!string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada == null)
             {
-                consultaRoles += string.Format(" WHERE r.rol_nombre LIKE '%{0}%'", rolAFiltrar);
+                consultaRoles += string.Format(" AND r.rol_nombre LIKE '%{0}%'", rolAFiltrar);
             }
 
             SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, dbOfertas);
@@ -65,7 +87,9 @@ namespace FrbaOfertas.AbmRol
             foreach (var RxF in rolesYfuncionalidades)
             {
                 string funcionalidades = string.Join(", ", RxF.funcionalidades);
-                table.Rows.Add(RxF.rol, funcionalidades);
+                table.Rows.Add(RxF.id, RxF.rol, funcionalidades, RxF.habilitado);
+                tablaDeResultados.Rows[table.Rows.Count - 1].Cells[0].Value = "...";
+                
             }
         }
 
@@ -75,14 +99,16 @@ namespace FrbaOfertas.AbmRol
 
             while (dataReader.Read())
             {
-                string rol = dataReader.GetValue(0).ToString();
-                string funcionalidad = dataReader.GetValue(1).ToString();
+                int id = (int) dataReader.GetValue(0);
+                bool habilitado = (bool) dataReader.GetValue(1);
+                string rol = dataReader.GetValue(2).ToString();
+                string funcionalidad = dataReader.GetValue(3).ToString();
 
-                if (listaDeRxF.Any(RxF => RxF.rol.Equals(rol)))
+                if (listaDeRxF.Any(RxF => RxF.id.Equals(id)))
                 {
                     foreach (var RxF in listaDeRxF)
                     {
-                        if (RxF.rol.Equals(rol))
+                        if (RxF.id.Equals(id))
                         {
                             RxF.funcionalidades.Add(funcionalidad);
                         }
@@ -91,6 +117,8 @@ namespace FrbaOfertas.AbmRol
                 else
                 {
                     var RxF = new RolxFuncionalidades();
+                    RxF.id = id;
+                    RxF.habilitado = habilitado;
                     RxF.rol = rol;
                     RxF.funcionalidades.Add(funcionalidad);
                     listaDeRxF.Add(RxF);
@@ -101,16 +129,5 @@ namespace FrbaOfertas.AbmRol
             return listaDeRxF;
         }
 
-    }
-
-    public class RolxFuncionalidades
-    {
-        public string rol { get; set; }
-        public List<string> funcionalidades { get; set; }
-
-        public RolxFuncionalidades()
-        {
-            funcionalidades = new List<string>();
-        }
     }
 }

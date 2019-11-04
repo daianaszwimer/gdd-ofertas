@@ -28,36 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tablaDeResultados = new System.Windows.Forms.DataGridView();
-            this.limpiar = new System.Windows.Forms.Button();
-            this.buscar = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.rolTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.funcionalidadesComboBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.rolTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buscar = new System.Windows.Forms.Button();
+            this.limpiar = new System.Windows.Forms.Button();
+            this.tablaDeResultados = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
-            // tablaDeResultados
+            // funcionalidadesComboBox
             // 
-            this.tablaDeResultados.AllowUserToAddRows = false;
-            this.tablaDeResultados.AllowUserToDeleteRows = false;
-            this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(22, 113);
-            this.tablaDeResultados.Name = "tablaDeResultados";
-            this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(419, 191);
-            this.tablaDeResultados.TabIndex = 0;
+            this.funcionalidadesComboBox.FormattingEnabled = true;
+            this.funcionalidadesComboBox.Items.AddRange(new object[] {
+            "ABM Rol",
+            "ABM Cliente",
+            "ABM Proveedor",
+            "Carga de credito",
+            "Confeccion y publicacion de Ofertas",
+            "Compra de oferta",
+            "Entrega/Consumo de oferta",
+            "Facturacion a Proveedor",
+            "Listado Estadistico"});
+            this.funcionalidadesComboBox.Location = new System.Drawing.Point(305, 26);
+            this.funcionalidadesComboBox.Name = "funcionalidadesComboBox";
+            this.funcionalidadesComboBox.Size = new System.Drawing.Size(136, 21);
+            this.funcionalidadesComboBox.TabIndex = 6;
             // 
-            // limpiar
+            // label2
             // 
-            this.limpiar.Location = new System.Drawing.Point(22, 69);
-            this.limpiar.Name = "limpiar";
-            this.limpiar.Size = new System.Drawing.Size(75, 23);
-            this.limpiar.TabIndex = 1;
-            this.limpiar.Text = "Limpiar";
-            this.limpiar.UseVisualStyleBackColor = true;
-            this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(226, 30);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Funcionalidad";
+            // 
+            // rolTextBox
+            // 
+            this.rolTextBox.Location = new System.Drawing.Point(48, 27);
+            this.rolTextBox.Name = "rolTextBox";
+            this.rolTextBox.Size = new System.Drawing.Size(120, 20);
+            this.rolTextBox.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 30);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(23, 13);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Rol";
             // 
             // buscar
             // 
@@ -69,38 +91,27 @@
             this.buscar.UseVisualStyleBackColor = true;
             this.buscar.Click += new System.EventHandler(this.buscar_Click);
             // 
-            // label1
+            // limpiar
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(23, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Rol";
+            this.limpiar.Location = new System.Drawing.Point(22, 69);
+            this.limpiar.Name = "limpiar";
+            this.limpiar.Size = new System.Drawing.Size(75, 23);
+            this.limpiar.TabIndex = 1;
+            this.limpiar.Text = "Limpiar";
+            this.limpiar.UseVisualStyleBackColor = true;
+            this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
-            // rolTextBox
+            // tablaDeResultados
             // 
-            this.rolTextBox.Location = new System.Drawing.Point(48, 27);
-            this.rolTextBox.Name = "rolTextBox";
-            this.rolTextBox.Size = new System.Drawing.Size(120, 20);
-            this.rolTextBox.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(226, 30);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Funcionalidad";
-            // 
-            // funcionalidadesComboBox
-            // 
-            this.funcionalidadesComboBox.FormattingEnabled = true;
-            this.funcionalidadesComboBox.Location = new System.Drawing.Point(305, 26);
-            this.funcionalidadesComboBox.Name = "funcionalidadesComboBox";
-            this.funcionalidadesComboBox.Size = new System.Drawing.Size(136, 21);
-            this.funcionalidadesComboBox.TabIndex = 6;
+            this.tablaDeResultados.AllowUserToAddRows = false;
+            this.tablaDeResultados.AllowUserToDeleteRows = false;
+            this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tablaDeResultados.Location = new System.Drawing.Point(22, 113);
+            this.tablaDeResultados.Name = "tablaDeResultados";
+            this.tablaDeResultados.ReadOnly = true;
+            this.tablaDeResultados.Size = new System.Drawing.Size(419, 191);
+            this.tablaDeResultados.TabIndex = 0;
             // 
             // Listado
             // 
