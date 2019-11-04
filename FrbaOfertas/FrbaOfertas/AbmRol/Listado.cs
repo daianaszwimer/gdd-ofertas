@@ -21,25 +21,26 @@ namespace FrbaOfertas.AbmRol
             InitializeComponent();
             conectarseABaseDeDatosOfertas();
 
+            // Se crean las columnas
             table.Columns.Add("Id", typeof(string));
             table.Columns.Add("Rol", typeof(string));
             table.Columns.Add("Funcionalidades", typeof(string));
             table.Columns.Add("Habilitado", typeof(bool));
 
-            tablaDeResultados.DataSource = table;
-            tablaDeResultados.CellContentClick += tablaDeResultados_CellContentClick;
+            tablaDeResultados.DataSource = table; // Binding de table con el dataGridView tablaDeResultados
+            tablaDeResultados.CellContentClick += tablaDeResultados_CellContentClick; // Evento para modificar y borrar
             
-            DataGridViewButtonColumn columnaModificar = new DataGridViewButtonColumn();
-            
+            // Se agrega columna modificar
+            // (no se puede agregar al data table del binding un button)
+            DataGridViewButtonColumn columnaModificar = new DataGridViewButtonColumn();      
             columnaModificar.HeaderText = "Modificar";
             tablaDeResultados.Columns.Add(columnaModificar);  
 
         }
 
+        // Evento para modificar y borrar
         private void tablaDeResultados_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var senderGrid = (DataGridView)sender;
-
             if (e.ColumnIndex == 0) // Si es un boton de modificar
             {
                 int id = Convert.ToInt32(tablaDeResultados[1, e.RowIndex].Value);
@@ -80,6 +81,8 @@ namespace FrbaOfertas.AbmRol
             SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, dbOfertas);
             SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
 
+            // Se guarda en rolesYfuncionalidades la respuesta al SELECT 
+            // (en formato List<RolxFuncionalidades> para que sea mas facil acceder y filtrar elementos
             rolesYfuncionalidades = convertirRespuestaAListaDeRolesYFuncionalidades(dataReader);
 
             dataReader.Close();
@@ -87,9 +90,8 @@ namespace FrbaOfertas.AbmRol
             foreach (var RxF in rolesYfuncionalidades)
             {
                 string funcionalidades = string.Join(", ", RxF.funcionalidades);
-                table.Rows.Add(RxF.id, RxF.rol, funcionalidades, RxF.habilitado);
-                tablaDeResultados.Rows[table.Rows.Count - 1].Cells[0].Value = "...";
-                
+                table.Rows.Add(RxF.id, RxF.rol, funcionalidades, RxF.habilitado); // Se agrega una fila a la tabla
+                tablaDeResultados.Rows[table.Rows.Count - 1].Cells[0].Value = "..."; // Boton de modificar
             }
         }
 
@@ -104,6 +106,8 @@ namespace FrbaOfertas.AbmRol
                 string rol = dataReader.GetValue(2).ToString();
                 string funcionalidad = dataReader.GetValue(3).ToString();
 
+                // Si ya existe un rol con ese id, se le agrega la funcionalidad
+                // sino, creo el rol
                 if (listaDeRxF.Any(RxF => RxF.id.Equals(id)))
                 {
                     foreach (var RxF in listaDeRxF)
