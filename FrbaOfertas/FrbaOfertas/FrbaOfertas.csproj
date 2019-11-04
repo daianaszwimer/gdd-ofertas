@@ -158,6 +158,9 @@
     <Compile Include="Utils.Designer.cs">
       <DependentUpon>Utils.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AbmCliente\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Alta.resx">
       <DependentUpon>Alta.cs</DependentUpon>
     </EmbeddedResource>
