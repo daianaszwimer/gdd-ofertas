@@ -27,8 +27,11 @@ namespace FrbaOfertas
             
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
-            SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT username FROM usuario WHERE username='{0}'", username.Text), dbOfertas);
+            SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT username, intentos_fallidos_login FROM usuario WHERE username='{0}'", username.Text), dbOfertas);
             SqlDataReader estadoUsuario = chequearUsuario.ExecuteReader();
+            estadoUsuario.Read();
+            int intentosLogin = (int) estadoUsuario.GetValue(1);
+
             if (estadoUsuario.HasRows) // USUARIO EXISTE 
             {
                 estadoUsuario.Close();
@@ -37,7 +40,6 @@ namespace FrbaOfertas
                 if (estadoLogin.Read())
                 {
                     estadoLogin.Close(); // HABILITADO OK
-                    //MessageBox.Show("Log In exitoso");
                     SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = 0 WHERE username='" + username.Text + "'"), dbOfertas);
                     SqlDataReader dataReader = loginCorrecto.ExecuteReader();
                     dataReader.Close();
@@ -47,22 +49,22 @@ namespace FrbaOfertas
                 }
                 else
                 {
-                    try
+                    estadoLogin.Close(); // HABILITADO (1* o 2* error)
+                    if(intentosLogin<=2)
                     {
-                        estadoLogin.Close(); // HABILITADO (error 1* y 2* vez)
                         SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = intentos_fallidos_login+1 WHERE username='" + username.Text + "'"), dbOfertas);
                         SqlDataReader dataReader = loginIncorrecto.ExecuteReader();
-                        MessageBox.Show("Datos incorrectos");
+                        MessageBox.Show("DATOS INCORRECTO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataReader.Close();
 
                         this.Show();
                     }
-                    catch (System.Data.SqlClient.SqlException) // INHABILITADO (error 3* vez)
+                    else // INHABILITADO (3* error)
                     {
                         estadoLogin.Close();
                         SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET habilitado = 0 WHERE username='" + username.Text + "'"), dbOfertas);
                         SqlDataReader dataReader = inhabilitarUsuario.ExecuteReader();
-                        MessageBox.Show("USUARIO INHABILITADO", "Error de Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         dataReader.Close();
 
                         this.Show();
@@ -71,7 +73,7 @@ namespace FrbaOfertas
             }
             else // USUARIO NO EXISTE
             {
-                MessageBox.Show("USUARIO NO REGISTRADO", "Atencion!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("USUARIO NO REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 estadoUsuario.Close();
             }
         }

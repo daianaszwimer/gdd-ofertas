@@ -40,7 +40,7 @@ create table usuario(
 	pass varchar(500) NOT NULL,
 	intentos_fallidos_login int DEFAULT 0,
 	habilitado int default 1, 
-	CHECK(intentos_fallidos_login<=3))
+	)
 
 create table localidad(
 	id int identity not null primary key,
