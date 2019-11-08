@@ -19,7 +19,7 @@ namespace FrbaOfertas.AbmRol
 
         private void botonAlta_Click(object sender, EventArgs e)
         {
-            Alta alta = new Alta();
+            AltaYModificacion alta = new AltaYModificacion();
             alta.Show();
         }
 

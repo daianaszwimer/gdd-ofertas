@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.AbmRol
 {
-    partial class Alta
+    partial class AltaYModificacion
     {
         /// <summary>
         /// Required designer variable.
@@ -32,7 +32,8 @@
             this.nombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.funcionalidadesASeleccionar = new System.Windows.Forms.CheckedListBox();
-            this.confirmarAlta = new System.Windows.Forms.Button();
+            this.confirmar = new System.Windows.Forms.Button();
+            this.habilitado = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -68,27 +69,38 @@
             this.funcionalidadesASeleccionar.Size = new System.Drawing.Size(187, 94);
             this.funcionalidadesASeleccionar.TabIndex = 4;
             // 
-            // confirmarAlta
+            // confirmar
             // 
-            this.confirmarAlta.Location = new System.Drawing.Point(142, 222);
-            this.confirmarAlta.Name = "confirmarAlta";
-            this.confirmarAlta.Size = new System.Drawing.Size(75, 23);
-            this.confirmarAlta.TabIndex = 5;
-            this.confirmarAlta.Text = "Confirmar";
-            this.confirmarAlta.UseVisualStyleBackColor = true;
-            this.confirmarAlta.Click += new System.EventHandler(this.confirmarAlta_Click);
+            this.confirmar.Location = new System.Drawing.Point(143, 218);
+            this.confirmar.Name = "confirmar";
+            this.confirmar.Size = new System.Drawing.Size(75, 23);
+            this.confirmar.TabIndex = 5;
+            this.confirmar.Text = "Confirmar";
+            this.confirmar.UseVisualStyleBackColor = true;
+            this.confirmar.Click += new System.EventHandler(this.confirmar_Click);
             // 
-            // Alta
+            // habilitado
+            // 
+            this.habilitado.AutoSize = true;
+            this.habilitado.Location = new System.Drawing.Point(31, 222);
+            this.habilitado.Name = "habilitado";
+            this.habilitado.Size = new System.Drawing.Size(73, 17);
+            this.habilitado.TabIndex = 6;
+            this.habilitado.Text = "Habilitado";
+            this.habilitado.UseVisualStyleBackColor = true;
+            // 
+            // AltaYModificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.confirmarAlta);
+            this.Controls.Add(this.habilitado);
+            this.Controls.Add(this.confirmar);
             this.Controls.Add(this.funcionalidadesASeleccionar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nombre);
             this.Controls.Add(this.label1);
-            this.Name = "Alta";
+            this.Name = "AltaYModificacion";
             this.Text = "Alta";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -101,6 +113,7 @@
         private System.Windows.Forms.TextBox nombre;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckedListBox funcionalidadesASeleccionar;
-        private System.Windows.Forms.Button confirmarAlta;
+        private System.Windows.Forms.Button confirmar;
+        private System.Windows.Forms.CheckBox habilitado;
     }
 }
