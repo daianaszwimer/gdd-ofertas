@@ -1,6 +1,13 @@
 use GD2C2019
 
+IF OBJECT_ID('cargaDeCredito', 'U') IS NOT NULL 
+  DROP TABLE cargaDeCredito;
 
+IF OBJECT_ID('tarjeta', 'U') IS NOT NULL 
+  DROP TABLE tarjeta;
+
+IF OBJECT_ID('tipoDePago', 'U') IS NOT NULL 
+  DROP TABLE tipoDePago;
 
 IF OBJECT_ID('cliente', 'U') IS NOT NULL 
   DROP TABLE cliente;
@@ -49,19 +56,42 @@ create table domicilio(
 	codpostal int
 )
 
+create table tarjeta(
+	id int identity not null primary key,
+	tarjeta_numero int,
+	--tarjeta_tipo int,
+	tarjeta_fecha_vec datetime,
+	tarjeta_cod_seguridad int
+)
+
+create table tipoDePago(
+	id int identity not null primary key,
+	tipo_pago_nombre varchar(20)
+)
+
 create table cliente(
 	id int identity not null primary key,
 	--username varchar(50) not null REFERENCES usuario,
+	idDomicilio int not null REFERENCES domicilio,
 	nombre varchar(50),
 	apellido varchar(50),
 	dni int,
 	mail varchar(50),
 	telefono int,
-	fechaNacimiento datetime,
-	idDomicilio int not null REFERENCES domicilio
+	fechaNacimiento datetime
 	--TODO: credito
 	--		habilitado
 )
+
+create table cargaDeCredito(
+	id int identity not null primary key,
+	carga_credito_id_cliente int REFERENCES cliente,
+	carga_credito_id_tipo_de_pago int REFERENCES tipoDePago,
+	carga_credito_id_tarjeta int REFERENCES tarjeta,
+	carga_credito_fecha datetime,
+	carga_credito_monto int
+)
+
 
 create table funcionalidad(
 	id int identity not null primary key,
@@ -99,3 +129,9 @@ insert into funcionalidadxrol (rol_id, funcionalidad_id)
 
 insert into rolxusuario (username, rol_id)
 	VALUES ('admin', 1), ('maru',2)
+
+insert into tipoDePago (tipo_pago_nombre)
+	values ('cargaInicial')
+
+insert into tarjeta (tarjeta_numero,tarjeta_fecha_vec,tarjeta_cod_seguridad)
+	values (00,00,00)
