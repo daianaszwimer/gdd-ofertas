@@ -84,6 +84,12 @@
     <Compile Include="AbmProveedor\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRol\Alta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Alta.Designer.cs">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\AltaYModificacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,12 @@
     </Compile>
     <Compile Include="AbmRol\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\Modificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Modificacion.Designer.cs">
+      <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRol\RolxFuncionalidades.cs" />
     <Compile Include="ComprarOferta\Form1.cs">

@@ -110,10 +110,10 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox nombre;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckedListBox funcionalidadesASeleccionar;
-        private System.Windows.Forms.Button confirmar;
-        private System.Windows.Forms.CheckBox habilitado;
+        protected System.Windows.Forms.TextBox nombre;
+        protected System.Windows.Forms.CheckedListBox funcionalidadesASeleccionar;
+        protected System.Windows.Forms.Button confirmar;
+        protected System.Windows.Forms.CheckBox habilitado;
     }
 }

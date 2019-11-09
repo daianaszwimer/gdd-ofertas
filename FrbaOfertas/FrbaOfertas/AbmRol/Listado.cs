@@ -51,7 +51,7 @@ namespace FrbaOfertas.AbmRol
             if (e.ColumnIndex == 0) // Si es un boton de modificar
             {
                 var RxF = rolesYfuncionalidades.Find(rol => rol.id == id);
-                (new AbmRol.AltaYModificacion(RxF)).Show();
+                (new AbmRol.Modificacion(RxF)).Show();
             }
 
             if (e.ColumnIndex == 1)
@@ -110,7 +110,7 @@ namespace FrbaOfertas.AbmRol
             SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
 
             // Se guarda en rolesYfuncionalidades la respuesta al SELECT 
-            // (en formato List<RolxFuncionalidades> para que sea mas facil acceder y filtrar elementos
+            // (en formato List<RolxFuncionalidades> para que sea mas facil acceder y filtrar elementos)
             rolesYfuncionalidades = convertirRespuestaAListaDeRolesYFuncionalidades(dataReader);
 
             dataReader.Close();
