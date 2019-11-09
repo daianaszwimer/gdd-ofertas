@@ -19,13 +19,13 @@ namespace FrbaOfertas.AbmRol
 
         private void botonAlta_Click(object sender, EventArgs e)
         {
-            Alta alta = new Alta();
+            AbmRol.Alta alta = new AbmRol.Alta();
             alta.Show();
         }
 
         private void botonListado_Click(object sender, EventArgs e)
         {
-            Listado listado = new Listado();
+            AbmRol.Listado listado = new AbmRol.Listado();
             listado.Show();
         }
     }

@@ -34,19 +34,47 @@ namespace FrbaOfertas.AbmRol
             // (no se puede agregar al data table del binding un button)
             DataGridViewButtonColumn columnaModificar = new DataGridViewButtonColumn();      
             columnaModificar.HeaderText = "Modificar";
-            tablaDeResultados.Columns.Add(columnaModificar);  
+            tablaDeResultados.Columns.Add(columnaModificar);
 
+            // Se agrega columna eliminar
+            // (no se puede agregar al data table del binding un button)
+            DataGridViewButtonColumn columnaEliminar = new DataGridViewButtonColumn();
+            columnaModificar.HeaderText = "Eliminar";
+            tablaDeResultados.Columns.Add(columnaEliminar);
         }
 
         // Evento para modificar y borrar
         private void tablaDeResultados_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            int id = Convert.ToInt32(tablaDeResultados[2, e.RowIndex].Value);
+            
             if (e.ColumnIndex == 0) // Si es un boton de modificar
             {
-                int id = Convert.ToInt32(tablaDeResultados[1, e.RowIndex].Value);
                 var RxF = rolesYfuncionalidades.Find(rol => rol.id == id);
                 (new AbmRol.Modificacion(RxF)).Show();
             }
+
+            if (e.ColumnIndex == 1)
+            {
+                eliminarRol(id);
+            }
+        }
+
+        private void eliminarRol(int id)
+        {
+            SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id.ToString(), dbOfertas);
+            SqlDataReader dataReader = eliminarRol.ExecuteReader();
+
+            if (dataReader.RecordsAffected != 0)
+            {
+                MessageBox.Show("Rol eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                table.Clear();
+            }
+            else
+            {
+                MessageBox.Show("No se pudo eliminar el rol ", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            dataReader.Close();
         }
 
         private void limpiar_Click(object sender, EventArgs e)
@@ -82,7 +110,7 @@ namespace FrbaOfertas.AbmRol
             SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
 
             // Se guarda en rolesYfuncionalidades la respuesta al SELECT 
-            // (en formato List<RolxFuncionalidades> para que sea mas facil acceder y filtrar elementos
+            // (en formato List<RolxFuncionalidades> para que sea mas facil acceder y filtrar elementos)
             rolesYfuncionalidades = convertirRespuestaAListaDeRolesYFuncionalidades(dataReader);
 
             dataReader.Close();
