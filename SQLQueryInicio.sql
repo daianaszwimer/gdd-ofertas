@@ -51,7 +51,7 @@ create table domicilio(
 	id int identity not null primary key,
 	idLocalidad int REFERENCES localidad,
 	calle varchar(30),
-	piso int,
+	piso int, --TODO: Ver default es 0
 	depto varchar(3),
 	codpostal int
 )
