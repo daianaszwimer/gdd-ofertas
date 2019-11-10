@@ -169,4 +169,9 @@ insert into cliente(idDomicilio, cliente_nombre, cliente_apellido, cliente_dni, 
 	values  (1,'Marina', 'Posru', 40677010, 'maru@gmail.com', 45037392, 12/09/1997),
 			(2,'Diego', 'Peccia', 41698201, 'diego@gmail.com', 40367892, 23/03/1998)
 
-insert into rubro (rubro_descripcion) values ('metalurgia')
+insert into rubro (rubro_descripcion) values ('metalurgia'), ('sistemas'), ('farmaceutica')
+
+INSERT INTO proveedor (proveedor_razon_social, proveedor_id_domicilio,proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto) 
+	VALUES ('SIEMENS S.A.',2,'41063122','1241','diego@gmail.com',2,'Diegote'),
+		   ('Farmaceutica',1,'2333','12431','mari@gmail.com',3,'Mari');
+
