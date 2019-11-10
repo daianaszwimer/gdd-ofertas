@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.AbmCliente
 {
-    partial class Alta
+    partial class Modificacion
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "AltaYModificacion";
+            this.Text = "Modificacion";
         }
 
         #endregion

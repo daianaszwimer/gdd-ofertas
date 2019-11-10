@@ -60,12 +60,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbmCliente\AltaYModificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\AltaYModificacion.Designer.cs">
+      <DependentUpon>AltaYModificacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmCliente\Alta.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmCliente\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCliente\Clientes.cs" />
     <Compile Include="AbmCliente\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +84,12 @@
     </Compile>
     <Compile Include="AbmCliente\Listado.Designer.cs">
       <DependentUpon>Listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCliente\Modificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\Modificacion.Designer.cs">
+      <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmProveedor\Form1.cs">
       <SubType>Form</SubType>
@@ -171,8 +184,11 @@
     <Compile Include="Utils.Designer.cs">
       <DependentUpon>Utils.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AbmCliente\Alta.resx">
-      <DependentUpon>Alta.cs</DependentUpon>
+    <EmbeddedResource Include="AbmCliente\AltaYModificacion.resx">
+      <DependentUpon>AltaYModificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\Listado.resx">
+      <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>

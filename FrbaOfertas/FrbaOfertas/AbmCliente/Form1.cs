@@ -19,13 +19,13 @@ namespace FrbaOfertas.AbmCliente
 
         private void newCliente_Click(object sender, EventArgs e)
         {
-            Alta alta = new Alta();
+            AbmCliente.Alta alta = new AbmCliente.Alta();
             alta.Show();
         }
 
         private void editCliente_Click(object sender, EventArgs e)
         {
-            Listado listado = new Listado();
+            AbmCliente.Listado listado = new AbmCliente.Listado();
             listado.Show();
         }
 

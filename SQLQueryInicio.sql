@@ -43,17 +43,17 @@ create table usuario(
 	)
 
 create table localidad(
-	id int identity not null primary key,
-	nombre varchar(50)
+	localidad_id int identity not null primary key,
+	localidad_nombre varchar(50)
 )
 
 create table domicilio(
-	id int identity not null primary key,
+	domicilio_id int identity not null primary key,
 	idLocalidad int REFERENCES localidad,
-	calle varchar(30),
-	piso int, --TODO: Ver default es 0
-	depto varchar(3),
-	codpostal int
+	domicilio_calle varchar(30),
+	domicilio_piso int, --TODO: Ver default es 0
+	domicilio_depto varchar(3),
+	domicilio_codpostal int
 )
 
 create table tarjeta(
@@ -70,24 +70,23 @@ create table tipoDePago(
 )
 
 create table cliente(
-	id int identity not null primary key,
+	cliente_id int identity not null primary key,
 	--username varchar(50) not null REFERENCES usuario,
 	idDomicilio int not null REFERENCES domicilio,
-	nombre varchar(50),
-	apellido varchar(50),
-	dni int,
-	mail varchar(50),
-	telefono int,
-	fechaNacimiento datetime
-	--TODO: credito
-	--		habilitado
+	cliente_nombre varchar(50),
+	cliente_apellido varchar(50),
+	cliente_dni int, --UNIQUE
+	cliente_mail varchar(50),
+	cliente_telefono int,
+	cliente_fechaNacimiento datetime,
+	cliente_eliminado bit default 0
 )
 
 create table cargaDeCredito(
-	id int identity not null primary key,
-	carga_credito_id_cliente int REFERENCES cliente,
-	carga_credito_id_tipo_de_pago int REFERENCES tipoDePago,
-	carga_credito_id_tarjeta int REFERENCES tarjeta,
+	carga_credito_id int identity not null primary key,
+	idCliente int REFERENCES cliente,
+	idTipoDePago int REFERENCES tipoDePago,
+	idTarjeta int REFERENCES tarjeta,
 	carga_credito_fecha datetime,
 	carga_credito_monto int
 )
@@ -135,3 +134,13 @@ insert into tipoDePago (tipo_pago_nombre)
 
 insert into tarjeta (tarjeta_numero,tarjeta_fecha_vec,tarjeta_cod_seguridad)
 	values (00,00,00)
+
+insert into localidad
+	values ('CABA'),('Loma Hermosa')
+
+insert into domicilio(idLocalidad, domicilio_calle, domicilio_piso, domicilio_depto, domicilio_codpostal)
+	values (1,'Llavallol 2730', 7, 'A', 1417), (2,'La pampa',0,'', 1657)
+
+insert into cliente(idDomicilio, cliente_nombre, cliente_apellido, cliente_dni, cliente_mail, cliente_telefono , cliente_fechaNacimiento)
+	values  (1,'Marina', 'Posru', 40677010, 'maru@gmail.com', 45037392, 12/09/1997),
+			(2,'Diego', 'Peccia', 41698201, 'diego@gmail.com', 40367892, 23/03/1998)
