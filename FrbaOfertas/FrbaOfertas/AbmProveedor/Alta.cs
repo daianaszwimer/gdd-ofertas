@@ -21,8 +21,8 @@ namespace FrbaOfertas.AbmProveedor
 
         override protected void confirmar_Click(object sender, EventArgs e)
         {
-            // TODO: Validaciones
-            // TODO: chequeo que no haya 2 con misma razon social y cuit
+            // TODO: [D] Validaciones
+            // TODO: [D] chequeo que no haya 2 con misma razon social y cuit
             insertarLocalidadParaDireccion();
         }
 

@@ -69,7 +69,7 @@ namespace FrbaOfertas.AbmRol
                 insertarDataReader.Close();
             }
 
-            //TODO: Si se habilito y no estaba habilitado o viceversa
+            //TODO: [D] Si se habilito y no estaba habilitado o viceversa
             //Deshabilitar/Hablilitar
             //Desvincular usuarios segun corresponda
 
