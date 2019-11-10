@@ -1,4 +1,5 @@
 use GD2C2019
+--FK: idDomicilio
 
 IF OBJECT_ID('cargaDeCredito', 'U') IS NOT NULL 
   DROP TABLE cargaDeCredito;
@@ -101,6 +102,7 @@ create table cliente(
 	cliente_mail varchar(50),
 	cliente_telefono int,
 	cliente_fechaNacimiento datetime,
+	cliente_habilitado bit default 1,
 	cliente_eliminado bit default 0
 )
 
