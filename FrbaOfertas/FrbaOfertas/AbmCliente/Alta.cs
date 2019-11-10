@@ -35,13 +35,13 @@ namespace FrbaOfertas.AbmCliente
             if (validarDatosIngresados())
             {
                 //TODO: dni UNIQUE
-                SqlCommand chequearExistenciaCliente = new SqlCommand(string.Format("SELECT dni FROM cliente WHERE dni='{0}'", dni.Text), dbOfertas);
+                SqlCommand chequearExistenciaCliente = new SqlCommand(string.Format("SELECT cliente_dni FROM cliente WHERE cliente_dni='{0}'", dni.Text), dbOfertas);
                 SqlDataReader dataReaderUsuario = chequearExistenciaCliente.ExecuteReader();
 
                 if (!dataReaderUsuario.HasRows) // DNI unico
                 {
                     dataReaderUsuario.Close();
-                    SqlCommand chequearLocalidad = new SqlCommand(string.Format("SELECT id,nombre FROM localidad WHERE nombre='{0}'", localidad.Text), dbOfertas);
+                    SqlCommand chequearLocalidad = new SqlCommand(string.Format("SELECT localidad_id,localidad_nombre FROM localidad WHERE localidad_nombre='{0}'", localidad.Text), dbOfertas);
                     SqlDataReader dataReaderLocalidad = chequearLocalidad.ExecuteReader();
 
                     if (dataReaderLocalidad.HasRows) // Localidad ya existe
@@ -54,7 +54,7 @@ namespace FrbaOfertas.AbmCliente
                     else
                     {
                         dataReaderLocalidad.Close();
-                        SqlCommand insertarNuevaLocalidad = new SqlCommand(string.Format("INSERT INTO localidad (nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), dbOfertas);
+                        SqlCommand insertarNuevaLocalidad = new SqlCommand(string.Format("INSERT INTO localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), dbOfertas);
                         SqlDataReader dataReader = insertarNuevaLocalidad.ExecuteReader();
                         if (dataReader.Read())
                         {
@@ -82,7 +82,7 @@ namespace FrbaOfertas.AbmCliente
 
         private void insertarLocalidadParaDireccion(string idLocalidad)
         {
-            SqlCommand chequearDomicilio = new SqlCommand(string.Format("SELECT id,calle, piso, depto FROM domicilio WHERE calle='{0}' AND piso='{1}'AND depto='{2}'", calle.Text, piso.Text, depto.Text), dbOfertas);
+            SqlCommand chequearDomicilio = new SqlCommand(string.Format("SELECT domicilio_id, domicilio_calle, domicilio_piso, domicilio_depto FROM domicilio WHERE domicilio_calle='{0}' AND domicilio_piso='{1}'AND domicilio_depto='{2}'", calle.Text, piso.Text, depto.Text), dbOfertas);
             SqlDataReader dataReaderDomicilio = chequearDomicilio.ExecuteReader();
             if (dataReaderDomicilio.HasRows) // Domicilio ya existe
             {
@@ -94,7 +94,7 @@ namespace FrbaOfertas.AbmCliente
             else
             {
                 dataReaderDomicilio.Close();
-                SqlCommand insertarNuevoDomicilio = new SqlCommand(string.Format("INSERT INTO domicilio (idLocalidad,calle,piso,depto,codpostal) VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()", idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), dbOfertas);
+                SqlCommand insertarNuevoDomicilio = new SqlCommand(string.Format("INSERT INTO domicilio (idLocalidad,domicilio_calle,domicilio_piso,domicilio_depto,domicilio_codpostal) VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()", idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), dbOfertas);
                 SqlDataReader dataReader = insertarNuevoDomicilio.ExecuteReader();
                 if (dataReader.Read())
                 {
@@ -113,7 +113,7 @@ namespace FrbaOfertas.AbmCliente
 
         private void insertarDomicilioParaCliente(string idDomicilio)
         {
-            SqlCommand insertarNuevoCliente = new SqlCommand(string.Format("INSERT INTO cliente (idDomicilio,nombre,apellido,dni,mail,telefono,fechaNacimiento) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'); SELECT SCOPE_IDENTITY()", idDomicilio, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, fechaNacimiento.Text), dbOfertas);
+            SqlCommand insertarNuevoCliente = new SqlCommand(string.Format("INSERT INTO cliente (idDomicilio,cliente_nombre,cliente_apellido,cliente_dni,cliente_mail,cliente_telefono,cliente_fechaNacimiento) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'); SELECT SCOPE_IDENTITY()", idDomicilio, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, fechaNacimiento.Text), dbOfertas);
             SqlDataReader dataReader = insertarNuevoCliente.ExecuteReader();
             dataReader.Read();
             string idClienteNuevo = dataReader.GetValue(0).ToString();
@@ -123,7 +123,7 @@ namespace FrbaOfertas.AbmCliente
             string sqlFormattedDate = myDateTime.ToString("yyyy-dd-MM HH:mm:ss.fff");
 
             SqlCommand insertarCreditoInicial =
-                new SqlCommand(string.Format("INSERT INTO cargaDeCredito (carga_credito_id_cliente, carga_credito_id_tipo_de_pago, carga_credito_id_tarjeta, carga_credito_fecha, carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", idClienteNuevo, 1, 1, sqlFormattedDate, 200), dbOfertas);
+                new SqlCommand(string.Format("INSERT INTO cargaDeCredito (idCliente, idTipoDePago, idTarjeta, carga_credito_fecha, carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", idClienteNuevo, 1, 1, sqlFormattedDate, 200), dbOfertas);
             SqlDataReader dataReader2 = insertarCreditoInicial.ExecuteReader();
             dataReader2.Close();
 

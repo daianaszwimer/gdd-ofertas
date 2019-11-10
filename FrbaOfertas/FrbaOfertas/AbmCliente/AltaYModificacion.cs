@@ -15,6 +15,7 @@ namespace FrbaOfertas.AbmCliente
     
     public abstract partial class AltaYModificacion : Utils
     {
+        protected Clientes clienteAux;
         public AltaYModificacion()
         {
             InitializeComponent();
