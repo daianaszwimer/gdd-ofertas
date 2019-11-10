@@ -35,7 +35,7 @@ namespace FrbaOfertas.AbmCliente
         override protected void confirmarCliente_Click(object sender, EventArgs e)
         {
             if (validarDatosIngresados()) {
-                //TODO: error update
+                //TODO: UNICO UPDATE
                 if (!nombre.Text.Equals(clienteAux.cliente_nombre)) // Modifico el nombre cliente
                 {
                     SqlCommand modificarNombreCliente = new SqlCommand(string.Format("UPDATE cliente SET cliente_nombre='{0}' WHERE cliente_id={1}; ", nombre.Text, clienteAux.cliente_id), dbOfertas);
