@@ -121,6 +121,7 @@
     <Compile Include="AbmProveedor\Modificacion.Designer.cs">
       <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmProveedor\Proveedores.cs" />
     <Compile Include="AbmRol\Alta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,6 +211,9 @@
     </Compile>
     <EmbeddedResource Include="AbmCliente\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\Listado.resx">
+      <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>

@@ -83,7 +83,7 @@ CREATE TABLE proveedor(
 	proveedor_razon_social varchar(64) UNIQUE NOT NULL,
 	proveedor_id_domicilio INT,
 	proveedor_cuit nvarchar(64) UNIQUE NOT NULL,
-	proveedor_telefono varchar(64),
+	proveedor_telefono int,
 	proveedor_mail varchar(64),
 	proveedor_id_rubro INT foreign key references rubro,
 	proveedor_nombre_contacto varchar(64),

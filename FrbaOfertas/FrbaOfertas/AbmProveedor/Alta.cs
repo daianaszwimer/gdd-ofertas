@@ -19,7 +19,7 @@ namespace FrbaOfertas.AbmProveedor
             confirmar.Text = "Crear";
         }
 
-        protected void confirmar_Click(object sender, EventArgs e)
+        override protected void confirmar_Click(object sender, EventArgs e)
         {
             // TODO: Validaciones
             // TODO: chequeo que no haya 2 con misma razon social y cuit
@@ -28,7 +28,7 @@ namespace FrbaOfertas.AbmProveedor
 
         private void insertarLocalidadParaDireccion()
         {
-            SqlCommand chequearLocalidad = new SqlCommand(string.Format("SELECT id,nombre FROM localidad WHERE nombre='{0}'", localidad.Text), dbOfertas);
+            SqlCommand chequearLocalidad = new SqlCommand(string.Format("SELECT localidad_id,localidad_nombre FROM localidad WHERE localidad_nombre='{0}'", localidad.Text), dbOfertas);
             SqlDataReader dataReaderLocalidad = chequearLocalidad.ExecuteReader();
 
             if (dataReaderLocalidad.HasRows) // Localidad ya existe
@@ -41,7 +41,7 @@ namespace FrbaOfertas.AbmProveedor
             else
             {
                 dataReaderLocalidad.Close();
-                SqlCommand insertarNuevaLocalidad = new SqlCommand(string.Format("INSERT INTO localidad (nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), dbOfertas);
+                SqlCommand insertarNuevaLocalidad = new SqlCommand(string.Format("INSERT INTO localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), dbOfertas);
                 SqlDataReader dataReader = insertarNuevaLocalidad.ExecuteReader();
                 if (dataReader.Read())
                 {
@@ -59,7 +59,7 @@ namespace FrbaOfertas.AbmProveedor
 
         private void insertarDomicilioParaDireccion(string idLocalidad)
         {
-            SqlCommand chequearDomicilio = new SqlCommand(string.Format("SELECT id,calle, piso, depto FROM domicilio WHERE calle='{0}' AND piso='{1}'AND depto='{2}'", calle.Text, piso.Text, depto.Text), dbOfertas);
+            SqlCommand chequearDomicilio = new SqlCommand(string.Format("SELECT domicilio_id, domicilio_calle, domicilio_piso, domicilio_depto FROM domicilio WHERE domicilio_calle='{0}' AND domicilio_piso='{1}'AND domicilio_depto='{2}'", calle.Text, piso.Text, depto.Text), dbOfertas);
             SqlDataReader dataReaderDomicilio = chequearDomicilio.ExecuteReader();
             if (dataReaderDomicilio.HasRows) // Domicilio ya existe
             {
@@ -71,7 +71,7 @@ namespace FrbaOfertas.AbmProveedor
             else
             {
                 dataReaderDomicilio.Close();
-                SqlCommand insertarNuevoDomicilio = new SqlCommand(string.Format("INSERT INTO domicilio (idLocalidad,calle,piso,depto,codpostal) VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()", idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), dbOfertas);
+                SqlCommand insertarNuevoDomicilio = new SqlCommand(string.Format("INSERT INTO domicilio (idLocalidad,domicilio_calle,domicilio_piso,domicilio_depto,domicilio_codpostal) VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()", idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), dbOfertas);
                 SqlDataReader dataReader = insertarNuevoDomicilio.ExecuteReader();
                 if (dataReader.Read())
                 {
@@ -121,9 +121,9 @@ namespace FrbaOfertas.AbmProveedor
         {
             SqlCommand insertarNuevoProveedor = 
                 new SqlCommand(
-                    string.Format("INSERT INTO cliente (proveedor_razon_social, proveedor_id_domicilio," +
+                    string.Format("INSERT INTO proveedor (proveedor_razon_social, proveedor_id_domicilio," +
                     "proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto) " +
-                    "VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}'); SELECT SCOPE_IDENTITY()", 
+                    "VALUES ('{0}',{1},'{2}','{3}','{4}',{5},'{6}'); SELECT SCOPE_IDENTITY()", 
                     razonSocial.Text, idDomicilio, CUIT.Text, telefono.Text, mail.Text, idRubro, nombre.Text), dbOfertas);
             SqlDataReader dataReader = insertarNuevoProveedor.ExecuteReader();
             if (dataReader.RecordsAffected == 0)

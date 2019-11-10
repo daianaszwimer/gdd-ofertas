@@ -12,10 +12,10 @@ namespace FrbaOfertas.AbmCliente
 {
     public abstract partial class Modificacion : AltaYModificacion
     {
-        public Modificacion(Clientes clienteSeleccionado) : base()
-        {
-            //InitializeComponent();
+        //public Modificacion(Clientes clienteSeleccionado) : base()
+        //{
+        //    //InitializeComponent();
             
-        }
+        //}
     }
 }
