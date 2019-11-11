@@ -34,7 +34,11 @@ IF OBJECT_ID('funcionalidad', 'U') IS NOT NULL
 IF OBJECT_ID('dbo.usuario', 'U') IS NOT NULL 
   DROP TABLE dbo.usuario; 
 
+IF OBJECT_ID('proveedor', 'U') IS NOT NULL 
+  DROP TABLE proveedor;
 
+IF OBJECT_ID('rubro', 'U') IS NOT NULL 
+  DROP TABLE rubro;  
 
 create table usuario(
 	username varchar(50) PRIMARY KEY NOT NULL,
@@ -68,6 +72,24 @@ create table tarjeta(
 create table tipoDePago(
 	id int identity not null primary key,
 	tipo_pago_nombre varchar(20)
+)
+
+create table rubro(
+	rubro_id int identity not null primary key,
+	rubro_descripcion varchar(64)
+)
+CREATE TABLE proveedor(
+	proveedor_id INT NOT NULL identity(1, 1) PRIMARY KEY,
+	--proveedor_id_usuario INT,
+	proveedor_razon_social varchar(64) UNIQUE NOT NULL,
+	proveedor_id_domicilio INT,
+	proveedor_cuit nvarchar(64) UNIQUE NOT NULL,
+	proveedor_telefono int,
+	proveedor_mail varchar(64),
+	proveedor_id_rubro INT foreign key references rubro,
+	proveedor_nombre_contacto varchar(64),
+	proveedor_habilitado bit default 1,
+	proveedor_eliminado bit default 0
 )
 
 create table cliente(
@@ -146,3 +168,10 @@ insert into domicilio(idLocalidad, domicilio_calle, domicilio_piso, domicilio_de
 insert into cliente(idDomicilio, cliente_nombre, cliente_apellido, cliente_dni, cliente_mail, cliente_telefono , cliente_fechaNacimiento)
 	values  (1,'Marina', 'Posru', 40677010, 'maru@gmail.com', 45037392, 12/09/1997),
 			(2,'Diego', 'Peccia', 41698201, 'diego@gmail.com', 40367892, 23/03/1998)
+
+insert into rubro (rubro_descripcion) values ('metalurgia'), ('sistemas'), ('farmaceutica')
+
+INSERT INTO proveedor (proveedor_razon_social, proveedor_id_domicilio,proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto) 
+	VALUES ('SIEMENS S.A.',2,'41063122','1241','diego@gmail.com',2,'Diegote'),
+		   ('Farmaceutica',1,'2333','12431','mari@gmail.com',3,'Mari');
+

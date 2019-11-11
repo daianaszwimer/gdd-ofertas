@@ -16,5 +16,18 @@ namespace FrbaOfertas.AbmProveedor
         {
             InitializeComponent();
         }
+
+        private void altaProveedor_Click(object sender, EventArgs e)
+        {
+            AbmProveedor.Alta alta = new AbmProveedor.Alta();
+            alta.Show();
+        }
+
+        private void listadoProveedor_Click(object sender, EventArgs e)
+        {
+            AbmProveedor.Listado listado = new AbmProveedor.Listado();
+            listado.Show();
+        }
+
     }
 }

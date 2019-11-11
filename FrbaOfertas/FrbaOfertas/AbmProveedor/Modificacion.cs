@@ -2,36 +2,35 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmRol
+namespace FrbaOfertas.AbmProveedor
 {
     public partial class Modificacion : AltaYModificacion
     {
-        public Modificacion(RolxFuncionalidades RxF)
+        public Modificacion(Proveedores proveedor) : base()
         {
-            nombre.Text = RxF.rol;
-            habilitado.Visible = true;
-            habilitado.Checked = RxF.habilitado;
-            rol = RxF;
-            RxF.funcionalidades.ForEach(funcionalidad => marcarCheckBoxFuncionalidad(funcionalidad));
+            razonSocial.Text = proveedor.razonSocial;
+            mail.Text = proveedor.mail;
+            telefono.Text = proveedor.telefono.ToString();
+            CUIT.Text = proveedor.cuit;
+            rubro.Text = proveedor.rubro;
+            nombre.Text = proveedor.nombreContacto;
+            calle.Text = proveedor.domicilio_calle;
+            piso.Text = proveedor.domicilio_piso.ToString();
+            depto.Text = proveedor.domicilio_depto;
+            localidad.Text = proveedor.localidad_nombre;
+            codigoPostal.Text = proveedor.domicilio_codpostal.ToString();
+            habilitado.Checked = proveedor.habilitado;
         }
 
-        private void marcarCheckBoxFuncionalidad(string funcionalidad)
+        private bool modificarProveedor()
         {
-            List<string> funcionalidades = funcionalidadesASeleccionar.Items.Cast<string>().ToList();
-            int indiceAMarcar = funcionalidades.FindIndex(f => f.Equals(funcionalidad));
-            funcionalidadesASeleccionar.SetItemCheckState(indiceAMarcar, CheckState.Checked);
-        }
-
-        private bool modificarRol()
-        {
-            if (!nombre.Text.Equals(rol.rol)) // Si se modifico el nombre del rol
+            /*if (!nombre.Text.Equals(rol.rol)) // Si se modifico el nombre del rol
             {
                 SqlCommand modificarRol =
                     new SqlCommand(string.Format("UPDATE rol SET rol_nombre='{0}' WHERE rol_id={1}; ", nombre.Text, rol.id), dbOfertas);
@@ -42,7 +41,7 @@ namespace FrbaOfertas.AbmRol
                     modificarRolDataReader.Close();
                     return false;
                 }
-                modificarRolDataReader.Close();    
+                modificarRolDataReader.Close();
             }
 
             var funcionalidadesSeleccionadas = funcionalidadesASeleccionar.CheckedItems.Cast<string>().ToList();
@@ -72,20 +71,20 @@ namespace FrbaOfertas.AbmRol
             //TODO: [D] Si se habilito y no estaba habilitado o viceversa
             //Deshabilitar/Hablilitar
             //Desvincular usuarios segun corresponda
-
+            */
             return true;
         }
 
         override protected void confirmar_Click(object sender, EventArgs e)
         {
-            if (modificarRol())
+            if (modificarProveedor())
             {
-                MessageBox.Show("El rol se modifico exitosamente");
+                MessageBox.Show("El proveedor se modifico exitosamente");
                 this.Hide();
             }
             else
             {
-                MessageBox.Show("No se ha podido modificar el rol correctamente");
+                MessageBox.Show("No se ha podido modificar el proveedor correctamente");
             }
         }
     }

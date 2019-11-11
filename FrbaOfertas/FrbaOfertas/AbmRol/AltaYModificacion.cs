@@ -24,29 +24,6 @@ namespace FrbaOfertas.AbmRol
             buscarFuncionalidadesEnBaseDeDatos();
         }
 
-        /*public AltaYModificacion()
-        {
-            InitializeComponent();
-            habilitado.Visible = false;
-            estoyEnModificacion = false;
-            confirmar.Text = "Crear";
-            conectarseABaseDeDatosOfertas();
-            buscarFuncionalidadesEnBaseDeDatos();
-        }
-
-        public AltaYModificacion(RolxFuncionalidades RxF)
-        {
-            InitializeComponent();
-            estoyEnModificacion = true;
-            nombre.Text = RxF.rol;
-            habilitado.Visible = true;
-            habilitado.Checked = RxF.habilitado;
-            rol = RxF;
-            conectarseABaseDeDatosOfertas();
-            buscarFuncionalidadesEnBaseDeDatos();
-            RxF.funcionalidades.ForEach(funcionalidad => marcarCheckBoxFuncionalidad(funcionalidad));
-        }*/
-
         private void buscarFuncionalidadesEnBaseDeDatos()
         {
             SqlCommand seleccionarFuncionalidades = new SqlCommand("SELECT descripcion FROM funcionalidad", dbOfertas);
@@ -61,41 +38,11 @@ namespace FrbaOfertas.AbmRol
             dataReader.Close();
         }
 
-        /*private void confirmar_Click(object sender, EventArgs e)
-        {
-            //TODO: validaciones sobre campos
-            if (estoyEnModificacion)
-            {
-                //TODO: Si no modifique nada
-                if (modificarRol())
-                {
-                    MessageBox.Show("El rol se modifico exitosamente");
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("No se ha podido modificar el rol correctamente");
-                }
-            }
-            else 
-            {
-                if (crearRol())
-                {
-                    MessageBox.Show("El rol se creo exitosamente");
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("No se ha podido crear el rol correctamente");
-                }
-            }
-        }*/
-
         protected SqlDataReader insertarFuncionalidadesParaRol(string idRol)
         {
             List<int> funcionalidadesSeleccionadas = funcionalidadesASeleccionar.CheckedIndices.Cast<int>().ToList();
 
-            //TODO: si no selecciona ninguna
+            //TODO: [D] si no selecciona ninguna
             string valoresAInsertarEnFuncionalidadxRol = "";
             foreach (var funcionalidad in funcionalidadesSeleccionadas)
             {
