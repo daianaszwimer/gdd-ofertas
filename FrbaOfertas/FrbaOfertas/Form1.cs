@@ -24,6 +24,7 @@ namespace FrbaOfertas
 
         private void login_Click(object sender, EventArgs e)
         {          
+            //TODO: {M} Cambiar nombres atributos usuario
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
             SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT username, intentos_fallidos_login FROM usuario WHERE username='{0}'", username.Text), dbOfertas);
@@ -75,21 +76,6 @@ namespace FrbaOfertas
                 MessageBox.Show("USUARIO NO REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 estadoUsuario.Close();
             }
-        }
-
-        public string SHA256Encrypt(string input)
-        {
-            SHA256CryptoServiceProvider provider = new SHA256CryptoServiceProvider();
-
-            byte[] inputBytes = Encoding.UTF8.GetBytes(input);
-            byte[] hashedBytes = provider.ComputeHash(inputBytes);
-
-            StringBuilder output = new StringBuilder();
-
-            for (int i = 0; i < hashedBytes.Length; i++)
-                output.Append(hashedBytes[i].ToString("x2").ToLower());
-
-            return output.ToString();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
