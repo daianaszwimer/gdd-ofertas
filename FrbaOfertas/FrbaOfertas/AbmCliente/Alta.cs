@@ -34,7 +34,7 @@ namespace FrbaOfertas.AbmCliente
 
             if (validarDatosIngresados())
             {
-                //TODO: dni UNIQUE
+                //TODO: {M} dni UNIQUE + try catch
                 SqlCommand chequearExistenciaCliente = new SqlCommand(string.Format("SELECT cliente_dni FROM cliente WHERE cliente_dni='{0}'", dni.Text), dbOfertas);
                 SqlDataReader dataReaderUsuario = chequearExistenciaCliente.ExecuteReader();
 
