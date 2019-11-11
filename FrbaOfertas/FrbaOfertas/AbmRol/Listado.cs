@@ -13,153 +13,100 @@ namespace FrbaOfertas.AbmRol
 {
     public partial class Listado : Utils
     {
-        DataTable table = new DataTable();
-        List<RolxFuncionalidades> rolesYfuncionalidades = new List<RolxFuncionalidades>();
+        DataSet rolesDataSet = new DataSet();
         
         public Listado()
         {
             InitializeComponent();
             conectarseABaseDeDatosOfertas();
-
-            // Se crean las columnas
-            table.Columns.Add("Id", typeof(string));
-            table.Columns.Add("Rol", typeof(string));
-            table.Columns.Add("Funcionalidades", typeof(string));
-            table.Columns.Add("Habilitado", typeof(bool));
-
-            tablaDeResultados.DataSource = table; // Binding de table con el dataGridView tablaDeResultados
-            tablaDeResultados.CellContentClick += tablaDeResultados_CellContentClick; // Evento para modificar y borrar
-            
-            // Se agrega columna modificar
-            // (no se puede agregar al data table del binding un button)
-            DataGridViewButtonColumn columnaModificar = new DataGridViewButtonColumn();      
-            columnaModificar.HeaderText = "Modificar";
-            tablaDeResultados.Columns.Add(columnaModificar);
-
-            // Se agrega columna eliminar
-            // (no se puede agregar al data table del binding un button)
-            DataGridViewButtonColumn columnaEliminar = new DataGridViewButtonColumn();
-            columnaModificar.HeaderText = "Eliminar";
-            tablaDeResultados.Columns.Add(columnaEliminar);
+            modificar.Visible = false;
+            eliminar.Visible = false;
+            tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
         }
 
-        // Evento para modificar y borrar
-        private void tablaDeResultados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void tablaDeResultados_SelectionChanged(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(tablaDeResultados[2, e.RowIndex].Value);
-            
-            if (e.ColumnIndex == 0) // Si es un boton de modificar
+            if (tablaDeResultados.SelectedRows.Count == 0)
             {
-                var RxF = rolesYfuncionalidades.Find(rol => rol.id == id);
-                (new AbmRol.Modificacion(RxF)).Show();
+                modificar.Visible = false;
+                eliminar.Visible = false;
             }
-
-            if (e.ColumnIndex == 1)
+            else
             {
-                eliminarRol(id);
+                modificar.Visible = true;
+                eliminar.Visible = true;
             }
         }
 
-        private void eliminarRol(int id)
+        private void limpiar_Click(object sender, EventArgs e)
         {
-            SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id.ToString(), dbOfertas);
+            rolesDataSet.Clear();
+        }
+
+        private void buscar_Click(object sender, EventArgs e)
+        {
+            rolesDataSet.Clear();
+            string consultaRoles = 
+                "SELECT DISTINCT r.rol_id AS Id, r.rol_nombre AS Rol, " +
+	                "ISNULL(STUFF(" +
+		                "(SELECT ', ' + f.descripcion " +
+                            "FROM funcionalidad f " +
+                            "LEFT JOIN funcionalidadxrol fxr ON fxr.funcionalidad_id = f.id " +
+		                    "WHERE fxr.rol_id = r.rol_id " +
+		                    "FOR XML PATH (''))," +
+		                    "1,2, ''),'-') AS Funcionalidades, r.rol_habilitado AS Habilitado " +
+                    "FROM rol r " +
+                    "LEFT JOIN funcionalidadxrol fxr ON fxr.rol_id = r.rol_id " +
+                    "LEFT JOIN funcionalidad f ON fxr.funcionalidad_id = f.id " +
+	                "WHERE r.rol_eliminado=0";
+
+            string rolAFiltrar = rolTextBox.Text;
+            object funcionalidadSeleccionada = funcionalidadesComboBox.SelectedItem;
+
+            if (!string.IsNullOrWhiteSpace(rolAFiltrar))
+            {
+                consultaRoles += string.Format(" AND r.rol_nombre LIKE '%{0}%'", rolAFiltrar);
+            }
+            if (funcionalidadSeleccionada != null)
+            {
+                consultaRoles += string.Format(" AND f.descripcion LIKE '%{0}%'", funcionalidadSeleccionada);
+            }
+
+            SqlDataAdapter rolesDataAdapter = new SqlDataAdapter(consultaRoles, dbOfertas);
+            rolesDataAdapter.Fill(rolesDataSet);
+            tablaDeResultados.DataSource = rolesDataSet.Tables[0];
+        }
+
+        private void modificar_Click(object sender, EventArgs e)
+        {
+            object[] rol = obtenerValoresFilaSeleccionada();
+            (new AbmRol.Modificacion(rol)).Show();
+        }
+
+        private void eliminar_Click(object sender, EventArgs e)
+        {
+            object[] rol = obtenerValoresFilaSeleccionada();
+            string id = rol[0].ToString();
+            SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id, dbOfertas);
             SqlDataReader dataReader = eliminarRol.ExecuteReader();
 
             if (dataReader.RecordsAffected != 0)
             {
                 MessageBox.Show("Rol eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                table.Clear();
+                rolesDataSet.Clear();
             }
             else
             {
-                MessageBox.Show("No se pudo eliminar el rol ", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo eliminar el rol", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             dataReader.Close();
         }
 
-        private void limpiar_Click(object sender, EventArgs e)
+        private object[] obtenerValoresFilaSeleccionada()
         {
-            table.Clear();
+            return tablaDeResultados.SelectedRows[0].Cells
+                .Cast<DataGridViewCell>()
+                .Select(celda => celda.Value).ToArray();
         }
-
-        private void buscar_Click(object sender, EventArgs e)
-        {
-            table.Clear();
-            string consultaRoles = 
-                "SELECT r.rol_id, r.rol_habilitado, r.rol_nombre AS Rol, ISNULL(f.descripcion, '-') AS Funcionalidades " +
-                    "FROM rol r LEFT JOIN funcionalidadxrol fxr ON fxr.rol_id = r.rol_id " +
-                               "LEFT JOIN funcionalidad f ON fxr.funcionalidad_id = f.id WHERE r.rol_eliminado = 0";
-
-            string rolAFiltrar = rolTextBox.Text;
-            object funcionalidadSeleccionada = funcionalidadesComboBox.SelectedItem;
-
-            if (!string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada != null)
-            {
-                consultaRoles += string.Format(" AND r.rol_nombre LIKE '%{0}%' AND f.descripcion = '{1}'", rolAFiltrar, funcionalidadSeleccionada);
-            }
-            else if (string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada != null)
-            {
-                consultaRoles += string.Format(" AND f.descripcion = '{0}'", funcionalidadSeleccionada);
-            }
-            else if (!string.IsNullOrWhiteSpace(rolAFiltrar) && funcionalidadSeleccionada == null)
-            {
-                consultaRoles += string.Format(" AND r.rol_nombre LIKE '%{0}%'", rolAFiltrar);
-            }
-
-            SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, dbOfertas);
-            SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
-
-            // Se guarda en rolesYfuncionalidades la respuesta al SELECT 
-            // (en formato List<RolxFuncionalidades> para que sea mas facil acceder y filtrar elementos)
-            rolesYfuncionalidades = convertirRespuestaAListaDeRolesYFuncionalidades(dataReader);
-
-            dataReader.Close();
-
-            foreach (var RxF in rolesYfuncionalidades)
-            {
-                string funcionalidades = string.Join(", ", RxF.funcionalidades);
-                table.Rows.Add(RxF.id, RxF.rol, funcionalidades, RxF.habilitado); // Se agrega una fila a la tabla
-                tablaDeResultados.Rows[table.Rows.Count - 1].Cells[0].Value = "..."; // Boton de modificar
-            }
-        }
-
-        private List<RolxFuncionalidades> convertirRespuestaAListaDeRolesYFuncionalidades(SqlDataReader dataReader)
-        {
-            List<RolxFuncionalidades> listaDeRxF = new List<RolxFuncionalidades>();
-
-            while (dataReader.Read())
-            {
-                int id = (int) dataReader.GetValue(0);
-                bool habilitado = (bool) dataReader.GetValue(1);
-                string rol = dataReader.GetValue(2).ToString();
-                string funcionalidad = dataReader.GetValue(3).ToString();
-
-                // Si ya existe un rol con ese id, se le agrega la funcionalidad
-                // sino, creo el rol
-                if (listaDeRxF.Any(RxF => RxF.id.Equals(id)))
-                {
-                    foreach (var RxF in listaDeRxF)
-                    {
-                        if (RxF.id.Equals(id))
-                        {
-                            RxF.funcionalidades.Add(funcionalidad);
-                        }
-                    }
-                }
-                else
-                {
-                    var RxF = new RolxFuncionalidades();
-                    RxF.id = id;
-                    RxF.habilitado = habilitado;
-                    RxF.rol = rol;
-                    RxF.funcionalidades.Add(funcionalidad);
-                    listaDeRxF.Add(RxF);
-                }
-
-            }
-
-            return listaDeRxF;
-        }
-
     }
 }

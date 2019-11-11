@@ -35,6 +35,8 @@
             this.buscar = new System.Windows.Forms.Button();
             this.limpiar = new System.Windows.Forms.Button();
             this.tablaDeResultados = new System.Windows.Forms.DataGridView();
+            this.modificar = new System.Windows.Forms.Button();
+            this.eliminar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -113,11 +115,33 @@
             this.tablaDeResultados.Size = new System.Drawing.Size(419, 191);
             this.tablaDeResultados.TabIndex = 0;
             // 
+            // modificar
+            // 
+            this.modificar.Location = new System.Drawing.Point(286, 319);
+            this.modificar.Name = "modificar";
+            this.modificar.Size = new System.Drawing.Size(75, 23);
+            this.modificar.TabIndex = 7;
+            this.modificar.Text = "Modificar";
+            this.modificar.UseVisualStyleBackColor = true;
+            this.modificar.Click += new System.EventHandler(this.modificar_Click);
+            // 
+            // eliminar
+            // 
+            this.eliminar.Location = new System.Drawing.Point(367, 319);
+            this.eliminar.Name = "eliminar";
+            this.eliminar.Size = new System.Drawing.Size(75, 23);
+            this.eliminar.TabIndex = 8;
+            this.eliminar.Text = "Eliminar";
+            this.eliminar.UseVisualStyleBackColor = true;
+            this.eliminar.Click += new System.EventHandler(this.eliminar_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 326);
+            this.ClientSize = new System.Drawing.Size(466, 354);
+            this.Controls.Add(this.eliminar);
+            this.Controls.Add(this.modificar);
             this.Controls.Add(this.funcionalidadesComboBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.rolTextBox);
@@ -142,6 +166,8 @@
         private System.Windows.Forms.TextBox rolTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox funcionalidadesComboBox;
+        private System.Windows.Forms.Button modificar;
+        private System.Windows.Forms.Button eliminar;
 
     }
 }

@@ -14,9 +14,6 @@ namespace FrbaOfertas.AbmRol
 {
     public abstract partial class AltaYModificacion : Utils
     {
-
-        protected RolxFuncionalidades rol;
-
         public AltaYModificacion()
         {
             InitializeComponent();

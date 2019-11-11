@@ -13,28 +13,46 @@ namespace FrbaOfertas.AbmRol
 {
     public partial class Modificacion : AltaYModificacion
     {
-        public Modificacion(RolxFuncionalidades RxF)
+        private object[] rol;
+
+        public Modificacion(object[] rol)
         {
-            nombre.Text = RxF.rol;
+            nombre.Text = rol[1].ToString();
             habilitado.Visible = true;
-            habilitado.Checked = RxF.habilitado;
-            rol = RxF;
-            RxF.funcionalidades.ForEach(funcionalidad => marcarCheckBoxFuncionalidad(funcionalidad));
+            habilitado.Checked = bool.Parse(rol[3].ToString());
+            this.rol = rol;
+            marcarCheckBoxFuncionalidades();
         }
 
-        private void marcarCheckBoxFuncionalidad(string funcionalidad)
+        private void marcarCheckBoxFuncionalidades()
         {
-            List<string> funcionalidades = funcionalidadesASeleccionar.Items.Cast<string>().ToList();
-            int indiceAMarcar = funcionalidades.FindIndex(f => f.Equals(funcionalidad));
-            funcionalidadesASeleccionar.SetItemCheckState(indiceAMarcar, CheckState.Checked);
+            if (!rol[2].ToString().Equals("-"))
+            {
+                List<string> funcionalidadesAMarcar = new List<string>();
+
+                if (rol[2].ToString().Contains(","))
+                {
+                    funcionalidadesAMarcar.AddRange(rol[2].ToString().Split(new string[] { ", " }, StringSplitOptions.None));
+                } 
+                else
+                    funcionalidadesAMarcar.Add(rol[2].ToString());
+
+                List<string> funcionalidades = funcionalidadesASeleccionar.Items.Cast<string>().ToList();
+
+                foreach (var f in funcionalidadesAMarcar)
+                {
+                    int indiceAMarcar = funcionalidades.FindIndex(func => func.Equals(f));
+                    funcionalidadesASeleccionar.SetItemCheckState(indiceAMarcar, CheckState.Checked);
+                }
+            }
         }
 
         private bool modificarRol()
         {
-            if (!nombre.Text.Equals(rol.rol)) // Si se modifico el nombre del rol
+            if (!nombre.Text.Equals(rol[1].ToString())) // Si se modifico el nombre del rol
             {
                 SqlCommand modificarRol =
-                    new SqlCommand(string.Format("UPDATE rol SET rol_nombre='{0}' WHERE rol_id={1}; ", nombre.Text, rol.id), dbOfertas);
+                    new SqlCommand(string.Format("UPDATE rol SET rol_nombre='{0}' WHERE rol_id={1}; ", nombre.Text, rol[0].ToString()), dbOfertas);
 
                 SqlDataReader modificarRolDataReader = modificarRol.ExecuteReader();
                 if (modificarRolDataReader.RecordsAffected <= 0)
@@ -45,12 +63,23 @@ namespace FrbaOfertas.AbmRol
                 modificarRolDataReader.Close();    
             }
 
+            List<string> funcionalidadesAMarcar = new List<string>();
+            if (!rol[2].ToString().Equals("-"))
+            {
+                if (rol[2].ToString().Contains(","))
+                {
+                    funcionalidadesAMarcar.AddRange(rol[2].ToString().Split(new string[] { ", " }, StringSplitOptions.None));
+                }
+                else
+                    funcionalidadesAMarcar.Add(rol[2].ToString());
+            }
+
             var funcionalidadesSeleccionadas = funcionalidadesASeleccionar.CheckedItems.Cast<string>().ToList();
-            if (!(funcionalidadesSeleccionadas.All(rol.funcionalidades.Contains)
-                && funcionalidadesSeleccionadas.Count == rol.funcionalidades.Count)) // Si se modifico alguna funcionalidad
+            if (!(funcionalidadesSeleccionadas.All(funcionalidadesAMarcar.Contains)
+                && funcionalidadesSeleccionadas.Count == funcionalidadesAMarcar.Count)) // Si se modifico alguna funcionalidad
             {
                 SqlCommand eliminarFuncionalidadesViejas =
-                    new SqlCommand(string.Format("DELETE FROM funcionalidadxrol WHERE rol_id={0};", rol.id), dbOfertas);
+                    new SqlCommand(string.Format("DELETE FROM funcionalidadxrol WHERE rol_id={0};", rol[0].ToString()), dbOfertas);
 
                 SqlDataReader eliminarFuncionalidadesViejasDataReader = eliminarFuncionalidadesViejas.ExecuteReader();
                 if (eliminarFuncionalidadesViejasDataReader.RecordsAffected <= 0)
@@ -60,7 +89,7 @@ namespace FrbaOfertas.AbmRol
                 }
                 eliminarFuncionalidadesViejasDataReader.Close();
 
-                SqlDataReader insertarDataReader = insertarFuncionalidadesParaRol(rol.id.ToString());
+                SqlDataReader insertarDataReader = insertarFuncionalidadesParaRol(rol[0].ToString());
                 if (insertarDataReader.RecordsAffected <= 0)
                 {
                     insertarDataReader.Close();
