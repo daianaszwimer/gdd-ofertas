@@ -35,6 +35,7 @@ namespace FrbaOfertas.AbmCliente
         protected bool validarDatosIngresados()
         {
             //TODO: {M} VER CAMPO OBLIGATORIO
+            //TODO: {M} VER ERROR PRIVIDER
             bool datosOk = true;
 
             //Validacion y obligatorio: Nombre
