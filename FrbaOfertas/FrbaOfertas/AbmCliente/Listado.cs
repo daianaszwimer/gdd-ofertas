@@ -21,7 +21,7 @@ namespace FrbaOfertas.AbmCliente
         {
             InitializeComponent();
             conectarseABaseDeDatosOfertas();
-            table.Clear();
+            
 
             // Se crean las columnas
             table.Columns.Add("Id", typeof(string));
@@ -31,7 +31,7 @@ namespace FrbaOfertas.AbmCliente
             table.Columns.Add("Mail", typeof(string));
             table.Columns.Add("Telefono", typeof(string));
             table.Columns.Add("Direccion", typeof(string));
-            table.Columns.Add("Fecha de nacimiento", typeof(string)); // TODO: QUILOMBO CON EL FORMATO FECHA
+            table.Columns.Add("Fecha de nacimiento", typeof(string)); // TODO: {M} QUILOMBO CON EL FORMATO FECHA
             table.Columns.Add("Habilitado", typeof(bool));
             
 
@@ -61,6 +61,7 @@ namespace FrbaOfertas.AbmCliente
                 
                 var Cliente = clientesSeleccionados.Find(cliente => cliente.cliente_id == id);
                 (new AbmCliente.Modificacion(Cliente)).Show();
+                buscarCliente();
             }
 
             if (e.ColumnIndex == 1)
@@ -91,7 +92,61 @@ namespace FrbaOfertas.AbmCliente
             table.Clear();
         }
 
-        private void buscar_Click(object sender, EventArgs e)
+        private void buscar_Click(object sender, EventArgs e) {
+            buscarCliente();
+        }
+
+        //private void buscar_Click(object sender, EventArgs e)
+        //{
+        //    table.Clear();
+        //    string consultaRoles =
+        //        "SELECT c.cliente_id, c.cliente_nombre, c.cliente_apellido, c.cliente_dni, c.cliente_mail, c.cliente_telefono, " +
+        //                "d.domicilio_id, d.domicilio_calle, d.domicilio_piso, d.domicilio_depto, d.domicilio_codpostal, " +
+        //                "l.localidad_id, l.localidad_nombre, c.cliente_fechaNacimiento, c.cliente_habilitado " +
+        //        "FROM cliente c JOIN domicilio d ON c.idDomicilio = d.domicilio_id " +
+        //                       "JOIN localidad l ON d.idLocalidad = l.localidad_id " +
+        //        "WHERE c.cliente_eliminado = 0";
+
+        //    string nombreAFiltrar = nombre.Text;
+        //    string apellidoAFiltrar = apellido.Text;
+        //    string dniAFiltrar = dni.Text;
+        //    string mailAFiltrar = mail.Text;
+
+        //    if (!string.IsNullOrWhiteSpace(nombreAFiltrar))
+        //    {
+        //        consultaRoles += string.Format(" AND c.cliente_nombre LIKE '%{0}%'", nombreAFiltrar);//EXACTO '{0}'
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(apellidoAFiltrar))
+        //    {
+        //        consultaRoles += string.Format(" AND c.cliente_apellido LIKE '%{0}%'", apellidoAFiltrar);//LIBRE '%{0}%'
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(dniAFiltrar))
+        //    {
+        //        consultaRoles += string.Format(" AND c.cliente_dni LIKE '{0}'", dniAFiltrar);//LIBRE '%{0}%'
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(mailAFiltrar))
+        //    {
+        //        consultaRoles += string.Format(" AND c.cliente_mail LIKE '%{0}%'", mailAFiltrar);//LIBRE '%{0}%'
+        //    }
+
+        //    SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, dbOfertas);
+        //    SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
+
+        //    //// Se guarda en clientes la respuesta al SELECT 
+        //    //// (en formato List<Clientes> para que sea mas facil acceder y filtrar elementos)
+        //    clientesSeleccionados = convertirSelectAListaClientes(dataReader);
+
+        //    dataReader.Close();
+
+        //    foreach (var cli in clientesSeleccionados)
+        //    {
+        //        table.Rows.Add(cli.cliente_id,cli.cliente_nombre, cli.cliente_apellido, cli.cliente_dni, cli.cliente_mail, cli.cliente_telefono, cli.domicilio_calle + " " + cli.domicilio_piso + " " + cli.domicilio_depto + " - " + cli.localidad_nombre, cli.cliente_fechaNacimiento, cli.cliente_habilitado); // Se agrega una fila a la tabla
+        //        tablaDeResultados.Rows[table.Rows.Count - 1].Cells[0].Value = "..."; // Boton de modificar
+        //    }
+        //}
+
+        // TODO: {M} IMPACTAR MODIFICACION EN LA TABLA
+        public void buscarCliente()
         {
             table.Clear();
             string consultaRoles =
@@ -135,10 +190,11 @@ namespace FrbaOfertas.AbmCliente
 
             foreach (var cli in clientesSeleccionados)
             {
-                table.Rows.Add(cli.cliente_id,cli.cliente_nombre, cli.cliente_apellido, cli.cliente_dni, cli.cliente_mail, cli.cliente_telefono, cli.domicilio_calle + " " + cli.domicilio_piso + " " + cli.domicilio_depto + " - " + cli.localidad_nombre, cli.cliente_fechaNacimiento, cli.cliente_habilitado); // Se agrega una fila a la tabla
+                table.Rows.Add(cli.cliente_id, cli.cliente_nombre, cli.cliente_apellido, cli.cliente_dni, cli.cliente_mail, cli.cliente_telefono, cli.domicilio_calle + " " + cli.domicilio_piso + " " + cli.domicilio_depto + " - " + cli.localidad_nombre, cli.cliente_fechaNacimiento, cli.cliente_habilitado); // Se agrega una fila a la tabla
                 tablaDeResultados.Rows[table.Rows.Count - 1].Cells[0].Value = "..."; // Boton de modificar
             }
         }
+
 
         private List<Clientes> convertirSelectAListaClientes(SqlDataReader dataReader)
         {

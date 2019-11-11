@@ -34,7 +34,8 @@ namespace FrbaOfertas.AbmCliente
 
         protected bool validarDatosIngresados()
         {
-            //TODO: VER CAMPO OBLIGATORIO
+            //TODO: {M} VER CAMPO OBLIGATORIO
+            //TODO: {M} VER ERROR PRIVIDER
             bool datosOk = true;
 
             //Validacion y obligatorio: Nombre
@@ -113,6 +114,7 @@ namespace FrbaOfertas.AbmCliente
             }
             return datosOk;
         }
+
 
         abstract protected void confirmarCliente_Click(object sender, EventArgs e);
  
