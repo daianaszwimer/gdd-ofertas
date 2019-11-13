@@ -11,12 +11,11 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
-    public partial class RegistrarUsuario : Utils
+    public partial class RegistrarUsuario : Form
     {
         public RegistrarUsuario()
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
         }
 
         bool usuarioOk = false;
@@ -30,7 +29,7 @@ namespace FrbaOfertas
                 {
                     desactivarErrores();
 
-                    SqlCommand insertarNuevoUsuario = new SqlCommand(string.Format("INSERT INTO usuario (usuario_username, usuario_password) VALUES ('{0}','{1}'); SELECT SCOPE_IDENTITY()", username.Text, this.SHA256Encrypt(password.Text)), dbOfertas);
+                    SqlCommand insertarNuevoUsuario = new SqlCommand(string.Format("INSERT INTO usuario (usuario_username, usuario_password) VALUES ('{0}','{1}'); SELECT SCOPE_IDENTITY()", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
                     SqlDataReader dataReader = insertarNuevoUsuario.ExecuteReader();
                     dataReader.Close();
                 }
@@ -112,7 +111,7 @@ namespace FrbaOfertas
 
         private bool usuarioUnico()
         {
-            SqlCommand chequearExistenciaUsername = new SqlCommand(string.Format("SELECT usuario_username FROM usuario WHERE usuario_username='{0}'", username.Text), dbOfertas);
+            SqlCommand chequearExistenciaUsername = new SqlCommand(string.Format("SELECT usuario_username FROM usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
             SqlDataReader dataReaderUsuario = chequearExistenciaUsername.ExecuteReader();
             usuarioOk = !dataReaderUsuario.HasRows;
             dataReaderUsuario.Close();

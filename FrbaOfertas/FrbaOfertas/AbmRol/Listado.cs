@@ -11,14 +11,13 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmRol
 {
-    public partial class Listado : Utils
+    public partial class Listado : Form
     {
         DataSet rolesDataSet = new DataSet();
         
         public Listado()
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
             modificar.Visible = false;
             eliminar.Visible = false;
             tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
@@ -72,7 +71,7 @@ namespace FrbaOfertas.AbmRol
                 consultaRoles += string.Format(" AND f.descripcion LIKE '%{0}%'", funcionalidadSeleccionada);
             }
 
-            SqlDataAdapter rolesDataAdapter = new SqlDataAdapter(consultaRoles, dbOfertas);
+            SqlDataAdapter rolesDataAdapter = new SqlDataAdapter(consultaRoles, Helper.dbOfertas);
             rolesDataAdapter.Fill(rolesDataSet);
             tablaDeResultados.DataSource = rolesDataSet.Tables[0];
         }
@@ -87,7 +86,7 @@ namespace FrbaOfertas.AbmRol
         {
             object[] rol = obtenerValoresFilaSeleccionada();
             string id = rol[0].ToString();
-            SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id, dbOfertas);
+            SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id, Helper.dbOfertas);
             SqlDataReader dataReader = eliminarRol.ExecuteReader();
 
             if (dataReader.RecordsAffected != 0)

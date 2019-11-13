@@ -11,12 +11,11 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
-    public partial class Menu : Utils
+    public partial class Menu : Form
     {
         public Menu(String usuario)
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
             List<String> funcionalidades = obtenerFuncionalidadesSegunUsuario(usuario);
             mostrarListadoDeFuncionalidades(funcionalidades);
         }
@@ -30,7 +29,7 @@ namespace FrbaOfertas
 	                                "JOIN funcionalidad f ON f.id = fr.funcionalidad_id " +
 	                                "JOIN rolxusuario ru ON ru.rol_id = r.rol_id " +
 	                                "JOIN usuario u ON u.username = ru.username " +
-	                                "WHERE u.username ='" + usuario + "'", dbOfertas);
+	                                "WHERE u.username ='" + usuario + "'", Helper.dbOfertas);
             SqlDataReader dataReader = seleccionarFuncionalidades.ExecuteReader();
 
             while (dataReader.Read())

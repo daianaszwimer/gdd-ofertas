@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmProveedor
 {
-    public abstract partial class AltaYModificacion : Utils
+    public abstract partial class AltaYModificacion : Form
     {
         public AltaYModificacion()
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
         }
 
         abstract protected void confirmar_Click(object sender, EventArgs e);

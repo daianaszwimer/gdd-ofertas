@@ -208,12 +208,7 @@
     <Compile Include="RegistrarUsuario.Designer.cs">
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utils.Designer.cs">
-      <DependentUpon>Utils.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Helper.cs" />
     <EmbeddedResource Include="AbmCliente\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
     </EmbeddedResource>

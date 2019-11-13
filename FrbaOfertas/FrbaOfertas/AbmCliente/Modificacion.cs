@@ -74,7 +74,7 @@ namespace FrbaOfertas.AbmCliente
                 parte1Cliente = parte1Cliente.Remove(parte1Cliente.Length - 1);
                 string modificarCliente = parte1Cliente + parte2Cliente;
 
-                SqlCommand modificarDatosCliente = new SqlCommand(string.Format(modificarCliente, clienteAux.cliente_id), dbOfertas);
+                SqlCommand modificarDatosCliente = new SqlCommand(string.Format(modificarCliente, clienteAux.cliente_id), Helper.dbOfertas);
                 SqlDataReader modificarClienteDataReader1 = modificarDatosCliente.ExecuteReader();
                 modificarClienteDataReader1.Close();
 
@@ -107,7 +107,7 @@ namespace FrbaOfertas.AbmCliente
                 parte1Domicilio = parte1Domicilio.Remove(parte1Domicilio.Length - 1);
                 string modificarDomicilio = parte1Domicilio + parte2Domicilio;
 
-                SqlCommand modificarDatosDomicilio = new SqlCommand(string.Format(modificarDomicilio, clienteAux.domicilio_id), dbOfertas);
+                SqlCommand modificarDatosDomicilio = new SqlCommand(string.Format(modificarDomicilio, clienteAux.domicilio_id), Helper.dbOfertas);
                 SqlDataReader modificarClienteDataReader2 = modificarDatosDomicilio.ExecuteReader();
                 modificarClienteDataReader1.Close();
 
@@ -116,7 +116,7 @@ namespace FrbaOfertas.AbmCliente
 
                 if (!localidad.Text.Equals(clienteAux.localidad_nombre)) 
                 {
-                    SqlCommand modificarLocalidadCliente = new SqlCommand(string.Format("UPDATE localidad SET localidad_nombre='{0}' WHERE localidad_id={1}; ", localidad.Text, clienteAux.localidad_id), dbOfertas);
+                    SqlCommand modificarLocalidadCliente = new SqlCommand(string.Format("UPDATE localidad SET localidad_nombre='{0}' WHERE localidad_id={1}; ", localidad.Text, clienteAux.localidad_id), Helper.dbOfertas);
                     SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
                     modificarClienteDataReader.Close();
                 }

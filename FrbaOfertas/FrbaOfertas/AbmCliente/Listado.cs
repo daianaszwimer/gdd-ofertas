@@ -12,16 +12,14 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmCliente
 {
-    public partial class Listado : Utils
+    public partial class Listado : Form
     {
         DataTable table = new DataTable();
         List<Clientes> clientesSeleccionados = new List<Clientes>();
 
         public Listado()
         {
-            InitializeComponent();
-            conectarseABaseDeDatosOfertas();
-            
+            InitializeComponent();         
 
             // Se crean las columnas
             table.Columns.Add("Id", typeof(string));
@@ -72,7 +70,7 @@ namespace FrbaOfertas.AbmCliente
 
         private void eliminarRol(int id)
         {
-            SqlCommand eliminarRol = new SqlCommand("UPDATE cliente SET cliente_eliminado = 1 WHERE cliente_id=" + id.ToString(), dbOfertas);
+            SqlCommand eliminarRol = new SqlCommand("UPDATE cliente SET cliente_eliminado = 1 WHERE cliente_id=" + id.ToString(), Helper.dbOfertas);
             SqlDataReader dataReader = eliminarRol.ExecuteReader();
 
             if (dataReader.RecordsAffected != 0)
@@ -179,7 +177,7 @@ namespace FrbaOfertas.AbmCliente
                 consultaRoles += string.Format(" AND c.cliente_mail LIKE '%{0}%'", mailAFiltrar);//LIBRE '%{0}%'
             }
 
-            SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, dbOfertas);
+            SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, Helper.dbOfertas);
             SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
 
             //// Se guarda en clientes la respuesta al SELECT 

@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmProveedor
 {
-    public partial class Listado : Utils
+    public partial class Listado : Form
     {
         DataTable table = new DataTable();
         List<Proveedores> proveedores = new List<Proveedores>();
@@ -19,7 +19,6 @@ namespace FrbaOfertas.AbmProveedor
         public Listado()
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
 
             // Se crean las columnas
             table.Columns.Add("Id", typeof(string));
@@ -67,7 +66,7 @@ namespace FrbaOfertas.AbmProveedor
 
         private void eliminarProveedor(int id)
         {
-            SqlCommand eliminarProveedor = new SqlCommand("UPDATE proveedor SET proveedor_eliminado = 1 WHERE proveedor_id=" + id.ToString(), dbOfertas);
+            SqlCommand eliminarProveedor = new SqlCommand("UPDATE proveedor SET proveedor_eliminado = 1 WHERE proveedor_id=" + id.ToString(), Helper.dbOfertas);
             SqlDataReader dataReader = eliminarProveedor.ExecuteReader();
 
             if (dataReader.RecordsAffected != 0)
@@ -115,7 +114,7 @@ namespace FrbaOfertas.AbmProveedor
                 consultaProveedores += string.Format(" AND proveedor_mail LIKE '%{0}%'", mailAFiltrar);
             }
 
-            SqlCommand seleccionarProveedores = new SqlCommand(consultaProveedores, dbOfertas);
+            SqlCommand seleccionarProveedores = new SqlCommand(consultaProveedores, Helper.dbOfertas);
             SqlDataReader dataReader = seleccionarProveedores.ExecuteReader();
 
             proveedores = convertirRespuestaAListaDeProveedores(dataReader);

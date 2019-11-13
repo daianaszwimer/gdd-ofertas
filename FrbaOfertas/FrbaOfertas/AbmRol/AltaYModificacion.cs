@@ -12,18 +12,17 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmRol
 {
-    public abstract partial class AltaYModificacion : Utils
+    public abstract partial class AltaYModificacion : Form
     {
         public AltaYModificacion()
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
             buscarFuncionalidadesEnBaseDeDatos();
         }
 
         private void buscarFuncionalidadesEnBaseDeDatos()
         {
-            SqlCommand seleccionarFuncionalidades = new SqlCommand("SELECT descripcion FROM funcionalidad", dbOfertas);
+            SqlCommand seleccionarFuncionalidades = new SqlCommand("SELECT descripcion FROM funcionalidad", Helper.dbOfertas);
             SqlDataReader dataReader = seleccionarFuncionalidades.ExecuteReader();
 
             while (dataReader.Read())
@@ -48,7 +47,7 @@ namespace FrbaOfertas.AbmRol
             valoresAInsertarEnFuncionalidadxRol = valoresAInsertarEnFuncionalidadxRol.Remove(valoresAInsertarEnFuncionalidadxRol.Length - 1);
 
             SqlCommand insertarFuncionalidadesxRol =
-                new SqlCommand("INSERT INTO funcionalidadxrol (rol_id, funcionalidad_id) VALUES " + valoresAInsertarEnFuncionalidadxRol, dbOfertas);
+                new SqlCommand("INSERT INTO funcionalidadxrol (rol_id, funcionalidad_id) VALUES " + valoresAInsertarEnFuncionalidadxRol, Helper.dbOfertas);
 
             SqlDataReader dataReader = insertarFuncionalidadesxRol.ExecuteReader();
             return dataReader;

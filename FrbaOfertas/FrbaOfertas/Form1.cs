@@ -13,13 +13,13 @@ using System.Security.Cryptography;
 
 namespace FrbaOfertas
 {
-    public partial class Form1 : Utils
+    public partial class Form1 : Form
     {
 
         public Form1()
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
+            Helper.conectarseABaseDeDatosOfertas();
         }
 
         private void login_Click(object sender, EventArgs e)
@@ -27,7 +27,7 @@ namespace FrbaOfertas
             //TODO: {M} Cambiar nombres atributos usuario
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
-            SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT username, intentos_fallidos_login FROM usuario WHERE username='{0}'", username.Text), dbOfertas);
+            SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT username, intentos_fallidos_login FROM usuario WHERE username='{0}'", username.Text), Helper.dbOfertas);
             SqlDataReader estadoUsuario = chequearUsuario.ExecuteReader();
             estadoUsuario.Read();
             int intentosLogin = (int) estadoUsuario.GetValue(1);
@@ -35,12 +35,12 @@ namespace FrbaOfertas
             if (estadoUsuario.HasRows) // USUARIO EXISTE 
             {
                 estadoUsuario.Close();
-                SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT username, pass FROM usuario WHERE username='{0}' AND pass='{1}'", username.Text, this.SHA256Encrypt(password.Text)), dbOfertas);
+                SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT username, pass FROM usuario WHERE username='{0}' AND pass='{1}'", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
                 SqlDataReader estadoLogin = chequearLogIn.ExecuteReader();
                 if (estadoLogin.Read())
                 {
                     estadoLogin.Close(); // HABILITADO OK
-                    SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = 0 WHERE username='" + username.Text + "'"), dbOfertas);
+                    SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = 0 WHERE username='" + username.Text + "'"), Helper.dbOfertas);
                     SqlDataReader dataReader = loginCorrecto.ExecuteReader();
                     dataReader.Close();
 
@@ -52,7 +52,7 @@ namespace FrbaOfertas
                     estadoLogin.Close(); // HABILITADO (1* o 2* error)
                     if(intentosLogin<=2)
                     {
-                        SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = intentos_fallidos_login+1 WHERE username='" + username.Text + "'"), dbOfertas);
+                        SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = intentos_fallidos_login+1 WHERE username='" + username.Text + "'"), Helper.dbOfertas);
                         SqlDataReader dataReader = loginIncorrecto.ExecuteReader();
                         MessageBox.Show("DATOS INCORRECTO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataReader.Close();
@@ -62,7 +62,7 @@ namespace FrbaOfertas
                     else // INHABILITADO (3* error)
                     {
                         estadoLogin.Close();
-                        SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET habilitado = 0 WHERE username='" + username.Text + "'"), dbOfertas);
+                        SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET habilitado = 0 WHERE username='" + username.Text + "'"), Helper.dbOfertas);
                         SqlDataReader dataReader = inhabilitarUsuario.ExecuteReader();
                         MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         dataReader.Close();

@@ -13,13 +13,12 @@ using System.Windows.Forms;
 namespace FrbaOfertas.AbmCliente
 {
     
-    public abstract partial class AltaYModificacion : Utils
+    public abstract partial class AltaYModificacion : Form
     {
         protected Clientes clienteAux;
         public AltaYModificacion()
         {
             InitializeComponent();
-            conectarseABaseDeDatosOfertas();
             label13.Visible = false;
             label14.Visible = false;
             label15.Visible = false;
