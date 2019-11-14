@@ -39,6 +39,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.dni = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.eliminar = new System.Windows.Forms.Button();
+            this.modificar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,7 +89,7 @@
             this.tablaDeResultados.Location = new System.Drawing.Point(25, 142);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(840, 191);
+            this.tablaDeResultados.Size = new System.Drawing.Size(522, 191);
             this.tablaDeResultados.TabIndex = 7;
             // 
             // apellido
@@ -138,11 +140,34 @@
             this.label4.TabIndex = 14;
             this.label4.Text = "Mail";
             // 
+            // eliminar
+            // 
+            this.eliminar.Location = new System.Drawing.Point(457, 339);
+            this.eliminar.Name = "eliminar";
+            this.eliminar.Size = new System.Drawing.Size(75, 23);
+            this.eliminar.TabIndex = 19;
+            this.eliminar.Text = "Eliminar";
+            this.eliminar.UseVisualStyleBackColor = true;
+            this.eliminar.Click += new System.EventHandler(this.eliminar_Click);
+            // 
+            // modificar
+            // 
+            this.modificar.Location = new System.Drawing.Point(376, 339);
+            this.modificar.Name = "modificar";
+            this.modificar.Size = new System.Drawing.Size(75, 23);
+            this.modificar.TabIndex = 18;
+            this.modificar.Text = "Modificar";
+            this.modificar.UseVisualStyleBackColor = true;
+            this.modificar.Click += new System.EventHandler(this.modificar_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(888, 352);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(581, 375);
+            this.Controls.Add(this.eliminar);
+            this.Controls.Add(this.modificar);
             this.Controls.Add(this.mail);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dni);
@@ -156,6 +181,19 @@
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "Listado";
             this.Text = "Listado";
+            this.Controls.SetChildIndex(this.tablaDeResultados, 0);
+            this.Controls.SetChildIndex(this.limpiar, 0);
+            this.Controls.SetChildIndex(this.buscar, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.nombre, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.apellido, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.dni, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.mail, 0);
+            this.Controls.SetChildIndex(this.modificar, 0);
+            this.Controls.SetChildIndex(this.eliminar, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -175,5 +213,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox dni;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button eliminar;
+        private System.Windows.Forms.Button modificar;
     }
 }

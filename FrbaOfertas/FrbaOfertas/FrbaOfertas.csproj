@@ -72,7 +72,6 @@
     <Compile Include="AbmCliente\Alta.Designer.cs">
       <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmCliente\Clientes.cs" />
     <Compile Include="AbmCliente\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -11,16 +11,18 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
-    public partial class RegistrarUsuario : Form
+    public partial class RegistrarUsuario : BarraDeOpciones
     {
+        
         public RegistrarUsuario()
         {
             InitializeComponent();
+            rol.DataSource = obtenerRolesPosibles();
         }
 
         bool usuarioOk = false;
+
         // TODO: {M} VALIDAR UNIQUE USERNAME
-        // TODO: {M} LISTA ROLES - VER ACTUALIZACION DE ROLES CON DIEGO
         private void crearUsuario()
         {
             if (this.camposObligatorios())
@@ -64,6 +66,7 @@ namespace FrbaOfertas
             }
         }
 
+        // TODO: {M} Barra de opciones repetida
         private void AddFormInPanel(object formHijo)
         {
             if (this.panel1.Controls.Count > 0)
@@ -78,6 +81,7 @@ namespace FrbaOfertas
             fh.Dock = DockStyle.Fill;
             this.panel1.Controls.Add(fh);
             this.panel1.Tag = fh;
+
             fh.Show();
         }
 
@@ -94,11 +98,11 @@ namespace FrbaOfertas
                 errorPassword.SetError(password, "Campo Obligatorio");
                 camposOk = false;
             }
-            //if (rol.Text == string.Empty)
-            //{
-            //    errorRol.SetError(rol, "Campo Obligatorio");
-            //    camposOk = false;
-            //}
+            if (rol.Text == string.Empty)
+            {
+                errorRol.SetError(rol, "Campo Obligatorio");
+                camposOk = false;
+            }
             return camposOk;
         }
 
@@ -106,7 +110,7 @@ namespace FrbaOfertas
         {
             errorUsername.Clear();
             errorPassword.Clear();
-            //errorRol.Clear();
+            errorRol.Clear();
         }
 
         private bool usuarioUnico()
@@ -117,6 +121,22 @@ namespace FrbaOfertas
             dataReaderUsuario.Close();
             return usuarioOk;
         }
+
+        private List<String> obtenerRolesPosibles()
+        {
+            List<String> rolesPosibles = new List<string>();
+            SqlCommand seleccionarRolesPosibles = new SqlCommand(string.Format("SELECT rol_nombre FROM rol WHERE rol_habilitado=1 AND rol_eliminado=0"), Helper.dbOfertas);
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarRolesPosibles);
+            rolesPosibles.Add("");
+            while (dataReader.Read())
+            {
+                string rol = dataReader.GetValue(0).ToString();
+                rolesPosibles.Add(rol);
+            }
+            dataReader.Close();
+            return rolesPosibles;
+        }
+
 
     }
 }
