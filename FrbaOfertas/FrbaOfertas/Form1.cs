@@ -28,7 +28,7 @@ namespace FrbaOfertas
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
             SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT username, intentos_fallidos_login FROM usuario WHERE username='{0}'", username.Text), Helper.dbOfertas);
-            SqlDataReader estadoUsuario = chequearUsuario.ExecuteReader();
+            SqlDataReader estadoUsuario = Helper.realizarConsultaSQL(chequearUsuario);
             estadoUsuario.Read();
             int intentosLogin = (int) estadoUsuario.GetValue(1);
 
@@ -36,12 +36,12 @@ namespace FrbaOfertas
             {
                 estadoUsuario.Close();
                 SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT username, pass FROM usuario WHERE username='{0}' AND pass='{1}'", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
-                SqlDataReader estadoLogin = chequearLogIn.ExecuteReader();
+                SqlDataReader estadoLogin = Helper.realizarConsultaSQL(chequearLogIn);
                 if (estadoLogin.Read())
                 {
                     estadoLogin.Close(); // HABILITADO OK
                     SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = 0 WHERE username='" + username.Text + "'"), Helper.dbOfertas);
-                    SqlDataReader dataReader = loginCorrecto.ExecuteReader();
+                    SqlDataReader dataReader = Helper.realizarConsultaSQL(loginCorrecto);
                     dataReader.Close();
 
                     this.Hide();
@@ -53,7 +53,7 @@ namespace FrbaOfertas
                     if(intentosLogin<=2)
                     {
                         SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET intentos_fallidos_login = intentos_fallidos_login+1 WHERE username='" + username.Text + "'"), Helper.dbOfertas);
-                        SqlDataReader dataReader = loginIncorrecto.ExecuteReader();
+                        SqlDataReader dataReader = Helper.realizarConsultaSQL(loginIncorrecto);
                         MessageBox.Show("DATOS INCORRECTO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         dataReader.Close();
 
@@ -63,7 +63,7 @@ namespace FrbaOfertas
                     {
                         estadoLogin.Close();
                         SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET habilitado = 0 WHERE username='" + username.Text + "'"), Helper.dbOfertas);
-                        SqlDataReader dataReader = inhabilitarUsuario.ExecuteReader();
+                        SqlDataReader dataReader = Helper.realizarConsultaSQL(inhabilitarUsuario);
                         MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         dataReader.Close();
 

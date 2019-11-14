@@ -37,6 +37,8 @@
             this.CUIT = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.mail = new System.Windows.Forms.TextBox();
+            this.eliminar = new System.Windows.Forms.Button();
+            this.modificar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,11 +122,33 @@
             this.mail.Size = new System.Drawing.Size(158, 20);
             this.mail.TabIndex = 15;
             // 
+            // eliminar
+            // 
+            this.eliminar.Location = new System.Drawing.Point(361, 362);
+            this.eliminar.Name = "eliminar";
+            this.eliminar.Size = new System.Drawing.Size(75, 23);
+            this.eliminar.TabIndex = 17;
+            this.eliminar.Text = "Eliminar";
+            this.eliminar.UseVisualStyleBackColor = true;
+            this.eliminar.Click += new System.EventHandler(this.eliminar_Click);
+            // 
+            // modificar
+            // 
+            this.modificar.Location = new System.Drawing.Point(280, 362);
+            this.modificar.Name = "modificar";
+            this.modificar.Size = new System.Drawing.Size(75, 23);
+            this.modificar.TabIndex = 16;
+            this.modificar.Text = "Modificar";
+            this.modificar.UseVisualStyleBackColor = true;
+            this.modificar.Click += new System.EventHandler(this.modificar_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(457, 360);
+            this.ClientSize = new System.Drawing.Size(453, 397);
+            this.Controls.Add(this.eliminar);
+            this.Controls.Add(this.modificar);
             this.Controls.Add(this.mail);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.CUIT);
@@ -153,5 +177,7 @@
         private System.Windows.Forms.TextBox CUIT;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox mail;
+        private System.Windows.Forms.Button eliminar;
+        private System.Windows.Forms.Button modificar;
     }
 }

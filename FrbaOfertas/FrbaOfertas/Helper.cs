@@ -18,13 +18,13 @@ namespace FrbaOfertas
         {
             try
             {
-                string dbOfertasConnectionString = ConfigurationManager.ConnectionStrings["dbOfertas"].ConnectionString;
-                dbOfertas = new SqlConnection(dbOfertasConnectionString);
+                dbOfertas = new SqlConnection(obtenerConnectionString());
                 dbOfertas.Open();
             }
             catch (Exception)
             {
                 MessageBox.Show("No se pudo conectar a la base de datos");
+                //TODO: Cerrar la app
             }
         }
 
@@ -36,7 +36,7 @@ namespace FrbaOfertas
             }
             catch(Exception)
             {
-                MessageBox.Show("No se pudo cerrar la conezion con la base de datos");
+                // TODO: Mensaje??
             }
         }
 
@@ -53,6 +53,66 @@ namespace FrbaOfertas
                 variableEncriptada.Append(bytesEncriptados[i].ToString("x2").ToLower());
 
             return variableEncriptada.ToString();
+        }
+
+        public static object[] obtenerValoresFilaSeleccionada(DataGridView tablaDeResultados)
+        {
+            return tablaDeResultados.SelectedRows[0].Cells
+                .Cast<DataGridViewCell>()
+                .Select(celda => celda.Value).ToArray();
+        }
+
+        public static string obtenerConnectionString() 
+        {
+            try
+            {
+                return ConfigurationManager.ConnectionStrings["dbOfertas"].ConnectionString;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se pudo obtener el Connection String del archivo de configuracion");
+                return null;
+            }
+        }
+
+        public static DateTime obtenerFechaActual()
+        {
+            try
+            {
+                return Convert.ToDateTime(ConfigurationManager.AppSettings["MyDate"]);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se pudo obtener la fecha actual del archivo de configuracion");
+                cerrarSesion();
+                return new DateTime();
+            }
+        }
+
+        public static SqlDataReader realizarConsultaSQL(SqlCommand consulta) 
+        {
+            try
+            {
+                return consulta.ExecuteReader();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("No se pudo realizar la consulta SQL");
+                //TODO: [D] que no se siga ejecutando ese form
+                cerrarSesion();
+                return null;
+            }
+        }
+
+        public static void cerrarSesion()
+        {
+            MessageBox.Show("Se ha cerrado la sesion");
+            foreach(Form formAbierto in Application.OpenForms) 
+            {
+                formAbierto.Hide();
+            }
+            cerrarConexionConBaseDeDatosOfertas();
+            (new Form1()).Show();
         }
     }
 }

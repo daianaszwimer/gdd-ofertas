@@ -12,20 +12,25 @@ namespace FrbaOfertas.AbmProveedor
 {
     public partial class Modificacion : AltaYModificacion
     {
-        public Modificacion(Proveedores proveedor) : base()
+        private object[] proveedor;
+
+        public Modificacion(object[] proveedor) : base()
         {
-            razonSocial.Text = proveedor.razonSocial;
-            mail.Text = proveedor.mail;
-            telefono.Text = proveedor.telefono.ToString();
-            CUIT.Text = proveedor.cuit;
-            rubro.Text = proveedor.rubro;
-            nombre.Text = proveedor.nombreContacto;
-            calle.Text = proveedor.domicilio_calle;
-            piso.Text = proveedor.domicilio_piso.ToString();
-            depto.Text = proveedor.domicilio_depto;
-            localidad.Text = proveedor.localidad_nombre;
-            codigoPostal.Text = proveedor.domicilio_codpostal.ToString();
-            habilitado.Checked = proveedor.habilitado;
+            razonSocial.Text = proveedor[1].ToString();
+            CUIT.Text = proveedor[2].ToString();
+
+
+            localidad.Text = proveedor[5].ToString();
+            calle.Text = proveedor[6].ToString();
+            piso.Text = proveedor[7].ToString();
+            depto.Text = proveedor[8].ToString();
+            codigoPostal.Text = proveedor[9].ToString();
+            telefono.Text = proveedor[10].ToString();
+            mail.Text = proveedor[11].ToString();
+            
+            rubro.Text = proveedor[13].ToString();
+            nombre.Text = proveedor[14].ToString();
+            habilitado.Checked = bool.Parse(proveedor[15].ToString());
         }
 
         private bool modificarProveedor()

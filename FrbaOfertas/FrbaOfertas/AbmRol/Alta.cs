@@ -25,7 +25,7 @@ namespace FrbaOfertas.AbmRol
             SqlCommand insertarNuevoRol =
                 new SqlCommand(string.Format("INSERT INTO rol (rol_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", nombre.Text), Helper.dbOfertas);
 
-            SqlDataReader dataReader = insertarNuevoRol.ExecuteReader();
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoRol);
 
             if (dataReader.Read())
             {

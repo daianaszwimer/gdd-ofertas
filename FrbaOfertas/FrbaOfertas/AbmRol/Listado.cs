@@ -78,16 +78,16 @@ namespace FrbaOfertas.AbmRol
 
         private void modificar_Click(object sender, EventArgs e)
         {
-            object[] rol = obtenerValoresFilaSeleccionada();
+            object[] rol = Helper.obtenerValoresFilaSeleccionada(tablaDeResultados);
             (new AbmRol.Modificacion(rol)).Show();
         }
 
         private void eliminar_Click(object sender, EventArgs e)
         {
-            object[] rol = obtenerValoresFilaSeleccionada();
+            object[] rol = Helper.obtenerValoresFilaSeleccionada(tablaDeResultados);
             string id = rol[0].ToString();
             SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id, Helper.dbOfertas);
-            SqlDataReader dataReader = eliminarRol.ExecuteReader();
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(eliminarRol);
 
             if (dataReader.RecordsAffected != 0)
             {
@@ -99,13 +99,6 @@ namespace FrbaOfertas.AbmRol
                 MessageBox.Show("No se pudo eliminar el rol", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             dataReader.Close();
-        }
-
-        private object[] obtenerValoresFilaSeleccionada()
-        {
-            return tablaDeResultados.SelectedRows[0].Cells
-                .Cast<DataGridViewCell>()
-                .Select(celda => celda.Value).ToArray();
         }
     }
 }

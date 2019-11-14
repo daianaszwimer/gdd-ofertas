@@ -71,7 +71,7 @@ namespace FrbaOfertas.AbmCliente
         private void eliminarRol(int id)
         {
             SqlCommand eliminarRol = new SqlCommand("UPDATE cliente SET cliente_eliminado = 1 WHERE cliente_id=" + id.ToString(), Helper.dbOfertas);
-            SqlDataReader dataReader = eliminarRol.ExecuteReader();
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(eliminarRol);
 
             if (dataReader.RecordsAffected != 0)
             {
@@ -178,7 +178,7 @@ namespace FrbaOfertas.AbmCliente
             }
 
             SqlCommand seleccionarRoles = new SqlCommand(consultaRoles, Helper.dbOfertas);
-            SqlDataReader dataReader = seleccionarRoles.ExecuteReader();
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarRoles);
 
             //// Se guarda en clientes la respuesta al SELECT 
             //// (en formato List<Clientes> para que sea mas facil acceder y filtrar elementos)

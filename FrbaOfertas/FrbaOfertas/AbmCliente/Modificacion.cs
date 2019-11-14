@@ -75,7 +75,7 @@ namespace FrbaOfertas.AbmCliente
                 string modificarCliente = parte1Cliente + parte2Cliente;
 
                 SqlCommand modificarDatosCliente = new SqlCommand(string.Format(modificarCliente, clienteAux.cliente_id), Helper.dbOfertas);
-                SqlDataReader modificarClienteDataReader1 = modificarDatosCliente.ExecuteReader();
+                SqlDataReader modificarClienteDataReader1 = Helper.realizarConsultaSQL(modificarDatosCliente);
                 modificarClienteDataReader1.Close();
 
 
@@ -108,7 +108,7 @@ namespace FrbaOfertas.AbmCliente
                 string modificarDomicilio = parte1Domicilio + parte2Domicilio;
 
                 SqlCommand modificarDatosDomicilio = new SqlCommand(string.Format(modificarDomicilio, clienteAux.domicilio_id), Helper.dbOfertas);
-                SqlDataReader modificarClienteDataReader2 = modificarDatosDomicilio.ExecuteReader();
+                SqlDataReader modificarClienteDataReader2 = Helper.realizarConsultaSQL(modificarDatosDomicilio);
                 modificarClienteDataReader1.Close();
 
 
@@ -117,7 +117,7 @@ namespace FrbaOfertas.AbmCliente
                 if (!localidad.Text.Equals(clienteAux.localidad_nombre)) 
                 {
                     SqlCommand modificarLocalidadCliente = new SqlCommand(string.Format("UPDATE localidad SET localidad_nombre='{0}' WHERE localidad_id={1}; ", localidad.Text, clienteAux.localidad_id), Helper.dbOfertas);
-                    SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
+                    SqlDataReader modificarClienteDataReader = Helper.realizarConsultaSQL(modificarLocalidadCliente);
                     modificarClienteDataReader.Close();
                 }
 

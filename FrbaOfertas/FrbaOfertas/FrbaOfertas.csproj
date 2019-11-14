@@ -121,7 +121,6 @@
     <Compile Include="AbmProveedor\Modificacion.Designer.cs">
       <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmProveedor\Proveedores.cs" />
     <Compile Include="AbmRol\Alta.cs">
       <SubType>Form</SubType>
     </Compile>

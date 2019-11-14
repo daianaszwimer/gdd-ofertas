@@ -23,7 +23,7 @@ namespace FrbaOfertas.AbmRol
         private void buscarFuncionalidadesEnBaseDeDatos()
         {
             SqlCommand seleccionarFuncionalidades = new SqlCommand("SELECT descripcion FROM funcionalidad", Helper.dbOfertas);
-            SqlDataReader dataReader = seleccionarFuncionalidades.ExecuteReader();
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
 
             while (dataReader.Read())
             {
@@ -49,7 +49,7 @@ namespace FrbaOfertas.AbmRol
             SqlCommand insertarFuncionalidadesxRol =
                 new SqlCommand("INSERT INTO funcionalidadxrol (rol_id, funcionalidad_id) VALUES " + valoresAInsertarEnFuncionalidadxRol, Helper.dbOfertas);
 
-            SqlDataReader dataReader = insertarFuncionalidadesxRol.ExecuteReader();
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarFuncionalidadesxRol);
             return dataReader;
         }
 

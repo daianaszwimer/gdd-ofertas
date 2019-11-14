@@ -53,8 +53,8 @@ namespace FrbaOfertas.AbmRol
             {
                 SqlCommand modificarRol =
                     new SqlCommand(string.Format("UPDATE rol SET rol_nombre='{0}' WHERE rol_id={1}; ", nombre.Text, rol[0].ToString()), Helper.dbOfertas);
-
-                SqlDataReader modificarRolDataReader = modificarRol.ExecuteReader();
+                
+                SqlDataReader modificarRolDataReader = Helper.realizarConsultaSQL(modificarRol);
                 if (modificarRolDataReader.RecordsAffected <= 0)
                 {
                     modificarRolDataReader.Close();
@@ -81,7 +81,7 @@ namespace FrbaOfertas.AbmRol
                 SqlCommand eliminarFuncionalidadesViejas =
                     new SqlCommand(string.Format("DELETE FROM funcionalidadxrol WHERE rol_id={0};", rol[0].ToString()), Helper.dbOfertas);
 
-                SqlDataReader eliminarFuncionalidadesViejasDataReader = eliminarFuncionalidadesViejas.ExecuteReader();
+                SqlDataReader eliminarFuncionalidadesViejasDataReader = Helper.realizarConsultaSQL(eliminarFuncionalidadesViejas);
                 if (eliminarFuncionalidadesViejasDataReader.RecordsAffected <= 0)
                 {
                     eliminarFuncionalidadesViejasDataReader.Close();

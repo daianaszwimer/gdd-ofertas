@@ -30,7 +30,7 @@ namespace FrbaOfertas
 	                                "JOIN rolxusuario ru ON ru.rol_id = r.rol_id " +
 	                                "JOIN usuario u ON u.username = ru.username " +
 	                                "WHERE u.username ='" + usuario + "'", Helper.dbOfertas);
-            SqlDataReader dataReader = seleccionarFuncionalidades.ExecuteReader();
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
 
             while (dataReader.Read())
             {
