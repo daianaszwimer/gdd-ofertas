@@ -41,10 +41,10 @@ IF OBJECT_ID('rubro', 'U') IS NOT NULL
   DROP TABLE rubro;  
 
 create table usuario(
-	username varchar(50) PRIMARY KEY NOT NULL,
-	pass varchar(500) NOT NULL,
-	intentos_fallidos_login int DEFAULT 0,
-	habilitado int default 1, 
+	usuario_username varchar(50) PRIMARY KEY NOT NULL,
+	usuario_password varchar(500) NOT NULL,
+	usuario_intentos_fallidos_login int DEFAULT 0,
+	usuario_habilitado int default 1, 
 	)
 
 create table localidad(
@@ -98,7 +98,7 @@ create table cliente(
 	idDomicilio int not null REFERENCES domicilio,
 	cliente_nombre varchar(50),
 	cliente_apellido varchar(50),
-	cliente_dni int, --UNIQUE
+	cliente_dni int UNIQUE, --UNIQUE
 	cliente_mail varchar(50),
 	cliente_telefono int,
 	cliente_fechaNacimiento datetime,
@@ -134,7 +134,7 @@ create table rolxusuario(
 	username varchar(50) not null REFERENCES usuario,
 	rol_id int not null REFERENCES rol)
 
-insert into usuario (username, pass)
+insert into usuario (usuario_username, usuario_password)
 	values ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'),
 	('maru','aaa')
 

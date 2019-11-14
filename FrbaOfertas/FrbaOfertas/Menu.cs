@@ -28,8 +28,8 @@ namespace FrbaOfertas
 	                                "JOIN funcionalidadxrol fr ON fr.rol_id = r.rol_id " +
 	                                "JOIN funcionalidad f ON f.id = fr.funcionalidad_id " +
 	                                "JOIN rolxusuario ru ON ru.rol_id = r.rol_id " +
-	                                "JOIN usuario u ON u.username = ru.username " +
-	                                "WHERE u.username ='" + usuario + "'", Helper.dbOfertas);
+                                    "JOIN usuario u ON u.usuario_username = ru.username " +
+                                    "WHERE u.usuario_username ='" + usuario + "'", Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
 
             while (dataReader.Read())
