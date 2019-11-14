@@ -1,7 +1,7 @@
 /*IF OBJECT_ID (N'dbo.Usuario', N'U') IS NOT NULL  
 DROP TABLE gd_esquema.Usuario;  
 GO
-
+-- TODO: cambiar nombre de esquema
 CREATE TABLE GD2C2019.gd_esquema.Usuario(
 	usuario_id INT NOT NULL identity(1, 1) PRIMARY KEY,
 	usuario_username nvarchar(64) NOT NULL,
@@ -179,6 +179,7 @@ BEGIN TRANSACTION
 	AND i.cliente_fecha_nacimiento = c.cliente_fecha_nacimiento
 	AND i.cliente_nombre = c.cliente_nombre
 	AND i.cliente_mail = c.cliente_mail
+	-- usar cursores?
 	INSERT INTO gd_esquema.Carga_Credito(carga_credito_id_cliente, carga_credito_monto, carga_credito_id_tipo_pago, carga_credito_fecha) 
 	VALUES (@id_cliente_nuevo, 200, 1, GETDATE()) -- todo: hay que usar la fecha del archivo de config
 COMMIT TRANSACTION
@@ -223,6 +224,25 @@ SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] ON
 INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (1, 'automatico')
 
 SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] OFF
+
+-- inserto las localidades
+INSERT INTO [GD2C2019].[gd_esquema].[Localidad] (localidad_nombre) 
+  SELECT distinct [GD2C2019].[gd_esquema].[Maestra].Cli_Ciudad from [GD2C2019].[gd_esquema].[Maestra] where [GD2C2019].[gd_esquema].[Maestra].Cli_Ciudad  is not null
+  UNION SELECT distinct [GD2C2019].[gd_esquema].[Maestra].Provee_Ciudad from [GD2C2019].[gd_esquema].[Maestra] where [GD2C2019].[gd_esquema].[Maestra].Provee_Ciudad is not null 
+
+-- inserto las direcciones
+-- cod postal, departamento y numero piso no conozco, va 0
+insert into [GD2C2019].[gd_esquema].Domicilio (domicilio_calle, domicilio_id_localidad, domicilio_codigo_postal, domicilio_departamento, domicilio_numero_piso)
+select distinct d.Cli_Direccion, l.localidad_id, 0, 0, 0
+from [GD2C2019].[gd_esquema].[Maestra] d
+inner join [GD2C2019].[gd_esquema].Localidad l on l.localidad_nombre = d.Cli_Ciudad 
+where d.Cli_Direccion is not null
+union select distinct p.Provee_Dom, lo.localidad_id, 0, 0, 0
+from [GD2C2019].[gd_esquema].[Maestra] p
+inner join [GD2C2019].[gd_esquema].Localidad lo on lo.localidad_nombre = p.Provee_Ciudad
+where p.Provee_Dom is not null
+
+-- inserto los usuarios
 
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO
 
