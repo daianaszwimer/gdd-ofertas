@@ -134,13 +134,13 @@ CREATE TABLE GD2C2019.gd_esquema.Proveedor(
 	proveedor_id INT identity(1, 1) NOT NULL PRIMARY KEY,
 	proveedor_id_usuario nvarchar(64) NOT NULL,
 	proveedor_razon_social varchar(64) NOT NULL,
-	proveedor_mail varchar(64) NOT NULL,
+	proveedor_mail varchar(64) NULL,
 	proveedor_telefono varchar(64) NULL,
 	proveedor_cuit varchar(64) UNIQUE NOT NULL,
 	proveedor_habilitado BIT DEFAULT 1,
 	proveedor_id_rubro INT NOT NULL,
 	proveedor_id_domicilio INT NOT NULL,
-	proveedor_nombre_contacto NVARCHAR(64) NOT NULL
+	proveedor_nombre_contacto VARCHAR(64) NULL
 	
 	CONSTRAINT [FK_proveedor_domicilio_id] FOREIGN KEY(proveedor_id_domicilio)
 		REFERENCES [GD2C2019].[gd_esquema].[Domicilio] (domicilio_id),
@@ -380,8 +380,37 @@ where m.Tipo_Pago_Desc is not null and m.Carga_Credito is not null and m.Carga_F
 
 -- inserto a mis usuarios con el rol correspondiente
 -- hasta aca solo cargue clientes, por lo tanto, todos tienen el rol de cliente
+-- todo: mejorar esto e insertar clientes y provee juntos con union
 insert into [gd_esquema].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
 select 3, u.usuario_username from [gd_esquema].Usuario u
+
+-- inserto usuario de proveedores, por default el username es el cuit
+insert into [GD2C2019].[gd_esquema].Usuario (usuario_username, usuario_password)
+  select distinct m.Provee_CUIT, HASHBYTES('SHA2_256','1234') from [GD2C2019].[gd_esquema].[Maestra] m where m.Provee_CUIT is not null
+
+-- inserto rubros
+insert into [GD2C2019].[gd_esquema].Rubro (rubro_descripcion)
+select distinct m.Provee_Rubro
+from [GD2C2019].[gd_esquema].[Maestra] m
+where m.Provee_Rubro is not null
+
+-- inserto proveedores
+-- nombre de contacto y mail no tengo, va null
+insert into [GD2C2019].[gd_esquema].Proveedor (proveedor_id_usuario, proveedor_razon_social, proveedor_telefono, proveedor_cuit, proveedor_id_rubro, proveedor_id_domicilio)
+select distinct u.usuario_username, m.Provee_RS, m.Provee_Telefono, m.Provee_CUIT, r.rubro_id, d.domicilio_id
+from [GD2C2019].[gd_esquema].[Maestra] m
+left join [GD2C2019].[gd_esquema].Localidad l on l.localidad_nombre = m.Provee_Ciudad
+left join [GD2C2019].[gd_esquema].Domicilio d on d.domicilio_calle = m.Provee_Dom and l.localidad_id = d.domicilio_id_localidad
+join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = m.Provee_CUIT
+left join [GD2C2019].[gd_esquema].Rubro r on r.rubro_descripcion = Provee_Rubro
+
+-- busco los proveedores y les asigno el rol
+insert into [GD2C2019].[gd_esquema].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
+select 2, u.usuario_username from  [GD2C2019].[gd_esquema].Usuario u where u.usuario_username in (
+	select distinct m.Provee_CUIT from [GD2C2019].[gd_esquema].[Maestra] m where m.Provee_CUIT is not null
+)
+
+
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO
 
 /*
