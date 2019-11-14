@@ -1,14 +1,17 @@
 /*IF OBJECT_ID (N'dbo.Usuario', N'U') IS NOT NULL  
 DROP TABLE gd_esquema.Usuario;  
-GO
+GO*/
 -- TODO: cambiar nombre de esquema
 CREATE TABLE GD2C2019.gd_esquema.Usuario(
-	usuario_id INT NOT NULL identity(1, 1) PRIMARY KEY,
 	usuario_username nvarchar(64) NOT NULL,
-	usuario_password nvarchar(64) NOT NULL,
+	usuario_password nvarchar(32) NOT NULL,
+	usuario_habilitado BIT DEFAULT 1,
 	usuario_intentos_fallidos_login INT DEFAULT 0,
 	usuario_eliminado BIT DEFAULT 0
-	CONSTRAINT [UN_Usuario_Username] UNIQUE (usuario_username)
+	CONSTRAINT [UN_Usuario_Username] UNIQUE (usuario_username),
+	CONSTRAINT [PK_Usuario] PRIMARY KEY (
+		usuario_username
+	)
 )
 
 CREATE TABLE GD2C2019.gd_esquema.Rol(
@@ -24,7 +27,7 @@ CREATE TABLE GD2C2019.gd_esquema.Funcionalidad(
 )
 
 CREATE TABLE GD2C2019.gd_esquema.RolesxUsuario(
-	rolesxusuario_id_usuario INT NOT NULL,
+	rolesxusuario_id_usuario nvarchar(64) NOT NULL,
 	rolesxusuario_id_rol INT NOT NULL
 
 	CONSTRAINT [PK_RolesxUsuario] PRIMARY KEY (
@@ -35,7 +38,7 @@ CREATE TABLE GD2C2019.gd_esquema.RolesxUsuario(
 	CONSTRAINT [FK_RolesxUsuario_rol_id] FOREIGN KEY(rolesxusuario_id_rol)
 		REFERENCES [GD2C2019].[gd_esquema].Rol (rol_id),
 	CONSTRAINT [FK_RolesxUsuario_usuario_id] FOREIGN KEY(rolesxusuario_id_usuario)
-		REFERENCES [GD2C2019].[gd_esquema].[Usuario] (usuario_id),
+		REFERENCES [GD2C2019].[gd_esquema].[Usuario] (usuario_username),
 	CONSTRAINT UN_RolesxUsuario_id UNIQUE(rolesxusuario_id_usuario,rolesxusuario_id_rol)
 )
 
@@ -75,12 +78,12 @@ CREATE TABLE GD2C2019.gd_esquema.Domicilio(
 
 CREATE TABLE GD2C2019.gd_esquema.Cliente(
 	cliente_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	cliente_id_usuario INT NOT NULL,
+	cliente_id_usuario nvarchar(64) NOT NULL,
 	cliente_nombre varchar(64) NOT NULL,
 	cliente_apellido varchar(64) NOT NULL,
-	cliente_dni varchar(64) UNIQUE NOT NULL,
-	cliente_mail varchar(64) UNIQUE NOT NULL,
-	cliente_telefono varchar(64) UNIQUE NULL,
+	cliente_dni varchar(64) NOT NULL,
+	cliente_mail varchar(64) NOT NULL,
+	cliente_telefono varchar(64) NULL,
 	cliente_habilitado BIT DEFAULT 1,
 	cliente_fecha_nacimiento datetime NULL,
 	cliente_id_domicilio INT NOT NULL,
@@ -88,9 +91,12 @@ CREATE TABLE GD2C2019.gd_esquema.Cliente(
 	
 	CONSTRAINT [FK_Cliente_domicilio_id] FOREIGN KEY(cliente_id_domicilio)
 		REFERENCES [GD2C2019].[gd_esquema].[Domicilio] (domicilio_id),
+	CONSTRAINT [FK_Cliente_usuario_id] FOREIGN KEY(cliente_id_usuario)
+		REFERENCES [GD2C2019].[gd_esquema].[Usuario] (usuario_username),
 -- asumimos que si dos clientes tienen = nombre, apellido, dni, fecha nac y cliente_mail son "gemelos"
 -- esta constraint no estaria andando, toma a todos los campos como unique??? por que
-	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_nombre, cliente_apellido, cliente_dni, cliente_fecha_nacimiento, cliente_mail)
+	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni)
+	-- crear trigger que no haya dato que tenga mismo nombre, apellido, fecha de nacimiento y mail
 )
 
 CREATE TABLE GD2C2019.gd_esquema.Tarjeta(
@@ -157,7 +163,15 @@ Values(3, 'cliente', 1, 0)
 
 SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Rol] OFF
 
-*/
+-- agrego tipos de pago
+-- crear tipo de pago automatico y usarlo cuando se da de alta al cliente
+SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] ON
+
+INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (1, 'automatico')
+INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (2, 'efectivo')
+INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (3, 'credito')
+
+SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] OFF
 
 -- cuando se crea un cliente se le debitan $200:
 USE [GD2C2019]
@@ -218,13 +232,6 @@ INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidad
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 7);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 9);
 
--- crear tipo de pago automatico y usarlo cuando se da de alta al cliente
-SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] ON
-
-INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (1, 'automatico')
-
-SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] OFF
-
 -- inserto las localidades
 INSERT INTO [GD2C2019].[gd_esquema].[Localidad] (localidad_nombre) 
   SELECT distinct [GD2C2019].[gd_esquema].[Maestra].Cli_Ciudad from [GD2C2019].[gd_esquema].[Maestra] where [GD2C2019].[gd_esquema].[Maestra].Cli_Ciudad  is not null
@@ -242,7 +249,22 @@ from [GD2C2019].[gd_esquema].[Maestra] p
 inner join [GD2C2019].[gd_esquema].Localidad lo on lo.localidad_nombre = p.Provee_Ciudad
 where p.Provee_Dom is not null
 
--- inserto los usuarios
+-- inserto los usuarios (solo clientes por ahora), por default el username es el dni
+insert into [GD2C2019].[gd_esquema].Usuario (usuario_username, usuario_password)
+  select distinct m.Cli_Dni, HASHBYTES('SHA2_256','1234') from [GD2C2019].[gd_esquema].[Maestra] m where m.Cli_Dni is not null
+-- para seleccionar el usuario y que pw se vea bien hacer: select u.usuario_username, CONVERT(binary(32), u.usuario_password) from [GD2C2019].[gd_esquema].Usuario u
+
+-- por default en el credito les pongo 0, despues en procedure lo calculo y pongo bien
+
+  insert into [GD2C2019].[gd_esquema].Cliente (cliente_dni, cliente_id_usuario, cliente_nombre, cliente_apellido, cliente_mail, 
+  cliente_telefono, cliente_fecha_nacimiento, cliente_id_domicilio, cliente_credito)
+ select distinct m.Cli_Dni, u.usuario_username, m.Cli_Nombre, m.Cli_Apellido, m.Cli_Mail, m.Cli_Telefono, m.Cli_Fecha_Nac, d.domicilio_id, 0
+from [GD2C2019].[gd_esquema].[Maestra] m
+left join [GD2C2019].[gd_esquema].Localidad l on l.localidad_nombre = m.Cli_Ciudad
+left join [GD2C2019].[gd_esquema].Domicilio d on d.domicilio_calle = m.Cli_Direccion and l.localidad_id = d.domicilio_id_localidad
+join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = m.Cli_Dni
+ 
+-- inserto clientes
 
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO
 
