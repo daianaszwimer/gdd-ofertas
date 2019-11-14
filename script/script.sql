@@ -94,9 +94,7 @@ CREATE TABLE GD2C2019.gd_esquema.Cliente(
 	CONSTRAINT [FK_Cliente_usuario_id] FOREIGN KEY(cliente_id_usuario)
 		REFERENCES [GD2C2019].[gd_esquema].[Usuario] (usuario_username),
 -- asumimos que si dos clientes tienen = nombre, apellido, dni, fecha nac y cliente_mail son "gemelos"
--- esta constraint no estaria andando, toma a todos los campos como unique??? por que
-	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni)
-	-- crear trigger que no haya dato que tenga mismo nombre, apellido, fecha de nacimiento y mail
+	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni, cliente_mail, cliente_nombre, cliente_apellido, cliente_fecha_nacimiento)
 )
 
 CREATE TABLE GD2C2019.gd_esquema.Tarjeta(
@@ -126,6 +124,101 @@ CREATE TABLE GD2C2019.gd_esquema.Carga_Credito(
 	CONSTRAINT [FK_Carga_Credito_tarjeta_id] FOREIGN KEY(carga_credito_id_tarjeta)
 		REFERENCES [GD2C2019].[gd_esquema].[Tarjeta] (tarjeta_id),
 )
+
+CREATE TABLE GD2C2019.gd_esquema.Rubro(
+	rubro_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	rubro_descripcion varchar(64) NOT NULL
+)
+
+CREATE TABLE GD2C2019.gd_esquema.Proveedor(
+	proveedor_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	proveedor_id_usuario nvarchar(64) NOT NULL,
+	proveedor_razon_social varchar(64) NOT NULL,
+	proveedor_mail varchar(64) NOT NULL,
+	proveedor_telefono varchar(64) NULL,
+	proveedor_cuit varchar(64) UNIQUE NOT NULL,
+	proveedor_habilitado BIT DEFAULT 1,
+	proveedor_id_rubro INT NOT NULL,
+	proveedor_id_domicilio INT NOT NULL,
+	proveedor_nombre_contacto NVARCHAR(64) NOT NULL
+	
+	CONSTRAINT [FK_proveedor_domicilio_id] FOREIGN KEY(proveedor_id_domicilio)
+		REFERENCES [GD2C2019].[gd_esquema].[Domicilio] (domicilio_id),
+	CONSTRAINT [FK_proveedor_usuario_id] FOREIGN KEY(proveedor_id_usuario)
+		REFERENCES [GD2C2019].[gd_esquema].[Usuario] (usuario_username),
+	CONSTRAINT [FK_proveedor_rubro_id] FOREIGN KEY(proveedor_id_rubro)
+		REFERENCES [GD2C2019].[gd_esquema].[Rubro] (rubro_id)
+)
+
+CREATE TABLE GD2C2019.gd_esquema.Oferta(
+	oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	oferta_descripcion nvarchar(64) NOT NULL,
+	oferta_razon_social varchar(64) NOT NULL,
+	oferta_fecha_publicacion datetime NOT NULL,
+	oferta_fecha_venc datetime NOT NULL,
+	oferta_precio decimal(12, 2) NOT NULL,
+	oferta_precio_lista decimal(12, 2) NOT NULL,
+	oferta_cantidad int NOT NULL,
+	oferta_restriccion_compra INT NOT NULL,
+	oferta_id_proveedor INT NOT NULL,
+	
+	CONSTRAINT [FK_proveedor_proveedor_id] FOREIGN KEY(oferta_id_proveedor)
+		REFERENCES [GD2C2019].[gd_esquema].[Proveedor] (proveedor_id)
+)
+
+CREATE TABLE GD2C2019.gd_esquema.Compra_Oferta(
+	compra_oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	compra_oferta_id_cliente INT NOT NULL,
+	compra_oferta_id_oferta INT NOT NULL,
+	compra_oferta_cantidad INT NOT NULL,
+	compra_oferta_fecha datetime NOT NULL,
+	
+	CONSTRAINT [FK_compra_oferta_cliente_id] FOREIGN KEY(compra_oferta_id_cliente)
+		REFERENCES [GD2C2019].[gd_esquema].[Cliente] (cliente_id),
+	CONSTRAINT [FK_compra_oferta_oferta_id] FOREIGN KEY(compra_oferta_id_oferta)
+		REFERENCES [GD2C2019].[gd_esquema].[Oferta] (oferta_id)
+)
+
+CREATE TABLE GD2C2019.gd_esquema.Cupon(
+	cupon_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	cupon_id_cliente INT NOT NULL,
+	cupon_id_compra_oferta INT NOT NULL,
+	cupon_fecha_venc datetime NOT NULL,
+	cupon_fecha_consumo datetime NOT NULL,
+	
+	CONSTRAINT [FK_cupon_cliente_id] FOREIGN KEY(cupon_id_cliente)
+		REFERENCES [GD2C2019].[gd_esquema].[Cliente] (cliente_id),
+	CONSTRAINT [FK_cupon_compra_oferta_id] FOREIGN KEY(cupon_id_compra_oferta)
+		REFERENCES [GD2C2019].[gd_esquema].[Compra_Oferta] (compra_oferta_id)
+)
+
+CREATE TABLE GD2C2019.gd_esquema.Factura(
+	factura_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	factura_importe decimal(12, 2) NOT NULL,
+	factura_fecha_inicio datetime NOT NULL,
+	factura_fecha_fin datetime NOT NULL,
+	factura_id_proveedor INT NOT NULL,
+	
+	CONSTRAINT [FK_factura_proveedor_id] FOREIGN KEY(factura_id_proveedor)
+		REFERENCES [GD2C2019].[gd_esquema].[Proveedor] (proveedor_id)
+)
+
+CREATE TABLE GD2C2019.gd_esquema.Item(
+	item_id_factura INT NOT NULL,
+	item_id_compra_oferta INT NOT NULL
+
+	CONSTRAINT [PK_FacturaxCompraOferta] PRIMARY KEY (
+		[item_id_factura] ASC,
+		[item_id_compra_oferta] ASC
+	)
+	
+	CONSTRAINT [FK_FacturaxCompraOferta_factura_id] FOREIGN KEY(item_id_factura)
+		REFERENCES [GD2C2019].[gd_esquema].Factura (factura_id),
+	CONSTRAINT [FK_FacturaxCompraOferta_compra_oferta_id] FOREIGN KEY(item_id_compra_oferta)
+		REFERENCES [GD2C2019].[gd_esquema].[Compra_Oferta] (compra_oferta_id),
+	CONSTRAINT UN_FacturaxCompraOferta_id UNIQUE(item_id_compra_oferta, item_id_factura)
+)
+
 
 SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Funcionalidad] ON
 
