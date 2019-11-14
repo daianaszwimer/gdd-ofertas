@@ -117,10 +117,14 @@ CREATE TABLE GD2C2019.gd_esquema.Carga_Credito(
 	carga_credito_id_tipo_pago INT NOT NULL,
 	carga_credito_id_tarjeta INT,
 	carga_credito_fecha datetime NOT NULL,
-	carga_credito_monto INT NOT NULL,
+	carga_credito_monto decimal(12, 2) NOT NULL,
 	
 	CONSTRAINT [FK_Carga_Credito_tipo_pago_id] FOREIGN KEY(carga_credito_id_tipo_pago)
-		REFERENCES [GD2C2019].[gd_esquema].[Tipo_Pago] (tipo_pago_id)
+		REFERENCES [GD2C2019].[gd_esquema].[Tipo_Pago] (tipo_pago_id),
+	CONSTRAINT [FK_Carga_Credito_cliente_id] FOREIGN KEY(carga_credito_id_cliente)
+		REFERENCES [GD2C2019].[gd_esquema].[Cliente] (cliente_id),
+	CONSTRAINT [FK_Carga_Credito_tarjeta_id] FOREIGN KEY(carga_credito_id_tarjeta)
+		REFERENCES [GD2C2019].[gd_esquema].[Tarjeta] (tarjeta_id),
 )
 
 SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Funcionalidad] ON
@@ -253,19 +257,38 @@ where p.Provee_Dom is not null
 insert into [GD2C2019].[gd_esquema].Usuario (usuario_username, usuario_password)
   select distinct m.Cli_Dni, HASHBYTES('SHA2_256','1234') from [GD2C2019].[gd_esquema].[Maestra] m where m.Cli_Dni is not null
 -- para seleccionar el usuario y que pw se vea bien hacer: select u.usuario_username, CONVERT(binary(32), u.usuario_password) from [GD2C2019].[gd_esquema].Usuario u
+-- todo: transformar a hexa el valor
 
+-- inserto clientes
 -- por default en el credito les pongo 0, despues en procedure lo calculo y pongo bien
-
-  insert into [GD2C2019].[gd_esquema].Cliente (cliente_dni, cliente_id_usuario, cliente_nombre, cliente_apellido, cliente_mail, 
-  cliente_telefono, cliente_fecha_nacimiento, cliente_id_domicilio, cliente_credito)
- select distinct m.Cli_Dni, u.usuario_username, m.Cli_Nombre, m.Cli_Apellido, m.Cli_Mail, m.Cli_Telefono, m.Cli_Fecha_Nac, d.domicilio_id, 0
+insert into [GD2C2019].[gd_esquema].Cliente (cliente_dni, cliente_id_usuario, cliente_nombre, cliente_apellido, cliente_mail, 
+cliente_telefono, cliente_fecha_nacimiento, cliente_id_domicilio, cliente_credito)
+select distinct m.Cli_Dni, u.usuario_username, m.Cli_Nombre, m.Cli_Apellido, m.Cli_Mail, m.Cli_Telefono, m.Cli_Fecha_Nac, d.domicilio_id, 0
 from [GD2C2019].[gd_esquema].[Maestra] m
 left join [GD2C2019].[gd_esquema].Localidad l on l.localidad_nombre = m.Cli_Ciudad
 left join [GD2C2019].[gd_esquema].Domicilio d on d.domicilio_calle = m.Cli_Direccion and l.localidad_id = d.domicilio_id_localidad
 join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = m.Cli_Dni
  
--- inserto clientes
+-- inserto cargas
+-- como no especifica tarjeta, pongo null
+insert into [gd_esquema].Carga_Credito (
+carga_credito_id_cliente,
+carga_credito_id_tipo_pago,
+carga_credito_id_tarjeta,
+carga_credito_fecha,
+carga_credito_monto)
+select c.cliente_id, (case when m.Tipo_Pago_Desc = 'Crédito' then (select t.tipo_pago_id from [gd_esquema].Tipo_Pago t where t.tipo_pago_nombre = 'credito') 
+when m.Tipo_Pago_Desc = 'Efectivo' then (select t.tipo_pago_id from [gd_esquema].Tipo_Pago t where t.tipo_pago_nombre = 'efectivo') 
+else 0 end), NULL
+, m.Carga_Fecha, m.Carga_Credito 
+from [gd_esquema].Maestra m
+join [gd_esquema].Cliente c on c.cliente_dni = m.Cli_Dni
+where m.Tipo_Pago_Desc is not null and m.Carga_Credito is not null and m.Carga_Fecha is not null
 
+-- inserto a mis usuarios con el rol correspondiente
+-- hasta aca solo cargue clientes, por lo tanto, todos tienen el rol de cliente
+insert into [gd_esquema].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
+select 3, u.usuario_username from [gd_esquema].Usuario u
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO
 
 /*
