@@ -45,7 +45,8 @@ namespace FrbaOfertas
                     dataReader.Close();
 
                     this.Hide();
-                    (new Menu(username.Text)).Show();
+                    Helper.usuarioActual = username.Text;
+                    (new Menu()).Show();
                 }
                 else
                 {

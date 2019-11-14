@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmRol
 {
-    public abstract partial class AltaYModificacion : Form
+    public abstract partial class AltaYModificacion : BarraDeOpciones
     {
         public AltaYModificacion()
         {

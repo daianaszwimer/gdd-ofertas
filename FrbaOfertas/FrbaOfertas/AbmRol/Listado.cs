@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmRol
 {
-    public partial class Listado : Form
+    public partial class Listado : BarraDeOpciones
     {
         DataSet rolesDataSet = new DataSet();
         

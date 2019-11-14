@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmProveedor
 {
-    public abstract partial class AltaYModificacion : Form
+    public abstract partial class AltaYModificacion : BarraDeOpciones
     {
         public AltaYModificacion()
         {

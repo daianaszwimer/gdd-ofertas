@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmProveedor
 {
-    public partial class Form1 : Form
+    public partial class Form1 : BarraDeOpciones
     {
         public Form1()
         {

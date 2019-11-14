@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmCliente
 {
-    public partial class Listado : Form
+    public partial class Listado : BarraDeOpciones
     {
         DataTable table = new DataTable();
         List<Clientes> clientesSeleccionados = new List<Clientes>();

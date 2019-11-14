@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmProveedor
 {
-    public partial class Listado : Form
+    public partial class Listado : BarraDeOpciones
     {
         DataSet proveedoresDataSet = new DataSet();
 
@@ -48,7 +48,7 @@ namespace FrbaOfertas.AbmProveedor
             string consultaProveedores =
                 "SELECT proveedor_id AS Id, proveedor_razon_social AS 'Razon Social', proveedor_cuit AS Cuit, domicilio_id, localidad_id, localidad_nombre AS Localidad, " +
                 "domicilio_calle AS Calle, domicilio_piso AS Piso, domicilio_depto AS Depto, domicilio_codpostal AS 'Cod. Postal', proveedor_telefono AS Telefono, proveedor_mail AS Mail, " +
-                "proveedor_id_rubro, rubro_descripcion AS Rubro, proveedor_nombre_contacto AS Nombre, proveedor_habilitado AS Habilitado" +
+                "proveedor_id_rubro, rubro_descripcion AS Rubro, proveedor_nombre_contacto AS Nombre, proveedor_habilitado AS Habilitado " +
                     "FROM proveedor LEFT JOIN domicilio ON domicilio_id = proveedor_id_domicilio " +
                                    "LEFT JOIN localidad ON localidad_id = idLocalidad " +
                                    "LEFT JOIN rubro f ON rubro_id = proveedor_id_rubro WHERE proveedor_eliminado = 0";

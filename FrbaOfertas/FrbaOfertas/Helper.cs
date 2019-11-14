@@ -13,6 +13,7 @@ namespace FrbaOfertas
     public static class Helper
     {
         public static SqlConnection dbOfertas;
+        public static string usuarioActual = "";
 
         public static void conectarseABaseDeDatosOfertas()
         {
@@ -111,6 +112,7 @@ namespace FrbaOfertas
             {
                 formAbierto.Hide();
             }
+            usuarioActual = "";
             cerrarConexionConBaseDeDatosOfertas();
             (new Form1()).Show();
         }

@@ -151,6 +151,12 @@
     <Compile Include="AbmRol\Modificacion.Designer.cs">
       <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="BarraDeOpciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BarraDeOpciones.Designer.cs">
+      <DependentUpon>BarraDeOpciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComprarOferta\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +217,9 @@
     <EmbeddedResource Include="AbmCliente\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\Listado.resx">
+      <DependentUpon>Listado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
     </EmbeddedResource>
@@ -225,6 +234,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BarraDeOpciones.resx">
+      <DependentUpon>BarraDeOpciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CragaCredito\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

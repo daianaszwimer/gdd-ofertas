@@ -41,7 +41,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 20);
+            this.label2.Location = new System.Drawing.Point(23, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 1;
@@ -50,7 +50,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 51);
+            this.label1.Location = new System.Drawing.Point(23, 70);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 2;
@@ -59,7 +59,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 80);
+            this.label3.Location = new System.Drawing.Point(23, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 3;
@@ -67,7 +67,7 @@
             // 
             // monto
             // 
-            this.monto.Location = new System.Drawing.Point(115, 48);
+            this.monto.Location = new System.Drawing.Point(116, 67);
             this.monto.Name = "monto";
             this.monto.Size = new System.Drawing.Size(140, 20);
             this.monto.TabIndex = 4;
@@ -75,21 +75,21 @@
             // tipoDePago
             // 
             this.tipoDePago.FormattingEnabled = true;
-            this.tipoDePago.Location = new System.Drawing.Point(115, 17);
+            this.tipoDePago.Location = new System.Drawing.Point(116, 36);
             this.tipoDePago.Name = "tipoDePago";
             this.tipoDePago.Size = new System.Drawing.Size(140, 21);
             this.tipoDePago.TabIndex = 5;
             // 
             // tarjeta
             // 
-            this.tarjeta.Location = new System.Drawing.Point(115, 80);
+            this.tarjeta.Location = new System.Drawing.Point(116, 99);
             this.tarjeta.Name = "tarjeta";
             this.tarjeta.Size = new System.Drawing.Size(110, 20);
             this.tarjeta.TabIndex = 6;
             // 
             // cargarCredito
             // 
-            this.cargarCredito.Location = new System.Drawing.Point(180, 113);
+            this.cargarCredito.Location = new System.Drawing.Point(181, 132);
             this.cargarCredito.Name = "cargarCredito";
             this.cargarCredito.Size = new System.Drawing.Size(75, 23);
             this.cargarCredito.TabIndex = 7;
@@ -98,7 +98,7 @@
             // 
             // insertarDatosTarjeta
             // 
-            this.insertarDatosTarjeta.Location = new System.Drawing.Point(231, 78);
+            this.insertarDatosTarjeta.Location = new System.Drawing.Point(232, 97);
             this.insertarDatosTarjeta.Name = "insertarDatosTarjeta";
             this.insertarDatosTarjeta.Size = new System.Drawing.Size(24, 23);
             this.insertarDatosTarjeta.TabIndex = 8;
@@ -108,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(279, 152);
+            this.ClientSize = new System.Drawing.Size(279, 170);
             this.Controls.Add(this.insertarDatosTarjeta);
             this.Controls.Add(this.cargarCredito);
             this.Controls.Add(this.tarjeta);
@@ -119,6 +119,14 @@
             this.Controls.Add(this.label2);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.monto, 0);
+            this.Controls.SetChildIndex(this.tipoDePago, 0);
+            this.Controls.SetChildIndex(this.tarjeta, 0);
+            this.Controls.SetChildIndex(this.cargarCredito, 0);
+            this.Controls.SetChildIndex(this.insertarDatosTarjeta, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

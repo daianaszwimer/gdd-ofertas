@@ -13,10 +13,10 @@ namespace FrbaOfertas
 {
     public partial class Menu : Form
     {
-        public Menu(String usuario)
+        public Menu()
         {
             InitializeComponent();
-            List<String> funcionalidades = obtenerFuncionalidadesSegunUsuario(usuario);
+            List<String> funcionalidades = obtenerFuncionalidadesSegunUsuario(Helper.usuarioActual);
             mostrarListadoDeFuncionalidades(funcionalidades);
         }
 
