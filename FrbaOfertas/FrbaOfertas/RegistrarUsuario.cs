@@ -35,7 +35,10 @@ namespace FrbaOfertas
 
                     SqlCommand insertarNuevoUsuario = new SqlCommand(string.Format("INSERT INTO usuario (usuario_username, usuario_password) VALUES ('{0}','{1}'); SELECT SCOPE_IDENTITY()", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
                     SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoUsuario);
-                    dataReader.Close();
+                    if (dataReader != null)
+                    {
+                        dataReader.Close();
+                    }
                 }
                 else
                 {
@@ -119,8 +122,11 @@ namespace FrbaOfertas
         {
             SqlCommand chequearExistenciaUsername = new SqlCommand(string.Format("SELECT usuario_username FROM usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
             SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(chequearExistenciaUsername);
-            usuarioOk = !dataReaderUsuario.HasRows;
-            dataReaderUsuario.Close();
+            if (dataReaderUsuario != null)
+            {
+                usuarioOk = !dataReaderUsuario.HasRows;
+                dataReaderUsuario.Close();
+            }
             return usuarioOk;
         }
 
@@ -129,13 +135,16 @@ namespace FrbaOfertas
             List<String> rolesPosibles = new List<string>();
             SqlCommand seleccionarRolesPosibles = new SqlCommand(string.Format("SELECT rol_nombre FROM rol WHERE rol_habilitado=1 AND rol_eliminado=0"), Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarRolesPosibles);
-            rolesPosibles.Add("");
-            while (dataReader.Read())
+            if (dataReader != null)
             {
-                string rol = dataReader.GetValue(0).ToString();
-                rolesPosibles.Add(rol);
+                rolesPosibles.Add("");
+                while (dataReader.Read())
+                {
+                    string rol = dataReader.GetValue(0).ToString();
+                    rolesPosibles.Add(rol);
+                }
+                dataReader.Close();
             }
-            dataReader.Close();
             return rolesPosibles;
         }
 

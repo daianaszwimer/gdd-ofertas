@@ -87,17 +87,19 @@ namespace FrbaOfertas.AbmProveedor
             string id = proveedor[0].ToString();
             SqlCommand eliminarProveedor = new SqlCommand("UPDATE proveedor SET proveedor_eliminado = 1 WHERE proveedor_id=" + id, Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(eliminarProveedor);
-
-            if (dataReader.RecordsAffected != 0)
+            if (dataReader != null)
             {
-                MessageBox.Show("Proveedor eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                proveedoresDataSet.Clear();
+                if (dataReader.RecordsAffected != 0)
+                {
+                    MessageBox.Show("Proveedor eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    proveedoresDataSet.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar el proveedor", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                dataReader.Close();
             }
-            else
-            {
-                MessageBox.Show("No se pudo eliminar el proveedor", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            dataReader.Close();
         }
 
     }

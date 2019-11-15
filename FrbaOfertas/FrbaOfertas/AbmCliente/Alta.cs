@@ -37,44 +37,51 @@ namespace FrbaOfertas.AbmCliente
                 //TODO: {M} dni UNIQUE + try catch
                 SqlCommand chequearExistenciaCliente = new SqlCommand(string.Format("SELECT cliente_dni FROM cliente WHERE cliente_dni='{0}'", dni.Text), Helper.dbOfertas);
                 SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(chequearExistenciaCliente);
-
-                if (!dataReaderUsuario.HasRows) // DNI unico
+                if (dataReaderUsuario != null)
                 {
-                    dataReaderUsuario.Close();
-                    SqlCommand chequearLocalidad = new SqlCommand(string.Format("SELECT localidad_id,localidad_nombre FROM localidad WHERE localidad_nombre='{0}'", localidad.Text), Helper.dbOfertas);
-                    SqlDataReader dataReaderLocalidad = Helper.realizarConsultaSQL(chequearLocalidad);
-
-                    if (dataReaderLocalidad.HasRows) // Localidad ya existe
+                    if (!dataReaderUsuario.HasRows) // DNI unico
                     {
-                        dataReaderLocalidad.Read();
-                        string idLocalidad = dataReaderLocalidad.GetValue(0).ToString();
-                        dataReaderLocalidad.Close();
-                        insertarLocalidadParaDireccion(idLocalidad);
+                        dataReaderUsuario.Close();
+                        SqlCommand chequearLocalidad = new SqlCommand(string.Format("SELECT localidad_id,localidad_nombre FROM localidad WHERE localidad_nombre='{0}'", localidad.Text), Helper.dbOfertas);
+                        SqlDataReader dataReaderLocalidad = Helper.realizarConsultaSQL(chequearLocalidad);
+                        if (dataReaderLocalidad != null)
+                        {
+                            if (dataReaderLocalidad.HasRows) // Localidad ya existe
+                            {
+                                dataReaderLocalidad.Read();
+                                string idLocalidad = dataReaderLocalidad.GetValue(0).ToString();
+                                dataReaderLocalidad.Close();
+                                insertarLocalidadParaDireccion(idLocalidad);
+                            }
+                            else
+                            {
+                                dataReaderLocalidad.Close();
+                                SqlCommand insertarNuevaLocalidad = new SqlCommand(string.Format("INSERT INTO localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), Helper.dbOfertas);
+                                SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaLocalidad);
+                                if (dataReader != null)
+                                {
+                                    if (dataReader.Read())
+                                    {
+                                        string idLocalidad = dataReader.GetValue(0).ToString();
+                                        dataReader.Close();
+                                        insertarLocalidadParaDireccion(idLocalidad);
+                                    }
+                                    else
+                                    {
+                                        //MessageBox.Show("Error al guardar la localidad");
+                                        dataReader.Close();
+                                    }
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        dataReaderLocalidad.Close();
-                        SqlCommand insertarNuevaLocalidad = new SqlCommand(string.Format("INSERT INTO localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), Helper.dbOfertas);
-                        SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaLocalidad);
-                        if (dataReader.Read())
-                        {
-                            string idLocalidad = dataReader.GetValue(0).ToString();
-                            dataReader.Close();
-                            insertarLocalidadParaDireccion(idLocalidad);
-                        }
-                        else
-                        {
-                            //MessageBox.Show("Error al guardar la localidad");
-                            dataReader.Close();
-                        }
+                        MessageBox.Show("El DNI ingresado ya se encuentra en el sistema", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        dataReaderUsuario.Close();
                     }
+                    this.Hide();
                 }
-                else
-                {
-                    MessageBox.Show("El DNI ingresado ya se encuentra en el sistema", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    dataReaderUsuario.Close();
-                }
-                this.Hide();
             }
         }
 
@@ -84,28 +91,34 @@ namespace FrbaOfertas.AbmCliente
         {
             SqlCommand chequearDomicilio = new SqlCommand(string.Format("SELECT domicilio_id, domicilio_calle, domicilio_piso, domicilio_depto FROM domicilio WHERE domicilio_calle='{0}' AND domicilio_piso='{1}'AND domicilio_depto='{2}'", calle.Text, piso.Text, depto.Text), Helper.dbOfertas);
             SqlDataReader dataReaderDomicilio = Helper.realizarConsultaSQL(chequearDomicilio);
-            if (dataReaderDomicilio.HasRows) // Domicilio ya existe
+            if (dataReaderDomicilio != null)
             {
-                dataReaderDomicilio.Read();
-                string idDomicilio = dataReaderDomicilio.GetValue(0).ToString();
-                dataReaderDomicilio.Close();
-                insertarDomicilioParaCliente(idDomicilio);
-            }
-            else
-            {
-                dataReaderDomicilio.Close();
-                SqlCommand insertarNuevoDomicilio = new SqlCommand(string.Format("INSERT INTO domicilio (idLocalidad,domicilio_calle,domicilio_piso,domicilio_depto,domicilio_codpostal) VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()", idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), Helper.dbOfertas);
-                SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoDomicilio);
-                if (dataReader.Read())
+                if (dataReaderDomicilio.HasRows) // Domicilio ya existe
                 {
-                    string idDomicilio = dataReader.GetValue(0).ToString();
-                    dataReader.Close();
-                    insertarLocalidadParaDireccion(idDomicilio);
+                    dataReaderDomicilio.Read();
+                    string idDomicilio = dataReaderDomicilio.GetValue(0).ToString();
+                    dataReaderDomicilio.Close();
+                    insertarDomicilioParaCliente(idDomicilio);
                 }
                 else
                 {
-                    //MessageBox.Show("Error al guardar el domicilio");
-                    dataReader.Close();
+                    dataReaderDomicilio.Close();
+                    SqlCommand insertarNuevoDomicilio = new SqlCommand(string.Format("INSERT INTO domicilio (idLocalidad,domicilio_calle,domicilio_piso,domicilio_depto,domicilio_codpostal) VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()", idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), Helper.dbOfertas);
+                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoDomicilio);
+                    if (dataReader != null)
+                    {
+                        if (dataReader.Read())
+                        {
+                            string idDomicilio = dataReader.GetValue(0).ToString();
+                            dataReader.Close();
+                            insertarLocalidadParaDireccion(idDomicilio);
+                        }
+                        else
+                        {
+                            //MessageBox.Show("Error al guardar el domicilio");
+                            dataReader.Close();
+                        }
+                    }
                 }
             }
         }
@@ -115,20 +128,26 @@ namespace FrbaOfertas.AbmCliente
         {
             SqlCommand insertarNuevoCliente = new SqlCommand(string.Format("INSERT INTO cliente (idDomicilio,cliente_nombre,cliente_apellido,cliente_dni,cliente_mail,cliente_telefono,cliente_fechaNacimiento) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'); SELECT SCOPE_IDENTITY()", idDomicilio, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, fechaNacimiento.Text), Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoCliente);
-            dataReader.Read();
-            string idClienteNuevo = dataReader.GetValue(0).ToString();
-            dataReader.Close();
+            if (dataReader != null)
+            {
+                dataReader.Read();
+                string idClienteNuevo = dataReader.GetValue(0).ToString();
+                dataReader.Close();
 
-            DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                DateTime myDateTime = DateTime.Now;
+                string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-            SqlCommand insertarCreditoInicial =
-                new SqlCommand(string.Format("INSERT INTO cargaDeCredito (idCliente, idTipoDePago, idTarjeta, carga_credito_fecha, carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", idClienteNuevo, 1, 1, sqlFormattedDate, 200), Helper.dbOfertas);
-            SqlDataReader dataReader2 = Helper.realizarConsultaSQL(insertarCreditoInicial);
-            dataReader2.Close();
+                SqlCommand insertarCreditoInicial =
+                    new SqlCommand(string.Format("INSERT INTO cargaDeCredito (idCliente, idTipoDePago, idTarjeta, carga_credito_fecha, carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", idClienteNuevo, 1, 1, sqlFormattedDate, 200), Helper.dbOfertas);
+                SqlDataReader dataReader2 = Helper.realizarConsultaSQL(insertarCreditoInicial);
+                if (dataReader2 != null)
+                {
+                    dataReader2.Close();
 
-            MessageBox.Show("CLIENTE REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Hide();
+                    MessageBox.Show("CLIENTE REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Hide();
+                }
+            }
         }
     }
 }

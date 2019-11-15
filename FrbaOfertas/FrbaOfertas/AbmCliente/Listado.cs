@@ -94,17 +94,19 @@ namespace FrbaOfertas.AbmCliente
             string id = cliente[0].ToString();
             SqlCommand eliminarCliente = new SqlCommand("UPDATE cliente SET cliente_eliminado = 1 WHERE cliente_id=" + id, Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(eliminarCliente);
-
-            if (dataReader.RecordsAffected != 0)
+            if (dataReader != null)
             {
-                MessageBox.Show("Cliente eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                clientesDataSet.Clear();
+                if (dataReader.RecordsAffected != 0)
+                {
+                    MessageBox.Show("Cliente eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    clientesDataSet.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar el cliente ", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                dataReader.Close();
             }
-            else
-            {
-                MessageBox.Show("No se pudo eliminar el cliente ", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            dataReader.Close();
         }
 
       

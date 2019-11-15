@@ -26,28 +26,37 @@ namespace FrbaOfertas.AbmRol
                 new SqlCommand(string.Format("INSERT INTO rol (rol_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", nombre.Text), Helper.dbOfertas);
 
             SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoRol);
-
-            if (dataReader.Read())
+            if (dataReader != null)
             {
-                string idRol = dataReader.GetValue(0).ToString();
-                dataReader.Close();
-                SqlDataReader dataReaderFuncionalidades = insertarFuncionalidadesParaRol(idRol);
-                if (dataReaderFuncionalidades.RecordsAffected > 0)
+                if (dataReader.Read())
                 {
-                    dataReaderFuncionalidades.Close();
-                    return true;
+                    string idRol = dataReader.GetValue(0).ToString();
+                    dataReader.Close();
+                    SqlDataReader dataReaderFuncionalidades = insertarFuncionalidadesParaRol(idRol);
+                    if (dataReaderFuncionalidades != null)
+                    {
+                        if (dataReaderFuncionalidades.RecordsAffected > 0)
+                        {
+                            dataReaderFuncionalidades.Close();
+                            return true;
+                        }
+                        else
+                        {
+                            dataReaderFuncionalidades.Close();
+                            return false;
+                        }
+                    }
+                    else
+                        return false;
                 }
                 else
                 {
-                    dataReaderFuncionalidades.Close();
+                    dataReader.Close();
                     return false;
                 }
             }
             else
-            {
-                dataReader.Close();
                 return false;
-            }
         }
 
         override protected void confirmar_Click(object sender, EventArgs e)

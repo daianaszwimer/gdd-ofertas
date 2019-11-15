@@ -55,12 +55,15 @@ namespace FrbaOfertas.AbmRol
                     new SqlCommand(string.Format("UPDATE rol SET rol_nombre='{0}' WHERE rol_id={1}; ", nombre.Text, rol[0].ToString()), Helper.dbOfertas);
                 
                 SqlDataReader modificarRolDataReader = Helper.realizarConsultaSQL(modificarRol);
-                if (modificarRolDataReader.RecordsAffected <= 0)
+                if (modificarRolDataReader != null)
                 {
+                    if (modificarRolDataReader.RecordsAffected <= 0)
+                    {
+                        modificarRolDataReader.Close();
+                        return false;
+                    }
                     modificarRolDataReader.Close();
-                    return false;
                 }
-                modificarRolDataReader.Close();    
             }
 
             List<string> funcionalidadesAMarcar = new List<string>();
@@ -82,20 +85,28 @@ namespace FrbaOfertas.AbmRol
                     new SqlCommand(string.Format("DELETE FROM funcionalidadxrol WHERE rol_id={0};", rol[0].ToString()), Helper.dbOfertas);
 
                 SqlDataReader eliminarFuncionalidadesViejasDataReader = Helper.realizarConsultaSQL(eliminarFuncionalidadesViejas);
-                if (eliminarFuncionalidadesViejasDataReader.RecordsAffected <= 0)
+                if (eliminarFuncionalidadesViejas != null)
                 {
+                    if (eliminarFuncionalidadesViejasDataReader.RecordsAffected <= 0)
+                    {
+                        eliminarFuncionalidadesViejasDataReader.Close();
+                        return false;
+                    }
                     eliminarFuncionalidadesViejasDataReader.Close();
-                    return false;
-                }
-                eliminarFuncionalidadesViejasDataReader.Close();
 
-                SqlDataReader insertarDataReader = insertarFuncionalidadesParaRol(rol[0].ToString());
-                if (insertarDataReader.RecordsAffected <= 0)
-                {
-                    insertarDataReader.Close();
-                    return false;
+                    SqlDataReader insertarDataReader = insertarFuncionalidadesParaRol(rol[0].ToString());
+                    if (insertarDataReader != null)
+                    {
+                        if (insertarDataReader.RecordsAffected <= 0)
+                        {
+                            insertarDataReader.Close();
+                            return false;
+                        }
+                        insertarDataReader.Close();
+                    }
+                    else
+                        return false;
                 }
-                insertarDataReader.Close();
             }
 
             //TODO: [D] Si se habilito y no estaba habilitado o viceversa

@@ -29,53 +29,67 @@ namespace FrbaOfertas
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
             SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT usuario_username, usuario_intentos_fallidos_login FROM usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
             SqlDataReader estadoUsuario = Helper.realizarConsultaSQL(chequearUsuario);
-            estadoUsuario.Read();
-            int intentosLogin = (int) estadoUsuario.GetValue(1);
-
-            if (estadoUsuario.HasRows) // USUARIO EXISTE 
+            if (estadoUsuario != null)
             {
-                estadoUsuario.Close();
-                SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT usuario_username, usuario_password FROM usuario WHERE usuario_username='{0}' AND usuario_password='{1}'", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
-                SqlDataReader estadoLogin = Helper.realizarConsultaSQL(chequearLogIn);
-                if (estadoLogin.Read())
+                estadoUsuario.Read();
+                int intentosLogin = (int)estadoUsuario.GetValue(1);
+
+                if (estadoUsuario.HasRows) // USUARIO EXISTE 
                 {
-                    estadoLogin.Close(); // HABILITADO OK
-                    SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_intentos_fallidos_login = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
-                    SqlDataReader dataReader = Helper.realizarConsultaSQL(loginCorrecto);
-                    dataReader.Close();
+                    estadoUsuario.Close();
+                    SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT usuario_username, usuario_password FROM usuario WHERE usuario_username='{0}' AND usuario_password='{1}'", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
+                    SqlDataReader estadoLogin = Helper.realizarConsultaSQL(chequearLogIn);
+                    if (estadoLogin != null)
+                    {
+                        if (estadoLogin.Read())
+                        {
+                            estadoLogin.Close(); // HABILITADO OK
+                            SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_intentos_fallidos_login = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                            SqlDataReader dataReader = Helper.realizarConsultaSQL(loginCorrecto);
+                            if (dataReader != null)
+                            {
+                                dataReader.Close();
 
-                    this.Hide();
-                    Helper.usuarioActual = username.Text;
-                    (new Menu()).Show();
+                                this.Hide();
+                                Helper.usuarioActual = username.Text;
+                                (new Menu()).Show();
+                            }
+                        }
+                        else
+                        {
+                            estadoLogin.Close(); // HABILITADO (1* o 2* error)
+                            if (intentosLogin <= 2)
+                            {
+                                SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_intentos_fallidos_login = usuario_intentos_fallidos_login+1 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                                SqlDataReader dataReader = Helper.realizarConsultaSQL(loginIncorrecto);
+                                if (dataReader != null)
+                                {
+                                    MessageBox.Show("DATOS INCORRECTO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    dataReader.Close();
+
+                                    this.Show();
+                                }
+                            }
+                            else // INHABILITADO (3* error)
+                            {
+                                estadoLogin.Close();
+                                SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_habilitado = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                                SqlDataReader dataReader = Helper.realizarConsultaSQL(inhabilitarUsuario);
+                                if (dataReader != null)
+                                {
+                                    MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    dataReader.Close();
+                                    this.Show();
+                                }
+                            }
+                        }
+                    }
                 }
-                else
+                else // USUARIO NO EXISTE
                 {
-                    estadoLogin.Close(); // HABILITADO (1* o 2* error)
-                    if(intentosLogin<=2)
-                    {
-                        SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_intentos_fallidos_login = usuario_intentos_fallidos_login+1 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
-                        SqlDataReader dataReader = Helper.realizarConsultaSQL(loginIncorrecto);
-                        MessageBox.Show("DATOS INCORRECTO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dataReader.Close();
-
-                        this.Show();
-                    }
-                    else // INHABILITADO (3* error)
-                    {
-                        estadoLogin.Close();
-                        SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_habilitado = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
-                        SqlDataReader dataReader = Helper.realizarConsultaSQL(inhabilitarUsuario);
-                        MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        dataReader.Close();
-
-                        this.Show();
-                    }
+                    MessageBox.Show("USUARIO NO REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    estadoUsuario.Close();
                 }
-            }
-            else // USUARIO NO EXISTE
-            {
-                MessageBox.Show("USUARIO NO REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                estadoUsuario.Close();
             }
         }
 

@@ -88,17 +88,19 @@ namespace FrbaOfertas.AbmRol
             string id = rol[0].ToString();
             SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id, Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(eliminarRol);
-
-            if (dataReader.RecordsAffected != 0)
+            if (dataReader != null)
             {
-                MessageBox.Show("Rol eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                rolesDataSet.Clear();
+                if (dataReader.RecordsAffected != 0)
+                {
+                    MessageBox.Show("Rol eliminado exitosamente", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    rolesDataSet.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar el rol", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                dataReader.Close();
             }
-            else
-            {
-                MessageBox.Show("No se pudo eliminar el rol", "Eliminar", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            dataReader.Close();
         }
     }
 }

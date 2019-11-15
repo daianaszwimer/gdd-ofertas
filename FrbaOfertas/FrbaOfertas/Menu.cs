@@ -31,13 +31,15 @@ namespace FrbaOfertas
                                     "JOIN usuario u ON u.usuario_username = ru.username " +
                                     "WHERE u.usuario_username ='" + usuario + "'", Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
-
-            while (dataReader.Read())
+            if (dataReader != null)
             {
-                string funcionalidad = dataReader.GetValue(0).ToString();
-                funcionalidades.Add(funcionalidad);
+                while (dataReader.Read())
+                {
+                    string funcionalidad = dataReader.GetValue(0).ToString();
+                    funcionalidades.Add(funcionalidad);
+                }
+                dataReader.Close();
             }
-            dataReader.Close();
             return funcionalidades;
         }
 

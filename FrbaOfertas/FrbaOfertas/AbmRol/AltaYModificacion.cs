@@ -24,14 +24,16 @@ namespace FrbaOfertas.AbmRol
         {
             SqlCommand seleccionarFuncionalidades = new SqlCommand("SELECT descripcion FROM funcionalidad", Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
-
-            while (dataReader.Read())
+            if (dataReader != null)
             {
-                string funcionalidad = dataReader.GetValue(0).ToString();
-                funcionalidadesASeleccionar.Items.Add(funcionalidad, false);
-            }
+                while (dataReader.Read())
+                {
+                    string funcionalidad = dataReader.GetValue(0).ToString();
+                    funcionalidadesASeleccionar.Items.Add(funcionalidad, false);
+                }
 
-            dataReader.Close();
+                dataReader.Close();
+            }
         }
 
         protected SqlDataReader insertarFuncionalidadesParaRol(string idRol)

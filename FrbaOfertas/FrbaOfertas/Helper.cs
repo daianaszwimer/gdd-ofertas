@@ -24,7 +24,7 @@ namespace FrbaOfertas
             }
             catch (Exception)
             {
-                MessageBox.Show("No se pudo conectar a la base de datos");
+                MessageBox.Show("No se pudo conectar a la base de datos", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //TODO: Cerrar la app
             }
         }
@@ -71,7 +71,7 @@ namespace FrbaOfertas
             }
             catch (Exception)
             {
-                MessageBox.Show("No se pudo obtener el Connection String del archivo de configuracion");
+                MessageBox.Show("No se pudo obtener el Connection String del archivo de configuracion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -84,7 +84,7 @@ namespace FrbaOfertas
             }
             catch (Exception)
             {
-                MessageBox.Show("No se pudo obtener la fecha actual del archivo de configuracion");
+                MessageBox.Show("No se pudo obtener la fecha actual del archivo de configuracion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 cerrarSesion();
                 return new DateTime();
             }
@@ -98,7 +98,7 @@ namespace FrbaOfertas
             }
             catch (Exception)
             {
-                MessageBox.Show("No se pudo realizar la consulta SQL");
+                MessageBox.Show("No se pudo realizar la consulta SQL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //TODO: [D] que no se siga ejecutando ese form
                 cerrarSesion();
                 return null;
@@ -107,7 +107,7 @@ namespace FrbaOfertas
 
         public static void cerrarSesion()
         {
-            MessageBox.Show("Se ha cerrado la sesion");
+            MessageBox.Show("Se ha cerrado la sesion", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             foreach(Form formAbierto in Application.OpenForms) 
             {
                 formAbierto.Hide();
