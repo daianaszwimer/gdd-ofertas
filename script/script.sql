@@ -133,7 +133,6 @@ CREATE TABLE GD2C2019.gd_esquema.Rubro(
 CREATE TABLE GD2C2019.gd_esquema.Proveedor(
 	proveedor_id INT identity(1, 1) NOT NULL PRIMARY KEY,
 	proveedor_id_usuario nvarchar(64) NOT NULL,
-	proveedor_razon_social varchar(64) NOT NULL,
 	proveedor_mail varchar(64) NULL,
 	proveedor_telefono varchar(64) NULL,
 	proveedor_cuit varchar(64) UNIQUE NOT NULL,
@@ -152,7 +151,7 @@ CREATE TABLE GD2C2019.gd_esquema.Proveedor(
 
 CREATE TABLE GD2C2019.gd_esquema.Oferta(
 	oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	oferta_descripcion nvarchar(64) NOT NULL,
+	oferta_descripcion nvarchar(255) NOT NULL,
 	oferta_razon_social varchar(64) NOT NULL,
 	oferta_fecha_publicacion datetime NOT NULL,
 	oferta_fecha_venc datetime NOT NULL,
@@ -172,6 +171,7 @@ CREATE TABLE GD2C2019.gd_esquema.Compra_Oferta(
 	compra_oferta_id_oferta INT NOT NULL,
 	compra_oferta_cantidad INT NOT NULL,
 	compra_oferta_fecha datetime NOT NULL,
+	--compra_oferta_codigo varchar(64) NOT NULL, -- todo: cambiar der
 	
 	CONSTRAINT [FK_compra_oferta_cliente_id] FOREIGN KEY(compra_oferta_id_cliente)
 		REFERENCES [GD2C2019].[gd_esquema].[Cliente] (cliente_id),
@@ -403,6 +403,7 @@ left join [GD2C2019].[gd_esquema].Localidad l on l.localidad_nombre = m.Provee_C
 left join [GD2C2019].[gd_esquema].Domicilio d on d.domicilio_calle = m.Provee_Dom and l.localidad_id = d.domicilio_id_localidad
 join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = m.Provee_CUIT
 left join [GD2C2019].[gd_esquema].Rubro r on r.rubro_descripcion = Provee_Rubro
+-- validar que no sea nulo
 
 -- busco los proveedores y les asigno el rol
 insert into [GD2C2019].[gd_esquema].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
@@ -410,16 +411,75 @@ select 2, u.usuario_username from  [GD2C2019].[gd_esquema].Usuario u where u.usu
 	select distinct m.Provee_CUIT from [GD2C2019].[gd_esquema].[Maestra] m where m.Provee_CUIT is not null
 )
 
+-- inserto ofertas
+-- cada oferta tiene mismo cuit, misma fechas y misma descripcion
+-- el limite por cliente no lo sabemos -> ponemos 0?? todo: revisar decision
+  insert into [GD2C2019].[gd_esquema].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
+  oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor)
+  select m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, 0, m.Oferta_Cantidad, p.proveedor_id
+  FROM [GD2C2019].[gd_esquema].[Maestra] m
+  join [GD2C2019].[gd_esquema].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
+  where m.Oferta_Descripcion is not null
+  group by m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, p.proveedor_id
+
+-- asumimos que usuario en la vieja db compro 1 oferta por columna
+-- vimos que el codigo de oferta no era unico por cada compra
+-- decidimos asignar como codigo, el id que sabemos que siempre va a ser unico
+-- en el enunciado no dice nada de codigo de oferta entonces no lo migramos -> o lo usamos como pk? todo:
+ insert into [GD2C2019].[gd_esquema].Compra_Oferta (compra_oferta_id_oferta, compra_oferta_fecha,
+  compra_oferta_cantidad,
+  compra_oferta_id_cliente)
+  select distinct 
+  o.oferta_id,
+  m.Oferta_Fecha_Compra, 1,
+  c.cliente_id 
+  from [GD2C2019].[gd_esquema].Maestra m 
+  join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
+  join [GD2C2019].[gd_esquema].Cliente c on c.cliente_id_usuario = u.usuario_username
+  join [GD2C2019].[gd_esquema].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
+  join [GD2C2019].gd_esquema.Oferta o on o.oferta_descripcion = m.Oferta_Descripcion and
+  o.oferta_fecha_publicacion = m.Oferta_Fecha and o.oferta_fecha_venc = m.Oferta_Fecha_Venc and
+  o.oferta_precio = m.Oferta_Precio and o.oferta_precio_lista = m.Oferta_Precio_Ficticio and
+  o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
+  where m.Oferta_Fecha_Compra is not null
+
+-- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido
+-- trigger que genera cupon cuando se hace compra_oferta, vamos a tomar el id del cupon como el codigo del cupon
+-- de esa manera nos garantizamos que sea unico.
+-- si la fecha de consumo no es null, ya fue consumido  
+insert into [GD2C2019].[gd_esquema].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente)
+  select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
+  co.compra_oferta_id, 
+  c.cliente_id
+  from [GD2C2019].[gd_esquema].Maestra m 
+  left join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
+  left join [GD2C2019].[gd_esquema].Cliente c on c.cliente_id_usuario = u.usuario_username
+  left join [GD2C2019].[gd_esquema].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
+  left join [GD2C2019].gd_esquema.Oferta o on o.oferta_descripcion = m.Oferta_Descripcion and
+  o.oferta_fecha_publicacion = m.Oferta_Fecha and o.oferta_fecha_venc = m.Oferta_Fecha_Venc and
+  o.oferta_precio = m.Oferta_Precio and o.oferta_precio_lista = m.Oferta_Precio_Ficticio and
+  o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
+  left join [GD2C2019].[gd_esquema].Compra_Oferta co on 
+	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
+	and co.compra_oferta_id_cliente = c.cliente_id
+  where m.Oferta_Entregado_Fecha is not null
+
+
+
+
+-- la factura y fecha en la tabla maestro, para cada proveedor es el mismo, que son estos datos?
 
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO
 
 /*
+
 todo: El alumno deberá determinar un procedimiento para evitar la generación de clientes “gemelos” (distinto nombre de usuario, pero igual datos identificatorios según se justifique en la estrategia de resolución). X
 Toda creación de cliente nuevo, implica una carga de dinero de bienvenida de $200 X
 validar que usuario que compra ofertas o carga credito este habiltiado X OFERTAS ES DE NICO
 no pueden existir 2 proveedores con la misma razón social y cuit. NICO
 Un proveedor inhabilitado no podrá armar ofertas NICO
 ofertas: fecha debe ser mayor o igual a la fecha actual del sistema. NICO
+se deberá validar que la adquisición no supere la cantidad máxima de ofertas permitida por usuario
 un cupón no puede ser canjeado más de una vez, si el cupón se venció tampoco podrá ser canjeado TODO
 crear usuario de cada tipo
 */
