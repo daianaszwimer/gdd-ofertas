@@ -69,7 +69,7 @@ namespace FrbaOfertas
                 case "ABM Rol": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmRol.Form1()).Show(); }; break;
                 case "ABM Cliente": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmCliente.Form1()).Show(); }; break;
                 case "ABM Proveedor": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmProveedor.Form1()).Show(); }; break;
-                case "Carga de credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CragaCredito.Form1()).Show(); }; break;
+                case "Carga de credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CragaCredito.Form1("")).Show(); }; break;
                 case "Confeccion y publicacion de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CrearOferta.Form1()).Show(); }; break;
                 case "Compra de oferta": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ComprarOferta.Form1()).Show(); }; break;
                 case "Entrega/Consumo de oferta": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new EntregaDeOferta.Form1()).Show(); }; break;
