@@ -65,7 +65,7 @@ create table tarjeta(
 	id int identity not null primary key,
 	tarjeta_numero int,
 	--tarjeta_tipo int,
-	tarjeta_fecha_vec datetime,
+	tarjeta_fecha_venc datetime,
 	tarjeta_cod_seguridad int
 )
 
@@ -200,9 +200,9 @@ insert into rolxusuario (username, rol_id)
 	VALUES ('admin', 1), ('maru',2)
 
 insert into tipoDePago (tipo_pago_nombre)
-	values ('cargaInicial')
+	values ('cargaInicial'),('Credito'),('Debito')
 
-insert into tarjeta (tarjeta_numero,tarjeta_fecha_vec,tarjeta_cod_seguridad)
+insert into tarjeta (tarjeta_numero,tarjeta_fecha_venc,tarjeta_cod_seguridad)
 	values (00,00,00)
 
 insert into localidad

@@ -23,6 +23,8 @@ namespace FrbaOfertas
         bool usuarioOk = false;
 
         // TODO: {M} VALIDAR UNIQUE USERNAME
+        // TODO: {M} LISTA ROLES - VER ACTUALIZACION DE ROLES CON DIEGO
+        // TODO: {M} Cuando selecciono Rol Cliente, no me tiene que dejar seleccionar Boton Proveedor
         private void crearUsuario()
         {
             if (this.camposObligatorios())
