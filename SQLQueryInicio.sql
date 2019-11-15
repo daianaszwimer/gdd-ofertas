@@ -1,8 +1,23 @@
 use GD2C2019
 --FK: idDomicilio
 
+IF OBJECT_ID('Cupon', 'U') IS NOT NULL 
+  DROP TABLE Cupon;
+
+IF OBJECT_ID('Compra_Oferta', 'U') IS NOT NULL 
+  DROP TABLE Compra_Oferta;
+
 IF OBJECT_ID('cargaDeCredito', 'U') IS NOT NULL 
   DROP TABLE cargaDeCredito;
+
+IF OBJECT_ID('Oferta', 'U') IS NOT NULL 
+  DROP TABLE Oferta;
+
+IF OBJECT_ID('Item', 'U') IS NOT NULL 
+  DROP TABLE Item;
+
+IF OBJECT_ID('Factura', 'U') IS NOT NULL 
+  DROP TABLE Factura;
 
 IF OBJECT_ID('tarjeta', 'U') IS NOT NULL 
   DROP TABLE tarjeta;
@@ -117,14 +132,14 @@ create table cargaDeCredito(
 
 create table Oferta(
 	oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	oferta_descripcion nvarchar(64) NOT NULL,
-	oferta_razon_social varchar(64) NOT NULL,
-	oferta_fecha_publicacion datetime NOT NULL,
+	oferta_descripcion nvarchar(64) ,
+	oferta_razon_social varchar(64) ,
+	oferta_fecha_publicacion datetime ,
 	oferta_fecha_venc datetime NOT NULL,
-	oferta_precio decimal(12, 2) NOT NULL,
+	oferta_precio decimal(12, 2) ,
 	oferta_precio_lista decimal(12, 2) NOT NULL,
-	oferta_cantidad int NOT NULL,
-	oferta_restriccion_compra INT NOT NULL,
+	oferta_cantidad int ,
+	oferta_restriccion_compra INT ,
 	oferta_id_proveedor INT NOT NULL REFERENCES proveedor
 )
 
@@ -212,11 +227,15 @@ insert into domicilio(idLocalidad, domicilio_calle, domicilio_piso, domicilio_de
 	values (1,'Llavallol 2730', 7, 'A', 1417), (2,'La pampa',0,'', 1657)
 
 insert into cliente(idDomicilio, cliente_nombre, cliente_apellido, cliente_dni, cliente_mail, cliente_telefono , cliente_fechaNacimiento)
-	values  (1,'Marina', 'Posru', 40677010, 'maru@gmail.com', 45037392, 12/09/1997),
-			(2,'Diego', 'Peccia', 41698201, 'diego@gmail.com', 40367892, 23/03/1998)
+	values  (1,'Marina', 'Posru', 40677010, 'maru@gmail.com', 45037392, convert(datetime,'12-09-97 00:00:00 AM',5)),
+			(2,'Diego', 'Peccia', 41698201, 'diego@gmail.com', 40367892, convert(datetime,'23-03-98 00:00:00 AM',5))
 
 insert into rubro (rubro_descripcion) values ('metalurgia'), ('sistemas'), ('farmaceutica')
 
-INSERT INTO proveedor (proveedor_razon_social, proveedor_id_domicilio,proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto) 
-	VALUES ('SIEMENS S.A.',2,'41063122','1241','diego@gmail.com',2,'Diegote'),
+insert into proveedor (proveedor_razon_social, proveedor_id_domicilio,proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto) 
+	values ('SIEMENS S.A.',2,'41063122','1241','diego@gmail.com',2,'Diegote'),
 		   ('Farmaceutica',1,'2333','12431','mari@gmail.com',3,'Mari');
+
+insert into Oferta (oferta_descripcion, oferta_fecha_venc, oferta_precio_lista,oferta_id_proveedor)
+	values ('pruebaSI', convert(datetime,'25-12-19 00:00:00 AM',5), 15, 1),
+			('pruebaNO', convert(datetime,'11-11-19 00:00:00 AM',5), 15, 1)
