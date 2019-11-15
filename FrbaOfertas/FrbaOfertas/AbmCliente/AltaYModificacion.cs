@@ -15,7 +15,6 @@ namespace FrbaOfertas.AbmCliente
     
     public abstract partial class AltaYModificacion : BarraDeOpciones
     {
-        protected Clientes clienteAux;
         public AltaYModificacion()
         {
             InitializeComponent();

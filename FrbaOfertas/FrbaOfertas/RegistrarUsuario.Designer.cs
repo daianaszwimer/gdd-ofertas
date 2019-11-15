@@ -50,7 +50,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(269, 145);
+            this.label3.Location = new System.Drawing.Point(49, 158);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 13);
             this.label3.TabIndex = 13;
@@ -59,7 +59,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(275, 97);
+            this.label4.Location = new System.Drawing.Point(55, 116);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 11;
@@ -68,16 +68,16 @@
             // password
             // 
             this.password.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.password.Location = new System.Drawing.Point(252, 74);
+            this.password.Location = new System.Drawing.Point(12, 87);
             this.password.Name = "password";
             this.password.PasswordChar = '*';
-            this.password.Size = new System.Drawing.Size(117, 20);
+            this.password.Size = new System.Drawing.Size(156, 20);
             this.password.TabIndex = 10;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(284, 58);
+            this.label2.Location = new System.Drawing.Point(64, 71);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 9;
@@ -85,15 +85,15 @@
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(252, 35);
+            this.username.Location = new System.Drawing.Point(12, 48);
             this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(117, 20);
+            this.username.Size = new System.Drawing.Size(156, 20);
             this.username.TabIndex = 8;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(283, 19);
+            this.label1.Location = new System.Drawing.Point(63, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 7;
@@ -101,7 +101,7 @@
             // 
             // buttonCliente
             // 
-            this.buttonCliente.Location = new System.Drawing.Point(232, 161);
+            this.buttonCliente.Location = new System.Drawing.Point(12, 174);
             this.buttonCliente.Name = "buttonCliente";
             this.buttonCliente.Size = new System.Drawing.Size(75, 23);
             this.buttonCliente.TabIndex = 16;
@@ -111,7 +111,7 @@
             // 
             // buttonProveedor
             // 
-            this.buttonProveedor.Location = new System.Drawing.Point(313, 161);
+            this.buttonProveedor.Location = new System.Drawing.Point(93, 174);
             this.buttonProveedor.Name = "buttonProveedor";
             this.buttonProveedor.Size = new System.Drawing.Size(75, 23);
             this.buttonProveedor.TabIndex = 17;
@@ -121,9 +121,9 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(12, 190);
+            this.panel1.Location = new System.Drawing.Point(12, 203);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(676, 545);
+            this.panel1.Size = new System.Drawing.Size(676, 532);
             this.panel1.TabIndex = 18;
             // 
             // errorUsername
@@ -144,9 +144,9 @@
             // rol
             // 
             this.rol.FormattingEnabled = true;
-            this.rol.Location = new System.Drawing.Point(252, 119);
+            this.rol.Location = new System.Drawing.Point(12, 132);
             this.rol.Name = "rol";
-            this.rol.Size = new System.Drawing.Size(121, 21);
+            this.rol.Size = new System.Drawing.Size(156, 21);
             this.rol.TabIndex = 19;
             // 
             // RegistrarUsuario
@@ -154,7 +154,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(811, 251);
+            this.ClientSize = new System.Drawing.Size(828, 325);
             this.Controls.Add(this.rol);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonProveedor);
@@ -167,6 +167,16 @@
             this.Controls.Add(this.label1);
             this.Name = "RegistrarUsuario";
             this.Text = "RegistrarUsuario";
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.username, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.password, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.buttonCliente, 0);
+            this.Controls.SetChildIndex(this.buttonProveedor, 0);
+            this.Controls.SetChildIndex(this.panel1, 0);
+            this.Controls.SetChildIndex(this.rol, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorUsername)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorRol)).EndInit();
