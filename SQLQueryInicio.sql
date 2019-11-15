@@ -115,6 +115,52 @@ create table cargaDeCredito(
 	carga_credito_monto int
 )
 
+create table Oferta(
+	oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	oferta_descripcion nvarchar(64) NOT NULL,
+	oferta_razon_social varchar(64) NOT NULL,
+	oferta_fecha_publicacion datetime NOT NULL,
+	oferta_fecha_venc datetime NOT NULL,
+	oferta_precio decimal(12, 2) NOT NULL,
+	oferta_precio_lista decimal(12, 2) NOT NULL,
+	oferta_cantidad int NOT NULL,
+	oferta_restriccion_compra INT NOT NULL,
+	oferta_id_proveedor INT NOT NULL REFERENCES proveedor
+)
+
+create table Compra_Oferta(
+	compra_oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	compra_oferta_id_cliente INT NOT NULL REFERENCES  cliente,
+	compra_oferta_id_oferta INT NOT NULL REFERENCES Oferta,
+	compra_oferta_cantidad INT NOT NULL,
+	compra_oferta_fecha datetime NOT NULL
+)
+
+create table Cupon(
+	cupon_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	cupon_id_cliente INT NOT NULL REFERENCES cliente,
+	cupon_id_compra_oferta INT NOT NULL REFERENCES Compra_Oferta,
+	cupon_fecha_venc datetime NOT NULL,
+	cupon_fecha_consumo datetime NOT NULL
+)
+
+create table Factura(
+	factura_id INT identity(1, 1) NOT NULL PRIMARY KEY,
+	factura_importe decimal(12, 2) NOT NULL,
+	factura_fecha_inicio datetime NOT NULL,
+	factura_fecha_fin datetime NOT NULL,
+	factura_id_proveedor INT NOT NULL REFERENCES proveedor
+)
+
+create table Item(
+	item_id_factura INT NOT NULL,
+	item_id_compra_oferta INT NOT NULL
+
+	CONSTRAINT [PK_FacturaxCompraOferta] PRIMARY KEY (
+		[item_id_factura] ASC,
+		[item_id_compra_oferta] ASC
+	)
+)
 
 create table funcionalidad(
 	id int identity not null primary key,
@@ -174,4 +220,3 @@ insert into rubro (rubro_descripcion) values ('metalurgia'), ('sistemas'), ('far
 INSERT INTO proveedor (proveedor_razon_social, proveedor_id_domicilio,proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto) 
 	VALUES ('SIEMENS S.A.',2,'41063122','1241','diego@gmail.com',2,'Diegote'),
 		   ('Farmaceutica',1,'2333','12431','mari@gmail.com',3,'Mari');
-

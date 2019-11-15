@@ -120,7 +120,7 @@ namespace FrbaOfertas.AbmCliente
             dataReader.Close();
 
             DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.ToString("yyyy-dd-MM HH:mm:ss.fff");
+            string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
             SqlCommand insertarCreditoInicial =
                 new SqlCommand(string.Format("INSERT INTO cargaDeCredito (idCliente, idTipoDePago, idTarjeta, carga_credito_fecha, carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", idClienteNuevo, 1, 1, sqlFormattedDate, 200), Helper.dbOfertas);
