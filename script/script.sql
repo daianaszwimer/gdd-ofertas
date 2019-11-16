@@ -171,7 +171,7 @@ CREATE TABLE GD2C2019.gd_esquema.Compra_Oferta(
 	compra_oferta_id_oferta INT NOT NULL,
 	compra_oferta_cantidad INT NOT NULL,
 	compra_oferta_fecha datetime NOT NULL,
-	--compra_oferta_codigo varchar(64) NOT NULL, -- todo: cambiar der
+	compra_oferta_codigo varchar(64) NOT NULL, -- todo: cambiar der
 	
 	CONSTRAINT [FK_compra_oferta_cliente_id] FOREIGN KEY(compra_oferta_id_cliente)
 		REFERENCES [GD2C2019].[gd_esquema].[Cliente] (cliente_id),
@@ -185,6 +185,7 @@ CREATE TABLE GD2C2019.gd_esquema.Cupon(
 	cupon_id_compra_oferta INT NOT NULL,
 	cupon_fecha_venc datetime NOT NULL,
 	cupon_fecha_consumo datetime NOT NULL,
+	cupon_codigo varchar(64) NOT NULL, -- cambiar der
 	
 	CONSTRAINT [FK_cupon_cliente_id] FOREIGN KEY(cupon_id_cliente)
 		REFERENCES [GD2C2019].[gd_esquema].[Cliente] (cliente_id),
@@ -271,6 +272,7 @@ INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (3, 
 SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] OFF
 
 -- cuando se crea un cliente se le debitan $200:
+-- todo: usar un stored procedure que sea crear cliente y ahi debitar los 200 pe
 USE [GD2C2019]
 GO
 /****** Object:  Trigger [gd_esquema].[alta_cliente]    Script Date: 11/10/2019 6:48:17 PM ******/
@@ -424,15 +426,15 @@ select 2, u.usuario_username from  [GD2C2019].[gd_esquema].Usuario u where u.usu
 
 -- asumimos que usuario en la vieja db compro 1 oferta por columna
 -- vimos que el codigo de oferta no era unico por cada compra
--- decidimos asignar como codigo, el id que sabemos que siempre va a ser unico
--- en el enunciado no dice nada de codigo de oferta entonces no lo migramos -> o lo usamos como pk? todo:
+-- si hay duplicados le concatena -1, -2
+-- tendriamos que usar el mismo codigo para el cupon y para la compra
  insert into [GD2C2019].[gd_esquema].Compra_Oferta (compra_oferta_id_oferta, compra_oferta_fecha,
   compra_oferta_cantidad,
-  compra_oferta_id_cliente)
+  compra_oferta_id_cliente, compra_oferta_codigo)
   select distinct 
   o.oferta_id,
   m.Oferta_Fecha_Compra, 1,
-  c.cliente_id 
+  c.cliente_id, m.Oferta_Codigo 
   from [GD2C2019].[gd_esquema].Maestra m 
   join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
   join [GD2C2019].[gd_esquema].Cliente c on c.cliente_id_usuario = u.usuario_username
@@ -443,14 +445,37 @@ select 2, u.usuario_username from  [GD2C2019].[gd_esquema].Usuario u where u.usu
   o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
   where m.Oferta_Fecha_Compra is not null
 
--- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido
--- trigger que genera cupon cuando se hace compra_oferta, vamos a tomar el id del cupon como el codigo del cupon
+-- aca tenemos que chequear el tema de duplicados
+WITH CTE_Codigos (compra_oferta_codigo, compra_oferta_id, num_col)
+AS
+(
+ SELECT compra_oferta_codigo, compra_oferta_id,
+ ROW_NUMBER() OVER(PARTITION BY compra_oferta_codigo order by compra_oferta_codigo)
+ FROM GD2C2019.gd_esquema.Compra_Oferta
+)
+update CTE_Codigos set compra_oferta_codigo = concat(compra_oferta_codigo, '-1')
+ where num_col > 1 
+ 
+WITH CTE_Codigos (compra_oferta_codigo, compra_oferta_id, num_col)
+AS
+(
+ SELECT compra_oferta_codigo, compra_oferta_id,
+ ROW_NUMBER() OVER(PARTITION BY compra_oferta_codigo order by compra_oferta_codigo)
+ FROM GD2C2019.gd_esquema.Compra_Oferta
+)
+update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_codigo, 0, LEN(compra_oferta_codigo) - 1), '-2')
+ where num_col > 1 
+
+
+-- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido 
+-- procedure para canjear cupon que genera cupon cuando se hace compra_oferta
 -- de esa manera nos garantizamos que sea unico.
--- si la fecha de consumo no es null, ya fue consumido  
-insert into [GD2C2019].[gd_esquema].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente)
+-- si la fecha de consumo no es null, ya fue consumido
+-- le ponemos el mismo codigo que a la compra
+insert into [GD2C2019].[gd_esquema].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
   select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
-  c.cliente_id
+  c.cliente_id, co.compra_oferta_codigo
   from [GD2C2019].[gd_esquema].Maestra m 
   left join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
   left join [GD2C2019].[gd_esquema].Cliente c on c.cliente_id_usuario = u.usuario_username
@@ -464,13 +489,53 @@ insert into [GD2C2019].[gd_esquema].Cupon(cupon_fecha_venc, cupon_fecha_consumo,
 	and co.compra_oferta_id_cliente = c.cliente_id
   where m.Oferta_Entregado_Fecha is not null
 
+-- migramos factura: numero es el id y el importe lo calculamos 
+-- fecha de inicio es la fecha menor que aparece con el numero de factura
+-- y la fecha final es la fecha de la factura
+SET IDENTITY_INSERT [GD2C2019].[gd_esquema].Factura ON
+
+insert into  [GD2C2019].[gd_esquema].Factura(factura_id, factura_fecha_fin, factura_id_proveedor, factura_fecha_inicio, factura_importe)
+select distinct m.Factura_Nro, m.Factura_Fecha, p.proveedor_id,
+(select min(ma.Oferta_Fecha_Compra)
+from  [GD2C2019].[gd_esquema].Maestra ma
+where ma.Factura_Nro = m.Factura_Nro and ma.Factura_Fecha = m.Factura_Fecha
+and ma.Oferta_Fecha_Compra is not null
+) as 'fecha min', (select sum(mae.Oferta_Precio) from [GD2C2019].[gd_esquema].Maestra mae
+where mae.Factura_Nro = m.Factura_Nro and mae.Factura_Fecha = m.Factura_Fecha
+)
+from  [GD2C2019].[gd_esquema].Maestra m
+left join [GD2C2019].[gd_esquema].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
+where m.Factura_Fecha is not null and m.Factura_Nro is not null
+
+SET IDENTITY_INSERT [GD2C2019].[gd_esquema].Factura OFF
+
+-- inserto item-factura
+  insert into [GD2C2019].[gd_esquema].Item(item_id_compra_oferta, item_id_factura)
+  select distinct co.compra_oferta_id, f.factura_id
+  from [GD2C2019].[gd_esquema].Maestra m 
+  left join [GD2C2019].[gd_esquema].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
+  left join [GD2C2019].[gd_esquema].Cliente c on c.cliente_id_usuario = u.usuario_username
+  left join [GD2C2019].[gd_esquema].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
+  left join [GD2C2019].gd_esquema.Oferta o on o.oferta_descripcion = m.Oferta_Descripcion and
+  o.oferta_fecha_publicacion = m.Oferta_Fecha and o.oferta_fecha_venc = m.Oferta_Fecha_Venc and
+  o.oferta_precio = m.Oferta_Precio and o.oferta_precio_lista = m.Oferta_Precio_Ficticio and
+  o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
+  left join [GD2C2019].[gd_esquema].Compra_Oferta co on 
+	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
+	and co.compra_oferta_id_cliente = c.cliente_id
+	left join [GD2C2019].[gd_esquema].Factura f on f.factura_id = m.Factura_Nro and f.factura_fecha_fin = m.Factura_Fecha
+  where m.Factura_Nro is not null
 
 
+-- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO o usar procedure
 
--- la factura y fecha en la tabla maestro, para cada proveedor es el mismo, que son estos datos?
+-- procedure para comprar que valide que el cliente no compre mas ofertas de las que puede
 
--- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO
+-- limite de compra es por cliente: https://groups.google.com/forum/#!topic/gestiondedatos/05dXYNKpbe0
 
+-- crear procedures para cosas que requiran validacion ej: cambiar cupon
+
+-- calcular el saldo actual de los usuarios que migro
 /*
 
 todo: El alumno deberá determinar un procedimiento para evitar la generación de clientes “gemelos” (distinto nombre de usuario, pero igual datos identificatorios según se justifique en la estrategia de resolución). X
