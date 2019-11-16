@@ -526,6 +526,27 @@ SET IDENTITY_INSERT [GD2C2019].[gd_esquema].Factura OFF
 	left join [GD2C2019].[gd_esquema].Factura f on f.factura_id = m.Factura_Nro and f.factura_fecha_fin = m.Factura_Fecha
   where m.Factura_Nro is not null
 
+-- calculo el saldo de cada cliente
+declare @id_cliente INT
+DECLARE cursor_cliente CURSOR FOR SELECT c.cliente_id FROM [GD2C2019].[gd_esquema].Cliente c
+OPEN cursor_cliente
+FETCH cursor_cliente INTO @id_cliente
+WHILE @@FETCH_STATUS = 0
+    BEGIN
+		UPDATE [GD2C2019].[gd_esquema].Cliente SET cliente_credito = isnull(
+			(select sum(cc.carga_credito_monto) from [GD2C2019].[gd_esquema].Carga_Credito cc
+			where cc.carga_credito_id_cliente = @id_cliente) -
+			(select sum(co.compra_oferta_cantidad * o.oferta_precio) from [GD2C2019].[gd_esquema].Compra_Oferta co
+			join [GD2C2019].[gd_esquema].Oferta o on o.oferta_id = co.compra_oferta_id_oferta
+			where co.compra_oferta_id_cliente = @id_cliente
+			)
+		, 0)
+		WHERE @id_cliente = cliente_id
+    FETCH cursor_cliente INTO @id_cliente
+END
+CLOSE cursor_cliente
+DEALLOCATE cursor_cliente
+
 
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO o usar procedure
 
