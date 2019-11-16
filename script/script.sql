@@ -4,7 +4,7 @@ GO*/
 -- TODO: cambiar nombre de esquema
 CREATE TABLE GD2C2019.gd_esquema.Usuario(
 	usuario_username nvarchar(64) NOT NULL,
-	usuario_password nvarchar(32) NOT NULL,
+	usuario_password nvarchar(500) NOT NULL,
 	usuario_habilitado BIT DEFAULT 1,
 	usuario_intentos_fallidos_login INT DEFAULT 0,
 	usuario_eliminado BIT DEFAULT 0
@@ -87,7 +87,7 @@ CREATE TABLE GD2C2019.gd_esquema.Cliente(
 	cliente_habilitado BIT DEFAULT 1,
 	cliente_fecha_nacimiento datetime NULL,
 	cliente_id_domicilio INT NOT NULL,
-	cliente_credito INT DEFAULT 0
+	cliente_credito decimal(12, 2) DEFAULT 0
 	
 	CONSTRAINT [FK_Cliente_domicilio_id] FOREIGN KEY(cliente_id_domicilio)
 		REFERENCES [GD2C2019].[gd_esquema].[Domicilio] (domicilio_id),
@@ -139,7 +139,8 @@ CREATE TABLE GD2C2019.gd_esquema.Proveedor(
 	proveedor_habilitado BIT DEFAULT 1,
 	proveedor_id_rubro INT NOT NULL,
 	proveedor_id_domicilio INT NOT NULL,
-	proveedor_nombre_contacto VARCHAR(64) NULL
+	proveedor_nombre_contacto VARCHAR(64) NULL,
+	proveedor_razon_social VARCHAR(64) UNIQUE NOT NULL
 	
 	CONSTRAINT [FK_proveedor_domicilio_id] FOREIGN KEY(proveedor_id_domicilio)
 		REFERENCES [GD2C2019].[gd_esquema].[Domicilio] (domicilio_id),
@@ -268,6 +269,7 @@ SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] ON
 INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (1, 'automatico')
 INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (2, 'efectivo')
 INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (3, 'credito')
+INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (4, 'debito')
 
 SET IDENTITY_INSERT [GD2C2019].[gd_esquema].[Tipo_Pago] OFF
 
@@ -350,9 +352,7 @@ where p.Provee_Dom is not null
 
 -- inserto los usuarios (solo clientes por ahora), por default el username es el dni
 insert into [GD2C2019].[gd_esquema].Usuario (usuario_username, usuario_password)
-  select distinct m.Cli_Dni, HASHBYTES('SHA2_256','1234') from [GD2C2019].[gd_esquema].[Maestra] m where m.Cli_Dni is not null
--- para seleccionar el usuario y que pw se vea bien hacer: select u.usuario_username, CONVERT(binary(32), u.usuario_password) from [GD2C2019].[gd_esquema].Usuario u
--- todo: transformar a hexa el valor
+  select distinct m.Cli_Dni, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256','1234'), 2)) from [GD2C2019].[gd_esquema].[Maestra] m where m.Cli_Dni is not null
 
 -- inserto clientes
 -- por default en el credito les pongo 0, despues en procedure lo calculo y pongo bien
@@ -388,7 +388,10 @@ select 3, u.usuario_username from [gd_esquema].Usuario u
 
 -- inserto usuario de proveedores, por default el username es el cuit
 insert into [GD2C2019].[gd_esquema].Usuario (usuario_username, usuario_password)
-  select distinct m.Provee_CUIT, HASHBYTES('SHA2_256','1234') from [GD2C2019].[gd_esquema].[Maestra] m where m.Provee_CUIT is not null
+  select distinct m.Provee_CUIT, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256','1234'), 2)) from [GD2C2019].[gd_esquema].[Maestra] m where m.Provee_CUIT is not null
+
+-- inserto el usuario admin
+insert into [GD2C2019].[gd_esquema].Usuario (usuario_username, usuario_password) values ("admin", "w23e")
 
 -- inserto rubros
 insert into [GD2C2019].[gd_esquema].Rubro (rubro_descripcion)
@@ -472,6 +475,7 @@ update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_cod
 -- de esa manera nos garantizamos que sea unico.
 -- si la fecha de consumo no es null, ya fue consumido
 -- le ponemos el mismo codigo que a la compra
+-- asumimos que el cliente que lo compro es el mismo que lo retiro
 insert into [GD2C2019].[gd_esquema].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
   select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
@@ -547,6 +551,23 @@ END
 CLOSE cursor_cliente
 DEALLOCATE cursor_cliente
 
+-- FIN DE MIGRACION
+go
+create function top_5_mayor_porcentaje(@anio int, @semestre int)
+returns table
+as
+	return (
+		select top 5 p.proveedor_cuit, p.proveedor_razon_social,
+		(
+			select  max( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) from [GD2C2019].gd_esquema.Oferta o
+			where o.oferta_id_proveedor = p.proveedor_id
+		) as 'descuento'
+		from [GD2C2019].gd_esquema.Proveedor p order by 'descuento' desc
+	)
+go
+
+-- estadisticas
+
 
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO o usar procedure
 
@@ -556,7 +577,12 @@ DEALLOCATE cursor_cliente
 
 -- crear procedures para cosas que requiran validacion ej: cambiar cupon
 
--- calcular el saldo actual de los usuarios que migro
+-- en el login validar lo de los 3 intentos fallidos
+
+-- funcion para buscar clientes
+
+--La eliminación del rol implica una baja lógica del mismo. El rol debe poder inhabilitarse. No permitido la asignación de un rol inhabilitado a un usuario, por ende, se le debe quitar el rol inhabilitado a todos aquellos usuarios que lo posean.
+
 /*
 
 todo: El alumno deberá determinar un procedimiento para evitar la generación de clientes “gemelos” (distinto nombre de usuario, pero igual datos identificatorios según se justifique en la estrategia de resolución). X
