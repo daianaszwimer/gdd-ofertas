@@ -432,7 +432,7 @@ select c.cliente_id, (case when m.Tipo_Pago_Desc = 'Crédito' then (select t.tip
 when m.Tipo_Pago_Desc = 'Efectivo' then (select t.tipo_pago_id from [NO_LO_TESTEAMOS_NI_UN_POCO].Tipo_Pago t where t.tipo_pago_nombre = 'efectivo') 
 else 0 end), NULL
 , m.Carga_Fecha, m.Carga_Credito 
-from [NO_LO_TESTEAMOS_NI_UN_POCO].Maestra m
+from [gd_esquema].Maestra m
 join [NO_LO_TESTEAMOS_NI_UN_POCO].Cliente c on c.cliente_dni = m.Cli_Dni
 where m.Tipo_Pago_Desc is not null and m.Carga_Credito is not null and m.Carga_Fecha is not null
 
@@ -495,7 +495,7 @@ select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where 
   o.oferta_id,
   m.Oferta_Fecha_Compra, 1,
   c.cliente_id, m.Oferta_Codigo 
-  from [NO_LO_TESTEAMOS_NI_UN_POCO].Maestra m 
+  from [gd_esquema].Maestra m 
   join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
   join [NO_LO_TESTEAMOS_NI_UN_POCO].Cliente c on c.cliente_id_usuario = u.usuario_username
   join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
@@ -537,7 +537,7 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_con
   select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
   c.cliente_id, co.compra_oferta_codigo
-  from [NO_LO_TESTEAMOS_NI_UN_POCO].Maestra m 
+  from [gd_esquema].Maestra m 
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Cliente c on c.cliente_id_usuario = u.usuario_username
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
@@ -558,13 +558,13 @@ SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura ON
 insert into  [NO_LO_TESTEAMOS_NI_UN_POCO].Factura(factura_id, factura_fecha_fin, factura_id_proveedor, factura_fecha_inicio, factura_importe)
 select distinct m.Factura_Nro, m.Factura_Fecha, p.proveedor_id,
 (select min(ma.Oferta_Fecha_Compra)
-from  [NO_LO_TESTEAMOS_NI_UN_POCO].Maestra ma
+from  [gd_esquema].Maestra ma
 where ma.Factura_Nro = m.Factura_Nro and ma.Factura_Fecha = m.Factura_Fecha
 and ma.Oferta_Fecha_Compra is not null
-) as 'fecha min', (select sum(mae.Oferta_Precio) from [NO_LO_TESTEAMOS_NI_UN_POCO].Maestra mae
+) as 'fecha min', (select sum(mae.Oferta_Precio) from [gd_esquema].Maestra mae
 where mae.Factura_Nro = m.Factura_Nro and mae.Factura_Fecha = m.Factura_Fecha
 )
-from  [NO_LO_TESTEAMOS_NI_UN_POCO].Maestra m
+from  [gd_esquema].Maestra m
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
 where m.Factura_Fecha is not null and m.Factura_Nro is not null
 
@@ -573,7 +573,7 @@ SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura OFF
 -- inserto item-factura
   insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Item(item_id_compra_oferta, item_id_factura)
   select distinct co.compra_oferta_id, f.factura_id
-  from [NO_LO_TESTEAMOS_NI_UN_POCO].Maestra m 
+  from [gd_esquema].Maestra m 
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = CONVERT(varchar(64), m.Cli_Dni)
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Cliente c on c.cliente_id_usuario = u.usuario_username
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
