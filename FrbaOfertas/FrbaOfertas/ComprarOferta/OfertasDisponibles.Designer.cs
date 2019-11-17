@@ -35,7 +35,7 @@
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(352, 262);
+            this.confirmar.Location = new System.Drawing.Point(352, 253);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(100, 23);
             this.confirmar.TabIndex = 0;
@@ -49,10 +49,10 @@
             this.tablaDeResultados.AllowUserToDeleteRows = false;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(33, 71);
+            this.tablaDeResultados.Location = new System.Drawing.Point(33, 44);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(419, 167);
+            this.tablaDeResultados.Size = new System.Drawing.Size(419, 194);
             this.tablaDeResultados.TabIndex = 2;
             // 
             // OfertasDisponibles
