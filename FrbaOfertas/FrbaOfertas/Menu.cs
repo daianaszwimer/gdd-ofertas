@@ -24,7 +24,7 @@ namespace FrbaOfertas
         {
             List<String> funcionalidades = new List<string>();
             SqlCommand seleccionarFuncionalidades = 
-                new SqlCommand("SELECT f.descripcion FROM rol r " +
+                new SqlCommand("SELECT f.descripcion, r.rol_nombre FROM rol r " +
 	                                "JOIN funcionalidadxrol fr ON fr.rol_id = r.rol_id " +
 	                                "JOIN funcionalidad f ON f.id = fr.funcionalidad_id " +
 	                                "JOIN rolxusuario ru ON ru.rol_id = r.rol_id " +
@@ -36,7 +36,11 @@ namespace FrbaOfertas
                 while (dataReader.Read())
                 {
                     string funcionalidad = dataReader.GetValue(0).ToString();
+                    string rol = dataReader.GetValue(1).ToString();
                     funcionalidades.Add(funcionalidad);
+
+                    if (!Helper.rolesActuales.Contains(rol))
+                        Helper.rolesActuales.Add(rol);
                 }
                 dataReader.Close();
             }

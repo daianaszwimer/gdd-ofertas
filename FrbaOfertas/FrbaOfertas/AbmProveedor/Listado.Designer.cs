@@ -160,6 +160,17 @@
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "Listado";
             this.Text = "Listado";
+            this.Controls.SetChildIndex(this.tablaDeResultados, 0);
+            this.Controls.SetChildIndex(this.limpiar, 0);
+            this.Controls.SetChildIndex(this.buscar, 0);
+            this.Controls.SetChildIndex(this.razonSocial, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.CUIT, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.mail, 0);
+            this.Controls.SetChildIndex(this.modificar, 0);
+            this.Controls.SetChildIndex(this.eliminar, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -170,14 +181,14 @@
 
         private System.Windows.Forms.Button buscar;
         private System.Windows.Forms.Button limpiar;
-        private System.Windows.Forms.DataGridView tablaDeResultados;
-        private System.Windows.Forms.TextBox razonSocial;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox CUIT;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox mail;
-        private System.Windows.Forms.Button eliminar;
-        private System.Windows.Forms.Button modificar;
+        protected System.Windows.Forms.DataGridView tablaDeResultados;
+        protected System.Windows.Forms.TextBox razonSocial;
+        protected System.Windows.Forms.TextBox CUIT;
+        protected System.Windows.Forms.TextBox mail;
+        protected System.Windows.Forms.Button eliminar;
+        protected System.Windows.Forms.Button modificar;
     }
 }

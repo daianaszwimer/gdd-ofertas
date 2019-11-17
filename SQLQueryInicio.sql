@@ -196,19 +196,19 @@ create table rolxusuario(
 	rol_id int not null REFERENCES rol)
 
 insert into usuario (usuario_username, usuario_password)
-	values ('admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'),
+	values ('admin',LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256','w23e'), 2))),
 	('maru','aaa')
 
 insert into funcionalidad (descripcion)
 	values ('ABM Rol'),('ABM Cliente'),('ABM Proveedor'),('Carga de credito'),
 			('Confeccion y publicacion de Ofertas'),('Compra de oferta'),('Entrega/Consumo de oferta'),
-			('Facturacion a Proveedor'),('Listado Estadistico')
+			('Facturacion a Proveedor'),('Listado Estadistico'),('Baja y modificacion')
 
 insert into rol (rol_nombre)
 	values ('Administrador General'),('Cliente')
 
 insert into funcionalidadxrol (rol_id, funcionalidad_id)
-	values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),
+	values (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),
 		(2,3),(2,5),(2,7)
 
 insert into rolxusuario (username, rol_id)

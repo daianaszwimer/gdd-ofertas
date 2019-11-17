@@ -180,6 +180,12 @@
     <Compile Include="CrearOferta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="CrearOferta\ListadoProveedores.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrearOferta\ListadoProveedores.Designer.cs">
+      <DependentUpon>ListadoProveedores.cs</DependentUpon>
+    </Compile>
     <Compile Include="EntregaDeOferta\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -252,7 +258,16 @@
     <EmbeddedResource Include="CragaCredito\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CrearOferta\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrearOferta\ListadoProveedores.resx">
+      <DependentUpon>ListadoProveedores.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menu.resx">
