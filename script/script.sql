@@ -1,7 +1,61 @@
-/*IF OBJECT_ID (N'dbo.Usuario', N'U') IS NOT NULL  
-DROP TABLE gd_esquema.Usuario;  
-GO*/
 -- TODO: cambiar nombre de esquema
+
+-- borro las tablas si existen
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Carga_Credito') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Carga_Credito
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Tipo_Pago') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Tipo_Pago
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Tarjeta') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Tarjeta
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Cupon') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Cupon
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Item') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Item
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Factura') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Factura
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Oferta') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Oferta
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Compra_Oferta') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Compra_Oferta
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Proveedor') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Proveedor
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Rubro') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Rubro
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Cliente') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Cliente
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Domicilio') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Domicilio
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Localidad') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Localidad
+
+IF OBJECT_ID('GD2C2019.gd_esquema.FuncionalidadxRol') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.FuncionalidadxRol
+
+IF OBJECT_ID('GD2C2019.gd_esquema.RolesxUsuario') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.RolesxUsuario
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Rol') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Rol
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Funcionalidad') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Funcionalidad
+
+IF OBJECT_ID('GD2C2019.gd_esquema.Usuario') IS NOT NULL
+DROP TABLE GD2C2019.gd_esquema.Usuario
+
 CREATE TABLE GD2C2019.gd_esquema.Usuario(
 	usuario_username nvarchar(64) NOT NULL,
 	usuario_password nvarchar(500) NOT NULL,
