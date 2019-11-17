@@ -1,5 +1,7 @@
 -- TODO: cambiar nombre de esquema
 
+-- todo: ver cual select tira: Warning: Null value is eliminated by an aggregate or other SET operation.
+
 -- borro las tablas si existen
 USE  [GD2C2019]
 go
@@ -75,7 +77,7 @@ CREATE TABLE gd_esquema.Usuario(
 
 CREATE TABLE gd_esquema.Rol(
 	rol_id INT identity(1 ,1) NOT NULL PRIMARY KEY,
-	rol_nombre varchar(20) NOT NULL,
+	rol_nombre varchar(64) NOT NULL,
 	rol_habilitado BIT DEFAULT 1,
 	rol_eliminado BIT DEFAULT 0,
 )
@@ -283,7 +285,7 @@ CREATE TABLE gd_esquema.Item(
 SET IDENTITY_INSERT [gd_esquema].[Funcionalidad] ON
 
 -- funcionalidades
--- alta de usuario y login todos tienen acceso
+-- alta de usuario y login y cambio de pw todos tienen acceso
 INSERT INTO gd_esquema.Funcionalidad(funcionalidad_id, funcionalidad_descripcion)
 Values(1, 'ABM Rol')
 INSERT INTO gd_esquema.Funcionalidad(funcionalidad_id, funcionalidad_descripcion)
@@ -317,6 +319,8 @@ INSERT INTO gd_esquema.Rol(rol_id, rol_nombre, rol_habilitado, rol_eliminado)
 Values(2, 'proveedor', 1, 0)
 INSERT INTO gd_esquema.Rol(rol_id, rol_nombre, rol_habilitado, rol_eliminado)
 Values(3, 'cliente', 1, 0)
+INSERT INTO gd_esquema.Rol(rol_id, rol_nombre, rol_habilitado, rol_eliminado)
+Values(4, 'administrador general', 1, 0)
 
 SET IDENTITY_INSERT [gd_esquema].[Rol] OFF
 
@@ -348,6 +352,18 @@ INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidad
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 5);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 7);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 9);
+-- funcionalidades administrador general
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 1);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 2);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 3);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 4);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 5);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 6);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 7);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 8);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 9);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 10);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (4, 11);
 
 -- inserto las localidades
 INSERT INTO [gd_esquema].[Localidad] (localidad_nombre) 
@@ -368,7 +384,7 @@ where p.Provee_Dom is not null
 
 -- inserto los usuarios (solo clientes por ahora), por default el username es el dni
 insert into [gd_esquema].Usuario (usuario_username, usuario_password)
-  select distinct m.Cli_Dni, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256','1234'), 2)) from [gd_esquema].[Maestra] m where m.Cli_Dni is not null
+  select distinct m.Cli_Dni, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Cli_Dni)), 2)) from [gd_esquema].[Maestra] m where m.Cli_Dni is not null
 
 -- inserto clientes
 -- por default en el credito les pongo 0, despues en procedure lo calculo y pongo bien
@@ -404,10 +420,12 @@ select 3, u.usuario_username from [gd_esquema].Usuario u
 
 -- inserto usuario de proveedores, por default el username es el cuit
 insert into [gd_esquema].Usuario (usuario_username, usuario_password)
-  select distinct m.Provee_CUIT, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256','1234'), 2)) from [gd_esquema].[Maestra] m where m.Provee_CUIT is not null
+  select distinct m.Provee_CUIT, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Provee_CUIT)), 2)) from [gd_esquema].[Maestra] m where m.Provee_CUIT is not null
 
 -- inserto el usuario admin
-insert into [gd_esquema].Usuario (usuario_username, usuario_password) values ('admin', 'w23e')
+insert into [gd_esquema].Usuario (usuario_username, usuario_password) values ('admin', HASHBYTES('SHA2_256', 'w23e'))
+-- le asigno el rol
+insert into [gd_esquema].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario) values (4, 'admin')
 
 -- inserto rubros
 insert into [gd_esquema].Rubro (rubro_descripcion)
@@ -437,11 +455,10 @@ select 2, u.usuario_username from  [gd_esquema].Usuario u where u.usuario_userna
 -- el limite por cliente no lo sabemos -> ponemos 0?? todo: revisar decision
   insert into [gd_esquema].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
   oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor)
-  select m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, 0, m.Oferta_Cantidad, p.proveedor_id
+  select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, 0, m.Oferta_Cantidad, p.proveedor_id
   FROM [gd_esquema].[Maestra] m
   join [gd_esquema].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
   where m.Oferta_Descripcion is not null
-  group by m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, p.proveedor_id
 
 -- asumimos que usuario en la vieja db compro 1 oferta por columna
 -- vimos que el codigo de oferta no era unico por cada compra
