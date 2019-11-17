@@ -391,31 +391,31 @@ INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol(funcionalidadxrol_id_ro
 
 -- inserto las localidades
 INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Localidad] (localidad_nombre) 
-  SELECT distinct [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra].Cli_Ciudad from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] where [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra].Cli_Ciudad  is not null
-  UNION SELECT distinct [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra].Provee_Ciudad from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] where [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra].Provee_Ciudad is not null 
+  SELECT distinct [gd_esquema].[Maestra].Cli_Ciudad from gd_esquema.[Maestra] where [gd_esquema].[Maestra].Cli_Ciudad  is not null
+  UNION SELECT distinct [gd_esquema].[Maestra].Provee_Ciudad from gd_esquema.[Maestra] where [gd_esquema].[Maestra].Provee_Ciudad is not null 
 
 -- inserto las direcciones
 -- cod postal, departamento y numero piso no conozco, va 0
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Domicilio (domicilio_calle, domicilio_id_localidad, domicilio_codigo_postal, domicilio_departamento, domicilio_numero_piso)
 select distinct d.Cli_Direccion, l.localidad_id, 0, 0, 0
-from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] d
+from [gd_esquema].[Maestra] d
 inner join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad l on l.localidad_nombre = d.Cli_Ciudad 
 where d.Cli_Direccion is not null
 union select distinct p.Provee_Dom, lo.localidad_id, 0, 0, 0
-from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] p
+from [gd_esquema].[Maestra] p
 inner join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad lo on lo.localidad_nombre = p.Provee_Ciudad
 where p.Provee_Dom is not null
 
 -- inserto los usuarios (solo clientes por ahora), por default el username es el dni
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario (usuario_username, usuario_password)
-  select distinct m.Cli_Dni, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Cli_Dni)), 2)) from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] m where m.Cli_Dni is not null
+  select distinct m.Cli_Dni, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Cli_Dni)), 2)) from [gd_esquema].[Maestra] m where m.Cli_Dni is not null
 
 -- inserto clientes
 -- por default en el credito les pongo 0, despues en procedure lo calculo y pongo bien
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cliente (cliente_dni, cliente_id_usuario, cliente_nombre, cliente_apellido, cliente_mail, 
 cliente_telefono, cliente_fecha_nacimiento, cliente_id_domicilio, cliente_credito)
 select distinct m.Cli_Dni, u.usuario_username, m.Cli_Nombre, m.Cli_Apellido, m.Cli_Mail, m.Cli_Telefono, m.Cli_Fecha_Nac, d.domicilio_id, 0
-from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] m
+from [gd_esquema].[Maestra] m
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad l on l.localidad_nombre = m.Cli_Ciudad
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Domicilio d on d.domicilio_calle = m.Cli_Direccion and l.localidad_id = d.domicilio_id_localidad
 join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = m.Cli_Dni
@@ -444,7 +444,7 @@ select 3, u.usuario_username from [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u
 
 -- inserto usuario de proveedores, por default el username es el cuit
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario (usuario_username, usuario_password)
-  select distinct m.Provee_CUIT, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Provee_CUIT)), 2)) from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] m where m.Provee_CUIT is not null
+  select distinct m.Provee_CUIT, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Provee_CUIT)), 2)) from [gd_esquema].[Maestra] m where m.Provee_CUIT is not null
 
 -- inserto el usuario admin
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario (usuario_username, usuario_password) values ('admin', LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), 'w23e')), 2)))
@@ -454,14 +454,14 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].RolesxUsuario (rolesxusuario_id_rol, ro
 -- inserto rubros
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Rubro (rubro_descripcion)
 select distinct m.Provee_Rubro
-from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] m
+from [gd_esquema].[Maestra] m
 where m.Provee_Rubro is not null
 
 -- inserto proveedores
 -- nombre de contacto y mail no tengo, va null
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor (proveedor_id_usuario, proveedor_razon_social, proveedor_telefono, proveedor_cuit, proveedor_id_rubro, proveedor_id_domicilio)
 select distinct u.usuario_username, m.Provee_RS, m.Provee_Telefono, m.Provee_CUIT, r.rubro_id, d.domicilio_id
-from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] m
+from [gd_esquema].[Maestra] m
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad l on l.localidad_nombre = m.Provee_Ciudad
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Domicilio d on d.domicilio_calle = m.Provee_Dom and l.localidad_id = d.domicilio_id_localidad
 join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = m.Provee_CUIT
@@ -471,7 +471,7 @@ left join [NO_LO_TESTEAMOS_NI_UN_POCO].Rubro r on r.rubro_descripcion = Provee_R
 -- busco los proveedores y les asigno el rol
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
 select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where u.usuario_username in (
-	select distinct m.Provee_CUIT from [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] m where m.Provee_CUIT is not null
+	select distinct m.Provee_CUIT from [gd_esquema].[Maestra] m where m.Provee_CUIT is not null
 )
 
 -- inserto ofertas
@@ -480,7 +480,7 @@ select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where 
   insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
   oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor)
   select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, m.Oferta_Cantidad, p.proveedor_id
-  FROM [NO_LO_TESTEAMOS_NI_UN_POCO].[Maestra] m
+  FROM [gd_esquema].[Maestra] m
   join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
   where m.Oferta_Descripcion is not null
 
@@ -625,7 +625,7 @@ as
 			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
 			group by o.oferta_id
 		) as 'descuento'
-		from NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor p 
+		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
 		order by 'descuento' desc
 	)
 go
