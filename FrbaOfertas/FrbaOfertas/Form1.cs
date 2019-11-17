@@ -24,6 +24,8 @@ namespace FrbaOfertas
 
         private void login_Click(object sender, EventArgs e)
         {          
+            //TODO: {M} Cambiar contraseña
+            //TODO: {M} Validar debe ingresar datos
             //TODO: {M} Cambiar nombres atributos usuario
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"

@@ -28,28 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tablaDeResultados = new System.Windows.Forms.DataGridView();
             this.buscar = new System.Windows.Forms.Button();
             this.comprar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
+            this.descripcionOferta = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.unidadDeOferta = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.unidadDeOferta)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tablaDeResultados
-            // 
-            this.tablaDeResultados.AllowUserToAddRows = false;
-            this.tablaDeResultados.AllowUserToDeleteRows = false;
-            this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(29, 102);
-            this.tablaDeResultados.Name = "tablaDeResultados";
-            this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(419, 151);
-            this.tablaDeResultados.TabIndex = 1;
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(29, 73);
+            this.buscar.Location = new System.Drawing.Point(364, 118);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(75, 23);
             this.buscar.TabIndex = 3;
@@ -59,7 +50,7 @@
             // 
             // comprar
             // 
-            this.comprar.Location = new System.Drawing.Point(373, 73);
+            this.comprar.Location = new System.Drawing.Point(285, 242);
             this.comprar.Name = "comprar";
             this.comprar.Size = new System.Drawing.Size(75, 23);
             this.comprar.TabIndex = 4;
@@ -80,22 +71,62 @@
             this.label1.Text = "Ofertas Disponibles";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // descripcionOferta
+            // 
+            this.descripcionOferta.BackColor = System.Drawing.SystemColors.Control;
+            this.descripcionOferta.Location = new System.Drawing.Point(137, 120);
+            this.descripcionOferta.Name = "descripcionOferta";
+            this.descripcionOferta.Size = new System.Drawing.Size(221, 20);
+            this.descripcionOferta.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(26, 120);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Oferta seleccionada:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(79, 155);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(52, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Cantidad:";
+            // 
+            // unidadDeOferta
+            // 
+            this.unidadDeOferta.Location = new System.Drawing.Point(137, 153);
+            this.unidadDeOferta.Name = "unidadDeOferta";
+            this.unidadDeOferta.Size = new System.Drawing.Size(44, 20);
+            this.unidadDeOferta.TabIndex = 10;
+            this.unidadDeOferta.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 297);
+            this.Controls.Add(this.unidadDeOferta);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.descripcionOferta);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comprar);
             this.Controls.Add(this.buscar);
-            this.Controls.Add(this.tablaDeResultados);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.buscar, 0);
             this.Controls.SetChildIndex(this.comprar, 0);
             this.Controls.SetChildIndex(this.label1, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
+            this.Controls.SetChildIndex(this.descripcionOferta, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.unidadDeOferta, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.unidadDeOferta)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -103,9 +134,12 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView tablaDeResultados;
         private System.Windows.Forms.Button buscar;
         private System.Windows.Forms.Button comprar;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox descripcionOferta;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown unidadDeOferta;
     }
 }

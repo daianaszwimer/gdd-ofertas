@@ -109,7 +109,7 @@ CREATE TABLE proveedor(
 
 create table cliente(
 	cliente_id int identity not null primary key,
-	--username varchar(50) not null REFERENCES usuario,
+	cliente_id_usuario nvarchar(64),
 	idDomicilio int not null REFERENCES domicilio,
 	cliente_nombre varchar(50),
 	cliente_apellido varchar(50),
@@ -118,7 +118,8 @@ create table cliente(
 	cliente_telefono int,
 	cliente_fechaNacimiento datetime,
 	cliente_habilitado bit default 1,
-	cliente_eliminado bit default 0
+	cliente_eliminado bit default 0,
+	cliente_credito INT DEFAULT 0 
 )
 
 create table cargaDeCredito(
@@ -236,6 +237,6 @@ insert into proveedor (proveedor_razon_social, proveedor_id_domicilio,proveedor_
 	values ('SIEMENS S.A.',2,'41063122','1241','diego@gmail.com',2,'Diegote'),
 		   ('Farmaceutica',1,'2333','12431','mari@gmail.com',3,'Mari');
 
-insert into Oferta (oferta_descripcion, oferta_fecha_venc, oferta_precio_lista,oferta_id_proveedor)
-	values ('pruebaSI', convert(datetime,'25-12-19 00:00:00 AM',5), 15, 1),
-			('pruebaNO', convert(datetime,'11-11-19 00:00:00 AM',5), 15, 1)
+insert into Oferta (oferta_descripcion, oferta_fecha_venc, oferta_precio_lista,oferta_cantidad,oferta_restriccion_compra,  oferta_id_proveedor)
+	values ('pruebaSI', convert(datetime,'25-12-19 00:00:00 AM',5), 25.3,50,5, 1),
+			('pruebaNO', convert(datetime,'10-11-19 00:00:00 AM',5), 20.2,100,5, 1)
