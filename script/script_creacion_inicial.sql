@@ -423,7 +423,7 @@ insert into [gd_esquema].Usuario (usuario_username, usuario_password)
   select distinct m.Provee_CUIT, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Provee_CUIT)), 2)) from [gd_esquema].[Maestra] m where m.Provee_CUIT is not null
 
 -- inserto el usuario admin
-insert into [gd_esquema].Usuario (usuario_username, usuario_password) values ('admin', HASHBYTES('SHA2_256', 'w23e'))
+insert into [gd_esquema].Usuario (usuario_username, usuario_password) values ('admin', LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), 'w23e')))))
 -- le asigno el rol
 insert into [gd_esquema].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario) values (4, 'admin')
 
