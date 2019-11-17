@@ -19,7 +19,7 @@ namespace FrbaOfertas.ComprarOferta
         decimal precioOferta;
         int cantidadOferta;
 
-        public Form1(string id,string descripcion, string precio, string cantidad, string restriccion)
+        public Form1(string id, string descripcion, string precio, string cantidad, string restriccion)
         {
             InitializeComponent();
             idOferta = id;
@@ -44,35 +44,41 @@ namespace FrbaOfertas.ComprarOferta
             ofertasDataSet.Clear();
             SqlDataAdapter ofertasDataAdapter =
                 new SqlDataAdapter(string.Format("SELECT oferta_id, oferta_descripcion, oferta_precio_lista, oferta_cantidad, oferta_restriccion_compra " +
-                                                 "FROM Oferta "+
+                                                 "FROM Oferta " +
                                                  "WHERE oferta_fecha_venc >= '{0}' AND oferta_cantidad > 0", Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff")), Helper.dbOfertas);
             ofertasDataAdapter.Fill(ofertasDataSet);
             (new ComprarOferta.OfertasDisponibles(ofertasDataSet)).Show();
             this.Close();
-           
+
         }
 
         private void comprar_Click(object sender, EventArgs e)
         {
-            //TODO: {M} VALIDAR ROL CLIENTE Y NO ADMINISTRADOR GENERAL (Desabilitar boton)
-            if (saldoSuficiente(precioOferta) && cantidadSuficiente(cantidadOferta))
+            if (Helper.rolesActuales.Contains("cliente"))
             {
-                SqlCommand restarOferta = new SqlCommand(string.Format("UPDATE Oferta SET oferta_cantidad = oferta_cantidad-1 WHERE oferta_id=" + idOferta), Helper.dbOfertas);
-                SqlDataReader dataReader = Helper.realizarConsultaSQL(restarOferta);
-                if (dataReader != null)
+                if (saldoSuficiente(precioOferta) && cantidadSuficiente(cantidadOferta))
                 {
-                    MessageBox.Show("DATOS DE COMPRA", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide();
-                    ofertasDataSet.Clear();
+                    SqlCommand restarOferta = new SqlCommand(string.Format("UPDATE Oferta SET oferta_cantidad = oferta_cantidad-1 WHERE oferta_id=" + idOferta), Helper.dbOfertas);
+                    SqlDataReader dataReader = Helper.realizarConsultaSQL(restarOferta);
+                    if (dataReader != null)
+                    {
+                        MessageBox.Show("DATOS DE COMPRA", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Hide();
+                        ofertasDataSet.Clear();
+                        dataReader.Close();
+                    }
                     dataReader.Close();
                 }
-                dataReader.Close();
+                else
+                {
+                    MessageBox.Show("SALDO INSUFICIENTE", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show("SALDO INSUFICIENTE", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                comprar.Enabled = false;
+                MessageBox.Show("FUNCIONALIDAD DISPONIBLE SOLO PARA ROL CLIENTE", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private bool cantidadSuficiente(int cantidad)
@@ -88,7 +94,7 @@ namespace FrbaOfertas.ComprarOferta
 
         private decimal creditoCliente(string idActual)
         {
-            SqlCommand saldoCliente = new SqlCommand(string.Format("SELECT cliente_credito FROM cliente WHERE cliente_id_usuario='{0}'",idActual), Helper.dbOfertas);
+            SqlCommand saldoCliente = new SqlCommand(string.Format("SELECT cliente_credito FROM cliente WHERE cliente_id_usuario='{0}'", idActual), Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(saldoCliente);
             if (dataReader != null)
             {

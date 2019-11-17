@@ -34,7 +34,7 @@ namespace FrbaOfertas.AbmCliente
 
         }
 
-        private bool modificarCliente()
+        private bool modificarCliente() //TODO: {M} Descomentar esto
         {
             //if (validarDatosIngresados())
             //{

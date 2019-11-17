@@ -50,9 +50,9 @@
             // 
             // comprar
             // 
-            this.comprar.Location = new System.Drawing.Point(321, 228);
+            this.comprar.Location = new System.Drawing.Point(321, 240);
             this.comprar.Name = "comprar";
-            this.comprar.Size = new System.Drawing.Size(118, 34);
+            this.comprar.Size = new System.Drawing.Size(118, 22);
             this.comprar.TabIndex = 4;
             this.comprar.Text = "Comprar";
             this.comprar.UseVisualStyleBackColor = true;
