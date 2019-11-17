@@ -167,6 +167,7 @@ CREATE TABLE gd_esquema.Cliente(
 	cliente_mail varchar(64) NOT NULL,
 	cliente_telefono varchar(64) NULL,
 	cliente_habilitado BIT DEFAULT 1,
+	cliente_eliminado BIT DEFAULT 0,
 	cliente_fecha_nacimiento datetime NULL,
 	cliente_id_domicilio INT NOT NULL,
 	cliente_credito decimal(12, 2) DEFAULT 0
@@ -219,6 +220,7 @@ CREATE TABLE gd_esquema.Proveedor(
 	proveedor_telefono varchar(64) NULL,
 	proveedor_cuit varchar(64) UNIQUE NOT NULL,
 	proveedor_habilitado BIT DEFAULT 1,
+	proveedor_eliminado BIT DEFAULT 0,
 	proveedor_id_rubro INT NOT NULL,
 	proveedor_id_domicilio INT NOT NULL,
 	proveedor_nombre_contacto VARCHAR(64) NULL,
@@ -357,20 +359,18 @@ INSERT INTO [gd_esquema].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (4, 
 SET IDENTITY_INSERT [gd_esquema].[Tipo_Pago] OFF
 
 -- funcionalidades administrador
-INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 1);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 2);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 3);
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 4);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 5);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 6);
-INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 7); -- esta bien?
+INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 7);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 8);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (1, 11);
 -- funcionalidades proveedor
-INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (2, 5);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (2, 8);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (2, 10);
 -- funcionalidades cliente
-INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 5);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 7);
 INSERT INTO gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES (3, 9);
 -- funcionalidades administrador general
@@ -646,64 +646,15 @@ as
 	)
 go
 
--- funcionalidades
-create procedure gd_esquema.rol_cambiar_nombre (@id_rol int, @nombre varchar(64))
-as
-begin transaction
-	if exists (select 1 from gd_esquema.Rol where @nombre = rol_nombre and @id_rol <> rol_id)
-	begin
-		rollback
-			raiserror('No puede agregar un nombre de rol existente.', 16, 1)
-		return
-	end	
-	
-	update gd_esquema.Rol
-	set rol_nombre = @nombre
-	where rol_id = @id_rol
-commit
-go
-
-create procedure gd_esquema.rol_agregar_funcionalidad (@id_rol int, @id_func int)
-as
-begin transaction
-	if exists (select 1 from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
-	begin
-		rollback
-			raiserror('El rol ya tiene esa funcionalidad.', 16, 1)
-		return
-	end	
-	
-	insert into gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_funcionalidad, funcionalidadxrol_id_rol)
-	values(@id_func, @id_rol)
-commit
-go
-
-create procedure gd_esquema.rol_quitar_funcionalidad (@id_rol int, @id_func int)
-as
-begin transaction
-	if not exists (select 1 from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
-	begin
-		rollback
-			raiserror('No puede sacar una funcionalidad que no tiene', 16, 1)
-		return
-	end	
-	
-	delete from gd_esquema.FuncionalidadxRol
-	where funcionalidadxrol_id_rol = @id_rol and funcionalidadxrol_id_funcionalidad = @id_func
-commit
-go
-
-create procedure gd_esquema.rol_inhabilitar(@id_rol int)
-as
-begin transaction
-	update gd_esquema.Rol set rol_habilitado = 0 where @id_rol = rol_id
-	delete from gd_esquema.RolesxUsuario where @id_rol = rolesxusuario_id_rol
-commit
-go
-
 create procedure gd_esquema.cliente_comprar_oferta(@id_cliente int, @id_oferta int, @fecha datetime, @cantidad int, @codigo varchar(64) output)
 as
 begin transaction
+	if exists (select 1 from gd_esquema.Cliente where cliente_id = @id_cliente and cliente_habilitado = 0)
+		begin
+			rollback
+				raiserror('El cliente está deshabilitado y no puede realizar compras.', 16, 1)
+			return
+		end
 	if exists (select 1 from gd_esquema.Cliente where cliente_credito < (select oferta_precio from gd_esquema.Oferta where oferta_id = @id_oferta) and cliente_id = @id_cliente)
 		begin
 			rollback
@@ -714,6 +665,12 @@ begin transaction
 		begin
 			rollback
 				raiserror('La cantidad supera la restricción por cliente.', 16, 1)
+			return
+		end
+	if exists (select 1 from gd_esquema.Oferta where oferta_id = @id_oferta and oferta_cantidad < @cantidad)
+		begin
+			rollback
+				raiserror('No hay suficiente cantidad en stock.', 16, 1)
 			return
 		end
 	-- genero codigo	
@@ -777,8 +734,64 @@ begin transaction
 			end
 		end
 commit
-go*/
-/* hecho en app
+go
+
+
+-- funcionalidades
+create procedure gd_esquema.rol_cambiar_nombre (@id_rol int, @nombre varchar(64))
+as
+begin transaction
+	if exists (select 1 from gd_esquema.Rol where @nombre = rol_nombre and @id_rol <> rol_id)
+	begin
+		rollback
+			raiserror('No puede agregar un nombre de rol existente.', 16, 1)
+		return
+	end	
+	
+	update gd_esquema.Rol
+	set rol_nombre = @nombre
+	where rol_id = @id_rol
+commit
+go
+
+create procedure gd_esquema.rol_agregar_funcionalidad (@id_rol int, @id_func int)
+as
+begin transaction
+	if exists (select 1 from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
+	begin
+		rollback
+			raiserror('El rol ya tiene esa funcionalidad.', 16, 1)
+		return
+	end	
+	
+	insert into gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_funcionalidad, funcionalidadxrol_id_rol)
+	values(@id_func, @id_rol)
+commit
+go
+
+create procedure gd_esquema.rol_quitar_funcionalidad (@id_rol int, @id_func int)
+as
+begin transaction
+	if not exists (select 1 from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
+	begin
+		rollback
+			raiserror('No puede sacar una funcionalidad que no tiene', 16, 1)
+		return
+	end	
+	
+	delete from gd_esquema.FuncionalidadxRol
+	where funcionalidadxrol_id_rol = @id_rol and funcionalidadxrol_id_funcionalidad = @id_func
+commit
+go
+
+create procedure gd_esquema.rol_inhabilitar(@id_rol int)
+as
+begin transaction
+	update gd_esquema.Rol set rol_habilitado = 0 where @id_rol = rol_id
+	delete from gd_esquema.RolesxUsuario where @id_rol = rolesxusuario_id_rol
+commit
+go
+
 create procedure usuario_modificar_password(@username nvarchar(64), @password nvarchar(500))
 as
 begin transaction
