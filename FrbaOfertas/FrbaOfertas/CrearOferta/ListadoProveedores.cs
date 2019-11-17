@@ -12,12 +12,15 @@ namespace FrbaOfertas.CrearOferta
 {
     public partial class ListadoProveedores : AbmProveedor.Listado
     {
-        public ListadoProveedores()
+        Action<string,string> agregarProveedorSeleccionado;
+
+        public ListadoProveedores(Action<string, string> agregarProveedorSeleccionado)
         {
             InitializeComponent();
             modificar.Visible = false;
             eliminar.Visible = false;
             confirmar.Visible = false;
+            this.agregarProveedorSeleccionado = agregarProveedorSeleccionado;
         }
 
         override protected void tablaDeResultados_SelectionChanged(object sender, EventArgs e)
@@ -30,9 +33,10 @@ namespace FrbaOfertas.CrearOferta
 
         private void confirmar_Click(object sender, EventArgs e)
         {
-            /*CrearOferta.Form1.agregarProveedorSeleccionado(
+            agregarProveedorSeleccionado(
                 tablaDeResultados.SelectedRows[0].Cells[0].Value.ToString(),
-                tablaDeResultados.SelectedRows[0].Cells[2].Value.ToString());*/
+                tablaDeResultados.SelectedRows[0].Cells[2].Value.ToString());
+            this.Close();
         }
     }
 }

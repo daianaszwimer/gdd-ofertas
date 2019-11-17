@@ -67,7 +67,7 @@ namespace FrbaOfertas.CrearOferta
 
         private void seleccionarProveedor_Click(object sender, EventArgs e)
         {
-            (new CrearOferta.ListadoProveedores()).Show();
+            (new CrearOferta.ListadoProveedores(this.agregarProveedorSeleccionado)).Show();
         }
 
         public void agregarProveedorSeleccionado(string id, string cuit)
