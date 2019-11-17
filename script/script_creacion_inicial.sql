@@ -423,7 +423,7 @@ insert into [gd_esquema].Usuario (usuario_username, usuario_password)
   select distinct m.Provee_CUIT, LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), m.Provee_CUIT)), 2)) from [gd_esquema].[Maestra] m where m.Provee_CUIT is not null
 
 -- inserto el usuario admin
-insert into [gd_esquema].Usuario (usuario_username, usuario_password) values ('admin', LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), 'w23e')))))
+insert into [gd_esquema].Usuario (usuario_username, usuario_password) values ('admin', LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), 'w23e')), 2)))
 -- le asigno el rol
 insert into [gd_esquema].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario) values (4, 'admin')
 
@@ -602,6 +602,160 @@ go
 -- estadisticas
 
 
+-- funcionalidades
+create procedure gd_esquema.rol_cambiar_nombre (@id_rol int, @nombre varchar(64))
+as
+begin transaction
+	if exists (select rol_nombre from gd_esquema.Rol where @nombre = rol_nombre and @id_rol <> rol_id)
+	begin
+		rollback
+			raiserror('No puede agregar un nombre de rol existente.', 16, 1)
+		return
+	end	
+	
+	update gd_esquema.Rol
+	set rol_nombre = @nombre
+	where rol_id = @id_rol
+commit
+go
+
+create procedure gd_esquema.rol_agregar_funcionalidad (@id_rol int, @id_func int)
+as
+begin transaction
+	if exists (select funcionalidadxrol_id_funcionalidad from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
+	begin
+		rollback
+			raiserror('El rol ya tiene esa funcionalidad.', 16, 1)
+		return
+	end	
+	
+	insert into gd_esquema.FuncionalidadxRol(funcionalidadxrol_id_funcionalidad, funcionalidadxrol_id_rol)
+	values(@id_func, @id_rol)
+commit
+go
+
+create procedure gd_esquema.rol_quitar_funcionalidad (@id_rol int, @id_func int)
+as
+begin transaction
+	if not exists (select funcionalidadxrol_id_funcionalidad from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
+	begin
+		rollback
+			raiserror('No puede sacar una funcionalidad que no tiene', 16, 1)
+		return
+	end	
+	
+	delete from gd_esquema.FuncionalidadxRol
+	where funcionalidadxrol_id_rol = @id_rol and funcionalidadxrol_id_funcionalidad = @id_func
+commit
+go
+
+-- eliminacion del rol se hace directamente con query seteando el eliminado a 1
+
+create procedure rol_inhabilitar(@id_rol int)
+as
+begin transaction
+	update gd_esquema.Rol set rol_habilitado = 0 where @id_rol = rol_id
+	delete from gd_esquema.RolesxUsuario where @id_rol = rolesxusuario_id_rol
+commit
+go
+
+create procedure usuario_login(@username nvarchar(64), @password nvarchar(500))
+as
+begin transaction
+	if not exists(select 1 from gd_esquema.Usuario where usuario_username = @username and usuario_password = LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), @password)), 2)))
+		begin
+			update gd_esquema.Usuario set usuario_intentos_fallidos_login = usuario_intentos_fallidos_login + 1
+			where usuario_username = @username
+				if exists (select 1 from gd_esquema.Usuario where usuario_username = @username and usuario_intentos_fallidos_login > 3)
+					begin
+						update gd_esquema.Usuario set usuario_habilitado = 0
+						where usuario_username = @username
+					end
+			raiserror('Usuario o contraseña inválidos', 16, 1)
+			return
+		end
+	else
+		begin
+		if exists (select 1 from gd_esquema.Usuario where usuario_username = @username and usuario_habilitado = 0)
+			begin
+				raiserror('Usuario inhabilitado, no puede iniciar sesión', 16, 1)
+				return
+			end
+		else
+			begin
+				if exists (select 1 from d_esquema.Usuario where usuario_username = @username and usuario_eliminado = 1)
+					begin
+						raiserror('El usuario está eliminado', 16, 1)
+						return
+					end
+				-- success
+				update gd_esquema.Usuario set usuario_intentos_fallidos_login = 0
+				where usuario_username = @username
+			end
+		end
+commit
+go
+
+create procedure usuario_modificar_password(@username nvarchar(64), @password nvarchar(500))
+as
+begin transaction
+	update gd_esquema.Usuario set usuario_password = LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), @password)), 2))
+	where usuario_username = @username
+commit
+go
+
+create procedure cliente_agregar(@nombre varchar(64), @apellido nvarchar(64), @dni nvarchar(64), @mail nvarchar(64), @telefono nvarchar(64), @direccion nvarchar(64), @piso int, @departamento char(20), @localidad nvarchar(64), @codigo_postal int, @fech_nac datetime, @id_usuario int)
+as
+begin transaction
+	-- validaciones
+	if exists (select 1 from gd_esquema.Cliente where @dni = cliente_dni)
+		begin
+			raiserror('Ya existe un cliente con ese dni', 16, 1)
+			return
+		end
+	else
+		begin
+			if exists (select 1 from gd_esquema.Cliente where @nombre = cliente_nombre and @apellido = cliente_apellido and @mail = cliente_mail and @telefono = cliente_telefono and @fech_nac = cliente_fecha_nacimiento)
+				begin
+					raiserror('Ya existe un cliente con mismo nombre, apellido, mail, telefono y fecha de nacimiento', 16, 1)
+					return
+				end
+		end
+	-- ver si existe la direccion, usar el id si existe, si no crearla
+	-- si no existe la localidad, crearla
+	-- despues creo usuario y le agrego lo 200 de regalo
+commit
+go
+/*
+create function buscar_clientes(@nombre varchar(64), @apellido varchar(64), @dni varchar(64), @email varchar(64))
+return table
+as
+	return (
+		select 
+	)
+end
+go*/
+/*
+Nombre (texto libre)
+ Apellido (texto libre)
+ DNI (texto libre exacto)
+ Email (texto libre)
+
+*/
+/*
+
+
+	domicilio_id_localidad INT NOT NULL,
+	domicilio_calle varchar(64) NOT NULL,
+	domicilio_numero_piso INT NULL,
+	domicilio_departamento char(20) NULL,
+	domicilio_codigo_postal INT NOT NULL,
+*/
+
+-- cambiar todos los nvarchar por varchar
+
+-- como validamos lo del username? tenemos lo de unique, podemos usar directamente esa validacion en la app?
+
 -- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO o usar procedure
 
 -- procedure para comprar que valide que el cliente no compre mas ofertas de las que puede
@@ -609,8 +763,6 @@ go
 -- limite de compra es por cliente: https://groups.google.com/forum/#!topic/gestiondedatos/05dXYNKpbe0
 
 -- crear procedures para cosas que requiran validacion ej: cambiar cupon
-
--- en el login validar lo de los 3 intentos fallidos
 
 -- funcion para buscar clientes
 
