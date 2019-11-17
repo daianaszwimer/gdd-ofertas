@@ -1,4 +1,4 @@
--- TODO: cambiar nombre de esquema
+-- TODO: cambiar nombre de esquema y crearlo aca
 
 -- todo: ver cual select tira: Warning: Null value is eliminated by an aggregate or other SET operation.
 
@@ -62,6 +62,27 @@ DROP TABLE gd_esquema.Usuario
 
 IF OBJECT_ID('gd_esquema.top_5_mayor_porcentaje') IS NOT NULL
 DROP FUNCTION [gd_esquema].[top_5_mayor_porcentaje]
+
+IF OBJECT_ID('gd_esquema.top_5_mayor_facturacion') IS NOT NULL
+DROP FUNCTION [gd_esquema].[top_5_mayor_facturacion]
+
+IF OBJECT_ID('gd_esquema.rol_cambiar_nombre') IS NOT NULL
+DROP PROCEDURE [gd_esquema].[rol_cambiar_nombre]
+
+IF OBJECT_ID('gd_esquema.rol_agregar_funcionalidad') IS NOT NULL
+DROP PROCEDURE [gd_esquema].[rol_agregar_funcionalidad]
+
+IF OBJECT_ID('gd_esquema.rol_quitar_funcionalidad') IS NOT NULL
+DROP PROCEDURE [gd_esquema].[rol_quitar_funcionalidad]
+
+IF OBJECT_ID('gd_esquema.rol_inhabilitar') IS NOT NULL
+DROP PROCEDURE [gd_esquema].[rol_inhabilitar]
+
+IF OBJECT_ID('gd_esquema.cliente_agregar') IS NOT NULL
+DROP PROCEDURE [gd_esquema].[cliente_agregar]
+
+IF OBJECT_ID('gd_esquema.cliente_comprar_oferta') IS NOT NULL
+DROP PROCEDURE [gd_esquema].[cliente_comprar_oferta]
 
 CREATE TABLE gd_esquema.Usuario(
 	usuario_username nvarchar(64) NOT NULL,
@@ -154,8 +175,8 @@ CREATE TABLE gd_esquema.Cliente(
 		REFERENCES [gd_esquema].[Domicilio] (domicilio_id),
 	CONSTRAINT [FK_Cliente_usuario_id] FOREIGN KEY(cliente_id_usuario)
 		REFERENCES [gd_esquema].[Usuario] (usuario_username),
--- asumimos que si dos clientes tienen = nombre, apellido, dni, fecha nac y cliente_mail son "gemelos"
-	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni, cliente_mail, cliente_nombre, cliente_apellido, cliente_fecha_nacimiento)
+-- asumimos que si dos clientes tienen = nombre, apellido, dni, telefono, fecha nac y cliente_mail son "gemelos"
+	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni, cliente_mail, cliente_nombre, cliente_apellido, cliente_fecha_nacimiento, cliente_telefono)
 )
 
 CREATE TABLE gd_esquema.Tarjeta(
@@ -452,10 +473,10 @@ select 2, u.usuario_username from  [gd_esquema].Usuario u where u.usuario_userna
 
 -- inserto ofertas
 -- cada oferta tiene mismo cuit, misma fechas y misma descripcion
--- el limite por cliente no lo sabemos -> ponemos 0?? todo: revisar decision
+-- el limite por cliente no lo sabemos -> ponemos = al stock, o sea no hay limite
   insert into [gd_esquema].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
   oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor)
-  select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, 0, m.Oferta_Cantidad, p.proveedor_id
+  select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, m.Oferta_Cantidad, p.proveedor_id
   FROM [gd_esquema].[Maestra] m
   join [gd_esquema].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
   where m.Oferta_Descripcion is not null
@@ -585,6 +606,8 @@ CLOSE cursor_cliente
 DEALLOCATE cursor_cliente
 
 -- FIN DE MIGRACION
+-- estadisticas
+
 go
 create function gd_esquema.top_5_mayor_porcentaje(@anio int, @semestre int)
 returns table
@@ -592,21 +615,42 @@ as
 	return (
 		select top 5 p.proveedor_cuit, p.proveedor_razon_social,
 		(
-			select  max( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) from gd_esquema.Oferta o
-			where o.oferta_id_proveedor = p.proveedor_id
+			select max( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) from gd_esquema.Oferta o
+			where o.oferta_id_proveedor = p.proveedor_id 
+			and year(o.oferta_fecha_publicacion) = @anio
+			and 1 =
+			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
+			group by o.oferta_id
 		) as 'descuento'
-		from gd_esquema.Proveedor p order by 'descuento' desc
+		from gd_esquema.Proveedor p 
+		order by 'descuento' desc
 	)
 go
 
--- estadisticas
-
+create function gd_esquema.top_5_mayor_facturacion(@anio int, @semestre int)
+returns table
+as
+	return (
+		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, '') as 'nombre_contacto',
+		isnull((
+			select sum(f.factura_importe) from gd_esquema.Factura f
+			where f.factura_id_proveedor = p.proveedor_id 
+			and year(f.factura_fecha_inicio) = @anio
+			and year(f.factura_fecha_fin) = @anio
+			and 1 =
+			(case when @semestre = 1 and month(f.factura_fecha_inicio) in (1,2,3,4,5,6) and month(f.factura_fecha_fin) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(f.factura_fecha_inicio) in (7,8,9,10,11,12) and month(f.factura_fecha_fin) in (7,8,9,10,11,12) then 1 else 0 end)
+			group by f.factura_id_proveedor
+		), 0) as 'facturacion'
+		from gd_esquema.Proveedor p
+		order by 'facturacion' desc
+	)
+go
 
 -- funcionalidades
 create procedure gd_esquema.rol_cambiar_nombre (@id_rol int, @nombre varchar(64))
 as
 begin transaction
-	if exists (select rol_nombre from gd_esquema.Rol where @nombre = rol_nombre and @id_rol <> rol_id)
+	if exists (select 1 from gd_esquema.Rol where @nombre = rol_nombre and @id_rol <> rol_id)
 	begin
 		rollback
 			raiserror('No puede agregar un nombre de rol existente.', 16, 1)
@@ -622,7 +666,7 @@ go
 create procedure gd_esquema.rol_agregar_funcionalidad (@id_rol int, @id_func int)
 as
 begin transaction
-	if exists (select funcionalidadxrol_id_funcionalidad from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
+	if exists (select 1 from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
 	begin
 		rollback
 			raiserror('El rol ya tiene esa funcionalidad.', 16, 1)
@@ -637,7 +681,7 @@ go
 create procedure gd_esquema.rol_quitar_funcionalidad (@id_rol int, @id_func int)
 as
 begin transaction
-	if not exists (select funcionalidadxrol_id_funcionalidad from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
+	if not exists (select 1 from gd_esquema.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
 	begin
 		rollback
 			raiserror('No puede sacar una funcionalidad que no tiene', 16, 1)
@@ -649,9 +693,7 @@ begin transaction
 commit
 go
 
--- eliminacion del rol se hace directamente con query seteando el eliminado a 1
-
-create procedure rol_inhabilitar(@id_rol int)
+create procedure gd_esquema.rol_inhabilitar(@id_rol int)
 as
 begin transaction
 	update gd_esquema.Rol set rol_habilitado = 0 where @id_rol = rol_id
@@ -659,6 +701,47 @@ begin transaction
 commit
 go
 
+create procedure gd_esquema.cliente_comprar_oferta(@id_cliente int, @id_oferta int, @fecha datetime, @cantidad int, @codigo varchar(64) output)
+as
+begin transaction
+	if exists (select 1 from gd_esquema.Cliente where cliente_credito < (select oferta_precio from gd_esquema.Oferta where oferta_id = @id_oferta) and cliente_id = @id_cliente)
+		begin
+			rollback
+				raiserror('El cliente no posee crédito suficiente.', 16, 1)
+			return
+		end
+	if exists (select 1 from gd_esquema.Oferta where oferta_id = @id_oferta and @cantidad > oferta_restriccion_compra)
+		begin
+			rollback
+				raiserror('La cantidad supera la restricción por cliente.', 16, 1)
+			return
+		end
+	-- genero codigo	
+	DECLARE @id_nuevo VARCHAR(200)
+	SELECT @id_nuevo = NEWID()
+
+	set @codigo = (SELECT CAST((ABS(CHECKSUM(@id_nuevo))%10) AS VARCHAR(1)) + 
+	CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+	CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+	LEFT(@id_nuevo,7))
+
+	-- regenero codigo hasta que sea unico
+	while @codigo in (select compra_oferta_codigo from gd_esquema.Compra_Oferta)
+		begin
+			SELECT @id_nuevo = NEWID()
+
+			set @codigo = (SELECT CAST((ABS(CHECKSUM(@id_nuevo))%10) AS VARCHAR(1)) + 
+			CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+			CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+			LEFT(@id_nuevo,7))
+		end
+	
+	insert into gd_esquema.Compra_Oferta(compra_oferta_codigo, compra_oferta_fecha, compra_oferta_cantidad, compra_oferta_id_cliente, compra_oferta_id_oferta) values (@codigo, @fecha, @cantidad, @id_cliente, @id_oferta)
+	update gd_esquema.Cliente set cliente_credito = (cliente_credito - (select oferta_precio from gd_esquema.Oferta where oferta_id = @id_oferta)) where cliente_id = @id_cliente
+	update gd_esquema.Oferta set oferta_cantidad = oferta_cantidad - 1 where oferta_id = @id_oferta
+commit
+go
+/* hecho en app
 create procedure usuario_login(@username nvarchar(64), @password nvarchar(500))
 as
 begin transaction
@@ -694,17 +777,17 @@ begin transaction
 			end
 		end
 commit
-go
-
+go*/
+/* hecho en app
 create procedure usuario_modificar_password(@username nvarchar(64), @password nvarchar(500))
 as
 begin transaction
 	update gd_esquema.Usuario set usuario_password = LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), @password)), 2))
 	where usuario_username = @username
 commit
-go
+go*/
 
-create procedure cliente_agregar(@nombre varchar(64), @apellido nvarchar(64), @dni nvarchar(64), @mail nvarchar(64), @telefono nvarchar(64), @direccion nvarchar(64), @piso int, @departamento char(20), @localidad nvarchar(64), @codigo_postal int, @fech_nac datetime, @id_usuario int)
+create procedure gd_esquema.cliente_agregar(@nombre varchar(64), @apellido nvarchar(64), @dni nvarchar(64), @mail nvarchar(64), @telefono nvarchar(64), @calle nvarchar(64), @piso int, @departamento char(20), @localidad nvarchar(64), @codigo_postal int, @fech_nac datetime, @id_usuario int)
 as
 begin transaction
 	-- validaciones
@@ -720,6 +803,12 @@ begin transaction
 					raiserror('Ya existe un cliente con mismo nombre, apellido, mail, telefono y fecha de nacimiento', 16, 1)
 					return
 				end
+		end
+	if exists (select 1 from gd_esquema.Domicilio 
+	join gd_esquema.Localidad on localidad_id = domicilio_id_localidad
+	where @calle = domicilio_calle and @piso = domicilio_numero_piso and @departamento = domicilio_departamento and @codigo_postal = domicilio_codigo_postal and localidad_nombre = @localidad)
+		begin
+			print('aaa')
 		end
 	-- ver si existe la direccion, usar el id si existe, si no crearla
 	-- si no existe la localidad, crearla
@@ -741,15 +830,6 @@ Nombre (texto libre)
  DNI (texto libre exacto)
  Email (texto libre)
 
-*/
-/*
-
-
-	domicilio_id_localidad INT NOT NULL,
-	domicilio_calle varchar(64) NOT NULL,
-	domicilio_numero_piso INT NULL,
-	domicilio_departamento char(20) NULL,
-	domicilio_codigo_postal INT NOT NULL,
 */
 
 -- cambiar todos los nvarchar por varchar
