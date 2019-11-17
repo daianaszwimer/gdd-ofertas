@@ -162,6 +162,12 @@
     <Compile Include="ComprarOferta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ComprarOferta\OfertasDisponibles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComprarOferta\OfertasDisponibles.Designer.cs">
+      <DependentUpon>OfertasDisponibles.cs</DependentUpon>
+    </Compile>
     <Compile Include="CragaCredito\DatosTarjeta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -242,6 +248,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BarraDeOpciones.resx">
       <DependentUpon>BarraDeOpciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOferta\OfertasDisponibles.resx">
+      <DependentUpon>OfertasDisponibles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CragaCredito\DatosTarjeta.resx">
       <DependentUpon>DatosTarjeta.cs</DependentUpon>
