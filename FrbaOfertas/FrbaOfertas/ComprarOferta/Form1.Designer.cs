@@ -50,9 +50,9 @@
             // 
             // comprar
             // 
-            this.comprar.Location = new System.Drawing.Point(285, 242);
+            this.comprar.Location = new System.Drawing.Point(321, 228);
             this.comprar.Name = "comprar";
-            this.comprar.Size = new System.Drawing.Size(75, 23);
+            this.comprar.Size = new System.Drawing.Size(118, 34);
             this.comprar.TabIndex = 4;
             this.comprar.Text = "Comprar";
             this.comprar.UseVisualStyleBackColor = true;
@@ -64,7 +64,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(25, 37);
+            this.label1.Location = new System.Drawing.Point(25, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(200, 22);
             this.label1.TabIndex = 5;

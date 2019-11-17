@@ -27,10 +27,17 @@ namespace FrbaOfertas.ComprarOferta
             this.descripcion = descripcion;
             precioOferta = Decimal.Parse(precio);
             cantidadOferta = int.Parse(cantidad);
-            comprar.Visible = false;
+            habilitarCompra();
             unidadDeOferta.Maximum = Decimal.Parse(restriccion);
         }
 
+        public void habilitarCompra()
+        {
+            if (idOferta != "")
+                comprar.Visible = true;
+            else
+                comprar.Visible = false;
+        }
 
         private void buscar_Click(object sender, EventArgs e)
         {
@@ -47,9 +54,7 @@ namespace FrbaOfertas.ComprarOferta
 
         private void comprar_Click(object sender, EventArgs e)
         {
-            //TODO: VALIDAR ROL CLIENTE Y NO ADMINISTRADOR GENERAL (Desabilitar boton)
-            //TODO: VALIDAR SALDO SUFICIENTE
-            //TODO: CANTIDAD MAX USUARIO
+            //TODO: {M} VALIDAR ROL CLIENTE Y NO ADMINISTRADOR GENERAL (Desabilitar boton)
             if (saldoSuficiente(precioOferta) && cantidadSuficiente(cantidadOferta))
             {
                 SqlCommand restarOferta = new SqlCommand(string.Format("UPDATE Oferta SET oferta_cantidad = oferta_cantidad-1 WHERE oferta_id=" + idOferta), Helper.dbOfertas);
@@ -83,7 +88,7 @@ namespace FrbaOfertas.ComprarOferta
 
         private decimal creditoCliente(string idActual)
         {
-            SqlCommand saldoCliente = new SqlCommand(string.Format("SELECT cliente_credito FROM cliente WHERE cliente_id_usuario=" + idActual), Helper.dbOfertas);
+            SqlCommand saldoCliente = new SqlCommand(string.Format("SELECT cliente_credito FROM cliente WHERE cliente_id_usuario='{0}'",idActual), Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(saldoCliente);
             if (dataReader != null)
             {
