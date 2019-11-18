@@ -72,6 +72,9 @@ DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[cliente_comprar_oferta]
 IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.facturacion') IS NOT NULL
 DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[facturacion]
 
+IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta') IS NOT NULL
+DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[proveedor_entrega_oferta]
+
 IF SCHEMA_ID('NO_LO_TESTEAMOS_NI_UN_POCO') IS NOT NULL
 DROP SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO
 GO
@@ -263,7 +266,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cupon(
 	cupon_id_cliente INT NULL,
 	cupon_id_compra_oferta INT NOT NULL,
 	cupon_fecha_venc datetime NOT NULL,
-	cupon_fecha_consumo datetime NOT NULL,
+	cupon_fecha_consumo datetime NULL,
 	cupon_codigo varchar(64) NOT NULL, -- cambiar der
 	
 	CONSTRAINT [FK_cupon_cliente_id] FOREIGN KEY(cupon_id_cliente)
@@ -708,7 +711,7 @@ begin transaction
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(compra_oferta_codigo, compra_oferta_fecha, compra_oferta_cantidad, compra_oferta_id_cliente, compra_oferta_id_oferta) values (@codigo, @fecha, @cantidad, @id_cliente, @id_oferta)
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Cliente set cliente_credito = (cliente_credito - (select oferta_precio from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta)) where cliente_id = @id_cliente
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Oferta set oferta_cantidad = oferta_cantidad - 1 where oferta_id = @id_oferta
-	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta) values (@codigo_cup, /* que ponemos en fecha de venc? llega de la app?*/ @fecha, @fecha, (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
+	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_id_compra_oferta) values (@codigo_cup, /* que ponemos en fecha de venc? llega de la app?*/ @fecha, (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
 commit
 go
 
@@ -723,7 +726,7 @@ begin transaction
 		begin
 			-- proveedor no es dueño de la oferta
 			rollback
-				raiserror('No se puede canjear el cupón porque el proveedor no corresponde conel proveedor de la oferta.', 16, 1)
+				raiserror('No se puede canjear el cupón porque el proveedor no corresponde con el proveedor de la oferta.', 16, 1)
 			return
 		end
 	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
@@ -756,16 +759,21 @@ begin transaction
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Factura(factura_id_proveedor, factura_importe, factura_fecha_inicio, factura_fecha_fin) values (@id_proveedor, 
 		(select sum(compra_oferta_cantidad * oferta_precio) from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
 		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
-		where compra_oferta_fecha > @fecha_inicio and compra_oferta_fecha < @fecha_fin),
-		@fecha_inicio,@fecha_fin
+		where compra_oferta_fecha >= @fecha_inicio and compra_oferta_fecha <= @fecha_fin
+		and oferta_id_proveedor = @id_proveedor),
+		@fecha_inicio, @fecha_fin
 	)
-	set @id_factura = (SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY])
+	set @id_factura = (select IDENT_CURRENT('NO_LO_TESTEAMOS_NI_UN_POCO.Factura'))
+	print 'aa'
+	print @id_factura
+	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Item(item_id_factura, item_id_compra_oferta)
+	select @id_factura, compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
+	where compra_oferta_fecha >= @fecha_inicio and compra_oferta_fecha <= @fecha_fin
+	and oferta_id_proveedor = @id_proveedor
 commit
 go
-/*
 
-Para ello ingresará el período de facturación por intervalos de fecha, se deberá seleccionar el proveedor y a continuación se listaran todos las ofertas que fueron adquiridas por los clientes. Una vez que se tiene dicho listado, se informará el importe de la factura y el número correspondiente de la misma.
-*/
 /* hecho en app
 create procedure usuario_login(@username nvarchar(64), @password nvarchar(500))
 as
