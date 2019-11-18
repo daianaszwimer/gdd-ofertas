@@ -764,8 +764,6 @@ begin transaction
 		@fecha_inicio, @fecha_fin
 	)
 	set @id_factura = (select IDENT_CURRENT('NO_LO_TESTEAMOS_NI_UN_POCO.Factura'))
-	print 'aa'
-	print @id_factura
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Item(item_id_factura, item_id_compra_oferta)
 	select @id_factura, compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
