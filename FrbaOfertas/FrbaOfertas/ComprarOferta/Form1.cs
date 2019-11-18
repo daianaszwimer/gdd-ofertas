@@ -43,9 +43,13 @@ namespace FrbaOfertas.ComprarOferta
         {
             ofertasDataSet.Clear();
             SqlDataAdapter ofertasDataAdapter =
-                new SqlDataAdapter(string.Format("SELECT oferta_id, oferta_descripcion, oferta_precio_lista, oferta_cantidad, oferta_restriccion_compra " +
-                                                 "FROM Oferta " +
-                                                 "WHERE oferta_fecha_venc >= '{0}' AND oferta_cantidad > 0", Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff")), Helper.dbOfertas);
+                new SqlDataAdapter(
+                    string.Format(
+                        "SELECT oferta_id, oferta_descripcion, oferta_precio_lista, oferta_cantidad, oferta_restriccion_compra " +
+                              "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Oferta " +
+                              "WHERE oferta_fecha_venc >= '{0}' AND oferta_cantidad > 0", 
+                              Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff")), Helper.dbOfertas);
+
             ofertasDataAdapter.Fill(ofertasDataSet);
             (new ComprarOferta.OfertasDisponibles(ofertasDataSet)).Show();
             this.Close();
@@ -58,7 +62,12 @@ namespace FrbaOfertas.ComprarOferta
             {
                 if (saldoSuficiente(precioOferta) && cantidadSuficiente(cantidadOferta))
                 {
-                    SqlCommand restarOferta = new SqlCommand(string.Format("UPDATE Oferta SET oferta_cantidad = oferta_cantidad-1 WHERE oferta_id=" + idOferta), Helper.dbOfertas);
+                    SqlCommand restarOferta = 
+                        new SqlCommand(
+                            string.Format(
+                                "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta SET oferta_cantidad = oferta_cantidad-1 WHERE oferta_id="
+                                + idOferta), Helper.dbOfertas);
+                    
                     SqlDataReader dataReader = Helper.realizarConsultaSQL(restarOferta);
                     if (dataReader != null)
                     {
@@ -94,7 +103,10 @@ namespace FrbaOfertas.ComprarOferta
 
         private decimal creditoCliente(string idActual)
         {
-            SqlCommand saldoCliente = new SqlCommand(string.Format("SELECT cliente_credito FROM cliente WHERE cliente_id_usuario='{0}'", idActual), Helper.dbOfertas);
+            SqlCommand saldoCliente = 
+                new SqlCommand(
+                    string.Format(
+                        "SELECT cliente_credito FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE cliente_id_usuario='{0}'", idActual), Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(saldoCliente);
             if (dataReader != null)
             {

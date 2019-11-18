@@ -52,7 +52,7 @@ namespace FrbaOfertas.AbmRol
             if (!nombre.Text.Equals(rol[1].ToString())) // Si se modifico el nombre del rol
             {
                 SqlCommand modificarRol =
-                    new SqlCommand(string.Format("UPDATE rol SET rol_nombre='{0}' WHERE rol_id={1}; ", nombre.Text, rol[0].ToString()), Helper.dbOfertas);
+                    new SqlCommand(string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Rol SET rol_nombre='{0}' WHERE rol_id={1}; ", nombre.Text, rol[0].ToString()), Helper.dbOfertas);
                 
                 SqlDataReader modificarRolDataReader = Helper.realizarConsultaSQL(modificarRol);
                 if (modificarRolDataReader != null)
@@ -82,7 +82,10 @@ namespace FrbaOfertas.AbmRol
                 && funcionalidadesSeleccionadas.Count == funcionalidadesAMarcar.Count)) // Si se modifico alguna funcionalidad
             {
                 SqlCommand eliminarFuncionalidadesViejas =
-                    new SqlCommand(string.Format("DELETE FROM funcionalidadxrol WHERE rol_id={0};", rol[0].ToString()), Helper.dbOfertas);
+                    new SqlCommand(
+                        string.Format(
+                            "DELETE FROM NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol WHERE funcionalidadxrol_id_rol={0};", 
+                            rol[0].ToString()), Helper.dbOfertas);
 
                 SqlDataReader eliminarFuncionalidadesViejasDataReader = Helper.realizarConsultaSQL(eliminarFuncionalidadesViejas);
                 if (eliminarFuncionalidadesViejas != null)

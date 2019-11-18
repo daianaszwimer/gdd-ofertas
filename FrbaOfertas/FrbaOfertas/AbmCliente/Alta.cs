@@ -35,14 +35,20 @@ namespace FrbaOfertas.AbmCliente
             if (validarDatosIngresados())
             {
                 //TODO: {M} dni UNIQUE + try catch
-                SqlCommand chequearExistenciaCliente = new SqlCommand(string.Format("SELECT cliente_dni FROM cliente WHERE cliente_dni='{0}'", dni.Text), Helper.dbOfertas);
+                SqlCommand chequearExistenciaCliente = 
+                    new SqlCommand(
+                        string.Format("SELECT cliente_dni FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE cliente_dni='{0}'", dni.Text), Helper.dbOfertas);
+                
                 SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(chequearExistenciaCliente);
                 if (dataReaderUsuario != null)
                 {
                     if (!dataReaderUsuario.HasRows) // DNI unico
                     {
                         dataReaderUsuario.Close();
-                        SqlCommand chequearLocalidad = new SqlCommand(string.Format("SELECT localidad_id,localidad_nombre FROM localidad WHERE localidad_nombre='{0}'", localidad.Text), Helper.dbOfertas);
+                        SqlCommand chequearLocalidad = 
+                            new SqlCommand(
+                                string.Format("SELECT localidad_id,localidad_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Localidad WHERE localidad_nombre='{0}'", localidad.Text), Helper.dbOfertas);
+                        
                         SqlDataReader dataReaderLocalidad = Helper.realizarConsultaSQL(chequearLocalidad);
                         if (dataReaderLocalidad != null)
                         {
@@ -56,7 +62,11 @@ namespace FrbaOfertas.AbmCliente
                             else
                             {
                                 dataReaderLocalidad.Close();
-                                SqlCommand insertarNuevaLocalidad = new SqlCommand(string.Format("INSERT INTO localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), Helper.dbOfertas);
+                                SqlCommand insertarNuevaLocalidad = 
+                                    new SqlCommand(
+                                        string.Format(
+                                            "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidad.Text), Helper.dbOfertas);
+                                
                                 SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaLocalidad);
                                 if (dataReader != null)
                                 {
@@ -89,7 +99,14 @@ namespace FrbaOfertas.AbmCliente
 
         private void insertarLocalidadParaDireccion(string idLocalidad)
         {
-            SqlCommand chequearDomicilio = new SqlCommand(string.Format("SELECT domicilio_id, domicilio_calle, domicilio_piso, domicilio_depto FROM domicilio WHERE domicilio_calle='{0}' AND domicilio_piso='{1}'AND domicilio_depto='{2}'", calle.Text, piso.Text, depto.Text), Helper.dbOfertas);
+            SqlCommand chequearDomicilio =
+                new SqlCommand(
+                    string.Format(
+                        "SELECT domicilio_id, domicilio_calle, domicilio_numero_piso, domicilio_departamento " +
+                            "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio " +
+                            "WHERE domicilio_calle='{0}' AND domicilio_numero_piso='{1}'AND domicilio_departamento='{2}'",
+                            calle.Text, piso.Text, depto.Text), Helper.dbOfertas); 
+            
             SqlDataReader dataReaderDomicilio = Helper.realizarConsultaSQL(chequearDomicilio);
             if (dataReaderDomicilio != null)
             {
@@ -103,7 +120,14 @@ namespace FrbaOfertas.AbmCliente
                 else
                 {
                     dataReaderDomicilio.Close();
-                    SqlCommand insertarNuevoDomicilio = new SqlCommand(string.Format("INSERT INTO domicilio (idLocalidad,domicilio_calle,domicilio_piso,domicilio_depto,domicilio_codpostal) VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()", idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), Helper.dbOfertas);
+                    SqlCommand insertarNuevoDomicilio =
+                        new SqlCommand(
+                            string.Format(
+                                "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio " +
+                                "(domicilio_id_localidad,domicilio_calle,domicilio_numero_piso,domicilio_departamento,domicilio_codigo_postal) " +
+                                "VALUES ('{0}','{1}','{2}','{3}','{4}'); SELECT SCOPE_IDENTITY()",
+                                idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text), Helper.dbOfertas); 
+                    
                     SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoDomicilio);
                     if (dataReader != null)
                     {
@@ -126,7 +150,15 @@ namespace FrbaOfertas.AbmCliente
 
         private void insertarDomicilioParaCliente(string idDomicilio)
         {
-            SqlCommand insertarNuevoCliente = new SqlCommand(string.Format("INSERT INTO cliente (idDomicilio,cliente_nombre,cliente_apellido,cliente_dni,cliente_mail,cliente_telefono,cliente_fechaNacimiento) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'); SELECT SCOPE_IDENTITY()", idDomicilio, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, fechaNacimiento.Text), Helper.dbOfertas);
+            SqlCommand insertarNuevoCliente = 
+                new SqlCommand(
+                    string.Format(
+                        "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Cliente " +
+                        "(cliente_id_domicilio,cliente_nombre,cliente_apellido,cliente_dni,cliente_mail,cliente_telefono,cliente_fecha_nacimiento) " +
+                        "VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}'); SELECT SCOPE_IDENTITY()", 
+                        idDomicilio, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, fechaNacimiento.Text), 
+                        Helper.dbOfertas);
+            
             SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoCliente);
             if (dataReader != null)
             {
@@ -138,7 +170,13 @@ namespace FrbaOfertas.AbmCliente
                 string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
                 SqlCommand insertarCreditoInicial =
-                    new SqlCommand(string.Format("INSERT INTO cargaDeCredito (idCliente, idTipoDePago, idTarjeta, carga_credito_fecha, carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", idClienteNuevo, 1, 1, sqlFormattedDate, 200), Helper.dbOfertas);
+                    new SqlCommand(
+                        string.Format(
+                            "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Carga_Credito " +
+                            "(carga_credito_id_cliente, carga_credito_id_tipo_pago, carga_credito_id_tarjeta, " +
+                            "carga_credito_fecha, carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", 
+                            idClienteNuevo, 1, 1, sqlFormattedDate, 200), Helper.dbOfertas);
+
                 SqlDataReader dataReader2 = Helper.realizarConsultaSQL(insertarCreditoInicial);
                 if (dataReader2 != null)
                 {

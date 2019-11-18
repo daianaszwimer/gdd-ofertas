@@ -46,11 +46,11 @@ namespace FrbaOfertas.CrearOferta
 
             string sqlFechaPublicacion = DateTime.Parse(fechaPublicacion.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
             string sqlFechaVencimiento = DateTime.Parse(fechaVencimiento.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
-            
+
             /*SqlCommand crearNuevaOferta =
                 new SqlCommand(
                     string.Format(
-                        "INSERT INTO oferta (oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista," + 
+                        "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Oferta (oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista," + 
                                             "oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor) " +
                                             "VALUES ('{0}','{1}','{2}',{3},{4},{5},{6},{7}); SELECT SCOPE_IDENTITY()", 
                                             descripcion.Text, sqlFechaPublicacion, sqlFechaVencimiento, 

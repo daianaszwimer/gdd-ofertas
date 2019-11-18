@@ -25,7 +25,12 @@ namespace FrbaOfertas.CragaCredito
 
         private void insertarTarjeta()
         {
-            SqlCommand chequearTarjeta = new SqlCommand(string.Format("SELECT id, tarjeta_cod_seguridad FROM tarjeta WHERE tarjeta_numero={0}", numero.Text), Helper.dbOfertas);
+            SqlCommand chequearTarjeta = 
+                new SqlCommand(
+                    string.Format(
+                        "SELECT tarjeta_id, tarjeta_cod_seguridad FROM NO_LO_TESTEAMOS_NI_UN_POCO.Tarjeta WHERE tarjeta_numero={0}", 
+                        numero.Text), Helper.dbOfertas);
+
             SqlDataReader dataReaderTarjeta = Helper.realizarConsultaSQL(chequearTarjeta);
             if (dataReaderTarjeta != null)
             {
@@ -51,7 +56,7 @@ namespace FrbaOfertas.CragaCredito
                     string sqlFormattedDate = Convert.ToDateTime(fechaVencimiento.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
                     SqlCommand insertarNuevaTarjeta =
                         new SqlCommand(
-                            string.Format("INSERT INTO tarjeta (tarjeta_numero,tarjeta_fecha_venc, tarjeta_cod_seguridad) " +
+                            string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Tarjeta (tarjeta_numero,tarjeta_fecha_venc, tarjeta_cod_seguridad) " +
                                             "VALUES ({0},'{1}',{2}); SELECT SCOPE_IDENTITY()", numero.Text, sqlFormattedDate, codigoSeguridad.Text), Helper.dbOfertas);
                     SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaTarjeta);
                     if (dataReader != null)

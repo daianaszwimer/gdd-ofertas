@@ -25,7 +25,9 @@ namespace FrbaOfertas.CragaCredito
 
         private void cargarTiposDePago()
         {
-            SqlCommand seleccionarTiposDePago = new SqlCommand("SELECT id, tipo_pago_nombre FROM tipoDePago", Helper.dbOfertas);
+            SqlCommand seleccionarTiposDePago = 
+                new SqlCommand("SELECT tipo_pago_id, tipo_pago_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Tipo_Pago", Helper.dbOfertas);
+
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarTiposDePago);
             if (dataReader != null)
             {
@@ -49,9 +51,10 @@ namespace FrbaOfertas.CragaCredito
         {
             string sqlFormattedDate = Helper.obtenerFechaActual().ToString("yyyy-dd-MM HH:mm:ss.fff");
             SqlCommand obtenerIdCliente =
-                new SqlCommand("SELECT cliente_id FROM cliente c " +
-                                    "JOIN usuario u ON c.username = u.username WHERE u.username='" 
-                                        + Helper.usuarioActual + "'", Helper.dbOfertas);
+                new SqlCommand(
+                    "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente " +
+                     "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = cliente_id_usuario WHERE usuario_username='" 
+                      + Helper.usuarioActual + "'", Helper.dbOfertas);
 
             SqlDataReader dataReader = Helper.realizarConsultaSQL(obtenerIdCliente);
             if (dataReader != null)
@@ -61,8 +64,10 @@ namespace FrbaOfertas.CragaCredito
                     string idCliente = dataReader.GetValue(0).ToString();
                     SqlCommand insertarCredito =
                     new SqlCommand(string.Format(
-                        "INSERT INTO cargaDeCredito (idCliente, idTipoDePago, idTarjeta, carga_credito_fecha, carga_credito_monto) " +
-                            "VALUES ('{0}','{1}','{2}','{3}','{4}')", idCliente, tipoDePago.SelectedIndex, idTarjeta, sqlFormattedDate, monto), Helper.dbOfertas);
+                        "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Carga_Credito " +
+                        "(carga_credito_id_cliente, carga_credito_id_tipo_pago, carga_credito_id_tarjeta, carga_credito_fecha, " +
+                        "carga_credito_monto) VALUES ('{0}','{1}','{2}','{3}','{4}')", 
+                            idCliente, tipoDePago.SelectedIndex, idTarjeta, sqlFormattedDate, monto), Helper.dbOfertas);
 
                     SqlDataReader dataReader2 = Helper.realizarConsultaSQL(insertarCredito);
                     if (dataReader2 != null)

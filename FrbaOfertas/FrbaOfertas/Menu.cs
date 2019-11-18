@@ -71,6 +71,13 @@ namespace FrbaOfertas
             buttonCambiarConstrasenia.Dock = DockStyle.Fill;
             buttonCambiarConstrasenia.Height = 100;
             tableLayoutPanel.Controls.Add(buttonCambiarConstrasenia);
+
+            var buttonCerrarSesion = new Button();
+            buttonCerrarSesion.Text = "Cerrar Sesion";
+            agregarEventoOnClick(buttonCerrarSesion);
+            buttonCerrarSesion.Dock = DockStyle.Fill;
+            buttonCerrarSesion.Height = 100;
+            tableLayoutPanel.Controls.Add(buttonCerrarSesion);
         }
 
         private void agregarEventoOnClick(Button buttonFuncionalidad)
@@ -88,6 +95,7 @@ namespace FrbaOfertas
                 case "Compra de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ComprarOferta.Form1("", "", "0", "0", "0")).Show(); this.Close(); }; break;
                 case "Entrega/Consumo de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new EntregaDeOferta.Form1()).Show(); this.Close(); }; break;
                 case "Cambiar Contraseña": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CambiarPassword.Form1()).Show(); this.Close(); }; break;
+                case "Cerrar Sesion": buttonFuncionalidad.Click += (object sender, EventArgs e) => { Helper.cerrarSesion(); }; break;
             }
             
         }

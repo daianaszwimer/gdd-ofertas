@@ -23,7 +23,10 @@ namespace FrbaOfertas.AbmRol
         private bool crearRol()
         {
             SqlCommand insertarNuevoRol =
-                new SqlCommand(string.Format("INSERT INTO rol (rol_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", nombre.Text), Helper.dbOfertas);
+                new SqlCommand(
+                    string.Format(
+                        "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Rol (rol_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", 
+                        nombre.Text), Helper.dbOfertas);
 
             SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoRol);
             if (dataReader != null)

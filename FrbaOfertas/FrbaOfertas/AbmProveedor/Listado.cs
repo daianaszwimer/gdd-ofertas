@@ -47,11 +47,11 @@ namespace FrbaOfertas.AbmProveedor
             proveedoresDataSet.Clear();
             string consultaProveedores =
                 "SELECT proveedor_id AS Id, proveedor_razon_social AS 'Razon Social', proveedor_cuit AS Cuit, domicilio_id, localidad_id, localidad_nombre AS Localidad, " +
-                "domicilio_calle AS Calle, domicilio_piso AS Piso, domicilio_depto AS Depto, domicilio_codpostal AS 'Cod. Postal', proveedor_telefono AS Telefono, proveedor_mail AS Mail, " +
+                "domicilio_calle AS Calle, domicilio_numero_piso AS Piso, domicilio_departamento AS Depto, domicilio_codigo_postal AS 'Cod. Postal', proveedor_telefono AS Telefono, proveedor_mail AS Mail, " +
                 "proveedor_id_rubro, rubro_descripcion AS Rubro, proveedor_nombre_contacto AS Nombre, proveedor_habilitado AS Habilitado " +
-                    "FROM proveedor LEFT JOIN domicilio ON domicilio_id = proveedor_id_domicilio " +
-                                   "LEFT JOIN localidad ON localidad_id = idLocalidad " +
-                                   "LEFT JOIN rubro f ON rubro_id = proveedor_id_rubro WHERE proveedor_eliminado = 0";
+                    "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor LEFT JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio ON domicilio_id = proveedor_id_domicilio " +
+                        "LEFT JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Localidad ON localidad_id = domicilio_id_localidad " +
+                        "LEFT JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Rubro ON rubro_id = proveedor_id_rubro WHERE proveedor_eliminado = 0";
 
             string razonSocialAFiltrar = razonSocial.Text;
             string cuitAFiltrar = CUIT.Text;
@@ -85,7 +85,10 @@ namespace FrbaOfertas.AbmProveedor
         {
             object[] proveedor = Helper.obtenerValoresFilaSeleccionada(tablaDeResultados);
             string id = proveedor[0].ToString();
-            SqlCommand eliminarProveedor = new SqlCommand("UPDATE proveedor SET proveedor_eliminado = 1 WHERE proveedor_id=" + id, Helper.dbOfertas);
+            SqlCommand eliminarProveedor =
+                new SqlCommand(
+                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET proveedor_eliminado = 1 WHERE proveedor_id=" + id, Helper.dbOfertas);
+            
             SqlDataReader dataReader = Helper.realizarConsultaSQL(eliminarProveedor);
             if (dataReader != null)
             {

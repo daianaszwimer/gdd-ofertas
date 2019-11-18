@@ -46,29 +46,31 @@ namespace FrbaOfertas.AbmRol
         {
             rolesDataSet.Clear();
             string consultaRoles = 
-                "SELECT DISTINCT r.rol_id AS Id, r.rol_nombre AS Rol, " +
+                "SELECT DISTINCT rol_id AS Id, rol_nombre AS Rol, " +
 	                "ISNULL(STUFF(" +
-		                "(SELECT ', ' + f.descripcion " +
-                            "FROM funcionalidad f " +
-                            "LEFT JOIN funcionalidadxrol fxr ON fxr.funcionalidad_id = f.id " +
-		                    "WHERE fxr.rol_id = r.rol_id " +
+		                "(SELECT ', ' + funcionalidad_descripcion " +
+                            "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad " +
+                            "LEFT JOIN NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol " +
+                            "ON funcionalidadxrol_id_funcionalidad = funcionalidad_id " +
+		                    "WHERE funcionalidadxrol_id_rol = rol_id " +
 		                    "FOR XML PATH (''))," +
-		                    "1,2, ''),'-') AS Funcionalidades, r.rol_habilitado AS Habilitado " +
-                    "FROM rol r " +
-                    "LEFT JOIN funcionalidadxrol fxr ON fxr.rol_id = r.rol_id " +
-                    "LEFT JOIN funcionalidad f ON fxr.funcionalidad_id = f.id " +
-	                "WHERE r.rol_eliminado=0";
+		                    "1,2, ''),'-') AS Funcionalidades, rol_habilitado AS Habilitado " +
+                    "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol " +
+                    "LEFT JOIN NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol ON funcionalidadxrol_id_rol = rol_id " +
+                    "LEFT JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad ON funcionalidadxrol_id_funcionalidad = funcionalidad_id " +
+	                "WHERE rol_eliminado=0";
 
             string rolAFiltrar = rolTextBox.Text;
             object funcionalidadSeleccionada = funcionalidadesComboBox.SelectedItem;
 
             if (!string.IsNullOrWhiteSpace(rolAFiltrar))
             {
-                consultaRoles += string.Format(" AND r.rol_nombre LIKE '%{0}%'", rolAFiltrar);
+                consultaRoles += string.Format(" AND rol_nombre LIKE '%{0}%'", rolAFiltrar);
             }
+
             if (funcionalidadSeleccionada != null)
             {
-                consultaRoles += string.Format(" AND f.descripcion LIKE '%{0}%'", funcionalidadSeleccionada);
+                consultaRoles += string.Format(" AND funcionalidad_descripcion LIKE '%{0}%'", funcionalidadSeleccionada);
             }
 
             SqlDataAdapter rolesDataAdapter = new SqlDataAdapter(consultaRoles, Helper.dbOfertas);
@@ -86,7 +88,7 @@ namespace FrbaOfertas.AbmRol
         {
             object[] rol = Helper.obtenerValoresFilaSeleccionada(tablaDeResultados);
             string id = rol[0].ToString();
-            SqlCommand eliminarRol = new SqlCommand("UPDATE rol SET rol_eliminado = 1 WHERE rol_id=" + id, Helper.dbOfertas);
+            SqlCommand eliminarRol = new SqlCommand("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Rol SET rol_eliminado = 1 WHERE rol_id=" + id, Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(eliminarRol);
             if (dataReader != null)
             {

@@ -33,7 +33,11 @@ namespace FrbaOfertas
                 {
                     desactivarErrores();
 
-                    SqlCommand insertarNuevoUsuario = new SqlCommand(string.Format("INSERT INTO usuario (usuario_username, usuario_password) VALUES ('{0}','{1}'); SELECT SCOPE_IDENTITY()", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
+                    SqlCommand insertarNuevoUsuario = 
+                        new SqlCommand(
+                            string.Format(
+                            "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Usuario (usuario_username, usuario_password) VALUES ('{0}','{1}'); SELECT SCOPE_IDENTITY()", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
+                    
                     SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoUsuario);
                     if (dataReader != null)
                     {
@@ -120,7 +124,9 @@ namespace FrbaOfertas
 
         private bool usuarioUnico()
         {
-            SqlCommand chequearExistenciaUsername = new SqlCommand(string.Format("SELECT usuario_username FROM usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
+            SqlCommand chequearExistenciaUsername = 
+                new SqlCommand(
+                    string.Format("SELECT usuario_username FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
             SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(chequearExistenciaUsername);
             if (dataReaderUsuario != null)
             {
@@ -133,7 +139,9 @@ namespace FrbaOfertas
         private List<String> obtenerRolesPosibles()
         {
             List<String> rolesPosibles = new List<string>();
-            SqlCommand seleccionarRolesPosibles = new SqlCommand(string.Format("SELECT rol_nombre FROM rol WHERE rol_habilitado=1 AND rol_eliminado=0"), Helper.dbOfertas);
+            SqlCommand seleccionarRolesPosibles = 
+                new SqlCommand(
+                    string.Format("SELECT rol_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol WHERE rol_habilitado=1 AND rol_eliminado=0"), Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarRolesPosibles);
             if (dataReader != null)
             {

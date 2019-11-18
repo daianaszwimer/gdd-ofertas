@@ -22,7 +22,8 @@ namespace FrbaOfertas.AbmRol
 
         private void buscarFuncionalidadesEnBaseDeDatos()
         {
-            SqlCommand seleccionarFuncionalidades = new SqlCommand("SELECT descripcion FROM funcionalidad", Helper.dbOfertas);
+            SqlCommand seleccionarFuncionalidades = 
+                new SqlCommand("SELECT funcionalidad_descripcion FROM NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad", Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
             if (dataReader != null)
             {
@@ -49,7 +50,8 @@ namespace FrbaOfertas.AbmRol
             valoresAInsertarEnFuncionalidadxRol = valoresAInsertarEnFuncionalidadxRol.Remove(valoresAInsertarEnFuncionalidadxRol.Length - 1);
 
             SqlCommand insertarFuncionalidadesxRol =
-                new SqlCommand("INSERT INTO funcionalidadxrol (rol_id, funcionalidad_id) VALUES " + valoresAInsertarEnFuncionalidadxRol, Helper.dbOfertas);
+                new SqlCommand("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol " +
+                                "(funcionalidadxrol_id_rol, funcionalidadxrol_id_funcionalidad) VALUES " + valoresAInsertarEnFuncionalidadxRol, Helper.dbOfertas);
 
             SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarFuncionalidadesxRol);
             return dataReader;
