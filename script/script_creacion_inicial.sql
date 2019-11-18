@@ -66,29 +66,17 @@ DROP FUNCTION [NO_LO_TESTEAMOS_NI_UN_POCO].[top_5_mayor_porcentaje]
 IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.top_5_mayor_facturacion') IS NOT NULL
 DROP FUNCTION [NO_LO_TESTEAMOS_NI_UN_POCO].[top_5_mayor_facturacion]
 
-IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.rol_cambiar_nombre') IS NOT NULL
-DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[rol_cambiar_nombre]
-
-IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.rol_agregar_funcionalidad') IS NOT NULL
-DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[rol_agregar_funcionalidad]
-
-IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.rol_quitar_funcionalidad') IS NOT NULL
-DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[rol_quitar_funcionalidad]
-
-IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.rol_inhabilitar') IS NOT NULL
-DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[rol_inhabilitar]
-
-IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.cliente_agregar') IS NOT NULL
-DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[cliente_agregar]
-
 IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.cliente_comprar_oferta') IS NOT NULL
 DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[cliente_comprar_oferta]
+
+IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.facturacion') IS NOT NULL
+DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[facturacion]
 
 IF SCHEMA_ID('NO_LO_TESTEAMOS_NI_UN_POCO') IS NOT NULL
 DROP SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO
 GO
 
-CREATE SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO AUTHORIZATION gd
+CREATE SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO AUTHORIZATION gdCupon2019
 GO
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario(
@@ -272,7 +260,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cupon(
 	cupon_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	cupon_id_cliente INT NOT NULL,
+	cupon_id_cliente INT NULL,
 	cupon_id_compra_oferta INT NOT NULL,
 	cupon_fecha_venc datetime NOT NULL,
 	cupon_fecha_consumo datetime NOT NULL,
@@ -555,6 +543,7 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_con
 -- y la fecha final es la fecha de la factura
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura ON
 
+-- validar que no se inserte la misma oferta mas de 1 vez
 insert into  [NO_LO_TESTEAMOS_NI_UN_POCO].Factura(factura_id, factura_fecha_fin, factura_id_proveedor, factura_fecha_inicio, factura_importe)
 select distinct m.Factura_Nro, m.Factura_Fecha, p.proveedor_id,
 (select min(ma.Oferta_Fecha_Compra)
@@ -676,7 +665,7 @@ begin transaction
 				raiserror('No hay suficiente cantidad en stock.', 16, 1)
 			return
 		end
-	-- genero codigo	
+	-- genero codigo compra
 	DECLARE @id_nuevo VARCHAR(200)
 	SELECT @id_nuevo = NEWID()
 
@@ -695,12 +684,88 @@ begin transaction
 			CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
 			LEFT(@id_nuevo,7))
 		end
+
+	-- genero codigo cupon
+	declare @codigo_cup varchar(64)
+	SELECT @id_nuevo = NEWID()
+
+	set @codigo_cup = (SELECT CAST((ABS(CHECKSUM(@id_nuevo))%10) AS VARCHAR(1)) + 
+	CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+	CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+	LEFT(@id_nuevo,7))
+
+	-- regenero codigo_cup hasta que sea unico
+	while @codigo_cup in (select cupon_codigo from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon)
+		begin
+			SELECT @id_nuevo = NEWID()
+
+			set @codigo_cup = (SELECT CAST((ABS(CHECKSUM(@id_nuevo))%10) AS VARCHAR(1)) + 
+			CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+			CHAR(ASCII('A')+(ABS(CHECKSUM(@id_nuevo))%25)) +
+			LEFT(@id_nuevo,7))
+		end
 	
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(compra_oferta_codigo, compra_oferta_fecha, compra_oferta_cantidad, compra_oferta_id_cliente, compra_oferta_id_oferta) values (@codigo, @fecha, @cantidad, @id_cliente, @id_oferta)
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Cliente set cliente_credito = (cliente_credito - (select oferta_precio from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta)) where cliente_id = @id_cliente
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Oferta set oferta_cantidad = oferta_cantidad - 1 where oferta_id = @id_oferta
+	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta) values (@codigo_cup, /* que ponemos en fecha de venc? llega de la app?*/ @fecha, @fecha, (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
 commit
 go
+
+create procedure NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta(@fecha_consumo datetime, @id_proveedor int, @id_cliente int, @codigo_cup varchar(64))
+-- me van a pasar el id del cupon?
+as
+begin transaction
+	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
+	where cupon_codigo = @codigo_cup and oferta_id_proveedor <> @id_proveedor)
+		begin
+			-- proveedor no es dueño de la oferta
+			rollback
+				raiserror('No se puede canjear el cupón porque el proveedor no corresponde conel proveedor de la oferta.', 16, 1)
+			return
+		end
+	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
+	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_consumo is not null)
+		begin
+			-- cupón ya fue consumido
+			rollback
+				raiserror('No se puede canjear el cupón porque ya fue canjeado.', 16, 1)
+			return
+		end
+	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
+	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_venc < @fecha_consumo)
+		begin
+			-- cupón vencido
+			rollback
+				raiserror('No se puede canjear el cupón porque venció.', 16, 1)
+			return
+		end
+	update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon set cupon_fecha_consumo = @fecha_consumo, cupon_id_cliente = @id_cliente where cupon_codigo = @codigo_cup
+commit
+go
+
+create procedure NO_LO_TESTEAMOS_NI_UN_POCO.facturacion(@fecha_inicio datetime, @fecha_fin datetime, @id_proveedor int, @id_factura int output)
+as
+begin transaction
+	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Factura(factura_id_proveedor, factura_importe, factura_fecha_inicio, factura_fecha_fin) values (@id_proveedor, 
+		(select sum(compra_oferta_cantidad * oferta_precio) from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
+		where compra_oferta_fecha > @fecha_inicio and compra_oferta_fecha < @fecha_fin),
+		@fecha_inicio,@fecha_fin
+	)
+	set @id_factura = (SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY])
+commit
+go
+/*
+
+Para ello ingresará el período de facturación por intervalos de fecha, se deberá seleccionar el proveedor y a continuación se listaran todos las ofertas que fueron adquiridas por los clientes. Una vez que se tiene dicho listado, se informará el importe de la factura y el número correspondiente de la misma.
+*/
 /* hecho en app
 create procedure usuario_login(@username nvarchar(64), @password nvarchar(500))
 as
@@ -801,7 +866,7 @@ begin transaction
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Usuario set usuario_password = LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), @password)), 2))
 	where usuario_username = @username
 commit
-go*/
+go
 
 create procedure NO_LO_TESTEAMOS_NI_UN_POCO.cliente_agregar(@nombre varchar(64), @apellido nvarchar(64), @dni nvarchar(64), @mail nvarchar(64), @telefono nvarchar(64), @calle nvarchar(64), @piso int, @departamento char(20), @localidad nvarchar(64), @codigo_postal int, @fech_nac datetime, @id_usuario int)
 as
@@ -831,7 +896,7 @@ begin transaction
 	-- despues creo usuario y le agrego lo 200 de regalo
 commit
 go
-/*
+
 create function buscar_clientes(@nombre varchar(64), @apellido varchar(64), @dni varchar(64), @email varchar(64))
 return table
 as
