@@ -23,13 +23,13 @@ namespace FrbaOfertas
         private List<String> obtenerFuncionalidadesSegunUsuario(String usuario)
         {
             List<String> funcionalidades = new List<string>();
-            SqlCommand seleccionarFuncionalidades = 
-                new SqlCommand("SELECT f.descripcion, r.rol_nombre FROM rol r " +
-	                                "JOIN funcionalidadxrol fr ON fr.rol_id = r.rol_id " +
-	                                "JOIN funcionalidad f ON f.id = fr.funcionalidad_id " +
-	                                "JOIN rolxusuario ru ON ru.rol_id = r.rol_id " +
-                                    "JOIN usuario u ON u.usuario_username = ru.username " +
-                                    "WHERE u.usuario_username ='" + usuario + "'", Helper.dbOfertas);
+            SqlCommand seleccionarFuncionalidades =
+                new SqlCommand("SELECT funcionalidad_descripcion, rol_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol " +
+                                    "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol ON funcionalidadxrol_id_rol = rol_id " +
+                                    "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad ON funcionalidad_id = funcionalidadxrol_id_funcionalidad " +
+                                    "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario ON rolesxusuario_id_rol = rol_id " +
+                                    "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = rolesxusuario_id_usuario " +
+                                    "WHERE usuario_username ='" + usuario + "'", Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
             if (dataReader != null)
             {
@@ -57,8 +57,6 @@ namespace FrbaOfertas
 
             foreach (var funcionalidad in funcionalidades)
             {
-                /*var rectangulo = new Rectangle();
-                rectangulo.Width = */
                 var buttonFuncionalidad = new Button();
                 buttonFuncionalidad.Text = funcionalidad;
                 agregarEventoOnClick(buttonFuncionalidad);
@@ -66,21 +64,30 @@ namespace FrbaOfertas
                 buttonFuncionalidad.Height = 100;
                 tableLayoutPanel.Controls.Add(buttonFuncionalidad);
             }
+
+            var buttonCambiarConstrasenia = new Button();
+            buttonCambiarConstrasenia.Text = "Cambiar Contraseña";
+            agregarEventoOnClick(buttonCambiarConstrasenia);
+            buttonCambiarConstrasenia.Dock = DockStyle.Fill;
+            buttonCambiarConstrasenia.Height = 100;
+            tableLayoutPanel.Controls.Add(buttonCambiarConstrasenia);
         }
 
         private void agregarEventoOnClick(Button buttonFuncionalidad)
         {
             switch (buttonFuncionalidad.Text)
             {
-                case "ABM Rol": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmRol.Form1()).Show(); }; break;
-                case "ABM Cliente": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmCliente.Form1()).Show(); }; break;
-                case "ABM Proveedor": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmProveedor.Form1()).Show(); }; break;
-                case "Carga de credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CragaCredito.Form1("")).Show(); }; break;
-                case "Confeccion y publicacion de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CrearOferta.Form1()).Show(); }; break;
-                case "Compra de oferta": buttonFuncionalidad.Click += (object sender, EventArgs e) => {(new ComprarOferta.Form1("","","0","0","0")).Show(); }; break;
-                case "Entrega/Consumo de oferta": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new EntregaDeOferta.Form1()).Show(); }; break;
-                case "Facturacion a Proveedor": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new Facturar.Form1()).Show(); }; break;
-                case "Listado Estadistico": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ListadoEstadistico.Form1()).Show(); }; break;
+                case "ABM Rol": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmRol.Form1()).Show(); this.Close(); }; break;
+                case "ABM Cliente": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmCliente.Form1()).Show(); this.Close(); }; break;
+                case "ABM Proveedor": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new AbmProveedor.Form1()).Show(); this.Close(); }; break;
+                case "Listado Estadistico": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ListadoEstadistico.Form1()).Show(); this.Close(); }; break;
+                case "Facturacion a Proveedor": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new Facturar.Form1()).Show(); this.Close(); }; break;
+                case "Baja y Modificacion Usuario": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new BajaYModificacionUsuario.Form1()).Show(); this.Close(); }; break;
+                case "Carga de Credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CragaCredito.Form1("")).Show(); this.Close(); }; break;
+                case "Confeccion y Publicacion de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CrearOferta.Form1()).Show(); this.Close(); }; break;
+                case "Compra de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ComprarOferta.Form1("", "", "0", "0", "0")).Show(); this.Close(); }; break;
+                case "Entrega/Consumo de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new EntregaDeOferta.Form1()).Show(); this.Close(); }; break;
+                case "Cambiar Contraseña": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CambiarPassword.Form1()).Show(); this.Close(); }; break;
             }
             
         }

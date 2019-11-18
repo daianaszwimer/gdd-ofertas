@@ -150,11 +150,23 @@
     <Compile Include="AbmRol\Modificacion.Designer.cs">
       <DependentUpon>Modificacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="BajaYModificacionUsuario\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BajaYModificacionUsuario\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="BarraDeOpciones.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BarraDeOpciones.Designer.cs">
       <DependentUpon>BarraDeOpciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CambiarPassword\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CambiarPassword\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="ComprarOferta\Form1.cs">
       <SubType>Form</SubType>

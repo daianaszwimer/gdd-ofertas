@@ -29,7 +29,11 @@ namespace FrbaOfertas
             //TODO: {M} Cambiar nombres atributos usuario
             // Con una tabla de prueba "usuario" que tiene username: admin 
             // y pass: w23e encriptada como "e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7"
-            SqlCommand chequearUsuario = new SqlCommand(string.Format("SELECT usuario_username, usuario_intentos_fallidos_login FROM usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
+            SqlCommand chequearUsuario = 
+                new SqlCommand(
+                    string.Format("SELECT usuario_username, usuario_intentos_fallidos_login " +
+                                    "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
+            
             SqlDataReader estadoUsuario = Helper.realizarConsultaSQL(chequearUsuario);
             if (estadoUsuario != null)
             {
@@ -39,14 +43,24 @@ namespace FrbaOfertas
                 if (estadoUsuario.HasRows) // USUARIO EXISTE 
                 {
                     estadoUsuario.Close();
-                    SqlCommand chequearLogIn = new SqlCommand(string.Format("SELECT usuario_username, usuario_password FROM usuario WHERE usuario_username='{0}' AND usuario_password='{1}'", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
+                    SqlCommand chequearLogIn = 
+                        new SqlCommand(
+                            string.Format("SELECT usuario_username, usuario_password " +
+                                            "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}' AND usuario_password='{1}'", 
+                                            username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
+
                     SqlDataReader estadoLogin = Helper.realizarConsultaSQL(chequearLogIn);
                     if (estadoLogin != null)
                     {
                         if (estadoLogin.Read())
                         {
                             estadoLogin.Close(); // HABILITADO OK
-                            SqlCommand loginCorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_intentos_fallidos_login = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                            SqlCommand loginCorrecto = 
+                                new SqlCommand(
+                                    string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " + 
+                                                    "SET usuario_intentos_fallidos_login = 0 " + 
+                                                    "WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                            
                             SqlDataReader dataReader = Helper.realizarConsultaSQL(loginCorrecto);
                             if (dataReader != null)
                             {
@@ -62,11 +76,16 @@ namespace FrbaOfertas
                             estadoLogin.Close(); // HABILITADO (1* o 2* error)
                             if (intentosLogin <= 2)
                             {
-                                SqlCommand loginIncorrecto = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_intentos_fallidos_login = usuario_intentos_fallidos_login+1 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                                SqlCommand loginIncorrecto = 
+                                    new SqlCommand(
+                                        string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " + 
+                                                        "SET usuario_intentos_fallidos_login = usuario_intentos_fallidos_login+1 " +
+                                                        "WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                                
                                 SqlDataReader dataReader = Helper.realizarConsultaSQL(loginIncorrecto);
                                 if (dataReader != null)
                                 {
-                                    MessageBox.Show("DATOS INCORRECTO", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBox.Show("DATOS INCORRECTOS", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                     dataReader.Close();
 
                                     this.Show();
@@ -75,7 +94,11 @@ namespace FrbaOfertas
                             else // INHABILITADO (3* error)
                             {
                                 estadoLogin.Close();
-                                SqlCommand inhabilitarUsuario = new SqlCommand(string.Format("UPDATE dbo.usuario SET usuario_habilitado = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                                SqlCommand inhabilitarUsuario = 
+                                    new SqlCommand(
+                                        string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " + 
+                                                        "SET usuario_habilitado = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                                
                                 SqlDataReader dataReader = Helper.realizarConsultaSQL(inhabilitarUsuario);
                                 if (dataReader != null)
                                 {
