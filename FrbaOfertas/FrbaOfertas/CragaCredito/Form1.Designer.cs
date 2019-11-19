@@ -34,14 +34,14 @@
             this.monto = new System.Windows.Forms.TextBox();
             this.tipoDePago = new System.Windows.Forms.ComboBox();
             this.cargarCredito = new System.Windows.Forms.Button();
-            this.tarjeta = new System.Windows.Forms.TextBox();
-            this.insertarDatosTarjeta = new System.Windows.Forms.Button();
+            this.nuevaTarjeta = new System.Windows.Forms.Button();
+            this.tarjetaComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 39);
+            this.label2.Location = new System.Drawing.Point(34, 39);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 1;
@@ -50,7 +50,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 70);
+            this.label1.Location = new System.Drawing.Point(67, 70);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 2;
@@ -59,17 +59,17 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 99);
+            this.label3.Location = new System.Drawing.Point(64, 101);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 13);
+            this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Datos Tarjeta";
+            this.label3.Text = "Tarjeta";
             // 
             // monto
             // 
-            this.monto.Location = new System.Drawing.Point(116, 67);
+            this.monto.Location = new System.Drawing.Point(233, 67);
             this.monto.Name = "monto";
-            this.monto.Size = new System.Drawing.Size(110, 20);
+            this.monto.Size = new System.Drawing.Size(75, 20);
             this.monto.TabIndex = 4;
             // 
             // tipoDePago
@@ -77,44 +77,45 @@
             this.tipoDePago.FormattingEnabled = true;
             this.tipoDePago.Location = new System.Drawing.Point(116, 36);
             this.tipoDePago.Name = "tipoDePago";
-            this.tipoDePago.Size = new System.Drawing.Size(110, 21);
+            this.tipoDePago.Size = new System.Drawing.Size(192, 21);
             this.tipoDePago.TabIndex = 5;
             // 
             // cargarCredito
             // 
-            this.cargarCredito.Location = new System.Drawing.Point(151, 126);
+            this.cargarCredito.Location = new System.Drawing.Point(201, 126);
             this.cargarCredito.Name = "cargarCredito";
-            this.cargarCredito.Size = new System.Drawing.Size(75, 23);
+            this.cargarCredito.Size = new System.Drawing.Size(107, 23);
             this.cargarCredito.TabIndex = 7;
             this.cargarCredito.Text = "Cargar";
             this.cargarCredito.UseVisualStyleBackColor = true;
             this.cargarCredito.Click += new System.EventHandler(this.cargarCredito_Click);
             // 
-            // tarjeta
+            // nuevaTarjeta
             // 
-            this.tarjeta.Location = new System.Drawing.Point(116, 99);
-            this.tarjeta.Name = "tarjeta";
-            this.tarjeta.Size = new System.Drawing.Size(80, 20);
-            this.tarjeta.TabIndex = 6;
+            this.nuevaTarjeta.Location = new System.Drawing.Point(249, 97);
+            this.nuevaTarjeta.Name = "nuevaTarjeta";
+            this.nuevaTarjeta.Size = new System.Drawing.Size(60, 23);
+            this.nuevaTarjeta.TabIndex = 8;
+            this.nuevaTarjeta.Text = "Añadir";
+            this.nuevaTarjeta.UseVisualStyleBackColor = true;
+            this.nuevaTarjeta.Click += new System.EventHandler(this.nuevaTarjeta_Click);
             // 
-            // insertarDatosTarjeta
+            // tarjetaComboBox
             // 
-            this.insertarDatosTarjeta.Location = new System.Drawing.Point(202, 97);
-            this.insertarDatosTarjeta.Name = "insertarDatosTarjeta";
-            this.insertarDatosTarjeta.Size = new System.Drawing.Size(24, 23);
-            this.insertarDatosTarjeta.TabIndex = 8;
-            this.insertarDatosTarjeta.Text = "->";
-            this.insertarDatosTarjeta.UseVisualStyleBackColor = true;
-            this.insertarDatosTarjeta.Click += new System.EventHandler(this.insertarDatosTarjeta_Click);
+            this.tarjetaComboBox.FormattingEnabled = true;
+            this.tarjetaComboBox.Location = new System.Drawing.Point(116, 98);
+            this.tarjetaComboBox.Name = "tarjetaComboBox";
+            this.tarjetaComboBox.Size = new System.Drawing.Size(127, 21);
+            this.tarjetaComboBox.TabIndex = 9;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(241, 163);
-            this.Controls.Add(this.insertarDatosTarjeta);
+            this.ClientSize = new System.Drawing.Size(339, 162);
+            this.Controls.Add(this.tarjetaComboBox);
+            this.Controls.Add(this.nuevaTarjeta);
             this.Controls.Add(this.cargarCredito);
-            this.Controls.Add(this.tarjeta);
             this.Controls.Add(this.tipoDePago);
             this.Controls.Add(this.monto);
             this.Controls.Add(this.label3);
@@ -127,9 +128,9 @@
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.monto, 0);
             this.Controls.SetChildIndex(this.tipoDePago, 0);
-            this.Controls.SetChildIndex(this.tarjeta, 0);
             this.Controls.SetChildIndex(this.cargarCredito, 0);
-            this.Controls.SetChildIndex(this.insertarDatosTarjeta, 0);
+            this.Controls.SetChildIndex(this.nuevaTarjeta, 0);
+            this.Controls.SetChildIndex(this.tarjetaComboBox, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,7 +144,7 @@
         private System.Windows.Forms.TextBox monto;
         private System.Windows.Forms.ComboBox tipoDePago;
         private System.Windows.Forms.Button cargarCredito;
-        private System.Windows.Forms.TextBox tarjeta;
-        private System.Windows.Forms.Button insertarDatosTarjeta;
+        private System.Windows.Forms.Button nuevaTarjeta;
+        private System.Windows.Forms.ComboBox tarjetaComboBox;
     }
 }

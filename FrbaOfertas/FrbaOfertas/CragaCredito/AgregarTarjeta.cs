@@ -11,11 +11,14 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.CragaCredito
 {
-    public partial class DatosTarjeta : BarraDeOpciones
+    public partial class AgregarTarjeta : BarraDeOpciones
     {
-        public DatosTarjeta()
+        Action<string, string> agregarNuevaTarjeta;
+
+        public AgregarTarjeta(Action<string,string> agregarNuevaTarjeta)
         {
             InitializeComponent();
+            this.agregarNuevaTarjeta = agregarNuevaTarjeta;
         }
 
         private void guardar_Click(object sender, EventArgs e)
@@ -36,19 +39,9 @@ namespace FrbaOfertas.CragaCredito
             {
                 if (dataReaderTarjeta.HasRows) // Tarjeta ya existe
                 {
-                    dataReaderTarjeta.Read();
-                    string idTarjeta = dataReaderTarjeta.GetValue(0).ToString();
-                    string codSeguridad = dataReaderTarjeta.GetValue(1).ToString();
-                    if (codigoSeguridad.Text.Equals(codSeguridad))
-                    {
-                        dataReaderTarjeta.Close();
-                        MessageBox.Show("Tarjeta guardada con exito", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        (new CragaCredito.Form1(idTarjeta)).Show();
-                        this.Hide();
-                    }
-                    else
-                        MessageBox.Show("La tarjeta existe pero se inserto un codigo de seguridad erroneo", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ya existe una tarjeta con ese numero", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     dataReaderTarjeta.Close();
+                    this.Close();
                 }
                 else
                 {
@@ -58,6 +51,7 @@ namespace FrbaOfertas.CragaCredito
                         new SqlCommand(
                             string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Tarjeta (tarjeta_numero,tarjeta_fecha_venc, tarjeta_cod_seguridad) " +
                                             "VALUES ({0},'{1}',{2}); SELECT SCOPE_IDENTITY()", numero.Text, sqlFormattedDate, codigoSeguridad.Text), Helper.dbOfertas);
+                    
                     SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaTarjeta);
                     if (dataReader != null)
                     {
@@ -66,8 +60,8 @@ namespace FrbaOfertas.CragaCredito
                             string idTarjeta = dataReader.GetValue(0).ToString();
                             dataReader.Close();
                             MessageBox.Show("Tarjeta guardada con exito", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            (new CragaCredito.Form1(idTarjeta)).Show();
-                            this.Hide();
+                            agregarNuevaTarjeta(idTarjeta.ToString(), numero.Text);
+                            this.Close();
                         }
                         else
                         {

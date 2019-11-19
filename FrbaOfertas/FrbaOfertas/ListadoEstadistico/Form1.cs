@@ -36,17 +36,20 @@ namespace FrbaOfertas.ListadoEstadistico
 
             if (tipoDeListado.SelectedIndex == 1) // Proveedores con mayor descuento
             {
-                /*SELECT TOP 5 * FROM Proveedor INNER JOIN Oferta ON oferta_id_proveedor = proveedor_id
-                WHERE --mayor porcentaje de descuento ofrecido en sus ofertas y semestre
-                ORDER BY oferta_precio_lista*/
+                consultaProveedores = 
+                    string.Format(
+                        "SELECT * FROM NO_LO_TESTEAMOS_NI_UN_POCO.top_5_mayor_porcentaje({0}, {1})", anio.Text, semestre.Text);
             }
-            if (tipoDeListado.SelectedIndex == 2) // Proveedores con mayor facturacion
+            else // Proveedores con mayor facturacion
             {
+                consultaProveedores =
+                    string.Format(
+                        "SELECT * FROM NO_LO_TESTEAMOS_NI_UN_POCO.top_5_mayor_facturacion({0}, {1})", anio.Text, semestre.Text);
             }
 
-            /*SqlDataAdapter proveedoresDataAdapter = new SqlDataAdapter(consultaProveedores, Helper.dbOfertas);
+            SqlDataAdapter proveedoresDataAdapter = new SqlDataAdapter(consultaProveedores, Helper.dbOfertas);
             proveedoresDataAdapter.Fill(proveedoresDataSet);
-            tablaDeResultados.DataSource = proveedoresDataSet.Tables[0];*/
+            tablaDeResultados.DataSource = proveedoresDataSet.Tables[0];
         }
     }
 }

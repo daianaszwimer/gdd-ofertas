@@ -180,11 +180,11 @@
     <Compile Include="ComprarOferta\OfertasDisponibles.Designer.cs">
       <DependentUpon>OfertasDisponibles.cs</DependentUpon>
     </Compile>
-    <Compile Include="CragaCredito\DatosTarjeta.cs">
+    <Compile Include="CragaCredito\AgregarTarjeta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CragaCredito\DatosTarjeta.Designer.cs">
-      <DependentUpon>DatosTarjeta.cs</DependentUpon>
+    <Compile Include="CragaCredito\AgregarTarjeta.Designer.cs">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
     </Compile>
     <Compile Include="CragaCredito\Form1.cs">
       <SubType>Form</SubType>
@@ -270,8 +270,8 @@
     <EmbeddedResource Include="ComprarOferta\OfertasDisponibles.resx">
       <DependentUpon>OfertasDisponibles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CragaCredito\DatosTarjeta.resx">
-      <DependentUpon>DatosTarjeta.cs</DependentUpon>
+    <EmbeddedResource Include="CragaCredito\AgregarTarjeta.resx">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

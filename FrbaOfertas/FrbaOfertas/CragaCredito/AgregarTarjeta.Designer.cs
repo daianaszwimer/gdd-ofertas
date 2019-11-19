@@ -1,6 +1,6 @@
 ﻿namespace FrbaOfertas.CragaCredito
 {
-    partial class DatosTarjeta
+    partial class AgregarTarjeta
     {
         /// <summary>
         /// Required designer variable.
@@ -73,6 +73,7 @@
             // 
             // fechaVencimiento
             // 
+            this.fechaVencimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.fechaVencimiento.Location = new System.Drawing.Point(145, 58);
             this.fechaVencimiento.Name = "fechaVencimiento";
             this.fechaVencimiento.Size = new System.Drawing.Size(126, 20);
