@@ -73,6 +73,9 @@ DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[facturacion]
 IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta') IS NOT NULL
 DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[proveedor_entrega_oferta]
 
+IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.obtener_ofertas_factura') IS NOT NULL
+DROP FUNCTION [NO_LO_TESTEAMOS_NI_UN_POCO].[obtener_ofertas_factura]
+
 IF SCHEMA_ID('NO_LO_TESTEAMOS_NI_UN_POCO') IS NOT NULL
 DROP SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO
 GO
@@ -240,7 +243,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta(
 	oferta_cantidad int NOT NULL,
 	oferta_restriccion_compra INT NOT NULL,
 	oferta_id_proveedor INT NOT NULL,
-	oferta_tiempo_validez_cupon INT NOT NULL,
+	oferta_tiempo_validez_cupon INT NOT NULL, -- cambiar der
 	
 	CONSTRAINT [FK_proveedor_proveedor_id] FOREIGN KEY(oferta_id_proveedor)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Proveedor] (proveedor_id)
@@ -467,9 +470,11 @@ select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where 
 -- inserto ofertas
 -- cada oferta tiene mismo cuit, misma fechas y misma descripcion
 -- el limite por cliente no lo sabemos -> ponemos = al stock, o sea no hay limite
+-- la fecha de duracion del cupon no la sabemos -> ponemos 0
+-- todo: averiguar si hay alguna compra que no se haya retirado
   insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
-  oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor)
-  select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, m.Oferta_Cantidad, p.proveedor_id
+  oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor, oferta_tiempo_validez_cupon)
+  select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, m.Oferta_Cantidad, p.proveedor_id, 0
   FROM [gd_esquema].[Maestra] m
   join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
   where m.Oferta_Descripcion is not null
@@ -599,6 +604,8 @@ END
 CLOSE cursor_cliente
 DEALLOCATE cursor_cliente
 
+-- calculo stock de cada oferta
+
 -- FIN DE MIGRACION
 -- estadisticas
 
@@ -710,7 +717,8 @@ begin transaction
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(compra_oferta_codigo, compra_oferta_fecha, compra_oferta_cantidad, compra_oferta_id_cliente, compra_oferta_id_oferta) values (@codigo, @fecha, @cantidad, @id_cliente, @id_oferta)
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Cliente set cliente_credito = (cliente_credito - (select oferta_precio from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta)) where cliente_id = @id_cliente
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Oferta set oferta_cantidad = oferta_cantidad - 1 where oferta_id = @id_oferta
-	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_id_compra_oferta) values (@codigo_cup, /* que ponemos en fecha de venc? llega de la app?*/ @fecha, (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
+	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_id_compra_oferta) 
+	values (@codigo_cup, DATEADD(DAY, (select oferta_tiempo_validez_cupon from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta), @fecha), (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
 commit
 go
 
@@ -769,6 +777,19 @@ begin transaction
 	where compra_oferta_fecha >= @fecha_inicio and compra_oferta_fecha <= @fecha_fin
 	and oferta_id_proveedor = @id_proveedor
 commit
+go
+
+create function NO_LO_TESTEAMOS_NI_UN_POCO.obtener_ofertas_factura(@id_factura int)
+returns table
+as
+	return (
+		select oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, oferta_cantidad
+		from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id_oferta = oferta_id
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Item on compra_oferta_id = item_id_compra_oferta
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Factura on factura_id = item_id_factura
+		where factura_id = @id_factura
+	)
 go
 
 /* hecho en app
