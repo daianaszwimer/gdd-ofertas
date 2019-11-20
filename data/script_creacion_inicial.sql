@@ -76,6 +76,9 @@ DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[proveedor_entrega_oferta]
 IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.obtener_ofertas_factura') IS NOT NULL
 DROP FUNCTION [NO_LO_TESTEAMOS_NI_UN_POCO].[obtener_ofertas_factura]
 
+IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.obtener_codigos_cupones') IS NOT NULL
+DROP FUNCTION [NO_LO_TESTEAMOS_NI_UN_POCO].[obtener_codigos_cupones]
+
 IF SCHEMA_ID('NO_LO_TESTEAMOS_NI_UN_POCO') IS NOT NULL
 DROP SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO
 GO
@@ -722,10 +725,15 @@ begin transaction
 commit
 go
 
-create procedure NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta(@fecha_consumo datetime, @id_proveedor int, @id_cliente int, @codigo_cup varchar(64))
--- me van a pasar el id del cupon?
+create procedure NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta(@fecha_consumo datetime, @id_proveedor int, @dni_cliente int, @codigo_cup varchar(64))
 as
 begin transaction
+	if not exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where cliente_dni = @dni_cliente)
+		begin
+			rollback
+				raiserror('No existe un cliente con ese DNI.', 16, 1)
+			return
+		end
 	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
@@ -756,7 +764,7 @@ begin transaction
 				raiserror('No se puede canjear el cupón porque venció.', 16, 1)
 			return
 		end
-	update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon set cupon_fecha_consumo = @fecha_consumo, cupon_id_cliente = @id_cliente where cupon_codigo = @codigo_cup
+	update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon set cupon_fecha_consumo = @fecha_consumo, cupon_id_cliente = (select cliente_id from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where cliente_dni = @dni_cliente) where cupon_codigo = @codigo_cup
 commit
 go
 
@@ -792,6 +800,17 @@ as
 	)
 go
 
+create function NO_LO_TESTEAMOS_NI_UN_POCO.obtener_codigos_cupones(@id_proveedor int)
+returns table
+as
+	return (
+		select cupon_codigo
+		from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
+		where oferta_id_proveedor = @id_proveedor
+	)
+go
 /* hecho en app
 create procedure usuario_login(@username nvarchar(64), @password nvarchar(500))
 as
