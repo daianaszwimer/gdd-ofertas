@@ -87,8 +87,8 @@ CREATE SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO AUTHORIZATION gdCupon2019
 GO
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario(
-	usuario_username nvarchar(64) NOT NULL,
-	usuario_password nvarchar(500) NOT NULL,
+	usuario_username varchar(64) NOT NULL,
+	usuario_password varchar(500) NOT NULL,
 	usuario_habilitado BIT DEFAULT 1,
 	usuario_intentos_fallidos_login INT DEFAULT 0,
 	usuario_eliminado BIT DEFAULT 0
@@ -111,7 +111,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad(
 )
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario(
-	rolesxusuario_id_usuario nvarchar(64) NOT NULL,
+	rolesxusuario_id_usuario varchar(64) NOT NULL,
 	rolesxusuario_id_rol INT NOT NULL
 
 	CONSTRAINT [PK_RolesxUsuario] PRIMARY KEY (
@@ -162,7 +162,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio(
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente(
 	cliente_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	cliente_id_usuario nvarchar(64) NOT NULL,
+	cliente_id_usuario varchar(64) NOT NULL,
 	cliente_nombre varchar(64) NOT NULL,
 	cliente_apellido varchar(64) NOT NULL,
 	cliente_dni varchar(64) NOT NULL,
@@ -217,7 +217,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Rubro(
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor(
 	proveedor_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	proveedor_id_usuario nvarchar(64) NOT NULL,
+	proveedor_id_usuario varchar(64) NOT NULL,
 	proveedor_mail varchar(64) NULL,
 	proveedor_telefono varchar(64) NULL,
 	proveedor_cuit varchar(64) UNIQUE NOT NULL,
@@ -238,7 +238,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor(
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta(
 	oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	oferta_descripcion nvarchar(255) NOT NULL,
+	oferta_descripcion varchar(255) NOT NULL,
 	oferta_fecha_publicacion datetime NOT NULL,
 	oferta_fecha_venc datetime NOT NULL,
 	oferta_precio decimal(12, 2) NOT NULL,
