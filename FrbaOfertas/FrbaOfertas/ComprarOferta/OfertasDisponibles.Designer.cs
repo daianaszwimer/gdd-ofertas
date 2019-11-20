@@ -35,7 +35,7 @@
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(352, 253);
+            this.confirmar.Location = new System.Drawing.Point(352, 277);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(100, 23);
             this.confirmar.TabIndex = 0;
@@ -49,23 +49,26 @@
             this.tablaDeResultados.AllowUserToDeleteRows = false;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(33, 44);
+            this.tablaDeResultados.Location = new System.Drawing.Point(33, 41);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(419, 194);
+            this.tablaDeResultados.Size = new System.Drawing.Size(419, 230);
             this.tablaDeResultados.TabIndex = 2;
             // 
             // OfertasDisponibles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 297);
+            this.ClientSize = new System.Drawing.Size(484, 312);
             this.Controls.Add(this.tablaDeResultados);
             this.Controls.Add(this.confirmar);
             this.Name = "OfertasDisponibles";
             this.Text = "Form2";
+            this.Controls.SetChildIndex(this.confirmar, 0);
+            this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.ComprarOferta
 {
-    public partial class OfertasDisponibles : Form
+    public partial class OfertasDisponibles : BarraDeOpciones
     {
         public OfertasDisponibles(DataSet ofertasDataSet)
         {

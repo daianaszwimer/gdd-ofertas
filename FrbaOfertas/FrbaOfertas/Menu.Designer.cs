@@ -1,4 +1,4 @@
-﻿namespace FrbaOfertas
+namespace FrbaOfertas
 {
     partial class Menu
     {

@@ -166,7 +166,7 @@ namespace FrbaOfertas.AbmCliente
                 string idClienteNuevo = dataReader.GetValue(0).ToString();
                 dataReader.Close();
 
-                DateTime myDateTime = DateTime.Now;
+                DateTime myDateTime = DateTime.Now; //TODO
                 string sqlFormattedDate = myDateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
                 SqlCommand insertarCreditoInicial =
