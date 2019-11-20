@@ -165,7 +165,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente(
 	cliente_id_usuario varchar(64) NOT NULL,
 	cliente_nombre varchar(64) NOT NULL,
 	cliente_apellido varchar(64) NOT NULL,
-	cliente_dni varchar(64) NOT NULL,
+	cliente_dni varchar(64) UNIQUE NOT NULL,
 	cliente_mail varchar(64) NOT NULL,
 	cliente_telefono varchar(64) NULL,
 	cliente_habilitado BIT DEFAULT 1,
@@ -246,7 +246,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta(
 	oferta_cantidad int NOT NULL,
 	oferta_restriccion_compra INT NOT NULL,
 	oferta_id_proveedor INT NOT NULL,
-	oferta_tiempo_validez_cupon INT NOT NULL, -- cambiar der
+	oferta_tiempo_validez_cupon INT NOT NULL,
 	
 	CONSTRAINT [FK_proveedor_proveedor_id] FOREIGN KEY(oferta_id_proveedor)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Proveedor] (proveedor_id)
@@ -258,7 +258,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(
 	compra_oferta_id_oferta INT NOT NULL,
 	compra_oferta_cantidad INT NOT NULL,
 	compra_oferta_fecha datetime NOT NULL,
-	compra_oferta_codigo varchar(64) NOT NULL, -- todo: cambiar der
+	compra_oferta_codigo varchar(64) NOT NULL,
 	
 	CONSTRAINT [FK_compra_oferta_cliente_id] FOREIGN KEY(compra_oferta_id_cliente)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Cliente] (cliente_id),
@@ -272,7 +272,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cupon(
 	cupon_id_compra_oferta INT NOT NULL,
 	cupon_fecha_venc datetime NOT NULL,
 	cupon_fecha_consumo datetime NULL,
-	cupon_codigo varchar(64) NOT NULL, -- cambiar der
+	cupon_codigo varchar(64) NOT NULL,
 	
 	CONSTRAINT [FK_cupon_cliente_id] FOREIGN KEY(cupon_id_cliente)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Cliente] (cliente_id),
