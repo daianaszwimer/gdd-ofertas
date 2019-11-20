@@ -1,5 +1,3 @@
--- TODO: cambiar nombre de esquema y crearlo aca
-
 -- todo: ver cual select tira: Warning: Null value is eliminated by an aggregate or other SET operation.
 
 -- borro las tablas si existen
@@ -242,6 +240,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta(
 	oferta_cantidad int NOT NULL,
 	oferta_restriccion_compra INT NOT NULL,
 	oferta_id_proveedor INT NOT NULL,
+	oferta_tiempo_validez_cupon INT NOT NULL,
 	
 	CONSTRAINT [FK_proveedor_proveedor_id] FOREIGN KEY(oferta_id_proveedor)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Proveedor] (proveedor_id)
