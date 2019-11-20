@@ -1,5 +1,3 @@
--- TODO: cambiar nombre de esquema y crearlo aca
-
 -- todo: ver cual select tira: Warning: Null value is eliminated by an aggregate or other SET operation.
 
 -- borro las tablas si existen
@@ -74,6 +72,12 @@ DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[facturacion]
 
 IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta') IS NOT NULL
 DROP PROCEDURE [NO_LO_TESTEAMOS_NI_UN_POCO].[proveedor_entrega_oferta]
+
+IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.obtener_ofertas_factura') IS NOT NULL
+DROP FUNCTION [NO_LO_TESTEAMOS_NI_UN_POCO].[obtener_ofertas_factura]
+
+IF OBJECT_ID('NO_LO_TESTEAMOS_NI_UN_POCO.obtener_codigos_cupones') IS NOT NULL
+DROP FUNCTION [NO_LO_TESTEAMOS_NI_UN_POCO].[obtener_codigos_cupones]
 
 IF SCHEMA_ID('NO_LO_TESTEAMOS_NI_UN_POCO') IS NOT NULL
 DROP SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO
@@ -242,6 +246,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta(
 	oferta_cantidad int NOT NULL,
 	oferta_restriccion_compra INT NOT NULL,
 	oferta_id_proveedor INT NOT NULL,
+	oferta_tiempo_validez_cupon INT NOT NULL, -- cambiar der
 	
 	CONSTRAINT [FK_proveedor_proveedor_id] FOREIGN KEY(oferta_id_proveedor)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Proveedor] (proveedor_id)
@@ -468,9 +473,11 @@ select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where 
 -- inserto ofertas
 -- cada oferta tiene mismo cuit, misma fechas y misma descripcion
 -- el limite por cliente no lo sabemos -> ponemos = al stock, o sea no hay limite
+-- la fecha de duracion del cupon no la sabemos -> ponemos 0
+-- todo: averiguar si hay alguna compra que no se haya retirado
   insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
-  oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor)
-  select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, m.Oferta_Cantidad, p.proveedor_id
+  oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor, oferta_tiempo_validez_cupon)
+  select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, m.Oferta_Cantidad, p.proveedor_id, 0
   FROM [gd_esquema].[Maestra] m
   join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
   where m.Oferta_Descripcion is not null
@@ -600,6 +607,8 @@ END
 CLOSE cursor_cliente
 DEALLOCATE cursor_cliente
 
+-- calculo stock de cada oferta
+
 -- FIN DE MIGRACION
 -- estadisticas
 
@@ -711,14 +720,20 @@ begin transaction
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(compra_oferta_codigo, compra_oferta_fecha, compra_oferta_cantidad, compra_oferta_id_cliente, compra_oferta_id_oferta) values (@codigo, @fecha, @cantidad, @id_cliente, @id_oferta)
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Cliente set cliente_credito = (cliente_credito - (select oferta_precio from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta)) where cliente_id = @id_cliente
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Oferta set oferta_cantidad = oferta_cantidad - 1 where oferta_id = @id_oferta
-	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_id_compra_oferta) values (@codigo_cup, /* que ponemos en fecha de venc? llega de la app?*/ @fecha, (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
+	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_id_compra_oferta) 
+	values (@codigo_cup, DATEADD(DAY, (select oferta_tiempo_validez_cupon from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta), @fecha), (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
 commit
 go
 
-create procedure NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta(@fecha_consumo datetime, @id_proveedor int, @id_cliente int, @codigo_cup varchar(64))
--- me van a pasar el id del cupon?
+create procedure NO_LO_TESTEAMOS_NI_UN_POCO.proveedor_entrega_oferta(@fecha_consumo datetime, @id_proveedor int, @dni_cliente int, @codigo_cup varchar(64))
 as
 begin transaction
+	if not exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where cliente_dni = @dni_cliente)
+		begin
+			rollback
+				raiserror('No existe un cliente con ese DNI.', 16, 1)
+			return
+		end
 	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
@@ -749,7 +764,7 @@ begin transaction
 				raiserror('No se puede canjear el cupón porque venció.', 16, 1)
 			return
 		end
-	update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon set cupon_fecha_consumo = @fecha_consumo, cupon_id_cliente = @id_cliente where cupon_codigo = @codigo_cup
+	update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon set cupon_fecha_consumo = @fecha_consumo, cupon_id_cliente = (select cliente_id from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where cliente_dni = @dni_cliente) where cupon_codigo = @codigo_cup
 commit
 go
 
@@ -772,218 +787,27 @@ begin transaction
 commit
 go
 
-/* hecho en app
-create procedure usuario_login(@username nvarchar(64), @password nvarchar(500))
-as
-begin transaction
-	if not exists(select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Usuario where usuario_username = @username and usuario_password = LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), @password)), 2)))
-		begin
-			update NO_LO_TESTEAMOS_NI_UN_POCO.Usuario set usuario_intentos_fallidos_login = usuario_intentos_fallidos_login + 1
-			where usuario_username = @username
-				if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Usuario where usuario_username = @username and usuario_intentos_fallidos_login > 3)
-					begin
-						update NO_LO_TESTEAMOS_NI_UN_POCO.Usuario set usuario_habilitado = 0
-						where usuario_username = @username
-					end
-			raiserror('Usuario o contraseña inválidos', 16, 1)
-			return
-		end
-	else
-		begin
-		if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Usuario where usuario_username = @username and usuario_habilitado = 0)
-			begin
-				raiserror('Usuario inhabilitado, no puede iniciar sesión', 16, 1)
-				return
-			end
-		else
-			begin
-				if exists (select 1 from d_esquema.Usuario where usuario_username = @username and usuario_eliminado = 1)
-					begin
-						raiserror('El usuario está eliminado', 16, 1)
-						return
-					end
-				-- success
-				update NO_LO_TESTEAMOS_NI_UN_POCO.Usuario set usuario_intentos_fallidos_login = 0
-				where usuario_username = @username
-			end
-		end
-commit
-go
-
-
--- funcionalidades
-create procedure NO_LO_TESTEAMOS_NI_UN_POCO.rol_cambiar_nombre (@id_rol int, @nombre varchar(64))
-as
-begin transaction
-	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Rol where @nombre = rol_nombre and @id_rol <> rol_id)
-	begin
-		rollback
-			raiserror('No puede agregar un nombre de rol existente.', 16, 1)
-		return
-	end	
-	
-	update NO_LO_TESTEAMOS_NI_UN_POCO.Rol
-	set rol_nombre = @nombre
-	where rol_id = @id_rol
-commit
-go
-
-create procedure NO_LO_TESTEAMOS_NI_UN_POCO.rol_agregar_funcionalidad (@id_rol int, @id_func int)
-as
-begin transaction
-	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
-	begin
-		rollback
-			raiserror('El rol ya tiene esa funcionalidad.', 16, 1)
-		return
-	end	
-	
-	insert into NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol(funcionalidadxrol_id_funcionalidad, funcionalidadxrol_id_rol)
-	values(@id_func, @id_rol)
-commit
-go
-
-create procedure NO_LO_TESTEAMOS_NI_UN_POCO.rol_quitar_funcionalidad (@id_rol int, @id_func int)
-as
-begin transaction
-	if not exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol where @id_func = funcionalidadxrol_id_funcionalidad and @id_rol = funcionalidadxrol_id_rol)
-	begin
-		rollback
-			raiserror('No puede sacar una funcionalidad que no tiene', 16, 1)
-		return
-	end	
-	
-	delete from NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol
-	where funcionalidadxrol_id_rol = @id_rol and funcionalidadxrol_id_funcionalidad = @id_func
-commit
-go
-
-create procedure NO_LO_TESTEAMOS_NI_UN_POCO.rol_inhabilitar(@id_rol int)
-as
-begin transaction
-	update NO_LO_TESTEAMOS_NI_UN_POCO.Rol set rol_habilitado = 0 where @id_rol = rol_id
-	delete from NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario where @id_rol = rolesxusuario_id_rol
-commit
-go
-
-create procedure usuario_modificar_password(@username nvarchar(64), @password nvarchar(500))
-as
-begin transaction
-	update NO_LO_TESTEAMOS_NI_UN_POCO.Usuario set usuario_password = LOWER(CONVERT([varchar](500), HASHBYTES('SHA2_256', CONVERT(varchar(64), @password)), 2))
-	where usuario_username = @username
-commit
-go
-
-create procedure NO_LO_TESTEAMOS_NI_UN_POCO.cliente_agregar(@nombre varchar(64), @apellido nvarchar(64), @dni nvarchar(64), @mail nvarchar(64), @telefono nvarchar(64), @calle nvarchar(64), @piso int, @departamento char(20), @localidad nvarchar(64), @codigo_postal int, @fech_nac datetime, @id_usuario int)
-as
-begin transaction
-	-- validaciones
-	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where @dni = cliente_dni)
-		begin
-			raiserror('Ya existe un cliente con ese dni', 16, 1)
-			return
-		end
-	else
-		begin
-			if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where @nombre = cliente_nombre and @apellido = cliente_apellido and @mail = cliente_mail and @telefono = cliente_telefono and @fech_nac = cliente_fecha_nacimiento)
-				begin
-					raiserror('Ya existe un cliente con mismo nombre, apellido, mail, telefono y fecha de nacimiento', 16, 1)
-					return
-				end
-		end
-	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio 
-	join NO_LO_TESTEAMOS_NI_UN_POCO.Localidad on localidad_id = domicilio_id_localidad
-	where @calle = domicilio_calle and @piso = domicilio_numero_piso and @departamento = domicilio_departamento and @codigo_postal = domicilio_codigo_postal and localidad_nombre = @localidad)
-		begin
-			print('aaa')
-		end
-	-- ver si existe la direccion, usar el id si existe, si no crearla
-	-- si no existe la localidad, crearla
-	-- despues creo usuario y le agrego lo 200 de regalo
-commit
-go
-
-create function buscar_clientes(@nombre varchar(64), @apellido varchar(64), @dni varchar(64), @email varchar(64))
-return table
+create function NO_LO_TESTEAMOS_NI_UN_POCO.obtener_ofertas_factura(@id_factura int)
+returns table
 as
 	return (
-		select 
+		select oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, oferta_cantidad
+		from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id_oferta = oferta_id
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Item on compra_oferta_id = item_id_compra_oferta
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Factura on factura_id = item_id_factura
+		where factura_id = @id_factura
 	)
-end
-go*/
-/*
-Nombre (texto libre)
- Apellido (texto libre)
- DNI (texto libre exacto)
- Email (texto libre)
+go
 
-*/
-
--- cambiar todos los nvarchar por varchar
-
--- como validamos lo del username? tenemos lo de unique, podemos usar directamente esa validacion en la app?
-
--- HACER TRIGGER CUANDO CLIENTE CARGA CREDITO O COMPRA ALGO, ACTUALIZAR EL CLIENTE_CREDITO o usar procedure
-
--- procedure para comprar que valide que el cliente no compre mas ofertas de las que puede
-
--- limite de compra es por cliente: https://groups.google.com/forum/#!topic/gestiondedatos/05dXYNKpbe0
-
--- crear procedures para cosas que requiran validacion ej: cambiar cupon
-
--- funcion para buscar clientes
-
---La eliminación del rol implica una baja lógica del mismo. El rol debe poder inhabilitarse. No permitido la asignación de un rol inhabilitado a un usuario, por ende, se le debe quitar el rol inhabilitado a todos aquellos usuarios que lo posean.
-
-/*
-
-todo: El alumno deberá determinar un procedimiento para evitar la generación de clientes “gemelos” (distinto nombre de usuario, pero igual datos identificatorios según se justifique en la estrategia de resolución). X
-Toda creación de cliente nuevo, implica una carga de dinero de bienvenida de $200 X
-validar que usuario que compra ofertas o carga credito este habiltiado X OFERTAS ES DE NICO
-no pueden existir 2 proveedores con la misma razón social y cuit. NICO
-Un proveedor inhabilitado no podrá armar ofertas NICO
-ofertas: fecha debe ser mayor o igual a la fecha actual del sistema. NICO
-se deberá validar que la adquisición no supere la cantidad máxima de ofertas permitida por usuario
-un cupón no puede ser canjeado más de una vez, si el cupón se venció tampoco podrá ser canjeado TODO
-crear usuario de cada tipo
-
--- cuando se crea un cliente se le debitan $200:
--- todo: usar un stored procedure que sea crear cliente y ahi debitar los 200 pe
-USE GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TRIGGER [NO_LO_TESTEAMOS_NI_UN_POCO].[alta_cliente]
-ON [NO_LO_TESTEAMOS_NI_UN_POCO].[Cliente]
-AFTER INSERT
-AS
-BEGIN TRANSACTION
-	declare @id_cliente_nuevo varchar(64)
-	SELECT @id_cliente_nuevo = c.cliente_id FROM Cliente c INNER JOIN inserted i 
-	ON i.cliente_apellido = c.cliente_apellido
-	AND i.cliente_dni = c.cliente_dni
-	AND i.cliente_fecha_nacimiento = c.cliente_fecha_nacimiento
-	AND i.cliente_nombre = c.cliente_nombre
-	AND i.cliente_mail = c.cliente_mail
-	-- usar cursores?
-	INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Carga_Credito(carga_credito_id_cliente, carga_credito_monto, carga_credito_id_tipo_pago, carga_credito_fecha) 
-	VALUES (@id_cliente_nuevo, 200, 1, GETDATE()) -- todo: hay que usar la fecha del archivo de config
-COMMIT TRANSACTION
-GO
--- validar que cliente que carga credito esté habilitado
-CREATE TRIGGER [NO_LO_TESTEAMOS_NI_UN_POCO].validez_cliente_credito
-ON [NO_LO_TESTEAMOS_NI_UN_POCO].Carga_Credito
-AFTER INSERT, UPDATE
-AS
-BEGIN TRANSACTION
-	IF EXISTS(SELECT 1 FROM inserted i
-		WHERE EXISTS(SELECT 1 FROM Cliente c WHERE c.cliente_id = i.carga_credito_id_cliente AND c.cliente_habilitado = 0))
-		BEGIN
-			RAISERROR ( 'Un Cliente inhabilitado no puede cargar credito', 1, 1)
-			ROLLBACK
-			RETURN
-		END
-COMMIT TRANSACTION
-GO
-*/
+create function NO_LO_TESTEAMOS_NI_UN_POCO.obtener_codigos_cupones(@id_proveedor int)
+returns table
+as
+	return (
+		select cupon_codigo
+		from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
+		where oferta_id_proveedor = @id_proveedor
+	)
+go
