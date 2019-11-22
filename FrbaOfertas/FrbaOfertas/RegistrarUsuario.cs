@@ -22,14 +22,14 @@ namespace FrbaOfertas
 
         bool usuarioOk = false;
 
-        // TODO: {M} VALIDAR UNIQUE USERNAME
         // TODO: {M} LISTA ROLES - VER ACTUALIZACION DE ROLES CON DIEGO
+        // TODO: Corregir errorProvider
         // TODO: {M} Cuando selecciono Rol Cliente, no me tiene que dejar seleccionar Boton Proveedor
         private void crearUsuario()
         {
             if (this.camposObligatorios())
             {
-                if (this.usuarioUnico()) // Username unico
+                if (this.usuarioUnico()) 
                 {
                     desactivarErrores();
 
@@ -43,6 +43,7 @@ namespace FrbaOfertas
                     {
                         dataReader.Close();
                     }
+                    
                 }
                 else
                 {
@@ -54,27 +55,7 @@ namespace FrbaOfertas
             
         }
 
-        private void buttonCliente_Click(object sender, EventArgs e)
-        {
-            crearUsuario();
-            if (usuarioOk)
-            {
-                AddFormInPanel(new AbmCliente.Alta());
-                buttonProveedor.Enabled = false;
-            }
-
-        }
-
-        private void buttonProveedor_Click(object sender, EventArgs e)
-        {
-            crearUsuario();
-            if (usuarioOk)
-            {
-                AddFormInPanel(new AbmProveedor.Alta());
-                buttonCliente.Enabled = false;
-            }
-        }
-
+        
         // TODO: {M} Barra de opciones repetida
         private void AddFormInPanel(object formHijo)
         {
@@ -83,7 +64,7 @@ namespace FrbaOfertas
             Form fh = formHijo as Form;
             if (fh.Size.Height > Size.Height || fh.Size.Width > Size.Width)
             {
-                this.Size = new Size(fh.Width + buttonCliente.Size.Width, fh.Height + buttonCliente.Size.Height);
+                this.Size = new Size(fh.Width + button1.Size.Width, fh.Height + button1.Size.Height);
             }
             fh.TopLevel = false;
             fh.FormBorderStyle = FormBorderStyle.None;
@@ -141,7 +122,7 @@ namespace FrbaOfertas
             List<String> rolesPosibles = new List<string>();
             SqlCommand seleccionarRolesPosibles = 
                 new SqlCommand(
-                    string.Format("SELECT rol_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol WHERE rol_habilitado=1 AND rol_eliminado=0"), Helper.dbOfertas);
+                    string.Format("SELECT rol_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol WHERE rol_habilitado=1 AND rol_eliminado=0 AND rol_nombre!='administrativo' AND rol_nombre NOT LIKE 'admin%' "), Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarRolesPosibles);
             if (dataReader != null)
             {
@@ -155,6 +136,15 @@ namespace FrbaOfertas
             }
             return rolesPosibles;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (rol.Text == "cliente")
+                AddFormInPanel(new AbmCliente.Alta());
+            if (rol.Text == "proveedor")
+                AddFormInPanel(new AbmProveedor.Alta());
+        }
+        //TODO: Como mostrar un panel de afuera
 
 
     }
