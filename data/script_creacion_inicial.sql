@@ -351,6 +351,7 @@ SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago] ON
 
 INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (1, 'debito')
 INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (2, 'credito')
+INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (3, 'efectivo')
 
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago] OFF
 
@@ -513,7 +514,7 @@ update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_cod
  where num_col > 1 
 
 
--- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido -> chequear que no hayan compras no consumidas
+-- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido -> chequear que no hayan compras no consumidas HAY COMPRAS NO CONSUMIDAS
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
   select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
@@ -587,7 +588,10 @@ END
 CLOSE cursor_cliente
 DEALLOCATE cursor_cliente
 
--- calculo stock de cada oferta /////
+-- calculo stock de cada oferta ///// dado que hay ofertas cuya cantidad es menor a la cantidad de compras que se hicieron, asumimos que l cantidad es el stock actual
+-- calcular que las compras de las ofertas no superen la cantidad
+-- todas las compras fueron retiradas? no
+-- crear los cupones para las compras que no fueron retiradas
 
 -- FIN DE MIGRACION
 -- estadisticas
@@ -604,7 +608,6 @@ as
 			and year(o.oferta_fecha_publicacion) = @anio
 			and 1 =
 			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
-			group by o.oferta_id
 		) as 'descuento'
 		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
 		order by 'descuento' desc
