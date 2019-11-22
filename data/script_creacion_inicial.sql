@@ -87,8 +87,8 @@ CREATE SCHEMA NO_LO_TESTEAMOS_NI_UN_POCO AUTHORIZATION gdCupon2019
 GO
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario(
-	usuario_username nvarchar(64) NOT NULL,
-	usuario_password nvarchar(500) NOT NULL,
+	usuario_username varchar(64) NOT NULL,
+	usuario_password varchar(500) NOT NULL,
 	usuario_habilitado BIT DEFAULT 1,
 	usuario_intentos_fallidos_login INT DEFAULT 0,
 	usuario_eliminado BIT DEFAULT 0
@@ -111,7 +111,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad(
 )
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario(
-	rolesxusuario_id_usuario nvarchar(64) NOT NULL,
+	rolesxusuario_id_usuario varchar(64) NOT NULL,
 	rolesxusuario_id_rol INT NOT NULL
 
 	CONSTRAINT [PK_RolesxUsuario] PRIMARY KEY (
@@ -153,7 +153,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio(
 	domicilio_id_localidad INT NOT NULL,
 	domicilio_calle varchar(64) NOT NULL,
 	domicilio_numero_piso INT NULL,
-	domicilio_departamento char(20) NULL,
+	domicilio_departamento varchar(20) NULL,
 	domicilio_codigo_postal INT NOT NULL,
 	
 	CONSTRAINT [FK_Domicilio_localidad_id] FOREIGN KEY(domicilio_id_localidad)
@@ -162,10 +162,10 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio(
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente(
 	cliente_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	cliente_id_usuario nvarchar(64) NOT NULL,
+	cliente_id_usuario varchar(64) NOT NULL,
 	cliente_nombre varchar(64) NOT NULL,
 	cliente_apellido varchar(64) NOT NULL,
-	cliente_dni varchar(64) NOT NULL,
+	cliente_dni varchar(64) UNIQUE NOT NULL,
 	cliente_mail varchar(64) NOT NULL,
 	cliente_telefono varchar(64) NULL,
 	cliente_habilitado BIT DEFAULT 1,
@@ -178,7 +178,6 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente(
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Domicilio] (domicilio_id),
 	CONSTRAINT [FK_Cliente_usuario_id] FOREIGN KEY(cliente_id_usuario)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Usuario] (usuario_username),
--- asumimos que si dos clientes tienen = nombre, apellido, dni, telefono, fecha nac y cliente_mail son "gemelos"
 	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni, cliente_mail, cliente_nombre, cliente_apellido, cliente_fecha_nacimiento, cliente_telefono)
 )
 
@@ -217,7 +216,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Rubro(
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor(
 	proveedor_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	proveedor_id_usuario nvarchar(64) NOT NULL,
+	proveedor_id_usuario varchar(64) NOT NULL,
 	proveedor_mail varchar(64) NULL,
 	proveedor_telefono varchar(64) NULL,
 	proveedor_cuit varchar(64) UNIQUE NOT NULL,
@@ -238,7 +237,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor(
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta(
 	oferta_id INT identity(1, 1) NOT NULL PRIMARY KEY,
-	oferta_descripcion nvarchar(255) NOT NULL,
+	oferta_descripcion varchar(255) NOT NULL,
 	oferta_fecha_publicacion datetime NOT NULL,
 	oferta_fecha_venc datetime NOT NULL,
 	oferta_precio decimal(12, 2) NOT NULL,
@@ -246,7 +245,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Oferta(
 	oferta_cantidad int NOT NULL,
 	oferta_restriccion_compra INT NOT NULL,
 	oferta_id_proveedor INT NOT NULL,
-	oferta_tiempo_validez_cupon INT NOT NULL, -- cambiar der
+	oferta_tiempo_validez_cupon INT NOT NULL,
 	
 	CONSTRAINT [FK_proveedor_proveedor_id] FOREIGN KEY(oferta_id_proveedor)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Proveedor] (proveedor_id)
@@ -258,7 +257,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(
 	compra_oferta_id_oferta INT NOT NULL,
 	compra_oferta_cantidad INT NOT NULL,
 	compra_oferta_fecha datetime NOT NULL,
-	compra_oferta_codigo varchar(64) NOT NULL, -- todo: cambiar der
+	compra_oferta_codigo varchar(64) NOT NULL,
 	
 	CONSTRAINT [FK_compra_oferta_cliente_id] FOREIGN KEY(compra_oferta_id_cliente)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Cliente] (cliente_id),
@@ -272,7 +271,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cupon(
 	cupon_id_compra_oferta INT NOT NULL,
 	cupon_fecha_venc datetime NOT NULL,
 	cupon_fecha_consumo datetime NULL,
-	cupon_codigo varchar(64) NOT NULL, -- cambiar der
+	cupon_codigo varchar(64) NOT NULL,
 	
 	CONSTRAINT [FK_cupon_cliente_id] FOREIGN KEY(cupon_id_cliente)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Cliente] (cliente_id),
@@ -311,7 +310,6 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Item(
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].[Funcionalidad] ON
 
 -- funcionalidades
--- alta de usuario y login y cambio de pw todos tienen acceso
 INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad(funcionalidad_id, funcionalidad_descripcion)
 Values(1, 'ABM Rol')
 INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad(funcionalidad_id, funcionalidad_descripcion)
@@ -349,13 +347,11 @@ Values(4, 'administrador general', 1, 0)
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].[Rol] OFF
 
 -- agrego tipos de pago
--- crear tipo de pago automatico y usarlo cuando se da de alta al cliente
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago] ON
 
-INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (1, 'automatico')
-INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (2, 'efectivo')
-INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (3, 'credito')
-INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (4, 'debito')
+INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (1, 'debito')
+INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (2, 'credito')
+INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago](tipo_pago_id, tipo_pago_nombre) VALUES (3, 'efectivo')
 
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago] OFF
 
@@ -417,7 +413,6 @@ left join [NO_LO_TESTEAMOS_NI_UN_POCO].Domicilio d on d.domicilio_calle = m.Cli_
 join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = m.Cli_Dni
  
 -- inserto cargas
--- como no especifica tarjeta, pongo null
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Carga_Credito (
 carga_credito_id_cliente,
 carga_credito_id_tipo_pago,
@@ -454,7 +449,6 @@ from [gd_esquema].[Maestra] m
 where m.Provee_Rubro is not null
 
 -- inserto proveedores
--- nombre de contacto y mail no tengo, va null
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor (proveedor_id_usuario, proveedor_razon_social, proveedor_telefono, proveedor_cuit, proveedor_id_rubro, proveedor_id_domicilio)
 select distinct u.usuario_username, m.Provee_RS, m.Provee_Telefono, m.Provee_CUIT, r.rubro_id, d.domicilio_id
 from [gd_esquema].[Maestra] m
@@ -472,7 +466,6 @@ select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where 
 
 -- inserto ofertas
 -- cada oferta tiene mismo cuit, misma fechas y misma descripcion
--- el limite por cliente no lo sabemos -> ponemos = al stock, o sea no hay limite
 -- la fecha de duracion del cupon no la sabemos -> ponemos 0
 -- todo: averiguar si hay alguna compra que no se haya retirado
   insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
@@ -482,10 +475,6 @@ select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where 
   join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
   where m.Oferta_Descripcion is not null
 
--- asumimos que usuario en la vieja db compro 1 oferta por columna
--- vimos que el codigo de oferta no era unico por cada compra
--- si hay duplicados le concatena -1, -2
--- tendriamos que usar el mismo codigo para el cupon y para la compra
  insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Compra_Oferta (compra_oferta_id_oferta, compra_oferta_fecha,
   compra_oferta_cantidad,
   compra_oferta_id_cliente, compra_oferta_codigo)
@@ -525,12 +514,7 @@ update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_cod
  where num_col > 1 
 
 
--- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido 
--- procedure para canjear cupon que genera cupon cuando se hace compra_oferta
--- de esa manera nos garantizamos que sea unico.
--- si la fecha de consumo no es null, ya fue consumido
--- le ponemos el mismo codigo que a la compra
--- asumimos que el cliente que lo compro es el mismo que lo retiro
+-- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido -> chequear que no hayan compras no consumidas HAY COMPRAS NO CONSUMIDAS
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
   select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
@@ -548,9 +532,6 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_con
 	and co.compra_oferta_id_cliente = c.cliente_id
   where m.Oferta_Entregado_Fecha is not null
 
--- migramos factura: numero es el id y el importe lo calculamos 
--- fecha de inicio es la fecha menor que aparece con el numero de factura
--- y la fecha final es la fecha de la factura
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura ON
 
 -- validar que no se inserte la misma oferta mas de 1 vez
@@ -607,7 +588,10 @@ END
 CLOSE cursor_cliente
 DEALLOCATE cursor_cliente
 
--- calculo stock de cada oferta
+-- calculo stock de cada oferta ///// dado que hay ofertas cuya cantidad es menor a la cantidad de compras que se hicieron, asumimos que l cantidad es el stock actual
+-- calcular que las compras de las ofertas no superen la cantidad
+-- todas las compras fueron retiradas? no
+-- crear los cupones para las compras que no fueron retiradas
 
 -- FIN DE MIGRACION
 -- estadisticas
@@ -617,14 +601,13 @@ create function NO_LO_TESTEAMOS_NI_UN_POCO.top_5_mayor_porcentaje(@anio int, @se
 returns table
 as
 	return (
-		select top 5 p.proveedor_cuit, p.proveedor_razon_social,
+		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, '') as 'nombre_contacto',
 		(
 			select max( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o
 			where o.oferta_id_proveedor = p.proveedor_id 
 			and year(o.oferta_fecha_publicacion) = @anio
 			and 1 =
 			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
-			group by o.oferta_id
 		) as 'descuento'
 		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
 		order by 'descuento' desc
@@ -719,7 +702,7 @@ begin transaction
 	
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(compra_oferta_codigo, compra_oferta_fecha, compra_oferta_cantidad, compra_oferta_id_cliente, compra_oferta_id_oferta) values (@codigo, @fecha, @cantidad, @id_cliente, @id_oferta)
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Cliente set cliente_credito = (cliente_credito - (select oferta_precio from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta)) where cliente_id = @id_cliente
-	update NO_LO_TESTEAMOS_NI_UN_POCO.Oferta set oferta_cantidad = oferta_cantidad - 1 where oferta_id = @id_oferta
+	update NO_LO_TESTEAMOS_NI_UN_POCO.Oferta set oferta_cantidad = oferta_cantidad - @cantidad where oferta_id = @id_oferta
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_id_compra_oferta) 
 	values (@codigo_cup, DATEADD(DAY, (select oferta_tiempo_validez_cupon from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta), @fecha), (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
 commit
