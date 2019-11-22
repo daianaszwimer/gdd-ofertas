@@ -275,6 +275,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\ListadoOfertas.resx">
       <DependentUpon>ListadoOfertas.cs</DependentUpon>
+    <EmbeddedResource Include="CambiarPassword\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOferta\OfertasDisponibles.resx">
+      <DependentUpon>OfertasDisponibles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CragaCredito\AgregarTarjeta.resx">
       <DependentUpon>AgregarTarjeta.cs</DependentUpon>
