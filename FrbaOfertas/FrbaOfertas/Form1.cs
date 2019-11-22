@@ -19,7 +19,6 @@ namespace FrbaOfertas
         public Form1()
         {
             InitializeComponent();
-
             Helper.conectarseABaseDeDatosOfertas();
         }
 

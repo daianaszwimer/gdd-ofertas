@@ -28,12 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.bajaCupon = new System.Windows.Forms.Button();
             this.clienteDni = new System.Windows.Forms.TextBox();
             this.codigo = new System.Windows.Forms.TextBox();
             this.seleccionar = new System.Windows.Forms.Button();
+            this.errorCodCupon = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorDniCliente = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorCodCupon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorDniCliente)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -82,13 +87,21 @@
             // 
             // seleccionar
             // 
-            this.seleccionar.Location = new System.Drawing.Point(293, 82);
+            this.seleccionar.Location = new System.Drawing.Point(313, 84);
             this.seleccionar.Name = "seleccionar";
             this.seleccionar.Size = new System.Drawing.Size(79, 23);
             this.seleccionar.TabIndex = 23;
             this.seleccionar.Text = "Seleccionar";
             this.seleccionar.UseVisualStyleBackColor = true;
             this.seleccionar.Click += new System.EventHandler(this.seleccionar_Click);
+            // 
+            // errorCodCupon
+            // 
+            this.errorCodCupon.ContainerControl = this;
+            // 
+            // errorDniCliente
+            // 
+            this.errorDniCliente.ContainerControl = this;
             // 
             // Form1
             // 
@@ -109,6 +122,8 @@
             this.Controls.SetChildIndex(this.clienteDni, 0);
             this.Controls.SetChildIndex(this.codigo, 0);
             this.Controls.SetChildIndex(this.seleccionar, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorCodCupon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorDniCliente)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -122,5 +137,7 @@
         private System.Windows.Forms.TextBox clienteDni;
         private System.Windows.Forms.TextBox codigo;
         private System.Windows.Forms.Button seleccionar;
+        private System.Windows.Forms.ErrorProvider errorCodCupon;
+        private System.Windows.Forms.ErrorProvider errorDniCliente;
     }
 }
