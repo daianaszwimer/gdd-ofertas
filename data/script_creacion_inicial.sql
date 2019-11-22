@@ -629,15 +629,14 @@ create function NO_LO_TESTEAMOS_NI_UN_POCO.top_5_mayor_porcentaje(@anio int, @se
 returns table
 as
 	return (
-		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, '') as 'nombre_contacto',
-		(
-			select max( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o
-			where o.oferta_id_proveedor = p.proveedor_id 
-			and year(o.oferta_fecha_publicacion) = @anio
+		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, ''),
+		avg( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) as 'descuento'
+		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_id_proveedor = p.proveedor_id 
+		where year(o.oferta_fecha_publicacion) = @anio
 			and 1 =
 			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
-		) as 'descuento'
-		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
+			group by p.proveedor_cuit, p.proveedor_razon_social, p.proveedor_nombre_contacto
 		order by 'descuento' desc
 	)
 go
