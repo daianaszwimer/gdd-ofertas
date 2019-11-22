@@ -32,7 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.bajaCupon = new System.Windows.Forms.Button();
             this.clienteDni = new System.Windows.Forms.TextBox();
-            this.codigoCupon = new System.Windows.Forms.ComboBox();
+            this.codigo = new System.Windows.Forms.TextBox();
+            this.seleccionar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -65,25 +66,37 @@
             // 
             // clienteDni
             // 
+            this.clienteDni.BackColor = System.Drawing.SystemColors.Control;
             this.clienteDni.Location = new System.Drawing.Point(138, 121);
             this.clienteDni.Name = "clienteDni";
-            this.clienteDni.Size = new System.Drawing.Size(221, 20);
+            this.clienteDni.Size = new System.Drawing.Size(234, 20);
             this.clienteDni.TabIndex = 21;
             // 
-            // codigoCupon
+            // codigo
             // 
-            this.codigoCupon.FormattingEnabled = true;
-            this.codigoCupon.Location = new System.Drawing.Point(138, 83);
-            this.codigoCupon.Name = "codigoCupon";
-            this.codigoCupon.Size = new System.Drawing.Size(221, 21);
-            this.codigoCupon.TabIndex = 22;
+            this.codigo.BackColor = System.Drawing.SystemColors.Control;
+            this.codigo.Location = new System.Drawing.Point(139, 86);
+            this.codigo.Name = "codigo";
+            this.codigo.Size = new System.Drawing.Size(147, 20);
+            this.codigo.TabIndex = 22;
+            // 
+            // seleccionar
+            // 
+            this.seleccionar.Location = new System.Drawing.Point(293, 82);
+            this.seleccionar.Name = "seleccionar";
+            this.seleccionar.Size = new System.Drawing.Size(79, 23);
+            this.seleccionar.TabIndex = 23;
+            this.seleccionar.Text = "Seleccionar";
+            this.seleccionar.UseVisualStyleBackColor = true;
+            this.seleccionar.Click += new System.EventHandler(this.seleccionar_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 262);
-            this.Controls.Add(this.codigoCupon);
+            this.Controls.Add(this.seleccionar);
+            this.Controls.Add(this.codigo);
             this.Controls.Add(this.clienteDni);
             this.Controls.Add(this.bajaCupon);
             this.Controls.Add(this.label1);
@@ -94,7 +107,8 @@
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.bajaCupon, 0);
             this.Controls.SetChildIndex(this.clienteDni, 0);
-            this.Controls.SetChildIndex(this.codigoCupon, 0);
+            this.Controls.SetChildIndex(this.codigo, 0);
+            this.Controls.SetChildIndex(this.seleccionar, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,6 +120,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button bajaCupon;
         private System.Windows.Forms.TextBox clienteDni;
-        private System.Windows.Forms.ComboBox codigoCupon;
+        private System.Windows.Forms.TextBox codigo;
+        private System.Windows.Forms.Button seleccionar;
     }
 }
