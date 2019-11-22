@@ -35,7 +35,7 @@ namespace FrbaOfertas.CrearOferta
         {
             agregarProveedorSeleccionado(
                 tablaDeResultados.SelectedRows[0].Cells[0].Value.ToString(),
-                tablaDeResultados.SelectedRows[0].Cells[2].Value.ToString());
+                tablaDeResultados.SelectedRows[0].Cells[1].Value.ToString());
             this.Close();
         }
     }

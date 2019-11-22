@@ -52,7 +52,7 @@ namespace FrbaOfertas.ComprarOferta
                               Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff")), Helper.dbOfertas);
 
             ofertasDataAdapter.Fill(ofertasDataSet);
-            (new ComprarOferta.OfertasDisponibles(ofertasDataSet)).Show();
+            (new ComprarOferta.ListadoOfertas(ofertasDataSet)).Show();
             this.Close();
         }
 
