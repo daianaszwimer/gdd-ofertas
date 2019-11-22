@@ -174,11 +174,11 @@
     <Compile Include="ComprarOferta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ComprarOferta\OfertasDisponibles.cs">
+    <Compile Include="ComprarOferta\ListadoOfertas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ComprarOferta\OfertasDisponibles.Designer.cs">
-      <DependentUpon>OfertasDisponibles.cs</DependentUpon>
+    <Compile Include="ComprarOferta\ListadoOfertas.Designer.cs">
+      <DependentUpon>ListadoOfertas.cs</DependentUpon>
     </Compile>
     <Compile Include="CragaCredito\AgregarTarjeta.cs">
       <SubType>Form</SubType>
@@ -209,6 +209,12 @@
     </Compile>
     <Compile Include="EntregaDeOferta\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EntregaDeOferta\ListadoCupon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntregaDeOferta\ListadoCupon.Designer.cs">
+      <DependentUpon>ListadoCupon.cs</DependentUpon>
     </Compile>
     <Compile Include="Facturar\Form1.cs">
       <SubType>Form</SubType>
@@ -267,8 +273,8 @@
     <EmbeddedResource Include="BarraDeOpciones.resx">
       <DependentUpon>BarraDeOpciones.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ComprarOferta\OfertasDisponibles.resx">
-      <DependentUpon>OfertasDisponibles.cs</DependentUpon>
+    <EmbeddedResource Include="ComprarOferta\ListadoOfertas.resx">
+      <DependentUpon>ListadoOfertas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CragaCredito\AgregarTarjeta.resx">
       <DependentUpon>AgregarTarjeta.cs</DependentUpon>
@@ -287,6 +293,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EntregaDeOferta\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntregaDeOferta\ListadoCupon.resx">
+      <DependentUpon>ListadoCupon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Facturar\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

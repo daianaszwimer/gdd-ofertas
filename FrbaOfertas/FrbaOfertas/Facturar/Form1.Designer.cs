@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.proveedor = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.desde = new System.Windows.Forms.DateTimePicker();
             this.hasta = new System.Windows.Forms.DateTimePicker();
@@ -37,22 +36,16 @@
             this.tablaDeResultados = new System.Windows.Forms.DataGridView();
             this.facturar = new System.Windows.Forms.Button();
             this.limpiar = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.nroFactura = new System.Windows.Forms.TextBox();
+            this.proveedor = new System.Windows.Forms.TextBox();
+            this.seleccionar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
-            // 
-            // proveedor
-            // 
-            this.proveedor.FormattingEnabled = true;
-            this.proveedor.Location = new System.Drawing.Point(28, 50);
-            this.proveedor.Name = "proveedor";
-            this.proveedor.Size = new System.Drawing.Size(121, 21);
-            this.proveedor.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 34);
+            this.label1.Location = new System.Drawing.Point(27, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 2;
@@ -60,22 +53,23 @@
             // 
             // desde
             // 
-            this.desde.Location = new System.Drawing.Point(69, 101);
+            this.desde.Location = new System.Drawing.Point(30, 116);
             this.desde.Name = "desde";
-            this.desde.Size = new System.Drawing.Size(121, 20);
+            this.desde.Size = new System.Drawing.Size(154, 20);
             this.desde.TabIndex = 10;
+            this.desde.Value = new System.DateTime(2019, 11, 20, 0, 0, 0, 0);
             // 
             // hasta
             // 
-            this.hasta.Location = new System.Drawing.Point(240, 101);
+            this.hasta.Location = new System.Drawing.Point(206, 116);
             this.hasta.Name = "hasta";
-            this.hasta.Size = new System.Drawing.Size(121, 20);
+            this.hasta.Size = new System.Drawing.Size(154, 20);
             this.hasta.TabIndex = 11;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(66, 85);
+            this.label2.Location = new System.Drawing.Point(27, 100);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 12;
@@ -84,7 +78,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(237, 85);
+            this.label3.Location = new System.Drawing.Point(203, 100);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 13;
@@ -114,26 +108,45 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(28, 155);
+            this.limpiar.Location = new System.Drawing.Point(30, 155);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(72, 23);
             this.limpiar.TabIndex = 15;
             this.limpiar.Text = "Limpiar";
             this.limpiar.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // nroFactura
             // 
-            this.textBox1.Location = new System.Drawing.Point(30, 218);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 17;
+            this.nroFactura.Location = new System.Drawing.Point(30, 218);
+            this.nroFactura.Name = "nroFactura";
+            this.nroFactura.Size = new System.Drawing.Size(100, 20);
+            this.nroFactura.TabIndex = 17;
+            // 
+            // proveedor
+            // 
+            this.proveedor.Location = new System.Drawing.Point(30, 67);
+            this.proveedor.Name = "proveedor";
+            this.proveedor.Size = new System.Drawing.Size(154, 20);
+            this.proveedor.TabIndex = 18;
+            // 
+            // seleccionar
+            // 
+            this.seleccionar.Location = new System.Drawing.Point(206, 67);
+            this.seleccionar.Name = "seleccionar";
+            this.seleccionar.Size = new System.Drawing.Size(75, 23);
+            this.seleccionar.TabIndex = 19;
+            this.seleccionar.Text = "Seleccionar";
+            this.seleccionar.UseVisualStyleBackColor = true;
+            this.seleccionar.Click += new System.EventHandler(this.seleccionar_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 462);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.seleccionar);
+            this.Controls.Add(this.proveedor);
+            this.Controls.Add(this.nroFactura);
             this.Controls.Add(this.facturar);
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
@@ -142,10 +155,8 @@
             this.Controls.Add(this.hasta);
             this.Controls.Add(this.desde);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.proveedor);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Controls.SetChildIndex(this.proveedor, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.desde, 0);
             this.Controls.SetChildIndex(this.hasta, 0);
@@ -154,7 +165,9 @@
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.facturar, 0);
-            this.Controls.SetChildIndex(this.textBox1, 0);
+            this.Controls.SetChildIndex(this.nroFactura, 0);
+            this.Controls.SetChildIndex(this.proveedor, 0);
+            this.Controls.SetChildIndex(this.seleccionar, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -163,7 +176,6 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox proveedor;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker desde;
         private System.Windows.Forms.DateTimePicker hasta;
@@ -172,6 +184,9 @@
         private System.Windows.Forms.DataGridView tablaDeResultados;
         private System.Windows.Forms.Button facturar;
         private System.Windows.Forms.Button limpiar;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox nroFactura;
+        private System.Windows.Forms.TextBox proveedor;
+        private System.Windows.Forms.Button seleccionar;
+
     }
 }
