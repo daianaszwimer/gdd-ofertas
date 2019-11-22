@@ -267,6 +267,9 @@
     <EmbeddedResource Include="BarraDeOpciones.resx">
       <DependentUpon>BarraDeOpciones.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CambiarPassword\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ComprarOferta\OfertasDisponibles.resx">
       <DependentUpon>OfertasDisponibles.cs</DependentUpon>
     </EmbeddedResource>
