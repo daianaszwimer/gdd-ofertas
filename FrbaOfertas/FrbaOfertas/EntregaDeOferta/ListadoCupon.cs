@@ -12,9 +12,9 @@ namespace FrbaOfertas.EntregaDeOferta
 {
     public partial class ListadoCupon : BarraDeOpciones
     {
-        Action<string, string, string> agregarCuponSeleccionado;
+        Action<string> agregarCuponSeleccionado;
 
-        public ListadoCupon(Action<string, string, string> agregarCuponSeleccionado, DataSet cuponesDataSet)
+        public ListadoCupon(Action<string> agregarCuponSeleccionado, DataSet cuponesDataSet)
         {
             InitializeComponent();
             this.agregarCuponSeleccionado = agregarCuponSeleccionado;
@@ -34,9 +34,7 @@ namespace FrbaOfertas.EntregaDeOferta
         private void confirm_Click(object sender, EventArgs e)
         {
             agregarCuponSeleccionado(
-                tablaDeResultados.SelectedRows[0].Cells[0].Value.ToString(),
-                tablaDeResultados.SelectedRows[0].Cells[1].Value.ToString(),
-                tablaDeResultados.SelectedRows[0].Cells[2].Value.ToString()
+                tablaDeResultados.SelectedRows[0].Cells[0].Value.ToString()
             );
             this.Close();
         }

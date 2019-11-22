@@ -66,7 +66,7 @@
             // 
             // clienteDni
             // 
-            this.clienteDni.BackColor = System.Drawing.SystemColors.Control;
+            this.clienteDni.BackColor = System.Drawing.SystemColors.Window;
             this.clienteDni.Location = new System.Drawing.Point(138, 121);
             this.clienteDni.Name = "clienteDni";
             this.clienteDni.Size = new System.Drawing.Size(234, 20);
