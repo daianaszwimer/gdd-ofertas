@@ -73,6 +73,9 @@ namespace FrbaOfertas.AbmProveedor
             SqlDataAdapter proveedoresDataAdapter = new SqlDataAdapter(consultaProveedores, Helper.dbOfertas);
             proveedoresDataAdapter.Fill(proveedoresDataSet);
             tablaDeResultados.DataSource = proveedoresDataSet.Tables[0];
+            tablaDeResultados.Columns[3].Visible = false;
+            tablaDeResultados.Columns[4].Visible = false;
+            tablaDeResultados.Columns[12].Visible = false;
         }
 
         private void modificar_Click(object sender, EventArgs e)
