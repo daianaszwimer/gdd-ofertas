@@ -26,7 +26,6 @@ namespace FrbaOfertas
         {
             errorUsername.Clear();
             errorPassword.Clear();
-            //TODO: {M} Cambiar contraseña
             usernameObligatorio();
             passwordObligatoria();
             if (camposOk)
