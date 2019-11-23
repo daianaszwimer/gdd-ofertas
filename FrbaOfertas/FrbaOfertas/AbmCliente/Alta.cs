@@ -13,11 +13,19 @@ namespace FrbaOfertas.AbmCliente
 {
     public partial class Alta : AltaYModificacion
     {
-        public Alta() : base()
+        public Alta()
         {
             //InitializeComponent();
             //conectarseABaseDeDatosOfertas();
             habilitado.Visible = false;
+            label13.Visible = false;
+            label14.Visible = false;
+            label15.Visible = false;
+            label16.Visible = false;
+            label17.Visible = false;
+            label18.Visible = false;
+            label19.Visible = false;
+            label20.Visible = false;
         }
 
         override protected void confirmarCliente_Click(object sender, EventArgs e)

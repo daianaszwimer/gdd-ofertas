@@ -80,6 +80,8 @@ namespace FrbaOfertas.AbmCliente
             SqlDataAdapter clientesDataAdapter = new SqlDataAdapter(consultaClientes, Helper.dbOfertas);
             clientesDataAdapter.Fill(clientesDataSet);
             tablaDeResultados.DataSource = clientesDataSet.Tables[0];
+            tablaDeResultados.Columns[6].Visible = false;
+            tablaDeResultados.Columns[11].Visible = false;
         }
 
         private void modificar_Click(object sender, EventArgs e)

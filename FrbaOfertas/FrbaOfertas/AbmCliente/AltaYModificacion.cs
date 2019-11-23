@@ -13,7 +13,7 @@ using System.Windows.Forms;
 namespace FrbaOfertas.AbmCliente
 {
     
-    public abstract partial class AltaYModificacion : BarraDeOpciones
+    public partial class AltaYModificacion : BarraDeOpciones
     {
         public AltaYModificacion()
         {
@@ -114,7 +114,7 @@ namespace FrbaOfertas.AbmCliente
         }
 
 
-        abstract protected void confirmarCliente_Click(object sender, EventArgs e);
+        protected virtual void confirmarCliente_Click(object sender, EventArgs e) { }
  
     //
     }

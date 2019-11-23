@@ -41,7 +41,7 @@ namespace FrbaOfertas.AbmRol
         {
             rolesDataSet.Clear();
         }
-        //TODO: Ocultar FK del listado
+
         private void buscar_Click(object sender, EventArgs e)
         {
             rolesDataSet.Clear();

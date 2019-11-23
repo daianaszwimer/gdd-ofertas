@@ -15,7 +15,7 @@ namespace FrbaOfertas.AbmCliente
     {
         private object[] cliente;
 
-        public Modificacion(object[] cliente) : base()
+        public Modificacion(object[] cliente)
         {
             nombre.Text = cliente[1].ToString();
             apellido.Text = cliente[2].ToString();
@@ -30,6 +30,14 @@ namespace FrbaOfertas.AbmCliente
             fechaNacimiento.Text = cliente[13].ToString();
             habilitado.Checked = bool.Parse(cliente[14].ToString());
 
+            label13.Visible = false;
+            label14.Visible = false;
+            label15.Visible = false;
+            label16.Visible = false;
+            label17.Visible = false;
+            label18.Visible = false;
+            label19.Visible = false;
+            label20.Visible = false;
            // habilitado.Visible = true;
 
         }

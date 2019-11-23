@@ -53,7 +53,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.habilitado = new System.Windows.Forms.CheckBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // confirmar
@@ -261,23 +260,11 @@
             this.habilitado.Text = "Habilitado";
             this.habilitado.UseVisualStyleBackColor = true;
             // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.label13.Location = new System.Drawing.Point(39, 21);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(150, 15);
-            this.label13.TabIndex = 56;
-            this.label13.Text = "« ALTA PROVEEDOR »";
-            // 
             // AltaYModificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 383);
-            this.Controls.Add(this.label13);
             this.Controls.Add(this.habilitado);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -305,6 +292,31 @@
             this.Controls.Add(this.label1);
             this.Name = "AltaYModificacion";
             this.Text = "AltaYModificacion";
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.razonSocial, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.mail, 0);
+            this.Controls.SetChildIndex(this.label8, 0);
+            this.Controls.SetChildIndex(this.telefono, 0);
+            this.Controls.SetChildIndex(this.label7, 0);
+            this.Controls.SetChildIndex(this.calle, 0);
+            this.Controls.SetChildIndex(this.label6, 0);
+            this.Controls.SetChildIndex(this.piso, 0);
+            this.Controls.SetChildIndex(this.label9, 0);
+            this.Controls.SetChildIndex(this.label11, 0);
+            this.Controls.SetChildIndex(this.label10, 0);
+            this.Controls.SetChildIndex(this.localidad, 0);
+            this.Controls.SetChildIndex(this.depto, 0);
+            this.Controls.SetChildIndex(this.label12, 0);
+            this.Controls.SetChildIndex(this.codigoPostal, 0);
+            this.Controls.SetChildIndex(this.confirmar, 0);
+            this.Controls.SetChildIndex(this.CUIT, 0);
+            this.Controls.SetChildIndex(this.rubro, 0);
+            this.Controls.SetChildIndex(this.nombre, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.label5, 0);
+            this.Controls.SetChildIndex(this.habilitado, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,6 +349,5 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         protected System.Windows.Forms.CheckBox habilitado;
-        private System.Windows.Forms.Label label13;
     }
 }

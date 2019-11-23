@@ -27,7 +27,7 @@ namespace FrbaOfertas.Facturar
 
         private void facturar_Click(object sender, EventArgs e)
         {
-            cuponObligatorio();
+            camposObligatorio();
             if (camposOk)
             {
                 DateTime myDateTimeI = desde.Value;
@@ -55,18 +55,13 @@ namespace FrbaOfertas.Facturar
 
                         idFactura = int.Parse(result.ToString());
                     }
-                    if (idFactura != 0)
-                    {
-                        nroFactura.Text = idFactura.ToString();
-                        montoFactura.Text = monto.ToString();
-                        cargarTablaResultados();
-                    }
-                    else
-                    {
-                        nroFactura.Text = idFactura.ToString();
-                        montoFactura.Text = monto.ToString();
+                    nroFactura.Text = idFactura.ToString();
+                    montoFactura.Text = monto.ToString();
+                    cargarTablaResultados();
+
+                    if (idFactura == 0)
                         MessageBox.Show("NO HAY OFERTAS QUE FACTURAR", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+
                 }
                 catch (SqlException ex)
                 {
@@ -76,7 +71,7 @@ namespace FrbaOfertas.Facturar
         }
 
 
-        private void seleccionarProveedor(string id,string razonSocial) 
+        private void seleccionarProveedor(string id, string razonSocial)
         {
             idProveedor = id;
             proveedor.Text = razonSocial;
@@ -92,10 +87,10 @@ namespace FrbaOfertas.Facturar
 
         private void cargarTablaResultados()
         {
-             string consultaOfertasFacturas =
-                    string.Format(
-                        "SELECT * FROM NO_LO_TESTEAMOS_NI_UN_POCO.obtener_ofertas_factura({0})", nroFactura.Text);
-            
+            string consultaOfertasFacturas =
+                   string.Format(
+                       "SELECT * FROM NO_LO_TESTEAMOS_NI_UN_POCO.obtener_ofertas_factura({0})", nroFactura.Text);
+
             SqlDataAdapter proveedoresDataAdapter = new SqlDataAdapter(consultaOfertasFacturas, Helper.dbOfertas);
             proveedoresDataAdapter.Fill(cuponesDataSet);
             tablaDeResultados.DataSource = cuponesDataSet.Tables[0];
@@ -108,7 +103,7 @@ namespace FrbaOfertas.Facturar
                 string.Format(
                     "SELECT factura_importe FROM NO_LO_TESTEAMOS_NI_UN_POCO.Factura WHERE factura_id={0}", idFactura);
 
-            SqlCommand obtenerMontoFactura = new SqlCommand(consultaMonto,Helper.dbOfertas);
+            SqlCommand obtenerMontoFactura = new SqlCommand(consultaMonto, Helper.dbOfertas);
             SqlDataReader dataReaderFactura = Helper.realizarConsultaSQL(obtenerMontoFactura);
             if (dataReaderFactura != null)
             {
@@ -122,7 +117,8 @@ namespace FrbaOfertas.Facturar
             dataReaderFactura.Close();
         }
 
-        private void cuponObligatorio()
+
+        private void camposObligatorio()
         {
             if (proveedor.Text == string.Empty)
             {
