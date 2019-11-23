@@ -15,8 +15,7 @@ namespace FrbaOfertas.EntregaDeOferta
     public partial class Form1 : BarraDeOpciones
     {
         string idProveedor;
-        bool camposOk = true;
-        bool datosOk = true;
+        bool camposOk;
         DataSet cuponesDataSet = new DataSet();
         
 
@@ -32,6 +31,7 @@ namespace FrbaOfertas.EntregaDeOferta
             }
             else
             {
+                labelProveedor.Visible = true;
                 proveedor.Visible = true;
                 seleccionarProveedor.Visible = true;
             }
@@ -39,11 +39,8 @@ namespace FrbaOfertas.EntregaDeOferta
 
         private void bajaCupon_Click(object sender, EventArgs e) //TODO: NO FUNCIONA
         {
-                errorCodCupon.Clear();
                 errorDniCliente.Clear();
-                cuponObligatorio();
-                validarDni();
-
+                camposOk = campoObligatorio();
 
                 if (camposOk)
                 {
@@ -92,11 +89,11 @@ namespace FrbaOfertas.EntregaDeOferta
         {
             try
             {
-                errorCodCupon.Clear();
                 cuponesDataSet.Clear();
                 string consultaCupon = string.Format("SELECT * FROM NO_LO_TESTEAMOS_NI_UN_POCO.obtener_codigos_cupones({0})", idProveedor);
                 SqlDataAdapter cuponesDataAdapter = new SqlDataAdapter(consultaCupon, Helper.dbOfertas);
                 cuponesDataAdapter.Fill(cuponesDataSet);
+                errorCodCupon.Clear();
                 (new EntregaDeOferta.ListadoCupon(this.agregarCuponSeleccionado, cuponesDataSet)).Show();
             }
             catch (SqlException ex)
@@ -114,7 +111,7 @@ namespace FrbaOfertas.EntregaDeOferta
         private void seleccionarProveedor_Click(object sender, EventArgs e)
         {
             errorProveedor.Clear();
-            (new CrearOferta.ListadoProveedores(this.agregarProveedorSeleccionado)).Show();
+            (new CrearOferta.ListadoProveedores(this.agregarProveedorSeleccionado)).Show(); //TODO:{M} SACAR LISTADO
         }
 
         public void agregarProveedorSeleccionado(string id, string razonSocial)
@@ -124,10 +121,10 @@ namespace FrbaOfertas.EntregaDeOferta
         }
 
 
-        private void cuponObligatorio()
+        protected bool campoObligatorio()
         {
-
-            if (proveedor.Text == string.Empty)
+            camposOk = true;
+            if (!Helper.rolesActuales.Contains("proveedor") && proveedor.Text == string.Empty)
             {
                 errorProveedor.SetError(proveedor, "Campo Obligatorio");
                 camposOk = false;
@@ -142,17 +139,16 @@ namespace FrbaOfertas.EntregaDeOferta
                 errorDniCliente.SetError(clienteDni, "Campo Obligatorio");
                 camposOk = false;
             }
-            else
-                camposOk = true;
-        }
-
-        private void validarDni()
-        {
             if (Regex.IsMatch(clienteDni.Text, @"[^0-9]"))
             {
                 errorDniCliente.SetError(clienteDni, "Ingresar solo numeros");
-                datosOk = false;
+                camposOk = false;
             }
+            return camposOk;
         }
+
+
+       
+
     }
 }

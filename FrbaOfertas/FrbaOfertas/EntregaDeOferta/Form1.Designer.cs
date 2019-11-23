@@ -89,7 +89,7 @@
             // 
             // codigo
             // 
-            this.codigo.BackColor = System.Drawing.SystemColors.Control;
+            this.codigo.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.codigo.Location = new System.Drawing.Point(95, 100);
             this.codigo.Name = "codigo";
             this.codigo.Size = new System.Drawing.Size(147, 20);
@@ -127,7 +127,7 @@
             // 
             // proveedor
             // 
-            this.proveedor.BackColor = System.Drawing.SystemColors.Control;
+            this.proveedor.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.proveedor.Location = new System.Drawing.Point(95, 58);
             this.proveedor.Name = "proveedor";
             this.proveedor.Size = new System.Drawing.Size(147, 20);

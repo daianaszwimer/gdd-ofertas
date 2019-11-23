@@ -16,8 +16,6 @@ namespace FrbaOfertas.ComprarOferta
         DataSet ofertasDataSet = new DataSet();
         string idCliente;
         string idOferta;
-        string descripcion;
-        decimal precioOferta;
         int cantidadOferta;
         string codigoCompra;
         bool camposOk;
@@ -82,8 +80,8 @@ namespace FrbaOfertas.ComprarOferta
         private void obtenerIdCliente()
         {
             string consultaCliente = string.Format("SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente " +
-                                                 "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = cliente_id_usuario " +
-                                            "WHERE usuario_username='{0}'", Helper.usuarioActual);
+                                                    "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = cliente_id_usuario " +
+                                                   "WHERE usuario_username='{0}'", Helper.usuarioActual);
             SqlCommand obtenerIdCliente = new SqlCommand(consultaCliente, Helper.dbOfertas);
             SqlDataReader dataReader = Helper.realizarConsultaSQL(obtenerIdCliente);
             if (dataReader != null)
@@ -122,12 +120,10 @@ namespace FrbaOfertas.ComprarOferta
             }
         }
 
-        public void agregarCuponSeleccionado(string id, string descrip, string precio, string cantidad, string restric)
+        public void agregarCuponSeleccionado(string id, string descrip, string cantidad, string restric)
         {
             idOferta = id;
             descripcionOferta.Text = descrip;
-            descripcion = descrip;
-            precioOferta = Decimal.Parse(precio);
             cantidadOferta = int.Parse(cantidad);
             unidadDeOferta.Maximum = Decimal.Parse(restric);
         }
@@ -148,7 +144,7 @@ namespace FrbaOfertas.ComprarOferta
 
         protected bool cuponObligatorio()
         {
-            bool camposOk = true;
+            camposOk = true;
             if (!Helper.rolesActuales.Contains("cliente") && cliente.Text == string.Empty)
             {
                 errorCliente.SetError(cliente, "Campo Obligatorio");
