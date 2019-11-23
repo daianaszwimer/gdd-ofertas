@@ -629,7 +629,7 @@ create function NO_LO_TESTEAMOS_NI_UN_POCO.top_5_mayor_porcentaje(@anio int, @se
 returns table
 as
 	return (
-		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, ''),
+		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, '') as 'nombre_contacto',
 		avg( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) as 'descuento'
 		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
 		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_id_proveedor = p.proveedor_id 
