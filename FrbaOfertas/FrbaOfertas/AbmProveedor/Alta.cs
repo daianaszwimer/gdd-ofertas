@@ -169,25 +169,59 @@ namespace FrbaOfertas.AbmProveedor
 
         private void insertarProveedor(string idDomicilio, string idRubro)
         {
-            //TODO: [D] el usuario
-            SqlCommand insertarNuevoProveedor = 
+            SqlCommand insertarNuevoUsuario =
                 new SqlCommand(
-                    string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor (proveedor_razon_social, proveedor_id_domicilio," +
-                    "proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto) " +
-                    "VALUES ('{0}',{1},'{2}','{3}','{4}',{5},'{6}'); SELECT SCOPE_IDENTITY()", 
-                    razonSocial.Text, idDomicilio, CUIT.Text, telefono.Text, mail.Text, idRubro, nombre.Text), Helper.dbOfertas);
-            SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoProveedor);
-            if (dataReader != null)
+                    string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Usuario (usuario_username, usuario_password) " +
+                    "VALUES ('{0}','{1}');",
+                    CUIT.Text, Helper.encriptarConSHA256(CUIT.Text)), Helper.dbOfertas);
+
+            SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(insertarNuevoUsuario);
+            if (dataReaderUsuario != null)
             {
-                if (dataReader.RecordsAffected == 0)
+                if (dataReaderUsuario.RecordsAffected == 0)
                 {
-                    MessageBox.Show("Error al crear proveedor", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Hide();
+                    dataReaderUsuario.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Proveedor REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Hide();
+                    dataReaderUsuario.Close();
+                    SqlCommand insertarRolProveedor =
+                        new SqlCommand(
+                            string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario (rolesxusuario_id_usuario, rolesxusuario_id_rol) VALUES('{0}',{1})",
+                            CUIT.Text, "2"), Helper.dbOfertas);
+
+                    SqlDataReader dataReaderRolProveedor = Helper.realizarConsultaSQL(insertarRolProveedor);
+                    if (dataReaderRolProveedor != null)
+                    {
+                        if (dataReaderRolProveedor.RecordsAffected == 0)
+                        {
+                            dataReaderRolProveedor.Close();
+                        }
+                        else
+                        {
+                            dataReaderRolProveedor.Close();
+                            SqlCommand insertarNuevoProveedor =
+                                new SqlCommand(
+                                    string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor (proveedor_razon_social, proveedor_id_domicilio," +
+                                    "proveedor_cuit, proveedor_telefono, proveedor_mail, proveedor_id_rubro, proveedor_nombre_contacto, proveedor_id_usuario) " +
+                                    "VALUES ('{0}',{1},'{2}','{3}','{4}',{5},'{6}','{7}'); SELECT SCOPE_IDENTITY()",
+                            razonSocial.Text, idDomicilio, CUIT.Text, telefono.Text, mail.Text, idRubro, nombre.Text, CUIT.Text), Helper.dbOfertas);
+                            SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoProveedor);
+                            if (dataReader != null)
+                            {
+                                if (dataReader.RecordsAffected == 0)
+                                {
+                                    MessageBox.Show("Error al crear proveedor", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    this.Hide();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Proveedor REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    this.Hide();
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
