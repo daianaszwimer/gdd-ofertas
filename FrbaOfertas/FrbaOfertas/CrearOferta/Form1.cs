@@ -22,6 +22,7 @@ namespace FrbaOfertas.CrearOferta
             proveedor.Text = "";
             if (Helper.rolesActuales.Contains("proveedor"))
             {
+                labelProveedor.Visible = false;
                 proveedor.Visible = false;
                 seleccionarProveedor.Visible = false;
             }

@@ -92,7 +92,7 @@ namespace FrbaOfertas
                 case "Baja y Modificacion Usuario": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new BajaYModificacionUsuario.Form1()).Show(); this.Close(); }; break;
                 case "Carga de Credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CragaCredito.Form1("")).Show(); this.Close(); }; break;
                 case "Confeccion y Publicacion de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CrearOferta.Form1()).Show(); this.Close(); }; break;
-                case "Compra de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ComprarOferta.Form1("", "", "0", "0", "0")).Show(); this.Close(); }; break;
+                case "Compra de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ComprarOferta.Form1()).Show(); this.Close(); }; break;
                 case "Entrega/Consumo de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new EntregaDeOferta.Form1()).Show(); this.Close(); }; break;
                 case "Cambiar Contraseña": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CambiarPassword.Form1()).Show(); this.Close(); }; break;
                 case "Cerrar Sesion": buttonFuncionalidad.Click += (object sender, EventArgs e) => { Helper.cerrarSesion(); }; break;

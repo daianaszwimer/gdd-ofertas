@@ -43,12 +43,12 @@
             this.tablaDeResultados.Location = new System.Drawing.Point(27, 53);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(239, 195);
+            this.tablaDeResultados.Size = new System.Drawing.Size(207, 195);
             this.tablaDeResultados.TabIndex = 4;
             // 
             // confirm
             // 
-            this.confirm.Location = new System.Drawing.Point(191, 264);
+            this.confirm.Location = new System.Drawing.Point(159, 263);
             this.confirm.Name = "confirm";
             this.confirm.Size = new System.Drawing.Size(75, 23);
             this.confirm.TabIndex = 7;
@@ -60,7 +60,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(299, 312);
+            this.ClientSize = new System.Drawing.Size(268, 312);
             this.Controls.Add(this.confirm);
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "ListadoCupon";

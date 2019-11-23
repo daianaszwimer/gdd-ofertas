@@ -17,6 +17,7 @@ namespace FrbaOfertas.EntregaDeOferta
         public ListadoCupon(Action<string> agregarCuponSeleccionado, DataSet cuponesDataSet)
         {
             InitializeComponent();
+            confirm.Visible = false;
             this.agregarCuponSeleccionado = agregarCuponSeleccionado;
             tablaDeResultados.DataSource = cuponesDataSet.Tables[0];
             tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
