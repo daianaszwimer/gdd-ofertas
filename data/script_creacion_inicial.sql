@@ -517,9 +517,8 @@ update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_cod
  where num_col > 1 
 
 
--- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido -> chequear que no hayan compras no consumidas HAY COMPRAS NO CONSUMIDAS
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
-  select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
+  select distinct  m.Oferta_Fecha_Venc, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
   c.cliente_id, co.compra_oferta_codigo
   from [gd_esquema].Maestra m 
@@ -534,6 +533,35 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_con
 	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
 	and co.compra_oferta_id_cliente = c.cliente_id
   where m.Oferta_Entregado_Fecha is not null
+
+-- inserto cupones que no fueron retirados todavia
+insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_id_compra_oferta, cupon_codigo)
+	select distinct '2020-02-02', c.compra_oferta_id, c.compra_oferta_codigo from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta c
+	left join gd_esquema.Maestra m on m.Oferta_Fecha_Compra = c.compra_oferta_fecha
+	left join NO_LO_TESTEAMOS_NI_UN_POCO.Cliente on cliente_dni = m.Cli_Dni and c.compra_oferta_id_cliente = cliente_id
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor on proveedor_cuit = m.Provee_CUIT and proveedor_razon_social = m.Provee_RS
+	left join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_cantidad = m.Oferta_Cantidad 
+	and o.oferta_precio = m.Oferta_Precio and o.oferta_precio_lista = m.Oferta_Precio_Ficticio
+	and proveedor_id = o.oferta_id_proveedor and o.oferta_fecha_publicacion = m.Oferta_Fecha
+	and o.oferta_fecha_venc = m.Oferta_Fecha_Venc and c.compra_oferta_id_oferta = o.oferta_id
+	and o.oferta_descripcion = m.Oferta_Descripcion
+	left join NO_LO_TESTEAMOS_NI_UN_POCO.Cupon on c.compra_oferta_id = cupon_id_compra_oferta
+	where cupon_id_compra_oferta is null
+
+-- como es muy costoso hacerlo de una, inserto y despues hago update
+-- sé que todos los cupones con fecha de vencimiento y cliente en null no fueron retirados y tienen mal puesta la fecha de vencimiento, lo arreglo
+update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon SET NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cupon_fecha_venc = 
+	m.Oferta_Fecha_Venc
+  from [gd_esquema].Maestra m 
+  left join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
+  left join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_descripcion = m.Oferta_Descripcion and
+  o.oferta_fecha_publicacion = m.Oferta_Fecha and o.oferta_fecha_venc = m.Oferta_Fecha_Venc and
+  o.oferta_precio = m.Oferta_Precio and o.oferta_precio_lista = m.Oferta_Precio_Ficticio and
+  o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
+  left join [NO_LO_TESTEAMOS_NI_UN_POCO].Compra_Oferta co on 
+	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
+ where NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cupon_fecha_consumo is null and NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cupon_id_cliente is null
+ and co.compra_oferta_id = Cupon.cupon_id_compra_oferta
 
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura ON
 
@@ -604,15 +632,14 @@ create function NO_LO_TESTEAMOS_NI_UN_POCO.top_5_mayor_porcentaje(@anio int, @se
 returns table
 as
 	return (
-		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, '') as 'nombre_contacto',
-		(
-			select max( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o
-			where o.oferta_id_proveedor = p.proveedor_id 
-			and year(o.oferta_fecha_publicacion) = @anio
+		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, ''),
+		avg( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) as 'descuento'
+		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_id_proveedor = p.proveedor_id 
+		where year(o.oferta_fecha_publicacion) = @anio
 			and 1 =
 			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
-		) as 'descuento'
-		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
+			group by p.proveedor_cuit, p.proveedor_razon_social, p.proveedor_nombre_contacto
 		order by 'descuento' desc
 	)
 go
