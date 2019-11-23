@@ -28,12 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.nombre = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.funcionalidadesASeleccionar = new System.Windows.Forms.CheckedListBox();
             this.confirmar = new System.Windows.Forms.Button();
             this.habilitado = new System.Windows.Forms.CheckBox();
+            this.errorFuncionalidades = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorRol = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorFuncionalidades)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorRol)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -89,6 +94,16 @@
             this.habilitado.Text = "Habilitado";
             this.habilitado.UseVisualStyleBackColor = true;
             // 
+            // errorFuncionalidades
+            // 
+            this.errorFuncionalidades.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorFuncionalidades.ContainerControl = this;
+            // 
+            // errorRol
+            // 
+            this.errorRol.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorRol.ContainerControl = this;
+            // 
             // AltaYModificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -102,6 +117,14 @@
             this.Controls.Add(this.label1);
             this.Name = "AltaYModificacion";
             this.Text = "Alta";
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.nombre, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.funcionalidadesASeleccionar, 0);
+            this.Controls.SetChildIndex(this.confirmar, 0);
+            this.Controls.SetChildIndex(this.habilitado, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorFuncionalidades)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorRol)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -115,5 +138,7 @@
         protected System.Windows.Forms.CheckedListBox funcionalidadesASeleccionar;
         protected System.Windows.Forms.Button confirmar;
         protected System.Windows.Forms.CheckBox habilitado;
+        private System.Windows.Forms.ErrorProvider errorFuncionalidades;
+        private System.Windows.Forms.ErrorProvider errorRol;
     }
 }

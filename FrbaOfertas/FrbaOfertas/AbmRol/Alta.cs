@@ -13,11 +13,13 @@ namespace FrbaOfertas.AbmRol
 {
     public partial class Alta : AltaYModificacion
     {
-        public Alta() : base()
+        public Alta()
         {
+            InitializeComponent();
+            buscarFuncionalidadesEnBaseDeDatos();
             habilitado.Visible = false;
             confirmar.Text = "Crear";
-            //InitializeComponent();
+            desactivarErrores();
         }
 
         private bool crearRol()
@@ -62,16 +64,50 @@ namespace FrbaOfertas.AbmRol
                 return false;
         }
 
-        override protected void confirmar_Click(object sender, EventArgs e)
+        private bool rolNoExiste()
         {
-            if (crearRol())
+            SqlCommand chequearExistenciaDeRol =
+                new SqlCommand(
+                    string.Format(
+                        "SELECT rol_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol " +
+                        "WHERE rol_nombre='{0}'", nombre.Text), Helper.dbOfertas);
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(chequearExistenciaDeRol);
+            if (dataReader != null)
             {
-                MessageBox.Show("El rol se creo exitosamente");
-                this.Hide();
+                if (dataReader.HasRows)
+                {
+                    dataReader.Close();
+                    return false;
+                }
+                else
+                {
+                    dataReader.Close();
+                    return true;
+                }
             }
             else
+                return false;
+        }
+
+        override protected void confirmar_Click(object sender, EventArgs e)
+        {
+            desactivarErrores();
+            if (validacionCampos())
             {
-                MessageBox.Show("No se ha podido crear el rol correctamente");
+                if (rolNoExiste())
+                {
+                    if (crearRol())
+                    {
+                        MessageBox.Show("El rol se creo exitosamente", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Hide();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se ha podido crear el rol correctamente", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                    MessageBox.Show("El rol ya existe", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

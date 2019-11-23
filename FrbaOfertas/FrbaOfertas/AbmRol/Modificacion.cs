@@ -22,6 +22,7 @@ namespace FrbaOfertas.AbmRol
             habilitado.Checked = bool.Parse(rol[3].ToString());
             this.rol = rol;
             marcarCheckBoxFuncionalidades();
+            desactivarErrores();
         }
 
         private void marcarCheckBoxFuncionalidades()
@@ -115,20 +116,80 @@ namespace FrbaOfertas.AbmRol
             //TODO: [D] Si se habilito y no estaba habilitado o viceversa
             //Deshabilitar/Hablilitar
             //Desvincular usuarios segun corresponda
+            if (habilitado.Checked != bool.Parse(rol[3].ToString())) // Si se modifico este checkbox
+            {
+                if (habilitado.Checked) // Actualizo el rol a habilitado
+                {
+                    SqlCommand modificarRol =
+                    new SqlCommand(
+                        string.Format(
+                            "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Rol SET rol_habilitado={0} WHERE rol_id={1}; ", habilitado.Checked?"1":"0", rol[0].ToString()), Helper.dbOfertas);
+
+                    SqlDataReader modificarRolDataReader = Helper.realizarConsultaSQL(modificarRol);
+                    if (modificarRolDataReader != null)
+                    {
+                        if (modificarRolDataReader.RecordsAffected <= 0)
+                        {
+                            modificarRolDataReader.Close();
+                            return false;
+                        }
+                        modificarRolDataReader.Close();
+                    }
+                }
+                else // Actualizo el rol a deshabilitado y saco el rol a los usuarios que lo posean
+                {
+                    SqlCommand modificarRol =
+                    new SqlCommand(
+                        string.Format(
+                            "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Rol SET rol_habilitado={0} WHERE rol_id={1}; ", habilitado.Checked ? "1" : "0", rol[0].ToString()), Helper.dbOfertas);
+
+                    SqlDataReader modificarRolDataReader = Helper.realizarConsultaSQL(modificarRol);
+                    if (modificarRolDataReader != null)
+                    {
+                        if (modificarRolDataReader.RecordsAffected <= 0)
+                        {
+                            modificarRolDataReader.Close();
+                            return false;
+                        }
+                        modificarRolDataReader.Close();
+                    }
+
+                    SqlCommand eliminarRolEnUsuarios =
+                    new SqlCommand(
+                        string.Format(
+                            "DELETE FROM NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario WHERE rolesxusuario_id_rol={0}; ", rol[0].ToString()), Helper.dbOfertas);
+
+                    SqlDataReader eliminarRolEnUsuariosDataReader = Helper.realizarConsultaSQL(eliminarRolEnUsuarios);
+                    if (eliminarRolEnUsuariosDataReader != null)
+                    {
+                        if (eliminarRolEnUsuariosDataReader.RecordsAffected <= 0)
+                        {
+                            eliminarRolEnUsuariosDataReader.Close();
+                            return false;
+                        }
+                        eliminarRolEnUsuariosDataReader.Close();
+                    }
+
+                }
+            }
 
             return true;
         }
 
         override protected void confirmar_Click(object sender, EventArgs e)
         {
-            if (modificarRol())
+            desactivarErrores();
+            if (validacionCampos())
             {
-                MessageBox.Show("El rol se modifico exitosamente");
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("No se ha podido modificar el rol correctamente");
+                if (modificarRol())
+                {
+                    MessageBox.Show("El rol se modifico exitosamente");
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("No se ha podido modificar el rol correctamente");
+                }
             }
         }
     }

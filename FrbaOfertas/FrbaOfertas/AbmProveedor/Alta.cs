@@ -13,8 +13,9 @@ namespace FrbaOfertas.AbmProveedor
 {
     public partial class Alta : AltaYModificacion
     {
-        public Alta() : base()
+        public Alta()
         {
+            InitializeComponent();
             habilitado.Visible = false;
             confirmar.Text = "Crear";
         }

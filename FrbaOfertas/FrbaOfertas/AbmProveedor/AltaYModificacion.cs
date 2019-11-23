@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmProveedor
 {
-    public abstract partial class AltaYModificacion : BarraDeOpciones
+    public partial class AltaYModificacion : BarraDeOpciones
     {
         public AltaYModificacion()
         {
             InitializeComponent();
         }
 
-        abstract protected void confirmar_Click(object sender, EventArgs e);
+        protected virtual void confirmar_Click(object sender, EventArgs e) { }
     }
 }

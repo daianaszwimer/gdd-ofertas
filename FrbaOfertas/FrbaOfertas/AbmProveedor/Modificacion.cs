@@ -14,12 +14,12 @@ namespace FrbaOfertas.AbmProveedor
     {
         private object[] proveedor;
 
-        public Modificacion(object[] proveedor) : base()
+        public Modificacion(object[] proveedor)
         {
+            InitializeComponent();
+
             razonSocial.Text = proveedor[1].ToString();
             CUIT.Text = proveedor[2].ToString();
-
-
             localidad.Text = proveedor[5].ToString();
             calle.Text = proveedor[6].ToString();
             piso.Text = proveedor[7].ToString();
@@ -27,7 +27,6 @@ namespace FrbaOfertas.AbmProveedor
             codigoPostal.Text = proveedor[9].ToString();
             telefono.Text = proveedor[10].ToString();
             mail.Text = proveedor[11].ToString();
-            
             rubro.Text = proveedor[13].ToString();
             nombre.Text = proveedor[14].ToString();
             habilitado.Checked = bool.Parse(proveedor[15].ToString());
