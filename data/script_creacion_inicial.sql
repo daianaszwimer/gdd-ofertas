@@ -782,7 +782,7 @@ create procedure NO_LO_TESTEAMOS_NI_UN_POCO.facturacion(@fecha_inicio datetime, 
 as
 begin transaction
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Factura(factura_id_proveedor, factura_importe, factura_fecha_inicio, factura_fecha_fin) values (@id_proveedor, 
-		(select sum(compra_oferta_cantidad * oferta_precio) from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
+		(select isnull(sum(compra_oferta_cantidad * oferta_precio), 0) from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
 		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
 		where compra_oferta_fecha >= @fecha_inicio and compra_oferta_fecha <= @fecha_fin
 		and oferta_id_proveedor = @id_proveedor),
