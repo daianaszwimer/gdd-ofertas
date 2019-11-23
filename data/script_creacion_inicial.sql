@@ -168,9 +168,9 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente(
 	cliente_id_usuario varchar(64) NOT NULL,
 	cliente_nombre varchar(64) NOT NULL,
 	cliente_apellido varchar(64) NOT NULL,
-	cliente_dni varchar(64) UNIQUE NOT NULL,
+	cliente_dni int UNIQUE NOT NULL,
 	cliente_mail varchar(64) NOT NULL,
-	cliente_telefono varchar(64) NULL,
+	cliente_telefono int NULL,
 	cliente_habilitado BIT DEFAULT 1,
 	cliente_eliminado BIT DEFAULT 0,
 	cliente_fecha_nacimiento datetime NULL,
@@ -221,7 +221,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor(
 	proveedor_id INT identity(1, 1) NOT NULL PRIMARY KEY,
 	proveedor_id_usuario varchar(64) NOT NULL,
 	proveedor_mail varchar(64) NULL,
-	proveedor_telefono varchar(64) NULL,
+	proveedor_telefono int NULL,
 	proveedor_cuit varchar(64) UNIQUE NOT NULL,
 	proveedor_habilitado BIT DEFAULT 1,
 	proveedor_eliminado BIT DEFAULT 0,
@@ -517,9 +517,8 @@ update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_cod
  where num_col > 1 
 
 
--- no tenemos fecha de vencimiento del cupon, ponemos la misma que la que fue consumido, total ya fue consumido -> chequear que no hayan compras no consumidas HAY COMPRAS NO CONSUMIDAS
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
-  select distinct  m.Oferta_Entregado_Fecha, m.Oferta_Entregado_Fecha,
+  select distinct  m.Oferta_Fecha_Venc, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
   c.cliente_id, co.compra_oferta_codigo
   from [gd_esquema].Maestra m 
@@ -534,6 +533,35 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_con
 	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
 	and co.compra_oferta_id_cliente = c.cliente_id
   where m.Oferta_Entregado_Fecha is not null
+
+-- inserto cupones que no fueron retirados todavia
+insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_id_compra_oferta, cupon_codigo)
+	select distinct '2020-02-02', c.compra_oferta_id, c.compra_oferta_codigo from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta c
+	left join gd_esquema.Maestra m on m.Oferta_Fecha_Compra = c.compra_oferta_fecha
+	left join NO_LO_TESTEAMOS_NI_UN_POCO.Cliente on cliente_dni = m.Cli_Dni and c.compra_oferta_id_cliente = cliente_id
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor on proveedor_cuit = m.Provee_CUIT and proveedor_razon_social = m.Provee_RS
+	left join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_cantidad = m.Oferta_Cantidad 
+	and o.oferta_precio = m.Oferta_Precio and o.oferta_precio_lista = m.Oferta_Precio_Ficticio
+	and proveedor_id = o.oferta_id_proveedor and o.oferta_fecha_publicacion = m.Oferta_Fecha
+	and o.oferta_fecha_venc = m.Oferta_Fecha_Venc and c.compra_oferta_id_oferta = o.oferta_id
+	and o.oferta_descripcion = m.Oferta_Descripcion
+	left join NO_LO_TESTEAMOS_NI_UN_POCO.Cupon on c.compra_oferta_id = cupon_id_compra_oferta
+	where cupon_id_compra_oferta is null
+
+-- como es muy costoso hacerlo de una, inserto y despues hago update
+-- sé que todos los cupones con fecha de vencimiento y cliente en null no fueron retirados y tienen mal puesta la fecha de vencimiento, lo arreglo
+update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon SET NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cupon_fecha_venc = 
+	m.Oferta_Fecha_Venc
+  from [gd_esquema].Maestra m 
+  left join [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p on p.proveedor_cuit = m.Provee_CUIT
+  left join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_descripcion = m.Oferta_Descripcion and
+  o.oferta_fecha_publicacion = m.Oferta_Fecha and o.oferta_fecha_venc = m.Oferta_Fecha_Venc and
+  o.oferta_precio = m.Oferta_Precio and o.oferta_precio_lista = m.Oferta_Precio_Ficticio and
+  o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
+  left join [NO_LO_TESTEAMOS_NI_UN_POCO].Compra_Oferta co on 
+	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
+ where NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cupon_fecha_consumo is null and NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cupon_id_cliente is null
+ and co.compra_oferta_id = Cupon.cupon_id_compra_oferta
 
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura ON
 
@@ -605,14 +633,13 @@ returns table
 as
 	return (
 		select top 5 p.proveedor_cuit, p.proveedor_razon_social, isnull(p.proveedor_nombre_contacto, '') as 'nombre_contacto',
-		(
-			select max( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o
-			where o.oferta_id_proveedor = p.proveedor_id 
-			and year(o.oferta_fecha_publicacion) = @anio
+		avg( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) as 'descuento'
+		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
+		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta o on o.oferta_id_proveedor = p.proveedor_id 
+		where year(o.oferta_fecha_publicacion) = @anio
 			and 1 =
 			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
-		) as 'descuento'
-		from [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor p 
+			group by p.proveedor_cuit, p.proveedor_razon_social, p.proveedor_nombre_contacto
 		order by 'descuento' desc
 	)
 go
@@ -733,7 +760,7 @@ begin transaction
 	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
-	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_consumo is not null)
+	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_consumo is not null or cupon_id_cliente is not null)
 		begin
 			-- cupón ya fue consumido
 			rollback
@@ -758,7 +785,7 @@ create procedure NO_LO_TESTEAMOS_NI_UN_POCO.facturacion(@fecha_inicio datetime, 
 as
 begin transaction
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Factura(factura_id_proveedor, factura_importe, factura_fecha_inicio, factura_fecha_fin) values (@id_proveedor, 
-		(select sum(compra_oferta_cantidad * oferta_precio) from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
+		(select isnull(sum(compra_oferta_cantidad * oferta_precio), 0) from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
 		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
 		where compra_oferta_fecha >= @fecha_inicio and compra_oferta_fecha <= @fecha_fin
 		and oferta_id_proveedor = @id_proveedor),
