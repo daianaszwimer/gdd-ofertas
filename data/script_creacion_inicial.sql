@@ -757,7 +757,7 @@ begin transaction
 	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
 	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
-	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_consumo is not null)
+	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_consumo is not null or cupon_id_cliente is not null)
 		begin
 			-- cupón ya fue consumido
 			rollback
