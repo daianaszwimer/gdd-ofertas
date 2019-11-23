@@ -12,10 +12,13 @@ namespace FrbaOfertas.ComprarOferta
 {
     public partial class ListadoOfertas : BarraDeOpciones
     {
-        public ListadoOfertas(DataSet ofertasDataSet)
+        Action<string, string, string, string, string> agregarCuponSeleccionado;
+
+        public ListadoOfertas(Action<string, string, string, string, string> agregarCuponSeleccionado, DataSet ofertasDataSet)
         {
             InitializeComponent();
             confirmar.Visible = false;
+            this.agregarCuponSeleccionado = agregarCuponSeleccionado;
             tablaDeResultados.DataSource = ofertasDataSet.Tables[0];
             tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
         }
@@ -35,13 +38,13 @@ namespace FrbaOfertas.ComprarOferta
 
         private void confirmar_Click(object sender, EventArgs e)
         {
-            object[] oferta = Helper.obtenerValoresFilaSeleccionada(tablaDeResultados);
-            string idOferta = oferta[0].ToString();
-            string descripcionOferta = oferta[1].ToString();
-            string precioOferta = oferta[2].ToString();
-            string cantidadOferta = oferta[3].ToString();
-            string restriccionOferta = oferta[4].ToString();
-            (new ComprarOferta.Form1(idOferta, descripcionOferta, precioOferta, cantidadOferta, restriccionOferta)).Show();
+            agregarCuponSeleccionado(
+                tablaDeResultados.SelectedRows[0].Cells[0].Value.ToString(), //id
+                tablaDeResultados.SelectedRows[0].Cells[1].Value.ToString(), //descripcion
+                tablaDeResultados.SelectedRows[0].Cells[2].Value.ToString(), // precio
+                tablaDeResultados.SelectedRows[0].Cells[3].Value.ToString(), //cantidad
+                tablaDeResultados.SelectedRows[0].Cells[4].Value.ToString()  //restriccin
+            );
             this.Close();
         }
     }

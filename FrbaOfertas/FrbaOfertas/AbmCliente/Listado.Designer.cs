@@ -206,14 +206,14 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buscar;
         private System.Windows.Forms.Button limpiar;
-        private System.Windows.Forms.DataGridView tablaDeResultados;
         private System.Windows.Forms.TextBox apellido;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox mail;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox dni;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button eliminar;
-        private System.Windows.Forms.Button modificar;
+        protected System.Windows.Forms.Button eliminar;
+        protected System.Windows.Forms.Button modificar;
+        protected System.Windows.Forms.DataGridView tablaDeResultados;
     }
 }

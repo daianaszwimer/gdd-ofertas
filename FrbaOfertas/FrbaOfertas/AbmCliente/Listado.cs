@@ -25,7 +25,7 @@ namespace FrbaOfertas.AbmCliente
             tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
         }
 
-        private void tablaDeResultados_SelectionChanged(object sender, EventArgs e)
+        protected virtual void tablaDeResultados_SelectionChanged(object sender, EventArgs e)
         {
             if (tablaDeResultados.SelectedRows.Count == 0)
             {
