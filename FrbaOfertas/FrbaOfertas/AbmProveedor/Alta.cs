@@ -28,21 +28,29 @@ namespace FrbaOfertas.AbmProveedor
             desactivarErrores();
             if (validacionCampos())
             {
-                string idLocalidad = Helper.insertarLocalidad(localidad.Text);
-                if (idLocalidad != null)
+                int existenciaCUIT_RazonSocial = Helper.cuitYRazonSocialNoExisten(CUIT.Text, razonSocial.Text);
+                if (existenciaCUIT_RazonSocial == 1)
                 {
-                    string idDomicilio = Helper.insertarDomicilio(idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text);
-                    if (idDomicilio != null)
+                    string idLocalidad = Helper.insertarLocalidad(localidad.Text);
+                    if (idLocalidad != null)
                     {
-                        string idRubro = Helper.insertarRubro(rubro.Text);
-                        if (idRubro != null)
+                        string idDomicilio = Helper.insertarDomicilio(idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text);
+                        if (idDomicilio != null)
                         {
-                            if (Helper.insertarUsuario(CUIT.Text, CUIT.Text))
+                            string idRubro = Helper.insertarRubro(rubro.Text);
+                            if (idRubro != null)
                             {
-                                Helper.insertarProveedor(this, idDomicilio, idRubro, CUIT.Text, razonSocial.Text, CUIT.Text, telefono.Text, mail.Text, nombre.Text);
+                                if (Helper.insertarUsuario(CUIT.Text, CUIT.Text))
+                                {
+                                    Helper.insertarProveedor(this, idDomicilio, idRubro, CUIT.Text, razonSocial.Text, CUIT.Text, telefono.Text, mail.Text, nombre.Text);
+                                }
                             }
                         }
                     }
+                }
+                else if (existenciaCUIT_RazonSocial == 0)
+                {
+                    MessageBox.Show("Ya existe un proveedor con ese CUIT y Razon Social", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

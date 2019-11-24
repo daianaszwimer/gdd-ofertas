@@ -390,6 +390,31 @@ namespace FrbaOfertas
             }
         }
 
+        public static int cuitYRazonSocialNoExisten(string cuit, string razonSocial)
+        {
+            SqlCommand chequearExistencia =
+                    new SqlCommand(
+                        string.Format(
+                            "SELECT proveedor_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor WHERE proveedor_cuit='{0}' AND proveedor_razon_social='{1}'", cuit, razonSocial), Helper.dbOfertas);
+
+            SqlDataReader dataReaderProveedor = Helper.realizarConsultaSQL(chequearExistencia);
+            if (dataReaderProveedor != null)
+            {
+                if (dataReaderProveedor.HasRows)
+                {
+                    dataReaderProveedor.Close();
+                    return 0;
+                }
+                else
+                {
+                    dataReaderProveedor.Close();
+                    return 1;
+                }
+            }
+            else
+                return -1;
+        }
+
         public static void cerrarSesion()
         {
             MessageBox.Show("Se ha cerrado la sesion", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
