@@ -44,7 +44,7 @@ namespace FrbaOfertas.AbmProveedor
             {
                 string modificarProveedorString =
                     string.Format(
-                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET {0} WHERE proveedor_id={1}; ", queModificar, proveedor[0]);
+                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET {0} WHERE proveedor_id={1}; ", queModificarDelProveedor, proveedor[0]);
 
                 SqlCommand modificarProveedor = new SqlCommand(modificarProveedorString, Helper.dbOfertas);
                 SqlDataReader modificarProveedorDataReader = modificarProveedor.ExecuteReader();
