@@ -39,7 +39,7 @@ namespace FrbaOfertas.AbmCliente
         override protected void confirmarCliente_Click(object sender, EventArgs e)
         {
             desactivarErrores();
-            if (validarCampos())
+            if (validacionCampos())
             {
                 if (modificarCliente())
                 {

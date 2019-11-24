@@ -21,7 +21,7 @@ namespace FrbaOfertas.AbmCliente
         }
 
 
-        protected bool validarCampos()
+        protected bool validacionCampos()
         {
             bool camposOk = true;
 

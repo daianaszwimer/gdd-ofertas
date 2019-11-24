@@ -25,48 +25,30 @@ namespace FrbaOfertas
 
         private void confirmar_Click(object sender, EventArgs e)
         {
-            //crearUsuario();
-            Button confirmar = (Button)sender;
-            rol.Enabled = false;
-            confirmar.Enabled = false;
-
-            if (rol.Text == "cliente")
-                AddFormInPanel(new RegistroUsuario.AltaCliente());
-            if (rol.Text == "proveedor")
-                AddFormInPanel(new RegistroUsuario.AltaProveedor(this, username.Text, password.Text));
-        }
-
-
-        private void crearUsuario()
-        {
-            errorUsername.Clear();
-            errorPassword.Clear();
-            errorRol.Clear();
-            camposOk = camposObligatorios();
-            if (camposOk)
+            desactivarErrores();
+            if (camposObligatorios())
             {
-                if (this.usuarioUnico()) 
+                if (Helper.usuarioUnico(this, username.Text))
                 {
-                    SqlCommand insertarNuevoUsuario = 
-                        new SqlCommand(
-                            string.Format(
-                            "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Usuario (usuario_username, usuario_password) VALUES ('{0}','{1}')", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
-                    
-                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoUsuario);
-                    if (dataReader != null)
-                    {
-                        elUsername = username.Text;
-                        dataReader.Close();
-                    }
+                    Button confirmar = (Button)sender;
+                    rol.Enabled = false;
+                    confirmar.Enabled = false;
+
+                    if (rol.Text == "cliente")
+                        AddFormInPanel(new RegistroUsuario.AltaCliente(this, username.Text, password.Text));
+                    if (rol.Text == "proveedor")
+                        AddFormInPanel(new RegistroUsuario.AltaProveedor(this, username.Text, password.Text));
                 }
                 else
                 {
                     errorUsername.SetError(username, "Username ya existe");
-                    this.Show();
+
                 }
-            }
+           }
         }
 
+
+       
         
         private void AddFormInPanel(object formHijo)
         {
@@ -89,17 +71,17 @@ namespace FrbaOfertas
         private bool camposObligatorios()
         {
             bool camposOk = true;
-            if (username.Text == string.Empty)
+            if (string.IsNullOrEmpty(username.Text))
             {
                 errorUsername.SetError(username, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (password.Text == string.Empty)
+            if (string.IsNullOrEmpty(password.Text))
             {
                 errorPassword.SetError(password, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (rol.Text == string.Empty)
+            if (string.IsNullOrEmpty(rol.Text))
             {
                 errorRol.SetError(rol, "Campo Obligatorio");
                 camposOk = false;
@@ -107,20 +89,14 @@ namespace FrbaOfertas
             return camposOk;
         }
 
-
-        private bool usuarioUnico()
+        private void desactivarErrores()
         {
-            SqlCommand chequearExistenciaUsername = 
-                new SqlCommand(
-                    string.Format("SELECT usuario_username FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
-            SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(chequearExistenciaUsername);
-            if (dataReaderUsuario != null)
-            {
-                usuarioOk = !dataReaderUsuario.HasRows;
-                dataReaderUsuario.Close();
-            }
-            return usuarioOk;
+            errorUsername.Clear();
+            errorPassword.Clear();
+            errorRol.Clear();
         }
+
+        
 
         private List<String> obtenerRolesPosibles()
         {

@@ -12,10 +12,41 @@ namespace FrbaOfertas.RegistroUsuario
 {
     public partial class AltaCliente : AbmCliente.Alta
     {
-        public AltaCliente()
+        string username;
+        string password;
+        Form registroDeUsuario;
+
+        public AltaCliente(Form registroDeUsuario, string username, string password)
         {
             InitializeComponent();
             menuStrip1.Visible = false;
+            this.username = username;
+            this.password = password;
+            this.registroDeUsuario = registroDeUsuario;
+        }
+
+        private void confirmar_Click(object sender, EventArgs e)
+        {
+            desactivarErrores();
+            if (validacionCampos())
+            {
+                string idLocalidad = Helper.insertarLocalidad(localidad.Text);
+                if (idLocalidad != null)
+                {
+                    string idDomicilio = Helper.insertarDomicilio(idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text);
+                    if (idDomicilio != null)
+                    {
+                        if (Helper.insertarUsuario(username, password))
+                        {
+                            DateTime myFechaNacimiento = fechaNacimiento.Value;
+                            string sqlFormattedFechaNacimiento = myFechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                            Helper.insertarCliente(this, idDomicilio, username, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, sqlFormattedFechaNacimiento);
+                            registroDeUsuario.Close();
+                        }
+                    }
+                }
+            }
         }
     }
 }
