@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.buscar = new System.Windows.Forms.Button();
             this.limpiar = new System.Windows.Forms.Button();
             this.tablaDeResultados = new System.Windows.Forms.DataGridView();
@@ -37,7 +38,11 @@
             this.anio = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.semestre = new System.Windows.Forms.ComboBox();
+            this.errorListado = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorSemestre = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorListado)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorSemestre)).BeginInit();
             this.SuspendLayout();
             // 
             // buscar
@@ -89,7 +94,7 @@
             "Proveedores con mayor facturacion"});
             this.tipoDeListado.Location = new System.Drawing.Point(128, 53);
             this.tipoDeListado.Name = "tipoDeListado";
-            this.tipoDeListado.Size = new System.Drawing.Size(121, 21);
+            this.tipoDeListado.Size = new System.Drawing.Size(228, 21);
             this.tipoDeListado.TabIndex = 7;
             // 
             // label2
@@ -128,6 +133,16 @@
             this.semestre.Size = new System.Drawing.Size(119, 21);
             this.semestre.TabIndex = 11;
             // 
+            // errorListado
+            // 
+            this.errorListado.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorListado.ContainerControl = this;
+            // 
+            // errorSemestre
+            // 
+            this.errorSemestre.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorSemestre.ContainerControl = this;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,6 +169,8 @@
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.semestre, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorListado)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorSemestre)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,5 +187,7 @@
         private System.Windows.Forms.DateTimePicker anio;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox semestre;
+        private System.Windows.Forms.ErrorProvider errorListado;
+        private System.Windows.Forms.ErrorProvider errorSemestre;
     }
 }

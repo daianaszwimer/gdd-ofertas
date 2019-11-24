@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.confirmar = new System.Windows.Forms.Button();
             this.codigoPostal = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -53,6 +54,28 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.habilitado = new System.Windows.Forms.CheckBox();
+            this.errorRazonSocial = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorMail = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorTelefono = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorCUIT = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorRubro = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorNombre = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorCalle = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorPiso = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorDepto = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorLocalidad = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorCodigoPostal = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorRazonSocial)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorMail)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorTelefono)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCUIT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorRubro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorNombre)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCalle)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorPiso)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorDepto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorLocalidad)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCodigoPostal)).BeginInit();
             this.SuspendLayout();
             // 
             // confirmar
@@ -265,6 +288,61 @@
             this.habilitado.Text = "Habilitado";
             this.habilitado.UseVisualStyleBackColor = true;
             // 
+            // errorRazonSocial
+            // 
+            this.errorRazonSocial.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorRazonSocial.ContainerControl = this;
+            // 
+            // errorMail
+            // 
+            this.errorMail.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorMail.ContainerControl = this;
+            // 
+            // errorTelefono
+            // 
+            this.errorTelefono.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorTelefono.ContainerControl = this;
+            // 
+            // errorCUIT
+            // 
+            this.errorCUIT.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorCUIT.ContainerControl = this;
+            // 
+            // errorRubro
+            // 
+            this.errorRubro.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorRubro.ContainerControl = this;
+            // 
+            // errorNombre
+            // 
+            this.errorNombre.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorNombre.ContainerControl = this;
+            // 
+            // errorCalle
+            // 
+            this.errorCalle.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorCalle.ContainerControl = this;
+            // 
+            // errorPiso
+            // 
+            this.errorPiso.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorPiso.ContainerControl = this;
+            // 
+            // errorDepto
+            // 
+            this.errorDepto.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorDepto.ContainerControl = this;
+            // 
+            // errorLocalidad
+            // 
+            this.errorLocalidad.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorLocalidad.ContainerControl = this;
+            // 
+            // errorCodigoPostal
+            // 
+            this.errorCodigoPostal.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorCodigoPostal.ContainerControl = this;
+            // 
             // AltaYModificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -322,6 +400,17 @@
             this.Controls.SetChildIndex(this.label4, 0);
             this.Controls.SetChildIndex(this.label5, 0);
             this.Controls.SetChildIndex(this.habilitado, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorRazonSocial)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorMail)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorTelefono)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCUIT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorRubro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorNombre)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCalle)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorPiso)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorDepto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorLocalidad)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCodigoPostal)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,5 +443,16 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         protected System.Windows.Forms.CheckBox habilitado;
+        private System.Windows.Forms.ErrorProvider errorRazonSocial;
+        private System.Windows.Forms.ErrorProvider errorMail;
+        private System.Windows.Forms.ErrorProvider errorTelefono;
+        private System.Windows.Forms.ErrorProvider errorCUIT;
+        private System.Windows.Forms.ErrorProvider errorRubro;
+        private System.Windows.Forms.ErrorProvider errorNombre;
+        private System.Windows.Forms.ErrorProvider errorCalle;
+        private System.Windows.Forms.ErrorProvider errorPiso;
+        private System.Windows.Forms.ErrorProvider errorDepto;
+        private System.Windows.Forms.ErrorProvider errorLocalidad;
+        private System.Windows.Forms.ErrorProvider errorCodigoPostal;
     }
 }

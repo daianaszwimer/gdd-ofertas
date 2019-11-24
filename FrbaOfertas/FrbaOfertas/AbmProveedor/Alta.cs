@@ -16,6 +16,7 @@ namespace FrbaOfertas.AbmProveedor
         public Alta()
         {
             InitializeComponent();
+            desactivarErrores();
             habilitado.Visible = false;
             confirmar.Text = "Crear";
         }
@@ -24,7 +25,11 @@ namespace FrbaOfertas.AbmProveedor
         {
             // TODO: [D] Validaciones
             // TODO: [D] chequeo que no haya 2 con misma razon social y cuit
-            insertarLocalidadParaDireccion();
+            desactivarErrores();
+            if (validacionCampos())
+            {
+                insertarLocalidadParaDireccion();
+            }
         }
 
         private void insertarLocalidadParaDireccion()

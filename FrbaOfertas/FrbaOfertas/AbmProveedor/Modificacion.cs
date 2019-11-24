@@ -20,7 +20,7 @@ namespace FrbaOfertas.AbmProveedor
         public Modificacion(object[] proveedor)
         {
             InitializeComponent();
-
+            desactivarErrores();
             razonSocial.Text = proveedor[1].ToString();
             CUIT.Text = proveedor[2].ToString();
             localidad.Text = proveedor[5].ToString();
@@ -309,13 +309,17 @@ namespace FrbaOfertas.AbmProveedor
 
         override protected void confirmar_Click(object sender, EventArgs e)
         {
-            if (modificarProveedor())
+            desactivarErrores();
+            if (validacionCampos())
             {
-                MessageBox.Show("El proveedor se modifico exitosamente");
-                this.Hide();
+                if (modificarProveedor())
+                {
+                    MessageBox.Show("El proveedor se modifico exitosamente");
+                    this.Hide();
+                }
+                else
+                    MessageBox.Show("No se ha podido modificar el proveedor correctamente");
             }
-            else
-                MessageBox.Show("No se ha podido modificar el proveedor correctamente");
         }
     }
 }
