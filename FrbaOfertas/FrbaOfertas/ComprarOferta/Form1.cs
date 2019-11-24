@@ -28,7 +28,7 @@ namespace FrbaOfertas.ComprarOferta
                 labelCliente.Visible = false;
                 cliente.Visible = false;
                 seleccionarCliente.Visible = false;
-                obtenerIdCliente();
+                idCliente = Helper.obtenerIdCliente();
             }
             else
             {
@@ -75,27 +75,6 @@ namespace FrbaOfertas.ComprarOferta
                 }
             }
         }
-
-
-        private void obtenerIdCliente()
-        {
-            string consultaCliente = string.Format("SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente " +
-                                                    "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = cliente_id_usuario " +
-                                                   "WHERE usuario_username='{0}'", Helper.usuarioActual);
-            SqlCommand obtenerIdCliente = new SqlCommand(consultaCliente, Helper.dbOfertas);
-            SqlDataReader dataReader = Helper.realizarConsultaSQL(obtenerIdCliente);
-            if (dataReader != null)
-            {
-                if (dataReader.Read())
-                {
-                    idCliente = dataReader.GetValue(0).ToString();
-                    dataReader.Close();
-                }
-                dataReader.Close();
-            }
-            dataReader.Close();
-        }
-
 
         private void seleccionarOferta_Click(object sender, EventArgs e)
         {

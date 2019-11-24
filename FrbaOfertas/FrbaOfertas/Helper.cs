@@ -106,6 +106,45 @@ namespace FrbaOfertas
             }
         }
 
+        public static string obtenerIdCliente()
+        {
+            string consultaCliente = string.Format("SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente " +
+                                                    "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = cliente_id_usuario " +
+                                                   "WHERE usuario_username='{0}'", Helper.usuarioActual);
+            SqlCommand obtenerIdCliente = new SqlCommand(consultaCliente, Helper.dbOfertas);
+            SqlDataReader dataReader = Helper.realizarConsultaSQL(obtenerIdCliente);
+            if (dataReader != null)
+            {
+                if (dataReader.Read())
+                {
+                    dataReader.Close();
+                    return dataReader.GetValue(0).ToString();
+                }
+                dataReader.Close();
+                return "";
+            }
+            dataReader.Close();
+            return "";
+        }
+
+        public static string obtenerIdProveedor()
+        {
+            SqlCommand obtenerIdProveedor = new SqlCommand("SELECT proveedor_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = proveedor_id_usuario WHERE usuario_username='" + Helper.usuarioActual + "'", Helper.dbOfertas);
+            SqlDataReader dataReaderProveedor = Helper.realizarConsultaSQL(obtenerIdProveedor);
+            if (dataReaderProveedor != null)
+            {
+                if (dataReaderProveedor.Read())
+                {
+                    dataReaderProveedor.Close();
+                    return dataReaderProveedor.GetValue(0).ToString();
+                }
+                dataReaderProveedor.Close();
+                return "";
+            }
+            dataReaderProveedor.Close();
+            return "";
+        }
+
         public static void cerrarSesion()
         {
             MessageBox.Show("Se ha cerrado la sesion", "", MessageBoxButtons.OK, MessageBoxIcon.Information);

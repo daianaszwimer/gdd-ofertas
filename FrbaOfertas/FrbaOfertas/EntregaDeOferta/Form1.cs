@@ -27,7 +27,7 @@ namespace FrbaOfertas.EntregaDeOferta
                 labelProveedor.Visible = false;
                 proveedor.Visible = false;
                 seleccionarProveedor.Visible = false;
-                obtenerIdProveedor(Helper.usuarioActual);
+                string idProveedor = Helper.obtenerIdProveedor();
             }
             else
             {
@@ -67,23 +67,6 @@ namespace FrbaOfertas.EntregaDeOferta
                     }
                 }
         }
-
-        private void obtenerIdProveedor(string usuarioProveedor)
-        {
-            SqlCommand obtenerIdProveedor = new SqlCommand("SELECT proveedor_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = proveedor_id_usuario WHERE usuario_username='" + usuarioProveedor + "'", Helper.dbOfertas);
-            SqlDataReader dataReaderProveedor = Helper.realizarConsultaSQL(obtenerIdProveedor);
-            if (dataReaderProveedor != null)
-            {
-                if (dataReaderProveedor.Read())
-                {
-                    idProveedor = dataReaderProveedor.GetValue(0).ToString();
-                    dataReaderProveedor.Close();
-                }
-                dataReaderProveedor.Close();
-            }
-            dataReaderProveedor.Close();
-        }
-
 
         private void seleccionarCupon_Click(object sender, EventArgs e)
         {

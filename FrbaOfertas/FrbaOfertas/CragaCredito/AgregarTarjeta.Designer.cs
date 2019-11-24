@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -35,6 +36,12 @@
             this.fechaVencimiento = new System.Windows.Forms.DateTimePicker();
             this.codigoSeguridad = new System.Windows.Forms.TextBox();
             this.guardar = new System.Windows.Forms.Button();
+            this.errorNumero = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorFecha = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorCodigo = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorNumero)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorFecha)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCodigo)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -96,11 +103,26 @@
             this.guardar.UseVisualStyleBackColor = true;
             this.guardar.Click += new System.EventHandler(this.guardar_Click);
             // 
-            // DatosTarjeta
+            // errorNumero
+            // 
+            this.errorNumero.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorNumero.ContainerControl = this;
+            // 
+            // errorFecha
+            // 
+            this.errorFecha.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorFecha.ContainerControl = this;
+            // 
+            // errorCodigo
+            // 
+            this.errorCodigo.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorCodigo.ContainerControl = this;
+            // 
+            // AgregarTarjeta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 152);
+            this.ClientSize = new System.Drawing.Size(307, 152);
             this.Controls.Add(this.guardar);
             this.Controls.Add(this.codigoSeguridad);
             this.Controls.Add(this.fechaVencimiento);
@@ -108,7 +130,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "DatosTarjeta";
+            this.Name = "AgregarTarjeta";
             this.Text = "DatosTarjeta";
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.label2, 0);
@@ -117,6 +139,9 @@
             this.Controls.SetChildIndex(this.fechaVencimiento, 0);
             this.Controls.SetChildIndex(this.codigoSeguridad, 0);
             this.Controls.SetChildIndex(this.guardar, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorNumero)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorFecha)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCodigo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,5 +156,8 @@
         private System.Windows.Forms.DateTimePicker fechaVencimiento;
         private System.Windows.Forms.TextBox codigoSeguridad;
         private System.Windows.Forms.Button guardar;
+        private System.Windows.Forms.ErrorProvider errorNumero;
+        private System.Windows.Forms.ErrorProvider errorFecha;
+        private System.Windows.Forms.ErrorProvider errorCodigo;
     }
 }
