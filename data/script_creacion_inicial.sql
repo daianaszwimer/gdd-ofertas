@@ -393,7 +393,7 @@ select distinct d.Cli_Direccion, l.localidad_id, 0, '', 0
 from [gd_esquema].[Maestra] d
 inner join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad l on l.localidad_nombre = d.Cli_Ciudad 
 where d.Cli_Direccion is not null
-union select distinct p.Provee_Dom, lo.localidad_id, 0, 0, 0
+union select distinct p.Provee_Dom, lo.localidad_id, 0, '', 0
 from [gd_esquema].[Maestra] p
 inner join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad lo on lo.localidad_nombre = p.Provee_Ciudad
 where p.Provee_Dom is not null
