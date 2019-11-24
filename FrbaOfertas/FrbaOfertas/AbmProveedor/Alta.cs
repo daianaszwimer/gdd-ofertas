@@ -217,11 +217,13 @@ namespace FrbaOfertas.AbmProveedor
                                 if (dataReader.RecordsAffected == 0)
                                 {
                                     MessageBox.Show("Error al crear proveedor", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    dataReader.Close();
                                     this.Hide();
                                 }
                                 else
                                 {
                                     MessageBox.Show("Proveedor REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    dataReader.Close();
                                     this.Hide();
                                 }
                             }

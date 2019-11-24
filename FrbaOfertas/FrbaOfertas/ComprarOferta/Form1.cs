@@ -67,7 +67,7 @@ namespace FrbaOfertas.ComprarOferta
 
                         codigoCompra = result.ToString();
                     }
-                    MessageBox.Show(codigoCompra, "Codigo de compra", MessageBoxButtons.OK, MessageBoxIcon.Error); //TODO: {M} Probar usuario con credito
+                    MessageBox.Show(codigoCompra, "Codigo de compra", MessageBoxButtons.OK, MessageBoxIcon.Error); 
                 }
                 catch (SqlException ex)
                 {

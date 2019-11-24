@@ -18,14 +18,13 @@ namespace FrbaOfertas.AbmCliente
             InitializeComponent();
             habilitado.Visible = false;
             confirmar.Text = "CREAR";
+            desactivarErrores();
         }
 
         override protected void confirmarCliente_Click(object sender, EventArgs e)
         {
-            bool camposOk = camposObligatorios();
-            bool datosOk = validarDatosIngresados();
-
-            if (camposOk && datosOk) //Campos obligatorios y formato validos
+            desactivarErrores();
+            if (validarCampos()) //Campos obligatorios y formato validos
             {
                 SqlCommand chequearExistenciaCliente =
                     new SqlCommand(
@@ -137,8 +136,7 @@ namespace FrbaOfertas.AbmCliente
         private void insertarCliente(string idDomicilio)
         {
             string consultaNuevoUsuario = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Usuario (usuario_username, usuario_password) " +
-                                                            "VALUES ('{0}','{1}');",
-                                                            dni.Text, Helper.encriptarConSHA256(dni.Text));
+                                                            "VALUES ('{0}','{1}');", dni.Text, Helper.encriptarConSHA256(dni.Text));
             SqlCommand insertarNuevoUsuario = new SqlCommand(consultaNuevoUsuario, Helper.dbOfertas);
             SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(insertarNuevoUsuario);
             if (dataReaderUsuario != null)
@@ -150,30 +148,43 @@ namespace FrbaOfertas.AbmCliente
                 else
                 {
                     dataReaderUsuario.Close();
-
-                    DateTime myFechaNacimiento = fechaNacimiento.Value;
-                    string sqlFormattedFechaNacimiento = myFechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
-                    string consultaNuevoCliente =
-                        string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Cliente (cliente_id_domicilio,cliente_nombre," +
-                                      "cliente_apellido,cliente_dni,cliente_mail,cliente_telefono,cliente_fecha_nacimiento,"+
-                                      "cliente_credito, cliente_id_usuario) " +
-                                      "VALUES ({0},'{1}','{2}',{3},'{4}',{5},'{6}',{7},'{8}'); SELECT SCOPE_IDENTITY()",
-                                      idDomicilio, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, sqlFormattedFechaNacimiento, 200, dni.Text);
-                    SqlCommand insertarNuevoCliente = new SqlCommand(consultaNuevoCliente, Helper.dbOfertas);
-                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoCliente);
-                    if (dataReader != null)
+                    string consultaInsertarRolCliente = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario (rolesxusuario_id_usuario, rolesxusuario_id_rol) VALUES('{0}',{1})", dni.Text, "3");
+                    SqlCommand insertarRolCliente = new SqlCommand(consultaInsertarRolCliente, Helper.dbOfertas);
+                    SqlDataReader dataReaderRolCliente = Helper.realizarConsultaSQL(insertarRolCliente);
+                    if (dataReaderRolCliente != null)
                     {
-                        if (dataReader.RecordsAffected == 0)
+                        if (dataReaderRolCliente.RecordsAffected == 0)
                         {
-                            MessageBox.Show("Error al crear cliente", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            this.Hide();
+                            dataReaderRolCliente.Close();
                         }
                         else
                         {
+                            dataReaderRolCliente.Close();
+                            DateTime myFechaNacimiento = fechaNacimiento.Value;
+                            string sqlFormattedFechaNacimiento = myFechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-                            MessageBox.Show("Cliente REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Hide();
+                            string consultaNuevoCliente = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Cliente (cliente_id_domicilio,cliente_nombre," +
+                                   "cliente_apellido,cliente_dni,cliente_mail,cliente_telefono,cliente_fecha_nacimiento, cliente_credito, cliente_id_usuario) " +
+                                   "VALUES ({0},'{1}','{2}',{3},'{4}',{5},'{6}',{7},'{8}'); SELECT SCOPE_IDENTITY()",
+                                   idDomicilio, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, sqlFormattedFechaNacimiento, 200, dni.Text);
+                            SqlCommand insertarNuevoCliente = new SqlCommand(consultaNuevoCliente, Helper.dbOfertas);
+                            SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoCliente);
+                            if (dataReader != null)
+                            {
+                                if (dataReader.RecordsAffected == 0)
+                                {
+                                    MessageBox.Show("Error al crear cliente", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    dataReader.Close();
+                                    this.Hide();
+                                }
+                                else
+                                {
+
+                                    MessageBox.Show("Cliente REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    dataReader.Close();
+                                    this.Hide();
+                                }
+                            }
                         }
                     }
                 }

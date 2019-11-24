@@ -21,122 +21,120 @@ namespace FrbaOfertas.AbmCliente
         }
 
 
-        protected bool camposObligatorios()
+        protected bool validarCampos()
         {
             bool camposOk = true;
 
-            if (nombre.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(nombre.Text))
             {
                 errorNombre.SetError(nombre, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (apellido.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(apellido.Text))
             {
                 errorApellido.SetError(apellido, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (dni.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(dni.Text))
             {
                 errorDni.SetError(dni, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (mail.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(mail.Text))
             {
                 errorMail.SetError(mail, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (telefono.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(telefono.Text))
             {
                 errorTelefono.SetError(telefono, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (calle.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(calle.Text))
             {
                 errorDireccion.SetError(calle, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (localidad.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(localidad.Text))
             {
                 errorLocalidad.SetError(localidad, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (codigoPostal.Text == string.Empty)
+            if (string.IsNullOrWhiteSpace(codigoPostal.Text))
             {
                 errorCodigoPostal.SetError(codigoPostal, "Campo Obligatorio");
                 camposOk = false;
             }
-            return true;
-        }
 
-
-        protected bool validarDatosIngresados()
-        {
-            //TODO: {M} VER CAMPO OBLIGATORIO
-            //TODO: {M} VER ERROR PRIVIDER
-            bool datosOk = true;
-
-            if (Regex.IsMatch(nombre.Text, @"[^a-zA-Z ]"))
+            if (!string.IsNullOrWhiteSpace(nombre.Text) && Regex.IsMatch(nombre.Text, @"[^a-zA-Z ]"))
             {
                 errorNombre.SetError(nombre, "Ingresar caracteres alfabeticos");
-                datosOk = false;
+                camposOk = false;
             }
-            if (Regex.IsMatch(apellido.Text, @"[^a-zA-Z ]"))
+            if (!string.IsNullOrWhiteSpace(apellido.Text) && Regex.IsMatch(apellido.Text, @"[^a-zA-Z ]"))
             {
                 errorApellido.SetError(apellido, "Ingresar caracteres alfabeticos");
-                datosOk = false;
+                camposOk = false;
             }
-            if (Regex.IsMatch(dni.Text, @"[^0-9]"))
+            if (!string.IsNullOrWhiteSpace(dni.Text) && Regex.IsMatch(dni.Text, @"[^0-9]"))
             {
                 errorDni.SetError(dni, "Ingresar caracteres numericos");
-                datosOk = false;
+                camposOk = false;
             }
-            if (Regex.IsMatch(mail.Text, @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+            if (!string.IsNullOrWhiteSpace(mail.Text) && !Regex.IsMatch(mail.Text, @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$"))
             {
-                datosOk = true;
-            }
-            else
-            {
                 errorMail.SetError(mail, "Ingresar mail valido");
-                datosOk = false;
+                camposOk = false;
             }
-            if (Regex.IsMatch(telefono.Text, @"[^0-9]") && telefono.Text.Length < 7 && telefono.Text.Length > 8)
+            if (!string.IsNullOrWhiteSpace(telefono.Text) && Regex.IsMatch(telefono.Text, @"[^0-9]"))
             {
                 errorTelefono.SetError(telefono, "Ingresar caracteres numericos");
-                datosOk = false;
+                camposOk = false;
             }
-            if (Regex.IsMatch(calle.Text, @"[^A-Za-z\s0-9]"))
+            if (!string.IsNullOrWhiteSpace(calle.Text) && Regex.IsMatch(calle.Text, @"[^A-Za-z\s0-9]"))
             {
                 errorDireccion.SetError(calle, "Ingresar caracteres alfanumericos");
-                datosOk = false;
-            }
-            if (piso.Text.Length != 0)
-            {
-                if (Regex.IsMatch(piso.Text, @"[^0-9]"))
-                {
-                    errorDireccion.SetError(piso, "Ingresar caracteres numericos");
-                    datosOk = false;
-                }
-            }
-            if (Regex.IsMatch(depto.Text, @"[^a-zA-Z ]"))
-            {
-                errorDireccion.SetError(depto, "Ingresar caracteres numericos");
-                datosOk = false;
+                camposOk = false;
             }
 
-            if (Regex.IsMatch(localidad.Text, @"[^A-Za-z\s0-9]"))
+            if (!string.IsNullOrWhiteSpace(piso.Text) && Regex.IsMatch(piso.Text, @"[^0-9]"))
             {
-                errorLocalidad.SetError(localidad, "Ingresar caracteres numericos");
-                datosOk = false;
+                errorDireccion.SetError(piso, "Ingresar caracteres numericos");
+                camposOk = false;
             }
-            if (Regex.IsMatch(codigoPostal.Text, @"[^0-9]"))
+            if (!string.IsNullOrWhiteSpace(depto.Text) && Regex.IsMatch(depto.Text, @"[^a-zA-Z ]"))
+            {
+                errorDireccion.SetError(depto, "Ingresar caracteres alfabetico");
+                camposOk = false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(localidad.Text) && Regex.IsMatch(localidad.Text, @"[^A-Za-z\s0-9]"))
+            {
+                errorLocalidad.SetError(localidad, "Ingresar caracteres alfanumerico");
+                camposOk = false;
+            }
+            if (!string.IsNullOrWhiteSpace(codigoPostal.Text) && Regex.IsMatch(codigoPostal.Text, @"[^0-9]"))
             {
                 errorCodigoPostal.SetError(codigoPostal, "Ingresar caracteres numericos");
-                datosOk = false;
+                camposOk = false;
             }
-            return datosOk;
+
+            return camposOk;
         }
 
+
+        protected void desactivarErrores()
+        {
+            errorNombre.Clear();
+            errorApellido.Clear();
+            errorDni.Clear();
+            errorMail.Clear();
+            errorTelefono.Clear();
+            errorDireccion.Clear();
+            errorLocalidad.Clear();
+            errorCodigoPostal.Clear();
+        }
 
         protected virtual void confirmarCliente_Click(object sender, EventArgs e) { }
 

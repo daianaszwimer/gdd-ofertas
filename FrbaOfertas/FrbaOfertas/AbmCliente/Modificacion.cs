@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,6 +33,22 @@ namespace FrbaOfertas.AbmCliente
             habilitado.Checked = bool.Parse(cliente[14].ToString());
 
             this.cliente = cliente;
+            desactivarErrores();
+        }
+
+        override protected void confirmarCliente_Click(object sender, EventArgs e)
+        {
+            desactivarErrores();
+            if (validarCampos())
+            {
+                if (modificarCliente())
+                {
+                    MessageBox.Show("El cliente se modifico exitosamente");
+                    this.Hide();
+                }
+                else
+                    MessageBox.Show("No se ha podido modificar el cliente correctamente");
+            }
         }
 
         private bool modificarCliente()
@@ -217,16 +233,7 @@ namespace FrbaOfertas.AbmCliente
             return seModificoAlgoDeDomicilio;
         }
 
-        override protected void confirmarCliente_Click(object sender, EventArgs e)
-        {
-            if (modificarCliente())
-            {
-                MessageBox.Show("El proveedor se modifico exitosamente");
-                this.Hide();
-            }
-            else
-                MessageBox.Show("No se ha podido modificar el proveedor correctamente");
-        }
+
 
 
     }
