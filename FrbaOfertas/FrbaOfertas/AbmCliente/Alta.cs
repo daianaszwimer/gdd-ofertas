@@ -15,17 +15,16 @@ namespace FrbaOfertas.AbmCliente
     {
         public Alta()
         {
-            //InitializeComponent();
-            //conectarseABaseDeDatosOfertas();
             habilitado.Visible = false;
         }
 
         override protected void confirmarCliente_Click(object sender, EventArgs e)
         {
             AbmCliente.Form1 abmCliente = new AbmCliente.Form1();
+            bool camposOk = camposObligatorios();
+            bool datosOk = validarDatosIngresados();
 
-
-            if (validarDatosIngresados())
+            if (camposOk && datosOk)
             {
                 //TODO: {M} dni UNIQUE + try catch
                 SqlCommand chequearExistenciaCliente = 

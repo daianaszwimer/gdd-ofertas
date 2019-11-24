@@ -41,6 +41,7 @@ namespace FrbaOfertas.EntregaDeOferta
         {
                 errorDniCliente.Clear();
                 camposOk = campoObligatorio();
+                string codigoCompra = codigo.Text;
 
                 if (camposOk)
                 {
@@ -60,7 +61,7 @@ namespace FrbaOfertas.EntregaDeOferta
 
                             cmd.ExecuteNonQuery();
                         }
-                        MessageBox.Show("Cupon "+codigo.ToString()+"fue dado de baja", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Cupon "+codigoCompra+" fue dado de baja", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (SqlException ex)
                     {

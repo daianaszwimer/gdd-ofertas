@@ -72,15 +72,15 @@
             // 
             // codigoPostal
             // 
-            this.codigoPostal.Location = new System.Drawing.Point(241, 151);
+            this.codigoPostal.Location = new System.Drawing.Point(241, 196);
             this.codigoPostal.Name = "codigoPostal";
-            this.codigoPostal.Size = new System.Drawing.Size(100, 20);
+            this.codigoPostal.Size = new System.Drawing.Size(110, 20);
             this.codigoPostal.TabIndex = 47;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(238, 135);
+            this.label12.Location = new System.Drawing.Point(238, 180);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(72, 13);
             this.label12.TabIndex = 46;
@@ -88,22 +88,22 @@
             // 
             // depto
             // 
-            this.depto.Location = new System.Drawing.Point(396, 73);
+            this.depto.Location = new System.Drawing.Point(305, 114);
             this.depto.Name = "depto";
             this.depto.Size = new System.Drawing.Size(46, 20);
             this.depto.TabIndex = 45;
             // 
             // localidad
             // 
-            this.localidad.Location = new System.Drawing.Point(241, 112);
+            this.localidad.Location = new System.Drawing.Point(241, 157);
             this.localidad.Name = "localidad";
-            this.localidad.Size = new System.Drawing.Size(100, 20);
+            this.localidad.Size = new System.Drawing.Size(110, 20);
             this.localidad.TabIndex = 44;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(238, 96);
+            this.label10.Location = new System.Drawing.Point(238, 141);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 13);
             this.label10.TabIndex = 43;
@@ -112,7 +112,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(396, 57);
+            this.label11.Location = new System.Drawing.Point(305, 98);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(36, 13);
             this.label11.TabIndex = 42;
@@ -129,7 +129,7 @@
             // 
             // piso
             // 
-            this.piso.Location = new System.Drawing.Point(344, 73);
+            this.piso.Location = new System.Drawing.Point(241, 114);
             this.piso.Name = "piso";
             this.piso.Size = new System.Drawing.Size(46, 20);
             this.piso.TabIndex = 39;
@@ -137,7 +137,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(341, 57);
+            this.label6.Location = new System.Drawing.Point(238, 98);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(27, 13);
             this.label6.TabIndex = 38;
@@ -147,7 +147,7 @@
             // 
             this.calle.Location = new System.Drawing.Point(241, 73);
             this.calle.Name = "calle";
-            this.calle.Size = new System.Drawing.Size(97, 20);
+            this.calle.Size = new System.Drawing.Size(110, 20);
             this.calle.TabIndex = 37;
             // 
             // label7
