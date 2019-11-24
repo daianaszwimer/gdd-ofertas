@@ -117,8 +117,9 @@ namespace FrbaOfertas
             {
                 if (dataReader.Read())
                 {
+                    string idCliente = dataReader.GetValue(0).ToString();
                     dataReader.Close();
-                    return dataReader.GetValue(0).ToString();
+                    return idCliente;
                 }
                 dataReader.Close();
                 return "";
@@ -135,8 +136,9 @@ namespace FrbaOfertas
             {
                 if (dataReaderProveedor.Read())
                 {
+                    string idProveedor = dataReaderProveedor.GetValue(0).ToString();
                     dataReaderProveedor.Close();
-                    return dataReaderProveedor.GetValue(0).ToString();
+                    return idProveedor;
                 }
                 dataReaderProveedor.Close();
                 return "";

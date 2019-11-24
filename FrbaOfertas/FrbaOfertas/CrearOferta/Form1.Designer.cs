@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,6 +48,26 @@
             this.crear = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.seleccionarProveedor = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.validezCupon = new System.Windows.Forms.TextBox();
+            this.errorDescripcion = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorFechaPublicacion = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorFechaVencimiento = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorPrecio = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorDescuento = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorStock = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorRestriccionUnidades = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorTiempoCupon = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorProveedor = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorDescripcion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorFechaPublicacion)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorFechaVencimiento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorPrecio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorDescuento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorStock)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorRestriccionUnidades)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorTiempoCupon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProveedor)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -115,7 +136,7 @@
             // labelProveedor
             // 
             this.labelProveedor.AutoSize = true;
-            this.labelProveedor.Location = new System.Drawing.Point(22, 210);
+            this.labelProveedor.Location = new System.Drawing.Point(22, 238);
             this.labelProveedor.Name = "labelProveedor";
             this.labelProveedor.Size = new System.Drawing.Size(56, 13);
             this.labelProveedor.TabIndex = 8;
@@ -174,14 +195,15 @@
             // 
             // proveedor
             // 
-            this.proveedor.Location = new System.Drawing.Point(84, 207);
+            this.proveedor.Enabled = false;
+            this.proveedor.Location = new System.Drawing.Point(84, 235);
             this.proveedor.Name = "proveedor";
             this.proveedor.Size = new System.Drawing.Size(94, 20);
             this.proveedor.TabIndex = 16;
             // 
             // crear
             // 
-            this.crear.Location = new System.Drawing.Point(277, 205);
+            this.crear.Location = new System.Drawing.Point(299, 233);
             this.crear.Name = "crear";
             this.crear.Size = new System.Drawing.Size(75, 23);
             this.crear.TabIndex = 17;
@@ -192,7 +214,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(346, 124);
+            this.label8.Location = new System.Drawing.Point(347, 124);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(15, 13);
             this.label8.TabIndex = 18;
@@ -200,7 +222,7 @@
             // 
             // seleccionarProveedor
             // 
-            this.seleccionarProveedor.Location = new System.Drawing.Point(184, 205);
+            this.seleccionarProveedor.Location = new System.Drawing.Point(184, 233);
             this.seleccionarProveedor.Name = "seleccionarProveedor";
             this.seleccionarProveedor.Size = new System.Drawing.Size(75, 23);
             this.seleccionarProveedor.TabIndex = 19;
@@ -208,11 +230,74 @@
             this.seleccionarProveedor.UseVisualStyleBackColor = true;
             this.seleccionarProveedor.Click += new System.EventHandler(this.seleccionarProveedor_Click);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(22, 210);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(111, 13);
+            this.label9.TabIndex = 20;
+            this.label9.Text = "Tiempo validez cupon";
+            // 
+            // validezCupon
+            // 
+            this.validezCupon.Location = new System.Drawing.Point(134, 207);
+            this.validezCupon.Name = "validezCupon";
+            this.validezCupon.Size = new System.Drawing.Size(100, 20);
+            this.validezCupon.TabIndex = 21;
+            // 
+            // errorDescripcion
+            // 
+            this.errorDescripcion.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorDescripcion.ContainerControl = this;
+            // 
+            // errorFechaPublicacion
+            // 
+            this.errorFechaPublicacion.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorFechaPublicacion.ContainerControl = this;
+            // 
+            // errorFechaVencimiento
+            // 
+            this.errorFechaVencimiento.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorFechaVencimiento.ContainerControl = this;
+            // 
+            // errorPrecio
+            // 
+            this.errorPrecio.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorPrecio.ContainerControl = this;
+            // 
+            // errorDescuento
+            // 
+            this.errorDescuento.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorDescuento.ContainerControl = this;
+            // 
+            // errorStock
+            // 
+            this.errorStock.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorStock.ContainerControl = this;
+            // 
+            // errorRestriccionUnidades
+            // 
+            this.errorRestriccionUnidades.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorRestriccionUnidades.ContainerControl = this;
+            // 
+            // errorTiempoCupon
+            // 
+            this.errorTiempoCupon.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorTiempoCupon.ContainerControl = this;
+            // 
+            // errorProveedor
+            // 
+            this.errorProveedor.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorProveedor.ContainerControl = this;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(378, 238);
+            this.ClientSize = new System.Drawing.Size(386, 273);
+            this.Controls.Add(this.validezCupon);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.seleccionarProveedor);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.crear);
@@ -253,6 +338,17 @@
             this.Controls.SetChildIndex(this.crear, 0);
             this.Controls.SetChildIndex(this.label8, 0);
             this.Controls.SetChildIndex(this.seleccionarProveedor, 0);
+            this.Controls.SetChildIndex(this.label9, 0);
+            this.Controls.SetChildIndex(this.validezCupon, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorDescripcion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorFechaPublicacion)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorFechaVencimiento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorPrecio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorDescuento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorStock)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorRestriccionUnidades)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorTiempoCupon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProveedor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,5 +375,16 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button seleccionarProveedor;
         public System.Windows.Forms.TextBox proveedor;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox validezCupon;
+        private System.Windows.Forms.ErrorProvider errorDescripcion;
+        private System.Windows.Forms.ErrorProvider errorFechaPublicacion;
+        private System.Windows.Forms.ErrorProvider errorFechaVencimiento;
+        private System.Windows.Forms.ErrorProvider errorPrecio;
+        private System.Windows.Forms.ErrorProvider errorDescuento;
+        private System.Windows.Forms.ErrorProvider errorStock;
+        private System.Windows.Forms.ErrorProvider errorRestriccionUnidades;
+        private System.Windows.Forms.ErrorProvider errorTiempoCupon;
+        private System.Windows.Forms.ErrorProvider errorProveedor;
     }
 }
