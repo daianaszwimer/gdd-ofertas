@@ -254,13 +254,28 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegistrarUsuario.cs">
+    <Compile Include="RegistroUsuario\AltaCliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegistrarUsuario.Designer.cs">
+    <Compile Include="RegistroUsuario\AltaCliente.Designer.cs">
+      <DependentUpon>AltaCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistroUsuario\AltaProveedor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistroUsuario\AltaProveedor.Designer.cs">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RegistroUsuario\RegistrarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistroUsuario\RegistrarUsuario.Designer.cs">
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
+    <EmbeddedResource Include="AbmCliente\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
     </EmbeddedResource>
@@ -342,7 +357,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RegistrarUsuario.resx">
+    <EmbeddedResource Include="RegistroUsuario\RegistrarUsuario.resx">
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
