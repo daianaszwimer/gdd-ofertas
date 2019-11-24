@@ -18,27 +18,12 @@ namespace FrbaOfertas.AbmCliente
             //InitializeComponent();
             //conectarseABaseDeDatosOfertas();
             habilitado.Visible = false;
-            label13.Visible = false;
-            label14.Visible = false;
-            label15.Visible = false;
-            label16.Visible = false;
-            label17.Visible = false;
-            label18.Visible = false;
-            label19.Visible = false;
-            label20.Visible = false;
         }
 
         override protected void confirmarCliente_Click(object sender, EventArgs e)
         {
             AbmCliente.Form1 abmCliente = new AbmCliente.Form1();
-            label13.Visible = false;
-            label14.Visible = false;
-            label15.Visible = false;
-            label16.Visible = false;
-            label17.Visible = false;
-            label18.Visible = false;
-            label19.Visible = false;
-            label20.Visible = false;
+
 
             if (validarDatosIngresados())
             {
@@ -195,5 +180,6 @@ namespace FrbaOfertas.AbmCliente
                 }
             }
         }
+
     }
 }

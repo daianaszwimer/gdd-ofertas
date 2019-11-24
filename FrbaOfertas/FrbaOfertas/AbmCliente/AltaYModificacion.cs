@@ -12,23 +12,21 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmCliente
 {
-    
+
     public partial class AltaYModificacion : BarraDeOpciones
     {
         public AltaYModificacion()
         {
             InitializeComponent();
-            label13.Visible = false;
-            label14.Visible = false;
-            label15.Visible = false;
-            label16.Visible = false;
-            label17.Visible = false;
-            label18.Visible = false;
-            label19.Visible = false;
-            label20.Visible = false;
         }
 
-        
+
+        //errorUsername.SetError(username, "Campo Obligatorio");
+        protected bool camposObligatorios()
+        {
+            return true;
+        }
+
 
         protected bool validarDatosIngresados()
         {
@@ -39,19 +37,19 @@ namespace FrbaOfertas.AbmCliente
             //Validacion y obligatorio: Nombre
             if (Regex.IsMatch(nombre.Text, @"[^a-zA-Z ]"))
             {
-                label13.Visible = true;
+                errorNombre.SetError(nombre, "Ingresar caracteres alfabeticos");
                 datosOk = false;
             }
             //Validacion y obligatorio: Apellido
             if (Regex.IsMatch(apellido.Text, @"[^a-zA-Z ]"))
             {
-                label14.Visible = true;
+                errorApellido.SetError(apellido, "Ingresar caracteres alfabeticos");
                 datosOk = false;
             }
             //Validacion y obligatorio: Dni
             if (Regex.IsMatch(dni.Text, @"[^0-9]"))
             {
-                label15.Visible = true;
+                errorDni.SetError(dni, "Ingresar caracteres numericos");
                 datosOk = false;
             }
             //Validacion y obligatorio: Mail
@@ -62,19 +60,19 @@ namespace FrbaOfertas.AbmCliente
             }
             else
             {
-                label16.Visible = true;
+                errorMail.SetError(mail, "Ingresar mail valido");
                 datosOk = false;
             }
             //Validacion y obligatorio: Telefono
             if (Regex.IsMatch(telefono.Text, @"[^0-9]") && telefono.Text.Length < 7 && telefono.Text.Length > 8)
             {
-                label17.Visible = true;
+                errorTelefono.SetError(telefono, "Ingresar caracteres numericos");
                 datosOk = false;
             }
             //Validacion y obligatorio: Calle
             if (Regex.IsMatch(calle.Text, @"[^A-Za-z\s0-9]"))
             {
-                label18.Visible = true;
+                errorDireccion.SetError(calle, "Ingresar caracteres alfanumericos");
                 datosOk = false;
             }
             //Validacion: Piso
@@ -82,32 +80,30 @@ namespace FrbaOfertas.AbmCliente
             {
                 if (Regex.IsMatch(piso.Text, @"[^0-9]"))
                 {
-                    label18.Visible = true;
+                    errorDireccion.SetError(piso, "Ingresar caracteres numericos");
                     datosOk = false;
                 }
             }
             //Validacion: Depto
-            if (localidad.Text.Length != 0)
+
+            if (Regex.IsMatch(depto.Text, @"[^a-zA-Z ]"))
             {
-                if (Regex.IsMatch(localidad.Text, @"[^a-zA-Z ]"))
-                {
-                    label18.Visible = true;
-                    datosOk = false;
-                }
+                errorDireccion.SetError(depto, "Ingresar caracteres numericos");
+                datosOk = false;
             }
+
+
             //Validacion: Localidad
-            if (depto.Text.Length != 0)
+            if (Regex.IsMatch(localidad.Text, @"[^A-Za-z\s0-9]"))
             {
-                if (Regex.IsMatch(depto.Text, @"[^A-Za-z\s0-9]"))
-                {
-                    label19.Visible = true;
-                    datosOk = false;
-                }
+                errorLocalidad.SetError(localidad, "Ingresar caracteres numericos");
+                datosOk = false;
             }
+
             //Validacion y obligatorio: CodigoPostal
             if (Regex.IsMatch(codigoPostal.Text, @"[^0-9]"))
             {
-                label20.Visible = true;
+                errorCodigoPostal.SetError(codigoPostal, "Ingresar caracteres numericos");
                 datosOk = false;
             }
             return datosOk;
@@ -115,8 +111,9 @@ namespace FrbaOfertas.AbmCliente
 
 
         protected virtual void confirmarCliente_Click(object sender, EventArgs e) { }
- 
-    //
+
+
+        //
     }
 }
 

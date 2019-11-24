@@ -18,5 +18,6 @@ namespace FrbaOfertas.AbmProveedor
         }
 
         protected virtual void confirmar_Click(object sender, EventArgs e) { }
+
     }
 }
