@@ -37,7 +37,7 @@ namespace FrbaOfertas.EntregaDeOferta
             }
         }
 
-        private void bajaCupon_Click(object sender, EventArgs e) //TODO: NO FUNCIONA
+        private void bajaCupon_Click(object sender, EventArgs e) 
         {
                 errorDniCliente.Clear();
                 camposOk = campoObligatorio();
@@ -60,6 +60,7 @@ namespace FrbaOfertas.EntregaDeOferta
 
                             cmd.ExecuteNonQuery();
                         }
+                        MessageBox.Show("Cupon "+codigo.ToString()+"fue dado de baja", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (SqlException ex)
                     {
@@ -94,7 +95,7 @@ namespace FrbaOfertas.EntregaDeOferta
                 SqlDataAdapter cuponesDataAdapter = new SqlDataAdapter(consultaCupon, Helper.dbOfertas);
                 cuponesDataAdapter.Fill(cuponesDataSet);
                 errorCodCupon.Clear();
-                (new EntregaDeOferta.ListadoCupon(this.agregarCuponSeleccionado, cuponesDataSet)).Show();
+                (new EntregaDeOferta.ListadoCupon(this.agregarCuponSeleccionado, cuponesDataSet, idProveedor)).Show();
             }
             catch (SqlException ex)
             {
