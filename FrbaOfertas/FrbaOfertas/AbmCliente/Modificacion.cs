@@ -14,6 +14,8 @@ namespace FrbaOfertas.AbmCliente
     public partial class Modificacion : AltaYModificacion
     {
         private object[] cliente;
+        string queModificarDelCliente = "";
+        string queModificarDelDomicilio = "";
 
         public Modificacion(object[] cliente)
         {
@@ -26,112 +28,193 @@ namespace FrbaOfertas.AbmCliente
             piso.Text = cliente[8].ToString();
             depto.Text = cliente[9].ToString();
             codigoPostal.Text = cliente[10].ToString();
-            localidad.Text = cliente[11].ToString();
+            localidad.Text = cliente[12].ToString();
             fechaNacimiento.Text = cliente[13].ToString();
             habilitado.Checked = bool.Parse(cliente[14].ToString());
 
-           // habilitado.Visible = true;
-
+            this.cliente = cliente;
         }
 
-        private bool modificarCliente() //TODO: {M} Descomentar esto
+        private bool modificarCliente()
         {
-            //if (validarDatosIngresados())
-            //{
+            //MODIFICACION DE CLIENTE
+            if (controlDeModificacionEnCliente())
+            {
+                string consultaModificarCliente = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente SET {0} WHERE cliente_id={1}; ", queModificarDelCliente, cliente[0]);
+                SqlCommand modificarCliente = new SqlCommand(consultaModificarCliente, Helper.dbOfertas);
+                SqlDataReader modificarClienteDataReader = modificarCliente.ExecuteReader();
+                if (modificarClienteDataReader.RecordsAffected <= 0)
+                {
+                    modificarClienteDataReader.Close();
+                    return false;
+                }
+                modificarClienteDataReader.Close();
+            }
 
-            //    string parte1Cliente = "UPDATE cliente SET ";
-            //    string parte2Cliente = " WHERE cliente_id={0}";
+            //MODIFICACION LOCALIDAD DEL CLIENTE
+            if (!localidad.Text.Equals(cliente[11].ToString()))
+            {
+                string consultaLocalidad = string.Format("SELECT localidad_id,localidad_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Localidad WHERE localidad_nombre='{0}'", localidad.Text);
+                SqlCommand chequearLocalidad = new SqlCommand(consultaLocalidad, Helper.dbOfertas);
+                SqlDataReader dataReaderLocalidad = Helper.realizarConsultaSQL(chequearLocalidad);
+                if (dataReaderLocalidad != null)
+                {
+                    if (dataReaderLocalidad.HasRows) // Localidad ya existe
+                    {
+                        dataReaderLocalidad.Read();
+                        string idLocalidad = dataReaderLocalidad.GetValue(0).ToString();
+                        dataReaderLocalidad.Close();
 
-            //    if (!nombre.Text.Equals(cliente[1].ToString()))
-            //    {
-            //        parte1Cliente += string.Format(" cliente_nombre = '{0}',", nombre.Text);
-            //    }
-            //    if (!apellido.Text.Equals(cliente[2].ToString()))
-            //    {
-            //        parte1Cliente += string.Format(" cliente_apellido = '{0}',", apellido.Text);
-            //    }
-            //    if (!dni.Text.Equals(cliente[3].ToString()))
-            //    {
-            //        parte1Cliente += string.Format(" cliente_dni = '{0}',", dni.Text);
-            //    }
-            //    if (!mail.Text.Equals(cliente[4].ToString()))
-            //    {
-            //        parte1Cliente += string.Format(" cliente_mail = '{0}',", mail.Text);
-            //    }
+                        string consultaModificarLocalidad = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET domicilio_id_localidad='{0}' WHERE domicilio_id={1};", idLocalidad, cliente[6]);
+                        SqlCommand modificarLocalidadCliente = new SqlCommand(consultaModificarLocalidad, Helper.dbOfertas);
+                        SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
+                        if (modificarClienteDataReader.RecordsAffected <= 0)
+                        {
+                            modificarClienteDataReader.Close();
+                            return false;
+                        }
+                        modificarClienteDataReader.Close();
+                    }
+                    else
+                    {
+                        dataReaderLocalidad.Close();
 
-            //    if (!telefono.Text.Equals(cliente[5].ToString()))
-            //    {
-            //        parte1Cliente += string.Format(" cliente_telefono = '{0}',", telefono.Text);
-            //    }
+                        string consultaInsertarLocalidad = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()",localidad.Text);
+                        SqlCommand insertarNuevaLocalidad = new SqlCommand( consultaInsertarLocalidad, Helper.dbOfertas);
+                        SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaLocalidad);
+                        if (dataReader != null)
+                        {
+                            if (dataReader.Read())
+                            {
+                                string idLocalidad = dataReader.GetValue(0).ToString();
+                                dataReader.Close();
 
-            //    if (!fechaNacimiento.Text.Equals(cliente[14].ToString()))
-            //    {
-            //        parte1Cliente += string.Format(" cliente_fechaNacimiento = '{0}',", fechaNacimiento.Text);
-            //    }
+                                string consultaModificarLocalidadCliente = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET domicilio_id_localidad='{0}' WHERE domicilio_id={1};", idLocalidad, cliente[6]);
+                                SqlCommand modificarLocalidadCliente = new SqlCommand(consultaInsertarLocalidad, Helper.dbOfertas);
+                                SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
+                                if (modificarClienteDataReader.RecordsAffected <= 0)
+                                {
+                                    modificarClienteDataReader.Close();
+                                    return false;
+                                }
+                                modificarClienteDataReader.Close();
+                            }
+                            else
+                            {
+                                //MessageBox.Show("Error al guardar la localidad");
+                                dataReader.Close();
+                            }
+                        }
+                    }
+                }
+            }
 
-            //    if (!habilitado.Checked.Equals(bool.Parse(cliente[15].ToString())))
-            //    {
-            //        parte1Cliente += string.Format(" cliente_habilitado = '{0}',", habilitado.Checked);
-            //    }
+            //MODIFICACION DOMICILIO DEL CLIENTE
+            if (controlDeModificacionEnDomicilio())
+            {
+                string idDomicilio = cliente[6].ToString();
+                string consultaModificacinDomicilio = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET {0} WHERE domicilio_id={1}; ", queModificarDelDomicilio, idDomicilio);
+                SqlCommand modificarDomicilio = new SqlCommand(consultaModificacinDomicilio, Helper.dbOfertas);
+                SqlDataReader modificarDomicilioDataReader = modificarDomicilio.ExecuteReader();
+                if (modificarDomicilioDataReader.RecordsAffected <= 0)
+                {
+                    modificarDomicilioDataReader.Close();
+                    return false;
+                }
+                modificarDomicilioDataReader.Close();
+            }
+            return true;
+        }
 
-            //    parte1Cliente = parte1Cliente.Remove(parte1Cliente.Length - 1);
-            //    string modificarCliente = parte1Cliente + parte2Cliente;
+        private bool controlDeModificacionEnCliente()
+        {
+            bool seModificoCliente = false;
 
-            //    SqlCommand modificarDatosCliente = new SqlCommand(string.Format(modificarCliente, cliente[0].ToString()), Helper.dbOfertas);
-            //    SqlDataReader modificarClienteDataReader1 = Helper.realizarConsultaSQL(modificarDatosCliente);
-            //    modificarClienteDataReader1.Close();
+            if (!nombre.Text.Equals(cliente[1].ToString()))
+            {
+                queModificarDelCliente += string.Format(" cliente_nombre = '{0}'", nombre.Text);
+                seModificoCliente = true;
+            }
+            if (!apellido.Text.Equals(cliente[2].ToString()))
+            {
+                if (seModificoCliente)
+                    queModificarDelCliente += ", ";
+                queModificarDelCliente += string.Format(" cliente_apellido = '{0}'", apellido.Text);
+                seModificoCliente = true;
+            }
+            if (!dni.Text.Equals(cliente[3].ToString()))
+            {
+                if (seModificoCliente)
+                    queModificarDelCliente += ", ";
+                queModificarDelCliente += string.Format(" cliente_dni = '{0}'", dni.Text);
+                seModificoCliente = true;
+            }
+            if (!mail.Text.Equals(cliente[4].ToString()))
+            {
+                if (seModificoCliente)
+                    queModificarDelCliente += ", ";
+                queModificarDelCliente += string.Format(" cliente_mail = '{0}'", mail.Text);
+                seModificoCliente = true;
+            }
+            if (!telefono.Text.Equals(cliente[5].ToString()))
+            {
+                if (seModificoCliente)
+                    queModificarDelCliente += ", ";
+                queModificarDelCliente += string.Format(" cliente_telefono = '{0}'", telefono.Text);
+                seModificoCliente = true;
+            }
+            if (!fechaNacimiento.Text.Equals(cliente[13].ToString()))
+            {
+                DateTime myFechaNacimiento = fechaNacimiento.Value;
+                string sqlFormattedFechaNacimiento = myFechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                if (seModificoCliente)
+                    queModificarDelCliente += ", ";
+                queModificarDelCliente += string.Format(" cliente_fecha_nacimiento = '{0}'", sqlFormattedFechaNacimiento);
+                seModificoCliente = true;
+            }
+            if (habilitado.Checked != bool.Parse(cliente[14].ToString()))
+            {
+                if (seModificoCliente)
+                    queModificarDelCliente += ", ";
+                queModificarDelCliente += ("cliente_habilitado = '" + (habilitado.Checked ? "1" : "0") + "'");
+                seModificoCliente = true;
+            }
+            return seModificoCliente;
+        }
 
+        private bool controlDeModificacionEnDomicilio()
+        {
+            bool seModificoAlgoDeDomicilio = false;
+            if (!calle.Text.Equals(cliente[7].ToString()))
+            {
+                queModificarDelDomicilio += ("domicilio_calle = '" + calle.Text + "'");
+                seModificoAlgoDeDomicilio = true;
+            }
 
+            if (!piso.Text.Equals(cliente[8].ToString()))
+            {
+                if (seModificoAlgoDeDomicilio)
+                    queModificarDelDomicilio += ", ";
+                queModificarDelDomicilio += ("domicilio_numero_piso = '" + piso.Text + "'");
+                seModificoAlgoDeDomicilio = true;
+            }
 
+            if (!depto.Text.Equals(cliente[9].ToString()))
+            {
+                if (seModificoAlgoDeDomicilio)
+                    queModificarDelDomicilio += ", ";
+                queModificarDelDomicilio += ("domicilio_departamento = '" + depto.Text + "'");
+                seModificoAlgoDeDomicilio = true;
+            }
 
-            //    string parte1Domicilio = "UPDATE domicilio SET ";
-            //    string parte2Domicilio = " WHERE domicilio_id={0}";
-
-            //    if (!calle.Text.Equals(cliente[8].ToString())) // Modifico el calle cliente
-            //    {
-            //        parte1Domicilio += string.Format(" domicilio_calle = '{0}',", calle.Text);
-            //    }
-
-            //    if (!piso.Text.Equals(cliente[9].ToString())) // Modifico el piso cliente
-            //    {
-            //        parte1Domicilio += string.Format(" domicilio_piso = '{0}',", piso.Text);
-            //    }
-
-            //    if (!depto.Text.Equals(cliente[10].ToString())) // Modifico el depto cliente
-            //    {
-            //        parte1Domicilio += string.Format(" domicilio_depto = '{0}',", depto.Text);
-            //    }
-
-            //    if (!codigoPostal.Text.Equals(cliente[11].ToString())) // Modifico el codigoPostal cliente
-            //    {
-            //        parte1Domicilio += string.Format(" domicilio_codpostal = '{0}',", codigoPostal.Text);
-            //    }
-
-            //    parte1Domicilio = parte1Domicilio.Remove(parte1Domicilio.Length - 1);
-            //    string modificarDomicilio = parte1Domicilio + parte2Domicilio;
-
-            //    SqlCommand modificarDatosDomicilio = new SqlCommand(string.Format(modificarDomicilio, cliente[7].ToString()), Helper.dbOfertas);
-            //    SqlDataReader modificarClienteDataReader2 = Helper.realizarConsultaSQL(modificarDatosDomicilio);
-            //    modificarClienteDataReader1.Close();
-
-
-
-
-            //    if (!localidad.Text.Equals(cliente[13].ToString()))
-            //    {
-            //        SqlCommand modificarLocalidadCliente = new SqlCommand(string.Format("UPDATE localidad SET localidad_nombre='{0}' WHERE localidad_id={1}; ", localidad.Text, cliente[12].ToString()), Helper.dbOfertas);
-            //        SqlDataReader modificarClienteDataReader = Helper.realizarConsultaSQL(modificarLocalidadCliente);
-            //        modificarClienteDataReader.Close();
-            //    }
-
-
-            //    MessageBox.Show("El cliente se modifico exitosamente");
-                return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
+            if (!codigoPostal.Text.Equals(cliente[10].ToString()))
+            {
+                if (seModificoAlgoDeDomicilio)
+                    queModificarDelDomicilio += ", ";
+                queModificarDelDomicilio += ("domicilio_codigo_postal = '" + codigoPostal.Text + "'");
+                seModificoAlgoDeDomicilio = true;
+            }
+            return seModificoAlgoDeDomicilio;
         }
 
         override protected void confirmarCliente_Click(object sender, EventArgs e)
@@ -142,11 +225,9 @@ namespace FrbaOfertas.AbmCliente
                 this.Hide();
             }
             else
-            {
                 MessageBox.Show("No se ha podido modificar el proveedor correctamente");
-            }
         }
 
-       
+
     }
 }
