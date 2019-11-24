@@ -41,7 +41,13 @@ namespace FrbaOfertas.CragaCredito
             int numeroInt;
             if (!string.IsNullOrWhiteSpace(numero.Text) && !int.TryParse(numero.Text, out numeroInt))
             {
-                errorNumero.SetError(numero, "El numero debe ser entero");
+                errorNumero.SetError(numero, "Se debe insertar un numero entero");
+                camposOk = false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(numero.Text) && int.TryParse(numero.Text, out numeroInt) && numeroInt < 0)
+            {
+                errorNumero.SetError(numero, "Se debe insertar un numero entero positivo");
                 camposOk = false;
             }
 
@@ -54,13 +60,19 @@ namespace FrbaOfertas.CragaCredito
             int codigoSeguridadInt;
             if (!string.IsNullOrWhiteSpace(codigoSeguridad.Text) && !int.TryParse(codigoSeguridad.Text, out codigoSeguridadInt))
             {
-                errorCodigo.SetError(codigoSeguridad, "El numero debe ser entero");
+                errorCodigo.SetError(codigoSeguridad, "Se debe insertar un numero entero");
+                camposOk = false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(codigoSeguridad.Text) && int.TryParse(codigoSeguridad.Text, out codigoSeguridadInt) && codigoSeguridadInt < 0)
+            {
+                errorCodigo.SetError(codigoSeguridad, "Se debe insertar un numero entero positivo");
                 camposOk = false;
             }
 
             if (DateTime.Parse(fechaVencimiento.Text) < Helper.obtenerFechaActual())
             {
-                errorCodigo.SetError(codigoSeguridad, "La fecha debe ser mayor a la actual");
+                errorFecha.SetError(fechaVencimiento, "La fecha debe ser mayor a la actual");
                 camposOk = false;
             }
             return camposOk;
@@ -79,7 +91,7 @@ namespace FrbaOfertas.CragaCredito
                 SqlCommand chequearTarjeta =
                     new SqlCommand(
                         string.Format(
-                            "SELECT tarjeta_id, tarjeta_cod_seguridad FROM NO_LO_TESTEAMOS_NI_UN_POCO.Tarjeta WHERE tarjeta_numero={0}",
+                            "SELECT tarjeta_id, tarjeta_cod_seguridad FROM NO_LO_TESTEAMOS_NI_UN_POCO.Tarjeta WHERE tarjeta_numero={0};",
                             numero.Text), Helper.dbOfertas);
 
                 SqlDataReader dataReaderTarjeta = Helper.realizarConsultaSQL(chequearTarjeta);
@@ -87,8 +99,21 @@ namespace FrbaOfertas.CragaCredito
                 {
                     if (dataReaderTarjeta.HasRows) // Tarjeta ya existe
                     {
-                        MessageBox.Show("Ya existe una tarjeta con ese numero", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        dataReaderTarjeta.Close();
+                        dataReaderTarjeta.Read();
+                        string idTarjeta = dataReaderTarjeta.GetValue(0).ToString();
+                        string codSeguridad = dataReaderTarjeta.GetValue(1).ToString();
+
+                        if (codSeguridad.Equals(codigoSeguridad.Text))
+                        {
+                            MessageBox.Show("Se selecciono la tarjeta ya cargada\nde numero: " + numero.Text, "Elegir tarjeta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            dataReaderTarjeta.Close();
+                            agregarNuevaTarjeta(idTarjeta.ToString(), numero.Text);
+                        }
+                        else
+                        {
+                            MessageBox.Show("La tarjeta: " + numero.Text + " existe pero\nel codigo de seguridad es erroneo", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            dataReaderTarjeta.Close();
+                        }
                         this.Close();
                     }
                     else

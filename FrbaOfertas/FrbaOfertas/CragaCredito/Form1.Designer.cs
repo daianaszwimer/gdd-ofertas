@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -35,10 +36,18 @@
             this.tipoDePago = new System.Windows.Forms.ComboBox();
             this.cargarCredito = new System.Windows.Forms.Button();
             this.nuevaTarjeta = new System.Windows.Forms.Button();
-            this.tarjetaComboBox = new System.Windows.Forms.ComboBox();
             this.seleccionarCliente = new System.Windows.Forms.Button();
             this.cliente = new System.Windows.Forms.TextBox();
             this.labelCliente = new System.Windows.Forms.Label();
+            this.tarjetaTextBox = new System.Windows.Forms.TextBox();
+            this.errorTipoDePago = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorMonto = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorTarjeta = new System.Windows.Forms.ErrorProvider(this.components);
+            this.errorCliente = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.errorTipoDePago)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorMonto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorTarjeta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCliente)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -103,14 +112,6 @@
             this.nuevaTarjeta.UseVisualStyleBackColor = true;
             this.nuevaTarjeta.Click += new System.EventHandler(this.nuevaTarjeta_Click);
             // 
-            // tarjetaComboBox
-            // 
-            this.tarjetaComboBox.FormattingEnabled = true;
-            this.tarjetaComboBox.Location = new System.Drawing.Point(116, 103);
-            this.tarjetaComboBox.Name = "tarjetaComboBox";
-            this.tarjetaComboBox.Size = new System.Drawing.Size(127, 21);
-            this.tarjetaComboBox.TabIndex = 9;
-            // 
             // seleccionarCliente
             // 
             this.seleccionarCliente.Location = new System.Drawing.Point(249, 140);
@@ -124,6 +125,7 @@
             // cliente
             // 
             this.cliente.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.cliente.Enabled = false;
             this.cliente.Location = new System.Drawing.Point(116, 142);
             this.cliente.Name = "cliente";
             this.cliente.Size = new System.Drawing.Size(127, 20);
@@ -138,15 +140,44 @@
             this.labelCliente.TabIndex = 30;
             this.labelCliente.Text = "Cliente :";
             // 
+            // tarjetaTextBox
+            // 
+            this.tarjetaTextBox.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.tarjetaTextBox.Enabled = false;
+            this.tarjetaTextBox.Location = new System.Drawing.Point(116, 104);
+            this.tarjetaTextBox.Name = "tarjetaTextBox";
+            this.tarjetaTextBox.Size = new System.Drawing.Size(127, 20);
+            this.tarjetaTextBox.TabIndex = 33;
+            // 
+            // errorTipoDePago
+            // 
+            this.errorTipoDePago.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorTipoDePago.ContainerControl = this;
+            // 
+            // errorMonto
+            // 
+            this.errorMonto.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorMonto.ContainerControl = this;
+            // 
+            // errorTarjeta
+            // 
+            this.errorTarjeta.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorTarjeta.ContainerControl = this;
+            // 
+            // errorCliente
+            // 
+            this.errorCliente.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this.errorCliente.ContainerControl = this;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(359, 203);
+            this.ClientSize = new System.Drawing.Size(370, 203);
+            this.Controls.Add(this.tarjetaTextBox);
             this.Controls.Add(this.seleccionarCliente);
             this.Controls.Add(this.cliente);
             this.Controls.Add(this.labelCliente);
-            this.Controls.Add(this.tarjetaComboBox);
             this.Controls.Add(this.nuevaTarjeta);
             this.Controls.Add(this.cargarCredito);
             this.Controls.Add(this.tipoDePago);
@@ -163,10 +194,14 @@
             this.Controls.SetChildIndex(this.tipoDePago, 0);
             this.Controls.SetChildIndex(this.cargarCredito, 0);
             this.Controls.SetChildIndex(this.nuevaTarjeta, 0);
-            this.Controls.SetChildIndex(this.tarjetaComboBox, 0);
             this.Controls.SetChildIndex(this.labelCliente, 0);
             this.Controls.SetChildIndex(this.cliente, 0);
             this.Controls.SetChildIndex(this.seleccionarCliente, 0);
+            this.Controls.SetChildIndex(this.tarjetaTextBox, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.errorTipoDePago)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorMonto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorTarjeta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorCliente)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -181,9 +216,13 @@
         private System.Windows.Forms.ComboBox tipoDePago;
         private System.Windows.Forms.Button cargarCredito;
         private System.Windows.Forms.Button nuevaTarjeta;
-        private System.Windows.Forms.ComboBox tarjetaComboBox;
         private System.Windows.Forms.Button seleccionarCliente;
         public System.Windows.Forms.TextBox cliente;
         private System.Windows.Forms.Label labelCliente;
+        public System.Windows.Forms.TextBox tarjetaTextBox;
+        private System.Windows.Forms.ErrorProvider errorTipoDePago;
+        private System.Windows.Forms.ErrorProvider errorMonto;
+        private System.Windows.Forms.ErrorProvider errorTarjeta;
+        private System.Windows.Forms.ErrorProvider errorCliente;
     }
 }
