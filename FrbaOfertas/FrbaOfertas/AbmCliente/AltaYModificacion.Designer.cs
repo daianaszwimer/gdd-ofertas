@@ -258,11 +258,11 @@
             this.confirmar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmar.ForeColor = System.Drawing.SystemColors.InfoText;
             this.confirmar.Location = new System.Drawing.Point(25, 335);
-            this.confirmar.Name = "crearCliente";
+            this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(139, 33);
             this.confirmar.TabIndex = 24;
             this.confirmar.Text = "CONFIRMAR";
-            this.confirmar.UseVisualStyleBackColor = true;
+            this.confirmar.UseVisualStyleBackColor = false;
             this.confirmar.Click += new System.EventHandler(this.confirmarCliente_Click);
             // 
             // fechaNacimiento
