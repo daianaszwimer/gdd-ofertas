@@ -88,9 +88,9 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem volverAlMenuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cerrarSesionToolStripMenuItem;
         protected System.Windows.Forms.ToolStripMenuItem opcionesToolStripMenuItem;
+        protected System.Windows.Forms.MenuStrip menuStrip1;
     }
 }

@@ -8,16 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FrbaOfertas.AbmProveedor
+namespace FrbaOfertas.RegistroUsuario
 {
-    public partial class AltaYModificacion : BarraDeOpciones
+    public partial class AltaCliente : AbmCliente.Alta
     {
-        public AltaYModificacion()
+        public AltaCliente()
         {
             InitializeComponent();
+            menuStrip1.Visible = false;
         }
-
-        protected virtual void confirmar_Click(object sender, EventArgs e) { }
-
     }
 }

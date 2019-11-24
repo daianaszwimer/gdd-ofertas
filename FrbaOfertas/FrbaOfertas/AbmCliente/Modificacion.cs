@@ -15,7 +15,7 @@ namespace FrbaOfertas.AbmCliente
     {
         private object[] cliente;
 
-        public Modificacion(object[] cliente) : base()
+        public Modificacion(object[] cliente)
         {
             nombre.Text = cliente[1].ToString();
             apellido.Text = cliente[2].ToString();

@@ -13,50 +13,57 @@ namespace FrbaOfertas
 {
     public partial class RegistrarUsuario : BarraDeOpciones
     {
-        
+        string elUsername;
+        bool usuarioOk = false;
+        bool camposOk = true;
+
         public RegistrarUsuario()
         {
             InitializeComponent();
             rol.DataSource = obtenerRolesPosibles();
         }
 
-        bool usuarioOk = false;
+        private void confirmar_Click(object sender, EventArgs e)
+        {
+            crearUsuario();
+            if (rol.Text == "cliente")
+                AddFormInPanel(new RegistroUsuario.AltaCliente());
+            if (rol.Text == "proveedor")
+                AddFormInPanel(new RegistroUsuario.AltaProveedor());
+        }
 
-        // TODO: {M} LISTA ROLES - VER ACTUALIZACION DE ROLES CON DIEGO
-        // TODO: Corregir errorProvider
-        // TODO: {M} Cuando selecciono Rol Cliente, no me tiene que dejar seleccionar Boton Proveedor
+
         private void crearUsuario()
         {
-            if (this.camposObligatorios())
+            errorUsername.Clear();
+            errorPassword.Clear();
+            errorRol.Clear();
+            camposOk = camposObligatorios();
+            if (camposOk)
             {
                 if (this.usuarioUnico()) 
                 {
-                    desactivarErrores();
-
                     SqlCommand insertarNuevoUsuario = 
                         new SqlCommand(
                             string.Format(
-                            "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Usuario (usuario_username, usuario_password) VALUES ('{0}','{1}'); SELECT SCOPE_IDENTITY()", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
+                            "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Usuario (usuario_username, usuario_password) VALUES ('{0}','{1}')", username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
                     
                     SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoUsuario);
                     if (dataReader != null)
                     {
+                        elUsername = username.Text;
                         dataReader.Close();
                     }
-                    
                 }
                 else
                 {
-                    desactivarErrores();
                     errorUsername.SetError(username, "Username ya existe");
                     this.Show();
                 }
             }
-            
         }
 
         
-        // TODO: {M} Barra de opciones repetida
         private void AddFormInPanel(object formHijo)
         {
             if (this.panel1.Controls.Count > 0)
@@ -96,12 +103,6 @@ namespace FrbaOfertas
             return camposOk;
         }
 
-        private void desactivarErrores()
-        {
-            errorUsername.Clear();
-            errorPassword.Clear();
-            errorRol.Clear();
-        }
 
         private bool usuarioUnico()
         {
@@ -136,15 +137,6 @@ namespace FrbaOfertas
             }
             return rolesPosibles;
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (rol.Text == "cliente")
-                AddFormInPanel(new AbmCliente.Alta());
-            if (rol.Text == "proveedor")
-                AddFormInPanel(new AbmProveedor.Alta());
-        }
-        //TODO: Como mostrar un panel de afuera
 
 
     }
