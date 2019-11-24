@@ -14,6 +14,8 @@ namespace FrbaOfertas.AbmProveedor
     public partial class Modificacion : AltaYModificacion
     {
         private object[] proveedor;
+        string queModificarDelProveedor = "";
+        string queModificarDeDomicilio = "";
 
         public Modificacion(object[] proveedor)
         {
@@ -37,56 +39,8 @@ namespace FrbaOfertas.AbmProveedor
 
         private bool modificarProveedor()
         {
-            bool seModificoAlgoDeProveedor = false;
-            string queModificar = "";
-
-            if (!razonSocial.Text.Equals(proveedor[1].ToString()))
-            {
-                queModificar += ("proveedor_razon_social = '" + razonSocial.Text + "'");
-                seModificoAlgoDeProveedor = true;
-            }
-
-            if (!CUIT.Text.Equals(proveedor[2].ToString()))
-            {
-                if (seModificoAlgoDeProveedor)
-                    queModificar += ", ";
-                queModificar += ("proveedor_cuit = '" + CUIT.Text + "'");
-                seModificoAlgoDeProveedor = true;
-            }
-
-            if (!telefono.Text.Equals(proveedor[10].ToString()))
-            {
-                if (seModificoAlgoDeProveedor)
-                    queModificar += ", ";
-                queModificar += ("proveedor_telefono = '" + telefono.Text + "'");
-                seModificoAlgoDeProveedor = true;
-            }
-
-            if (!mail.Text.Equals(proveedor[11].ToString()))
-            {
-                if (seModificoAlgoDeProveedor)
-                    queModificar += ", ";
-                queModificar += ("proveedor_mail = '" + mail.Text + "'");
-                seModificoAlgoDeProveedor = true;
-            }
-
-            if (!nombre.Text.Equals(proveedor[14].ToString()))
-            {
-                if (seModificoAlgoDeProveedor)
-                    queModificar += ", ";
-                queModificar += ("proveedor_nombre_contacto = '" + nombre.Text + "'");
-                seModificoAlgoDeProveedor = true;
-            }
-
-            if (habilitado.Checked != bool.Parse(proveedor[15].ToString()))
-            {
-                if (seModificoAlgoDeProveedor)
-                    queModificar += ", ";
-                queModificar += ("proveedor_habilitado = '" + (habilitado.Checked ? "1" : "0") + "'");
-                seModificoAlgoDeProveedor = true;
-            }
-
-            if (seModificoAlgoDeProveedor)
+            //MODIFICACION DE PROVEEDOR
+            if (controlDeModificacionEnProveedor())
             {
                 string modificarProveedorString =
                     string.Format(
@@ -102,8 +56,7 @@ namespace FrbaOfertas.AbmProveedor
                 modificarProveedorDataReader.Close();
             }
 
-            ////////////////////////////////////////////////////////////////////
-
+            //MODIFICACION ROL DEL PROVEEDOR
             if (!rubro.Text.Equals(proveedor[13].ToString()))
             {
                 SqlCommand chequearRubro =
@@ -174,8 +127,7 @@ namespace FrbaOfertas.AbmProveedor
                 }
             }
 
-            ///////////////////////////////////////////////////////////////////
-
+            //MODIFICACION LOCALIDAD DEL PROVEEDOR
             if (!localidad.Text.Equals(proveedor[5].ToString()))
             {
                 SqlCommand chequearLocalidad =
@@ -247,10 +199,81 @@ namespace FrbaOfertas.AbmProveedor
                 }
             }
 
-            ///////////////////////////////////////////////////////////////////
+            //MODIFICACION DOMICILIO DEL PROVEEDOR
+            if (controlDeModificacionEnDomicilio())
+            {
+                string idDomicilio = proveedor[3].ToString();
+                string modificarDomicilioString =
+                    string.Format(
+                        "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET {0} WHERE domicilio_id={1}; ", 
+                        queModificarDeDomicilio, idDomicilio);
 
+                SqlCommand modificarDomicilio = new SqlCommand(modificarDomicilioString, Helper.dbOfertas);
+                SqlDataReader modificarDomicilioDataReader = modificarDomicilio.ExecuteReader();
+                if (modificarDomicilioDataReader.RecordsAffected <= 0)
+                {
+                    modificarDomicilioDataReader.Close();
+                    return false;
+                }
+                modificarDomicilioDataReader.Close();
+            }
+            return true;
+        }
+
+        private bool controlDeModificacionEnProveedor()
+        {
+            bool seModificoAlgoDeProveedor = false;
+            if (!razonSocial.Text.Equals(proveedor[1].ToString()))
+            {
+                queModificarDelProveedor += ("proveedor_razon_social = '" + razonSocial.Text + "'");
+                seModificoAlgoDeProveedor = true;
+            }
+
+            if (!CUIT.Text.Equals(proveedor[2].ToString()))
+            {
+                if (seModificoAlgoDeProveedor)
+                    queModificarDelProveedor += ", ";
+                queModificarDelProveedor += ("proveedor_cuit = '" + CUIT.Text + "'");
+                seModificoAlgoDeProveedor = true;
+            }
+
+            if (!telefono.Text.Equals(proveedor[10].ToString()))
+            {
+                if (seModificoAlgoDeProveedor)
+                    queModificarDelProveedor += ", ";
+                queModificarDelProveedor += ("proveedor_telefono = '" + telefono.Text + "'");
+                seModificoAlgoDeProveedor = true;
+            }
+
+            if (!mail.Text.Equals(proveedor[11].ToString()))
+            {
+                if (seModificoAlgoDeProveedor)
+                    queModificarDelProveedor += ", ";
+                queModificarDelProveedor += ("proveedor_mail = '" + mail.Text + "'");
+                seModificoAlgoDeProveedor = true;
+            }
+
+            if (!nombre.Text.Equals(proveedor[14].ToString()))
+            {
+                if (seModificoAlgoDeProveedor)
+                    queModificarDelProveedor += ", ";
+                queModificarDelProveedor += ("proveedor_nombre_contacto = '" + nombre.Text + "'");
+                seModificoAlgoDeProveedor = true;
+            }
+
+            if (habilitado.Checked != bool.Parse(proveedor[15].ToString()))
+            {
+                if (seModificoAlgoDeProveedor)
+                    queModificarDelProveedor += ", ";
+                queModificarDelProveedor += ("proveedor_habilitado = '" + (habilitado.Checked ? "1" : "0") + "'");
+                seModificoAlgoDeProveedor = true;
+            }
+            return seModificoAlgoDeProveedor;
+        }
+
+        private bool controlDeModificacionEnDomicilio()
+        {
             bool seModificoAlgoDeDomicilio = false;
-            string queModificarDeDomicilio = "";
 
             if (!calle.Text.Equals(proveedor[6].ToString()))
             {
@@ -281,26 +304,7 @@ namespace FrbaOfertas.AbmProveedor
                 queModificarDeDomicilio += ("domicilio_codigo_postal = '" + codigoPostal.Text + "'");
                 seModificoAlgoDeDomicilio = true;
             }
-
-            if (seModificoAlgoDeDomicilio)
-            {
-                string idDomicilio = proveedor[3].ToString();
-                string modificarDomicilioString =
-                    string.Format(
-                        "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET {0} WHERE domicilio_id={1}; ", 
-                        queModificarDeDomicilio, idDomicilio);
-
-                SqlCommand modificarDomicilio = new SqlCommand(modificarDomicilioString, Helper.dbOfertas);
-                SqlDataReader modificarDomicilioDataReader = modificarDomicilio.ExecuteReader();
-                if (modificarDomicilioDataReader.RecordsAffected <= 0)
-                {
-                    modificarDomicilioDataReader.Close();
-                    return false;
-                }
-                modificarDomicilioDataReader.Close();
-            }
-
-            return true;
+            return seModificoAlgoDeDomicilio;
         }
 
         override protected void confirmar_Click(object sender, EventArgs e)
@@ -311,9 +315,7 @@ namespace FrbaOfertas.AbmProveedor
                 this.Hide();
             }
             else
-            {
                 MessageBox.Show("No se ha podido modificar el proveedor correctamente");
-            }
         }
     }
 }
