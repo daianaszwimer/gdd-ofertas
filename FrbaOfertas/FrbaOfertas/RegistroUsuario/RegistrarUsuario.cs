@@ -25,11 +25,15 @@ namespace FrbaOfertas
 
         private void confirmar_Click(object sender, EventArgs e)
         {
-            crearUsuario();
+            //crearUsuario();
+            Button confirmar = (Button)sender;
+            rol.Enabled = false;
+            confirmar.Enabled = false;
+
             if (rol.Text == "cliente")
                 AddFormInPanel(new RegistroUsuario.AltaCliente());
             if (rol.Text == "proveedor")
-                AddFormInPanel(new RegistroUsuario.AltaProveedor());
+                AddFormInPanel(new RegistroUsuario.AltaProveedor(this, username.Text, password.Text));
         }
 
 

@@ -72,16 +72,6 @@ namespace FrbaOfertas.AbmProveedor
                 errorCalle.SetError(calle, "Campo Obligatorio");
                 camposOk = false;
             }
-            if (string.IsNullOrWhiteSpace(piso.Text))
-            {
-                errorPiso.SetError(piso, "Campo Obligatorio");
-                camposOk = false;
-            }
-            if (string.IsNullOrWhiteSpace(depto.Text))
-            {
-                errorDepto.SetError(depto, "Campo Obligatorio");
-                camposOk = false;
-            }
             if (string.IsNullOrWhiteSpace(localidad.Text))
             {
                 errorLocalidad.SetError(localidad, "Campo Obligatorio");
