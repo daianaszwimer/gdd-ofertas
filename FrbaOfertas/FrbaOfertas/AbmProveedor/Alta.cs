@@ -28,8 +28,8 @@ namespace FrbaOfertas.AbmProveedor
             desactivarErrores();
             if (validacionCampos())
             {
-                int existenciaCUIT_RazonSocial = Helper.cuitYRazonSocialNoExisten(CUIT.Text, razonSocial.Text);
-                if (existenciaCUIT_RazonSocial == 1)
+                bool? proveedorNoExiste = Helper.cuitYRazonSocialNoExisten(CUIT.Text, razonSocial.Text);
+                if (proveedorNoExiste == true)
                 {
                     string idLocalidad = Helper.insertarLocalidad(localidad.Text);
                     if (idLocalidad != null)
@@ -48,7 +48,7 @@ namespace FrbaOfertas.AbmProveedor
                         }
                     }
                 }
-                else if (existenciaCUIT_RazonSocial == 0)
+                else if (proveedorNoExiste == false)
                 {
                     MessageBox.Show("Ya existe un proveedor con ese CUIT y Razon Social", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

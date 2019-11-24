@@ -70,59 +70,7 @@ namespace FrbaOfertas.AbmCliente
             //MODIFICACION LOCALIDAD DEL CLIENTE
             if (!localidad.Text.Equals(cliente[11].ToString()))
             {
-                string consultaLocalidad = string.Format("SELECT localidad_id,localidad_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Localidad WHERE localidad_nombre='{0}'", localidad.Text);
-                SqlCommand chequearLocalidad = new SqlCommand(consultaLocalidad, Helper.dbOfertas);
-                SqlDataReader dataReaderLocalidad = Helper.realizarConsultaSQL(chequearLocalidad);
-                if (dataReaderLocalidad != null)
-                {
-                    if (dataReaderLocalidad.HasRows) // Localidad ya existe
-                    {
-                        dataReaderLocalidad.Read();
-                        string idLocalidad = dataReaderLocalidad.GetValue(0).ToString();
-                        dataReaderLocalidad.Close();
-
-                        string consultaModificarLocalidad = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET domicilio_id_localidad='{0}' WHERE domicilio_id={1};", idLocalidad, cliente[6]);
-                        SqlCommand modificarLocalidadCliente = new SqlCommand(consultaModificarLocalidad, Helper.dbOfertas);
-                        SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
-                        if (modificarClienteDataReader.RecordsAffected <= 0)
-                        {
-                            modificarClienteDataReader.Close();
-                            return false;
-                        }
-                        modificarClienteDataReader.Close();
-                    }
-                    else
-                    {
-                        dataReaderLocalidad.Close();
-
-                        string consultaInsertarLocalidad = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()",localidad.Text);
-                        SqlCommand insertarNuevaLocalidad = new SqlCommand( consultaInsertarLocalidad, Helper.dbOfertas);
-                        SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaLocalidad);
-                        if (dataReader != null)
-                        {
-                            if (dataReader.Read())
-                            {
-                                string idLocalidad = dataReader.GetValue(0).ToString();
-                                dataReader.Close();
-
-                                string consultaModificarLocalidadCliente = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET domicilio_id_localidad='{0}' WHERE domicilio_id={1};", idLocalidad, cliente[6]);
-                                SqlCommand modificarLocalidadCliente = new SqlCommand(consultaInsertarLocalidad, Helper.dbOfertas);
-                                SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
-                                if (modificarClienteDataReader.RecordsAffected <= 0)
-                                {
-                                    modificarClienteDataReader.Close();
-                                    return false;
-                                }
-                                modificarClienteDataReader.Close();
-                            }
-                            else
-                            {
-                                //MessageBox.Show("Error al guardar la localidad");
-                                dataReader.Close();
-                            }
-                        }
-                    }
-                }
+                
             }
 
             //MODIFICACION DOMICILIO DEL CLIENTE

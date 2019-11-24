@@ -21,18 +21,21 @@ namespace FrbaOfertas.AbmProveedor
         {
             InitializeComponent();
             desactivarErrores();
-            razonSocial.Text = proveedor[1].ToString();
-            CUIT.Text = proveedor[2].ToString();
-            localidad.Text = proveedor[5].ToString();
-            calle.Text = proveedor[6].ToString();
-            piso.Text = proveedor[7].ToString();
-            depto.Text = proveedor[8].ToString();
-            codigoPostal.Text = proveedor[9].ToString();
-            telefono.Text = proveedor[10].ToString();
-            mail.Text = proveedor[11].ToString();
-            rubro.Text = proveedor[13].ToString();
-            nombre.Text = proveedor[14].ToString();
-            habilitado.Checked = bool.Parse(proveedor[15].ToString());
+
+            #region Se cargan los datos del proveedor seleccionado en la pantalla
+                razonSocial.Text = proveedor[1].ToString();
+                CUIT.Text = proveedor[2].ToString();
+                localidad.Text = proveedor[5].ToString();
+                calle.Text = proveedor[6].ToString();
+                piso.Text = proveedor[7].ToString();
+                depto.Text = proveedor[8].ToString();
+                codigoPostal.Text = proveedor[9].ToString();
+                telefono.Text = proveedor[10].ToString();
+                mail.Text = proveedor[11].ToString();
+                rubro.Text = proveedor[13].ToString();
+                nombre.Text = proveedor[14].ToString();
+                habilitado.Checked = bool.Parse(proveedor[15].ToString());
+            #endregion
 
             this.proveedor = proveedor;
         }
@@ -56,7 +59,7 @@ namespace FrbaOfertas.AbmProveedor
                 modificarProveedorDataReader.Close();
             }
 
-            //MODIFICACION ROL DEL PROVEEDOR
+            //MODIFICACION RUBRO DEL PROVEEDOR
             if (!rubro.Text.Equals(proveedor[13].ToString()))
             {
                 SqlCommand chequearRubro =
@@ -130,93 +133,17 @@ namespace FrbaOfertas.AbmProveedor
             //MODIFICACION LOCALIDAD DEL PROVEEDOR
             if (!localidad.Text.Equals(proveedor[5].ToString()))
             {
-                SqlCommand chequearLocalidad =
-                new SqlCommand(
-                    string.Format(
-                        "SELECT localidad_id,localidad_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Localidad WHERE localidad_nombre='{0}'",
-                        localidad.Text), Helper.dbOfertas);
-
-                SqlDataReader dataReaderLocalidad = Helper.realizarConsultaSQL(chequearLocalidad);
-                if (dataReaderLocalidad != null)
-                {
-                    if (dataReaderLocalidad.HasRows) // Localidad ya existe
-                    {
-                        dataReaderLocalidad.Read();
-                        string idLocalidad = dataReaderLocalidad.GetValue(0).ToString();
-                        dataReaderLocalidad.Close();
-
-                        SqlCommand modificarProveedor =
-                                        new SqlCommand(
-                                               string.Format(
-                                                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET proveedor_id_localidad='{0}' WHERE proveedor_id={1};",
-                                                        idLocalidad, proveedor[0]), Helper.dbOfertas);
-
-                        SqlDataReader modificarProveedorDataReader = modificarProveedor.ExecuteReader();
-                        if (modificarProveedorDataReader.RecordsAffected <= 0)
-                        {
-                            modificarProveedorDataReader.Close();
-                            return false;
-                        }
-                        modificarProveedorDataReader.Close();
-                    }
-                    else
-                    {
-                        dataReaderLocalidad.Close();
-                        SqlCommand insertarNuevaLocalidad =
-                            new SqlCommand(
-                                string.Format(
-                                    "INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()",
-                                    localidad.Text), Helper.dbOfertas);
-
-                        SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaLocalidad);
-                        if (dataReader != null)
-                        {
-                            if (dataReader.Read())
-                            {
-                                string idLocalidad = dataReader.GetValue(0).ToString();
-                                dataReader.Close();
-                                SqlCommand modificarProveedor =
-                                        new SqlCommand(
-                                               string.Format(
-                                                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET proveedor_id_localidad='{0}' WHERE proveedor_id={1};",
-                                                        idLocalidad, proveedor[0]), Helper.dbOfertas);
-
-                                SqlDataReader modificarProveedorDataReader = modificarProveedor.ExecuteReader();
-                                if (modificarProveedorDataReader.RecordsAffected <= 0)
-                                {
-                                    modificarProveedorDataReader.Close();
-                                    return false;
-                                }
-                                modificarProveedorDataReader.Close();
-                            }
-                            else
-                            {
-                                //MessageBox.Show("Error al guardar la localidad");
-                                dataReader.Close();
-                            }
-                        }
-                    }
-                }
+                if (!Helper.modificarLocalidad(proveedor[3].ToString(), localidad.Text))
+                    return false;
             }
 
             //MODIFICACION DOMICILIO DEL PROVEEDOR
             if (controlDeModificacionEnDomicilio())
             {
-                string idDomicilio = proveedor[3].ToString();
-                string modificarDomicilioString =
-                    string.Format(
-                        "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET {0} WHERE domicilio_id={1}; ", 
-                        queModificarDeDomicilio, idDomicilio);
-
-                SqlCommand modificarDomicilio = new SqlCommand(modificarDomicilioString, Helper.dbOfertas);
-                SqlDataReader modificarDomicilioDataReader = modificarDomicilio.ExecuteReader();
-                if (modificarDomicilioDataReader.RecordsAffected <= 0)
-                {
-                    modificarDomicilioDataReader.Close();
+                if (!Helper.modificarDomicilio(proveedor[3].ToString(), queModificarDeDomicilio))
                     return false;
-                }
-                modificarDomicilioDataReader.Close();
             }
+
             return true;
         }
 

@@ -197,6 +197,66 @@ namespace FrbaOfertas
                 return null;
         }
 
+        public static bool modificarLocalidad(string idDomicilio, string localidadNueva)
+        {
+            string consultaLocalidad = string.Format("SELECT localidad_id,localidad_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Localidad WHERE localidad_nombre='{0}'", localidadNueva);
+            SqlCommand chequearLocalidad = new SqlCommand(consultaLocalidad, Helper.dbOfertas);
+            SqlDataReader dataReaderLocalidad = Helper.realizarConsultaSQL(chequearLocalidad);
+            if (dataReaderLocalidad != null)
+            {
+                if (dataReaderLocalidad.HasRows) // Localidad ya existe
+                {
+                    dataReaderLocalidad.Read();
+                    string idLocalidad = dataReaderLocalidad.GetValue(0).ToString();
+                    dataReaderLocalidad.Close();
+
+                    string consultaModificarLocalidad = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET domicilio_id_localidad='{0}' WHERE domicilio_id={1};", idLocalidad, idDomicilio);
+                    SqlCommand modificarLocalidadCliente = new SqlCommand(consultaModificarLocalidad, Helper.dbOfertas);
+                    SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
+                    if (modificarClienteDataReader.RecordsAffected <= 0)
+                    {
+                        modificarClienteDataReader.Close();
+                        return false;
+                    }
+                    modificarClienteDataReader.Close();
+                }
+                else
+                {
+                    dataReaderLocalidad.Close();
+
+                    string consultaInsertarLocalidad = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Localidad (localidad_nombre) VALUES ('{0}'); SELECT SCOPE_IDENTITY()", localidadNueva);
+                    SqlCommand insertarNuevaLocalidad = new SqlCommand(consultaInsertarLocalidad, Helper.dbOfertas);
+                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevaLocalidad);
+                    if (dataReader != null)
+                    {
+                        if (dataReader.Read())
+                        {
+                            string idLocalidad = dataReader.GetValue(0).ToString();
+                            dataReader.Close();
+
+                            string consultaModificarLocalidadCliente = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET domicilio_id_localidad='{0}' WHERE domicilio_id={1};", idLocalidad, idDomicilio);
+                            SqlCommand modificarLocalidadCliente = new SqlCommand(consultaInsertarLocalidad, Helper.dbOfertas);
+                            SqlDataReader modificarClienteDataReader = modificarLocalidadCliente.ExecuteReader();
+                            if (modificarClienteDataReader.RecordsAffected <= 0)
+                            {
+                                modificarClienteDataReader.Close();
+                                return false;
+                            }
+                            modificarClienteDataReader.Close();
+                        }
+                        else
+                        {
+                            dataReader.Close();
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            else
+                return false;
+        }
+
         public static string insertarDomicilio(string idLocalidad, string calle, string piso, string depto, string codigoPostal)
         {
             SqlCommand chequearDomicilio =
@@ -249,6 +309,28 @@ namespace FrbaOfertas
             }
             else
                 return null;
+        }
+
+        public static bool modificarDomicilio(string idDomicilio, string queModificarDeDomicilio)
+        {
+            string modificarDomicilioString =
+                    string.Format(
+                        "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET {0} WHERE domicilio_id={1}; ",
+                        queModificarDeDomicilio, idDomicilio);
+
+            SqlCommand modificarDomicilio = new SqlCommand(modificarDomicilioString, Helper.dbOfertas);
+            SqlDataReader modificarDomicilioDataReader = Helper.realizarConsultaSQL(modificarDomicilio);
+            if (modificarDomicilioDataReader != null)
+            {
+                if (modificarDomicilioDataReader.RecordsAffected <= 0)
+                {
+                    modificarDomicilioDataReader.Close();
+                    return false;
+                }
+                modificarDomicilioDataReader.Close();
+                return true;
+            }
+            return false;
         }
 
         public static string insertarRubro(string nombreRubro)
@@ -390,7 +472,7 @@ namespace FrbaOfertas
             }
         }
 
-        public static int cuitYRazonSocialNoExisten(string cuit, string razonSocial)
+        public static bool? cuitYRazonSocialNoExisten(string cuit, string razonSocial)
         {
             SqlCommand chequearExistencia =
                     new SqlCommand(
@@ -403,16 +485,16 @@ namespace FrbaOfertas
                 if (dataReaderProveedor.HasRows)
                 {
                     dataReaderProveedor.Close();
-                    return 0;
+                    return false;
                 }
                 else
                 {
                     dataReaderProveedor.Close();
-                    return 1;
+                    return true;
                 }
             }
             else
-                return -1;
+                return null;
         }
 
         public static void cerrarSesion()
