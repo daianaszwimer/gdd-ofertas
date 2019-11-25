@@ -88,7 +88,7 @@
             // 
             // codigoSeguridad
             // 
-            this.codigoSeguridad.Location = new System.Drawing.Point(218, 145);
+            this.codigoSeguridad.Location = new System.Drawing.Point(218, 149);
             this.codigoSeguridad.Name = "codigoSeguridad";
             this.codigoSeguridad.Size = new System.Drawing.Size(49, 20);
             this.codigoSeguridad.TabIndex = 6;
@@ -136,7 +136,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "AgregarTarjeta";
-            this.Text = "DatosTarjeta";
+            this.Text = "Datos Tarjeta";
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.label3, 0);
