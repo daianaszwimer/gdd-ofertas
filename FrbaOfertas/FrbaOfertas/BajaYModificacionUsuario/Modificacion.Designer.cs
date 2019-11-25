@@ -41,7 +41,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 76);
+            this.label1.Location = new System.Drawing.Point(30, 49);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 0;
@@ -50,7 +50,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 133);
+            this.label3.Location = new System.Drawing.Point(30, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 13);
             this.label3.TabIndex = 2;
@@ -59,14 +59,14 @@
             // usernameTextBox
             // 
             this.usernameTextBox.Enabled = false;
-            this.usernameTextBox.Location = new System.Drawing.Point(125, 73);
+            this.usernameTextBox.Location = new System.Drawing.Point(132, 46);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(118, 20);
             this.usernameTextBox.TabIndex = 3;
             // 
             // passwordNueva
             // 
-            this.passwordNueva.Location = new System.Drawing.Point(125, 130);
+            this.passwordNueva.Location = new System.Drawing.Point(132, 81);
             this.passwordNueva.Name = "passwordNueva";
             this.passwordNueva.Size = new System.Drawing.Size(118, 20);
             this.passwordNueva.TabIndex = 5;
@@ -74,13 +74,14 @@
             // confirmar
             // 
             this.confirmar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.confirmar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.confirmar.BackColor = System.Drawing.Color.SandyBrown;
             this.confirmar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.confirmar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.confirmar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.confirmar.Location = new System.Drawing.Point(162, 176);
+            this.confirmar.Location = new System.Drawing.Point(169, 117);
             this.confirmar.Name = "confirmar";
-            this.confirmar.Size = new System.Drawing.Size(81, 30);
+            this.confirmar.Size = new System.Drawing.Size(81, 27);
             this.confirmar.TabIndex = 6;
             this.confirmar.Text = "Confirmar";
             this.confirmar.UseVisualStyleBackColor = false;
@@ -95,7 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 156);
             this.Controls.Add(this.confirmar);
             this.Controls.Add(this.passwordNueva);
             this.Controls.Add(this.usernameTextBox);

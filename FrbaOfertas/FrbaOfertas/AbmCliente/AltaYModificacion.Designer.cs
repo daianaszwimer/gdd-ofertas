@@ -253,9 +253,10 @@
             // confirmarCliente
             // 
             this.confirmarCliente.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.confirmarCliente.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.confirmarCliente.BackColor = System.Drawing.Color.SandyBrown;
             this.confirmarCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.confirmarCliente.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.confirmarCliente.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmarCliente.ForeColor = System.Drawing.SystemColors.InfoText;
             this.confirmarCliente.Location = new System.Drawing.Point(220, 274);
             this.confirmarCliente.Name = "confirmarCliente";
@@ -328,7 +329,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 362);
+            this.BackColor = System.Drawing.Color.Beige;
+            this.ClientSize = new System.Drawing.Size(384, 328);
             this.Controls.Add(this.habilitado);
             this.Controls.Add(this.fechaNacimiento);
             this.Controls.Add(this.confirmarCliente);

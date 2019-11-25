@@ -291,14 +291,23 @@
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
+    <EmbeddedResource Include="AbmCliente\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>

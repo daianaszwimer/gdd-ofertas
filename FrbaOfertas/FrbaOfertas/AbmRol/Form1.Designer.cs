@@ -39,11 +39,11 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Consolas", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(322, 83);
+            this.label1.Location = new System.Drawing.Point(335, 83);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 23);
+            this.label1.Size = new System.Drawing.Size(95, 28);
             this.label1.TabIndex = 8;
             this.label1.Text = "ABM Rol";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -51,11 +51,11 @@
             // panel1
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.BackColor = System.Drawing.Color.Beige;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.altaRol);
             this.panel1.Controls.Add(this.listadoRol);
-            this.panel1.Location = new System.Drawing.Point(214, 125);
+            this.panel1.Location = new System.Drawing.Point(211, 125);
             this.panel1.Name = "panel1";
             this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.panel1.Size = new System.Drawing.Size(347, 226);
@@ -64,11 +64,12 @@
             // altaRol
             // 
             this.altaRol.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.altaRol.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.altaRol.BackColor = System.Drawing.Color.SandyBrown;
             this.altaRol.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.altaRol.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.altaRol.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.altaRol.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.altaRol.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.altaRol.Location = new System.Drawing.Point(90, 55);
+            this.altaRol.Location = new System.Drawing.Point(91, 56);
             this.altaRol.Name = "altaRol";
             this.altaRol.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.altaRol.Size = new System.Drawing.Size(160, 33);
@@ -80,11 +81,12 @@
             // listadoRol
             // 
             this.listadoRol.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.listadoRol.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.listadoRol.BackColor = System.Drawing.Color.SandyBrown;
             this.listadoRol.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.listadoRol.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listadoRol.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.listadoRol.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listadoRol.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.listadoRol.Location = new System.Drawing.Point(90, 125);
+            this.listadoRol.Location = new System.Drawing.Point(91, 126);
             this.listadoRol.Name = "listadoRol";
             this.listadoRol.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.listadoRol.Size = new System.Drawing.Size(160, 33);
@@ -102,6 +104,8 @@
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Controls.SetChildIndex(this.panel1, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

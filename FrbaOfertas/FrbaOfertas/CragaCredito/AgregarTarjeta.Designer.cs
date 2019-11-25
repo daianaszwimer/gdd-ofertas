@@ -47,7 +47,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(83, 74);
+            this.label1.Location = new System.Drawing.Point(87, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 1;
@@ -56,7 +56,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 111);
+            this.label2.Location = new System.Drawing.Point(19, 85);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(112, 13);
             this.label2.TabIndex = 2;
@@ -65,7 +65,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 152);
+            this.label3.Location = new System.Drawing.Point(27, 122);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 13);
             this.label3.TabIndex = 3;
@@ -73,7 +73,7 @@
             // 
             // numero
             // 
-            this.numero.Location = new System.Drawing.Point(141, 67);
+            this.numero.Location = new System.Drawing.Point(145, 41);
             this.numero.Name = "numero";
             this.numero.Size = new System.Drawing.Size(126, 20);
             this.numero.TabIndex = 4;
@@ -81,14 +81,14 @@
             // fechaVencimiento
             // 
             this.fechaVencimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.fechaVencimiento.Location = new System.Drawing.Point(141, 105);
+            this.fechaVencimiento.Location = new System.Drawing.Point(145, 79);
             this.fechaVencimiento.Name = "fechaVencimiento";
             this.fechaVencimiento.Size = new System.Drawing.Size(126, 20);
             this.fechaVencimiento.TabIndex = 5;
             // 
             // codigoSeguridad
             // 
-            this.codigoSeguridad.Location = new System.Drawing.Point(218, 149);
+            this.codigoSeguridad.Location = new System.Drawing.Point(222, 119);
             this.codigoSeguridad.Name = "codigoSeguridad";
             this.codigoSeguridad.Size = new System.Drawing.Size(49, 20);
             this.codigoSeguridad.TabIndex = 6;
@@ -96,11 +96,12 @@
             // guardar
             // 
             this.guardar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.guardar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.guardar.BackColor = System.Drawing.Color.SandyBrown;
             this.guardar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.guardar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guardar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.guardar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guardar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.guardar.Location = new System.Drawing.Point(175, 186);
+            this.guardar.Location = new System.Drawing.Point(179, 156);
             this.guardar.Name = "guardar";
             this.guardar.Size = new System.Drawing.Size(92, 33);
             this.guardar.TabIndex = 7;
@@ -127,7 +128,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(324, 201);
             this.Controls.Add(this.guardar);
             this.Controls.Add(this.codigoSeguridad);
             this.Controls.Add(this.fechaVencimiento);

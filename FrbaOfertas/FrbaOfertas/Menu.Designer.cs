@@ -38,16 +38,17 @@ namespace FrbaOfertas
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel.AutoScroll = true;
             this.tableLayoutPanel.AutoSize = true;
-            this.tableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tableLayoutPanel.ColumnCount = 2;
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel.Location = new System.Drawing.Point(29, 26);
-            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(10);
+            this.tableLayoutPanel.BackColor = System.Drawing.Color.Beige;
+            this.tableLayoutPanel.ColumnCount = 3;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.66667F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.33333F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 195F));
+            this.tableLayoutPanel.Location = new System.Drawing.Point(17, 17);
+            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(30);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(328, 0);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(597, 99);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // Menu
@@ -55,8 +56,8 @@ namespace FrbaOfertas
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(396, 314);
+            this.BackColor = System.Drawing.Color.Beige;
+            this.ClientSize = new System.Drawing.Size(635, 130);
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "Menu";
             this.Text = "Menu";

@@ -20,6 +20,7 @@ namespace FrbaOfertas
             InitializeComponent();
             Helper.conectarseABaseDeDatosOfertas();
             rol.DataSource = obtenerRolesPosibles();
+            panel1.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -30,6 +31,7 @@ namespace FrbaOfertas
                 if (Helper.usuarioUnico(this, username.Text))
                 {
                     Button confirmar = (Button)sender;
+                    panel1.Visible = true;
                     rol.Enabled = false;
                     confirmar.Enabled = false;
 

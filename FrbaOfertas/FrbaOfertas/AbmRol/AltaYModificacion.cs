@@ -17,7 +17,6 @@ namespace FrbaOfertas.AbmRol
         public AltaYModificacion()
         {
             InitializeComponent();
-            buscarFuncionalidadesEnBaseDeDatos();
         }
 
         protected void desactivarErrores()
