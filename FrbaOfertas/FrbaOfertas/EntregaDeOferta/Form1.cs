@@ -96,7 +96,7 @@ namespace FrbaOfertas.EntregaDeOferta
         private void seleccionarProveedor_Click(object sender, EventArgs e)
         {
             errorProveedor.Clear();
-            (new CrearOferta.ListadoProveedores(this.agregarProveedorSeleccionado)).Show(); //TODO:{M} SACAR LISTADO
+            (new CrearOferta.ListadoProveedores(this.agregarProveedorSeleccionado)).Show(); 
         }
 
         public void agregarProveedorSeleccionado(string id, string razonSocial)

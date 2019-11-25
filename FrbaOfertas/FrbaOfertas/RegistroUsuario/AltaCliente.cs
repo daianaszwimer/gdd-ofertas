@@ -30,29 +30,39 @@ namespace FrbaOfertas.RegistroUsuario
             desactivarErrores();
             if (validacionCampos())
             {
-                bool? clienteNoExiste = Helper.dniYMailNoExisten(dni.Text, mail.Text);
-                if (clienteNoExiste == true)
+                bool? dniNoExiste = Helper.dniNoExisten(dni.Text);
+                if (dniNoExiste == true)
                 {
-                    string idLocalidad = Helper.insertarLocalidad(localidad.Text);
-                    if (idLocalidad != null)
+                    bool? mailNoExiste = Helper.mailNoExisten(mail.Text);
+                    if (mailNoExiste == true)
                     {
-                        string idDomicilio = Helper.insertarDomicilio(idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text);
-                        if (idDomicilio != null)
+                        string idLocalidad = Helper.insertarLocalidad(localidad.Text);
+                        if (idLocalidad != null)
                         {
-                            if (Helper.insertarUsuario(username, password))
+                            string idDomicilio = Helper.insertarDomicilio(idLocalidad, calle.Text, piso.Text, depto.Text, codigoPostal.Text);
+                            if (idDomicilio != null)
                             {
-                                DateTime myFechaNacimiento = fechaNacimiento.Value;
-                                string sqlFormattedFechaNacimiento = myFechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                                if (Helper.insertarUsuario(username, password))
+                                {
+                                    DateTime myFechaNacimiento = fechaNacimiento.Value;
+                                    string sqlFormattedFechaNacimiento = myFechaNacimiento.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-                                Helper.insertarCliente(this, idDomicilio, username, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, sqlFormattedFechaNacimiento);
-                                registroDeUsuario.Close();
+                                    Helper.insertarCliente(this, idDomicilio, username, nombre.Text, apellido.Text, dni.Text, mail.Text, telefono.Text, sqlFormattedFechaNacimiento);
+                                    registroDeUsuario.Close();
+                                }
                             }
                         }
                     }
+                    else if (mailNoExiste == false)
+                    {
+                        MessageBox.Show("Ya existe un cliente con ese Mail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        
+                    }
                 }
-                else if (clienteNoExiste == false)
+                else if (dniNoExiste == false)
                 {
-                    MessageBox.Show("Ya existe un cliente con ese Dni y/o mail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ya existe un cliente con ese Dni", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Show();
                 }
             }
         }

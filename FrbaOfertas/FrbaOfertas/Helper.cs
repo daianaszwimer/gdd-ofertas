@@ -38,7 +38,7 @@ namespace FrbaOfertas
             }
             catch (Exception)
             {
-                // TODO: Mensaje??
+                MessageBox.Show("Error al cerrar conexion con base FRBAOfertas ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -97,10 +97,9 @@ namespace FrbaOfertas
             {
                 return consulta.ExecuteReader();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //TODO: [D] que no se siga ejecutando ese form
+                MessageBox.Show("No se pudo realizar la consulta Sql", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 cerrarSesion();
                 return null;
             }
@@ -653,12 +652,37 @@ namespace FrbaOfertas
             return true;
         }
 
-        public static bool? dniYMailNoExisten(string dni, string mail)
+        public static bool? dniNoExisten(string dni)
         {
             SqlCommand chequearExistencia =
                     new SqlCommand(
                         string.Format(
-                            "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE (cliente_dni='{0}' OR cliente_mail='{1}')", dni, mail), Helper.dbOfertas);
+                            "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE cliente_dni='{0}'", dni), Helper.dbOfertas);
+
+            SqlDataReader dataReaderCliente = chequearExistencia.ExecuteReader();
+            if (dataReaderCliente != null)
+            {
+                if (dataReaderCliente.HasRows)
+                {
+                    dataReaderCliente.Close();
+                    return false;
+                }
+                else
+                {
+                    dataReaderCliente.Close();
+                    return true;
+                }
+            }
+            else
+                return null;
+        }
+
+        public static bool? mailNoExisten(string mail)
+        {
+            SqlCommand chequearExistencia =
+                    new SqlCommand(
+                        string.Format(
+                            "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE cliente_mail='{0}'", mail), Helper.dbOfertas);
 
             SqlDataReader dataReaderCliente = chequearExistencia.ExecuteReader();
             if (dataReaderCliente != null)
