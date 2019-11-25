@@ -17,6 +17,8 @@ namespace FrbaOfertas.AbmRol
 
         public Modificacion(object[] rol)
         {
+            InitializeComponent();
+            buscarFuncionalidadesEnBaseDeDatos();
             nombre.Text = rol[1].ToString();
             habilitado.Visible = true;
             habilitado.Checked = bool.Parse(rol[3].ToString());

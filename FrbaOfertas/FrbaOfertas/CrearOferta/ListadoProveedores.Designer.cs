@@ -41,12 +41,15 @@
             // 
             // confirmar
             // 
+            this.confirmar.BackColor = System.Drawing.Color.SandyBrown;
+            this.confirmar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.confirmar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmar.Location = new System.Drawing.Point(662, 403);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 18;
             this.confirmar.Text = "Confirmar";
-            this.confirmar.UseVisualStyleBackColor = true;
+            this.confirmar.UseVisualStyleBackColor = false;
             this.confirmar.Click += new System.EventHandler(this.confirmar_Click);
             // 
             // ListadoProveedores
@@ -56,7 +59,7 @@
             this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.confirmar);
             this.Name = "ListadoProveedores";
-            this.Text = "ListadoProveedores";
+            this.Text = "Listado Proveedores";
             this.Controls.SetChildIndex(this.razonSocial, 0);
             this.Controls.SetChildIndex(this.CUIT, 0);
             this.Controls.SetChildIndex(this.mail, 0);

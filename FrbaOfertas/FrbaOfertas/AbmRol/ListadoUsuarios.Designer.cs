@@ -34,15 +34,15 @@
             // 
             // eliminar
             // 
-            this.eliminar.Location = new System.Drawing.Point(578, 403);
+            this.eliminar.Location = new System.Drawing.Point(117, 403);
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(497, 403);
+            this.modificar.Location = new System.Drawing.Point(36, 403);
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(664, 403);
+            this.confirmar.Location = new System.Drawing.Point(246, 403);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 13;
@@ -54,10 +54,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(767, 438);
+            this.ClientSize = new System.Drawing.Size(359, 438);
             this.Controls.Add(this.confirmar);
             this.Name = "ListadoUsuarios";
-            this.Text = "ListadoUsuarios";
+            this.Text = "Listado Usuarios";
             this.Controls.SetChildIndex(this.username, 0);
             this.Controls.SetChildIndex(this.modificar, 0);
             this.Controls.SetChildIndex(this.eliminar, 0);

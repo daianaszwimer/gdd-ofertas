@@ -129,6 +129,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tablaDeResultados.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.tablaDeResultados.BackgroundColor = System.Drawing.Color.Beige;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -219,7 +220,7 @@
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "Listado";
-            this.Text = "Listado";
+            this.Text = "Listado Roles";
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.buscar, 0);

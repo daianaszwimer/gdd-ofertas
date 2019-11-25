@@ -103,7 +103,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "";
             this.Controls.SetChildIndex(this.panel1, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.panel1.ResumeLayout(false);

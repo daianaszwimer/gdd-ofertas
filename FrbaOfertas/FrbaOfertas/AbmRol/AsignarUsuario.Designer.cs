@@ -131,7 +131,7 @@
             this.Controls.Add(this.descripcionRol);
             this.Controls.Add(this.label1);
             this.Name = "AsignarUsuario";
-            this.Text = "AsignarUsuario";
+            this.Text = "Asignar Rol a Usuario";
             this.Load += new System.EventHandler(this.AsignarUsuario_Load);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.descripcionRol, 0);

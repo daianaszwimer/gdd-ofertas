@@ -41,9 +41,10 @@
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
             this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tablaDeResultados.BackgroundColor = System.Drawing.Color.Beige;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(20, 83);
+            this.tablaDeResultados.Location = new System.Drawing.Point(20, 92);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
             this.tablaDeResultados.Size = new System.Drawing.Size(240, 167);
@@ -51,12 +52,15 @@
             // 
             // confirm
             // 
-            this.confirm.Location = new System.Drawing.Point(156, 279);
+            this.confirm.BackColor = System.Drawing.Color.SandyBrown;
+            this.confirm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.confirm.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirm.Location = new System.Drawing.Point(185, 276);
             this.confirm.Name = "confirm";
             this.confirm.Size = new System.Drawing.Size(75, 23);
             this.confirm.TabIndex = 7;
             this.confirm.Text = "Confirmar";
-            this.confirm.UseVisualStyleBackColor = true;
+            this.confirm.UseVisualStyleBackColor = false;
             this.confirm.Click += new System.EventHandler(this.confirm_Click);
             // 
             // textBox1
@@ -68,12 +72,15 @@
             // 
             // buscar
             // 
+            this.buscar.BackColor = System.Drawing.Color.SandyBrown;
+            this.buscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buscar.Location = new System.Drawing.Point(185, 54);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(75, 23);
             this.buscar.TabIndex = 9;
             this.buscar.Text = "Buscar";
-            this.buscar.UseVisualStyleBackColor = true;
+            this.buscar.UseVisualStyleBackColor = false;
             this.buscar.Click += new System.EventHandler(this.buscar_Click);
             // 
             // codigoCupon
@@ -89,14 +96,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 311);
             this.Controls.Add(this.codigoCupon);
             this.Controls.Add(this.buscar);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.confirm);
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "ListadoCupon";
-            this.Text = "ListadoCupon";
+            this.Text = "Listado Cupon";
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.confirm, 0);
             this.Controls.SetChildIndex(this.textBox1, 0);

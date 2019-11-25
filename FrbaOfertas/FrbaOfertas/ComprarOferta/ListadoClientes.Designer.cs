@@ -42,6 +42,8 @@
             // confirmar
             // 
             this.confirmar.BackColor = System.Drawing.Color.SandyBrown;
+            this.confirmar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.confirmar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmar.Location = new System.Drawing.Point(659, 403);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);

@@ -41,7 +41,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 362);
             this.Name = "AltaCliente";
-            this.Text = "AltaCliente";
+            this.Text = "Alta Cliente";
             this.ResumeLayout(false);
             this.PerformLayout();
 

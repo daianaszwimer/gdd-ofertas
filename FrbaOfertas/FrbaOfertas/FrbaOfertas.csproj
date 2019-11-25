@@ -303,6 +303,12 @@
     <EmbeddedResource Include="AbmCliente\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmCliente\Modificacion.resx">
+      <DependentUpon>Modificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
     </EmbeddedResource>
@@ -311,6 +317,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmProveedor\Listado.resx">
       <DependentUpon>Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmProveedor\Modificacion.resx">
+      <DependentUpon>Modificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Alta.resx">
+      <DependentUpon>Alta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\AltaUsuario.resx">
       <DependentUpon>AltaUsuario.cs</DependentUpon>
@@ -329,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\ListadoUsuarios.resx">
       <DependentUpon>ListadoUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Modificacion.resx">
+      <DependentUpon>Modificacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BajaYModificacionUsuario\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -169,7 +169,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Entrega de Oferta";
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.bajaCupon, 0);

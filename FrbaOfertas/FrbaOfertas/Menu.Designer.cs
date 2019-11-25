@@ -28,6 +28,7 @@ namespace FrbaOfertas
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
@@ -42,7 +43,7 @@ namespace FrbaOfertas
             this.tableLayoutPanel.ColumnCount = 3;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 46.66667F));
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53.33333F));
-            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 195F));
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 196F));
             this.tableLayoutPanel.Location = new System.Drawing.Point(17, 17);
             this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(30);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
@@ -59,6 +60,7 @@ namespace FrbaOfertas
             this.BackColor = System.Drawing.Color.Beige;
             this.ClientSize = new System.Drawing.Size(635, 130);
             this.Controls.Add(this.tableLayoutPanel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Menu";
             this.Text = "Menu";
             this.ResumeLayout(false);

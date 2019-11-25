@@ -46,6 +46,8 @@
             // confirmar
             // 
             this.confirmar.BackColor = System.Drawing.Color.SandyBrown;
+            this.confirmar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.confirmar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmar.Location = new System.Drawing.Point(632, 387);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(100, 23);
@@ -58,6 +60,7 @@
             // 
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
+            this.tablaDeResultados.BackgroundColor = System.Drawing.Color.Beige;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaDeResultados.Location = new System.Drawing.Point(25, 135);
@@ -117,6 +120,8 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.SandyBrown;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.Location = new System.Drawing.Point(657, 106);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -128,6 +133,8 @@
             // limpiar
             // 
             this.limpiar.BackColor = System.Drawing.Color.SandyBrown;
+            this.limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.limpiar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.limpiar.Location = new System.Drawing.Point(576, 106);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(75, 23);

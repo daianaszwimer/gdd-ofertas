@@ -108,7 +108,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "AltaUsuario";
-            this.Text = "AltaUsuario";
+            this.Text = "Alta Usuario";
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.username, 0);

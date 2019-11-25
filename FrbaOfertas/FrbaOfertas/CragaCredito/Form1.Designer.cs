@@ -198,7 +198,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Carga de Credito";
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.label3, 0);

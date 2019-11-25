@@ -98,6 +98,7 @@
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
             this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.tablaDeResultados.BackgroundColor = System.Drawing.Color.Beige;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaDeResultados.Location = new System.Drawing.Point(16, 54);
@@ -109,9 +110,10 @@
             // facturar
             // 
             this.facturar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.facturar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.facturar.BackColor = System.Drawing.Color.SandyBrown;
             this.facturar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.facturar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.facturar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.facturar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.facturar.ForeColor = System.Drawing.SystemColors.InfoText;
             this.facturar.Location = new System.Drawing.Point(618, 105);
             this.facturar.Name = "facturar";
@@ -139,12 +141,15 @@
             // 
             // seleccionar
             // 
-            this.seleccionar.Location = new System.Drawing.Point(227, 53);
+            this.seleccionar.BackColor = System.Drawing.Color.SandyBrown;
+            this.seleccionar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.seleccionar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seleccionar.Location = new System.Drawing.Point(247, 54);
             this.seleccionar.Name = "seleccionar";
             this.seleccionar.Size = new System.Drawing.Size(75, 23);
             this.seleccionar.TabIndex = 19;
             this.seleccionar.Text = "Seleccionar";
-            this.seleccionar.UseVisualStyleBackColor = true;
+            this.seleccionar.UseVisualStyleBackColor = false;
             this.seleccionar.Click += new System.EventHandler(this.seleccionar_Click);
             // 
             // label4
@@ -176,8 +181,8 @@
             // panel2
             // 
             this.panel2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.panel2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.BackColor = System.Drawing.Color.SandyBrown;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.tablaDeResultados);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.nroFactura);
@@ -209,7 +214,7 @@
             this.Controls.Add(this.desde);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Facturar a Proveedor";
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.desde, 0);
             this.Controls.SetChildIndex(this.hasta, 0);

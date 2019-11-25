@@ -48,9 +48,10 @@
             // buscar
             // 
             this.buscar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.buscar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.buscar.BackColor = System.Drawing.Color.SandyBrown;
             this.buscar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.buscar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buscar.ForeColor = System.Drawing.SystemColors.InfoText;
             this.buscar.Location = new System.Drawing.Point(622, 141);
             this.buscar.Name = "buscar";
@@ -62,12 +63,15 @@
             // 
             // limpiar
             // 
+            this.limpiar.BackColor = System.Drawing.Color.SandyBrown;
+            this.limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.limpiar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.limpiar.Location = new System.Drawing.Point(15, 144);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(72, 23);
             this.limpiar.TabIndex = 4;
             this.limpiar.Text = "Limpiar";
-            this.limpiar.UseVisualStyleBackColor = true;
+            this.limpiar.UseVisualStyleBackColor = false;
             this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
             // tablaDeResultados
@@ -115,7 +119,7 @@
             // 
             // anio
             // 
-            this.anio.Location = new System.Drawing.Point(93, 91);
+            this.anio.Location = new System.Drawing.Point(93, 92);
             this.anio.Name = "anio";
             this.anio.Size = new System.Drawing.Size(121, 20);
             this.anio.TabIndex = 9;
@@ -166,7 +170,7 @@
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Listado Estadistico";
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.buscar, 0);

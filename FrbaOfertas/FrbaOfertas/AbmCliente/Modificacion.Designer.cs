@@ -28,9 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // confirmarCliente
+            // 
+            this.confirmarCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            // 
+            // Modificacion
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Modificacion";
+            this.ClientSize = new System.Drawing.Size(384, 328);
+            this.Name = "Modificacion";
+            this.Text = "Modificacion Cliente";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

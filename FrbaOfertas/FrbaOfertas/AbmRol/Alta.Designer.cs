@@ -28,9 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Alta
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Alta";
+            this.ClientSize = new System.Drawing.Size(284, 321);
+            this.Name = "Alta";
+            this.Text = "Alta Rol";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion

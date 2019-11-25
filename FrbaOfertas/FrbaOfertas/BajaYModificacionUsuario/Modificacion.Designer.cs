@@ -103,7 +103,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Name = "Modificacion";
-            this.Text = "Modificar usuario";
+            this.Text = "Modificar Usuario";
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.usernameTextBox, 0);

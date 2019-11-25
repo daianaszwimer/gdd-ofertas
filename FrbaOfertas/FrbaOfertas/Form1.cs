@@ -32,7 +32,7 @@ namespace FrbaOfertas
             {
                 SqlCommand chequearUsuario =
                     new SqlCommand(
-                        string.Format("SELECT usuario_username, usuario_intentos_fallidos_login " +
+                        string.Format("SELECT usuario_username, usuario_intentos_fallidos_login, usuario_habilitado, usuario_eliminado " +
                                         "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}'", username.Text), Helper.dbOfertas);
 
                 SqlDataReader estadoUsuario = Helper.realizarConsultaSQL(chequearUsuario);
@@ -42,73 +42,91 @@ namespace FrbaOfertas
                     {
                         estadoUsuario.Read();
                         int intentosLogin = (int)estadoUsuario.GetValue(1);
-                        estadoUsuario.Close();
-                        SqlCommand chequearLogIn =
-                            new SqlCommand(
-                                string.Format("SELECT usuario_username, usuario_password " +
-                                                "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}' AND usuario_password='{1}'",
-                                                username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
-
-                        SqlDataReader estadoLogin = Helper.realizarConsultaSQL(chequearLogIn);
-                        if (estadoLogin != null)
+                        bool habilitado = bool.Parse(estadoUsuario.GetValue(2).ToString());
+                        bool eliminado = bool.Parse(estadoUsuario.GetValue(3).ToString());
+                        if (!eliminado)
                         {
-                            if (estadoLogin.Read())
+                            if (habilitado)
                             {
-                                estadoLogin.Close(); // HABILITADO OK
-                                SqlCommand loginCorrecto =
+                                estadoUsuario.Close();
+                                SqlCommand chequearLogIn =
                                     new SqlCommand(
-                                        string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " +
-                                                        "SET usuario_intentos_fallidos_login = 0 " +
-                                                        "WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+                                        string.Format("SELECT usuario_username, usuario_password " +
+                                                        "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}' AND usuario_password='{1}'",
+                                                        username.Text, Helper.encriptarConSHA256(password.Text)), Helper.dbOfertas);
 
-                                SqlDataReader dataReader = Helper.realizarConsultaSQL(loginCorrecto);
-                                if (dataReader != null)
+                                SqlDataReader estadoLogin = Helper.realizarConsultaSQL(chequearLogIn);
+                                if (estadoLogin != null)
                                 {
-                                    dataReader.Close();
+                                    if (estadoLogin.Read())
+                                    {
+                                        estadoLogin.Close(); // HABILITADO OK
+                                        SqlCommand loginCorrecto =
+                                            new SqlCommand(
+                                                string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " +
+                                                                "SET usuario_intentos_fallidos_login = 0 " +
+                                                                "WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
 
-                                    this.Hide();
-                                    Helper.usuarioActual = username.Text;
-                                    (new Menu()).Show();
+                                        SqlDataReader dataReader = Helper.realizarConsultaSQL(loginCorrecto);
+                                        if (dataReader != null)
+                                        {
+                                            dataReader.Close();
+
+                                            this.Hide();
+                                            Helper.usuarioActual = username.Text;
+                                            (new Menu()).Show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        estadoLogin.Close(); // HABILITADO (1* o 2* error)
+                                        if (intentosLogin <= 2)
+                                        {
+                                            SqlCommand loginIncorrecto =
+                                                new SqlCommand(
+                                                    string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " +
+                                                                    "SET usuario_intentos_fallidos_login = usuario_intentos_fallidos_login+1 " +
+                                                                    "WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+
+                                            SqlDataReader dataReader = Helper.realizarConsultaSQL(loginIncorrecto);
+                                            if (dataReader != null)
+                                            {
+                                                MessageBox.Show("DATOS INCORRECTOS", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                                dataReader.Close();
+
+                                                this.Show();
+                                            }
+                                        }
+                                        else // INHABILITADO (3* error)
+                                        {
+                                            estadoLogin.Close();
+                                            SqlCommand inhabilitarUsuario =
+                                                new SqlCommand(
+                                                    string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " +
+                                                                    "SET usuario_habilitado = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
+
+                                            SqlDataReader dataReader = Helper.realizarConsultaSQL(inhabilitarUsuario);
+                                            if (dataReader != null)
+                                            {
+                                                MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                dataReader.Close();
+                                                this.Show();
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                            else
+                            else // USUARIO ESTA INHABILITADO
                             {
-                                estadoLogin.Close(); // HABILITADO (1* o 2* error)
-                                if (intentosLogin <= 2)
-                                {
-                                    SqlCommand loginIncorrecto =
-                                        new SqlCommand(
-                                            string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " +
-                                                            "SET usuario_intentos_fallidos_login = usuario_intentos_fallidos_login+1 " +
-                                                            "WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
-
-                                    SqlDataReader dataReader = Helper.realizarConsultaSQL(loginIncorrecto);
-                                    if (dataReader != null)
-                                    {
-                                        MessageBox.Show("DATOS INCORRECTOS", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                        dataReader.Close();
-
-                                        this.Show();
-                                    }
-                                }
-                                else // INHABILITADO (3* error)
-                                {
-                                    estadoLogin.Close();
-                                    SqlCommand inhabilitarUsuario =
-                                        new SqlCommand(
-                                            string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Usuario " +
-                                                            "SET usuario_habilitado = 0 WHERE usuario_username='" + username.Text + "'"), Helper.dbOfertas);
-
-                                    SqlDataReader dataReader = Helper.realizarConsultaSQL(inhabilitarUsuario);
-                                    if (dataReader != null)
-                                    {
-                                        MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        dataReader.Close();
-                                        this.Show();
-                                    }
-                                }
+                                MessageBox.Show("USUARIO INHABILITADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                estadoUsuario.Close();
                             }
                         }
+                        else
+                        {
+                            MessageBox.Show("USUARIO ELIMINADO", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            estadoUsuario.Close();
+                        }                               
                     }
                     else // USUARIO NO EXISTE
                     {

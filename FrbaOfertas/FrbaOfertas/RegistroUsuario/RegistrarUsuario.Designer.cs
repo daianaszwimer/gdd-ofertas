@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegistrarUsuario));
             this.label4 = new System.Windows.Forms.Label();
             this.password = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -163,8 +164,9 @@
             this.ClientSize = new System.Drawing.Size(484, 201);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RegistrarUsuario";
-            this.Text = "RegistrarUsuario";
+            this.Text = "Registrar Usuario";
             ((System.ComponentModel.ISupportInitialize)(this.errorUsername)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorRol)).EndInit();
