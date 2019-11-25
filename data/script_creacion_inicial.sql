@@ -429,7 +429,6 @@ where m.Tipo_Pago_Desc is not null and m.Carga_Credito is not null and m.Carga_F
 
 -- inserto a mis usuarios con el rol correspondiente
 -- hasta aca solo cargue clientes, por lo tanto, todos tienen el rol de cliente
--- todo: mejorar esto e insertar clientes y provee juntos con union
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
 select 3, u.usuario_username from [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u
 
@@ -456,7 +455,6 @@ left join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad l on l.localidad_nombre = m.Pro
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Domicilio d on d.domicilio_calle = m.Provee_Dom and l.localidad_id = d.domicilio_id_localidad
 join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = m.Provee_CUIT
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Rubro r on r.rubro_descripcion = Provee_Rubro
--- validar que no sea nulo
 
 -- busco los proveedores y les asigno el rol
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
@@ -513,7 +511,7 @@ update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_cod
 
 
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
-  select distinct  m.Oferta_Fecha_Venc, m.Oferta_Entregado_Fecha,
+  select distinct m.Oferta_Fecha_Venc, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
   c.cliente_id, co.compra_oferta_codigo
   from [gd_esquema].Maestra m 
@@ -526,7 +524,7 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_con
   o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Compra_Oferta co on 
 	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
-	and co.compra_oferta_id_cliente = c.cliente_id
+	and co.compra_oferta_id_cliente = c.cliente_id and co.compra_oferta_codigo like (m.Oferta_Codigo + '%')
   where m.Oferta_Entregado_Fecha is not null
 
 -- inserto cupones que no fueron retirados todavia
@@ -561,7 +559,7 @@ update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon SET NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cup
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura ON
 
 -- validar que no se inserte la misma oferta mas de 1 vez
-insert into  [NO_LO_TESTEAMOS_NI_UN_POCO].Factura(factura_id, factura_fecha_fin, factura_id_proveedor, factura_fecha_inicio, factura_importe)
+insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Factura(factura_id, factura_fecha_fin, factura_id_proveedor, factura_fecha_inicio, factura_importe)
 select distinct m.Factura_Nro, m.Factura_Fecha, p.proveedor_id,
 (select min(ma.Oferta_Fecha_Compra)
 from  [gd_esquema].Maestra ma
@@ -589,7 +587,7 @@ SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura OFF
   o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Compra_Oferta co on 
 	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
-	and co.compra_oferta_id_cliente = c.cliente_id
+	and co.compra_oferta_id_cliente = c.cliente_id and co.compra_oferta_codigo like (m.Oferta_Codigo + '%')
 	left join [NO_LO_TESTEAMOS_NI_UN_POCO].Factura f on f.factura_id = m.Factura_Nro and f.factura_fecha_fin = m.Factura_Fecha
   where m.Factura_Nro is not null
 
