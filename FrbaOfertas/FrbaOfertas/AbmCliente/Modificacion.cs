@@ -19,78 +19,53 @@ namespace FrbaOfertas.AbmCliente
 
         public Modificacion(object[] cliente)
         {
-            nombre.Text = cliente[1].ToString();
-            apellido.Text = cliente[2].ToString();
-            dni.Text = cliente[3].ToString();
-            mail.Text = cliente[4].ToString();
-            telefono.Text = cliente[5].ToString();
-            calle.Text = cliente[7].ToString();
-            piso.Text = cliente[8].ToString();
-            depto.Text = cliente[9].ToString();
-            codigoPostal.Text = cliente[10].ToString();
-            localidad.Text = cliente[12].ToString();
-            fechaNacimiento.Text = cliente[13].ToString();
-            habilitado.Checked = bool.Parse(cliente[14].ToString());
+            InitializeComponent();
+            desactivarErrores();
+
+            #region Se cargan los datos del cliente seleccionado en la pantalla
+                nombre.Text = cliente[1].ToString();
+                apellido.Text = cliente[2].ToString();
+                dni.Text = cliente[3].ToString();
+                mail.Text = cliente[4].ToString();
+                telefono.Text = cliente[5].ToString();
+                calle.Text = cliente[7].ToString();
+                piso.Text = cliente[8].ToString();
+                depto.Text = cliente[9].ToString();
+                codigoPostal.Text = cliente[10].ToString();
+                localidad.Text = cliente[12].ToString();
+                fechaNacimiento.Text = cliente[13].ToString();
+                habilitado.Checked = bool.Parse(cliente[14].ToString());
+            #endregion
 
             this.cliente = cliente;
-            desactivarErrores();
-        }
-
-        override protected void confirmarCliente_Click(object sender, EventArgs e)
-        {
-            desactivarErrores();
-            if (validacionCampos())
-            {
-                if (modificarCliente())
-                {
-                    MessageBox.Show("El cliente se modifico exitosamente");
-                    this.Hide();
-                }
-                else
-                    MessageBox.Show("No se ha podido modificar el cliente correctamente");
-            }
         }
 
         private bool modificarCliente()
         {
             //MODIFICACION DE CLIENTE
-            if (controlDeModificacionEnCliente())
+            if (seModificoAlgoEnCliente())
             {
-                string consultaModificarCliente = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente SET {0} WHERE cliente_id={1}; ", queModificarDelCliente, cliente[0]);
-                SqlCommand modificarCliente = new SqlCommand(consultaModificarCliente, Helper.dbOfertas);
-                SqlDataReader modificarClienteDataReader = modificarCliente.ExecuteReader();
-                if (modificarClienteDataReader.RecordsAffected <= 0)
-                {
-                    modificarClienteDataReader.Close();
+                if (!Helper.modificarCliente(cliente[0].ToString(), queModificarDelCliente))
                     return false;
-                }
-                modificarClienteDataReader.Close();
             }
 
             //MODIFICACION LOCALIDAD DEL CLIENTE
             if (!localidad.Text.Equals(cliente[11].ToString()))
             {
-                
+                if (!Helper.modificarLocalidad(cliente[6].ToString(), localidad.Text))
+                    return false;
             }
 
             //MODIFICACION DOMICILIO DEL CLIENTE
-            if (controlDeModificacionEnDomicilio())
+            if (seModificoAlgoEnDomicilio())
             {
-                string idDomicilio = cliente[6].ToString();
-                string consultaModificacinDomicilio = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Domicilio SET {0} WHERE domicilio_id={1}; ", queModificarDelDomicilio, idDomicilio);
-                SqlCommand modificarDomicilio = new SqlCommand(consultaModificacinDomicilio, Helper.dbOfertas);
-                SqlDataReader modificarDomicilioDataReader = modificarDomicilio.ExecuteReader();
-                if (modificarDomicilioDataReader.RecordsAffected <= 0)
-                {
-                    modificarDomicilioDataReader.Close();
+                if (!Helper.modificarDomicilio(cliente[6].ToString(), queModificarDelDomicilio))
                     return false;
-                }
-                modificarDomicilioDataReader.Close();
             }
             return true;
         }
 
-        private bool controlDeModificacionEnCliente()
+        private bool seModificoAlgoEnCliente()
         {
             bool seModificoCliente = false;
 
@@ -146,7 +121,7 @@ namespace FrbaOfertas.AbmCliente
             return seModificoCliente;
         }
 
-        private bool controlDeModificacionEnDomicilio()
+        private bool seModificoAlgoEnDomicilio()
         {
             bool seModificoAlgoDeDomicilio = false;
             if (!calle.Text.Equals(cliente[7].ToString()))
@@ -181,8 +156,20 @@ namespace FrbaOfertas.AbmCliente
             return seModificoAlgoDeDomicilio;
         }
 
-
-
+        override protected void confirmarCliente_Click(object sender, EventArgs e)
+        {
+            desactivarErrores();
+            if (validarCampos())
+            {
+                if (modificarCliente())
+                {
+                    MessageBox.Show("El cliente se modifico exitosamente");
+                    this.Hide();
+                }
+                else
+                    MessageBox.Show("No se ha podido modificar el cliente correctamente");
+            }
+        }
 
     }
 }

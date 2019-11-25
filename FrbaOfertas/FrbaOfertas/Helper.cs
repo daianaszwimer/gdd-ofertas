@@ -381,6 +381,86 @@ namespace FrbaOfertas
                 return null;
         }
 
+        public static bool modificarRubro(string idProveedor, string nombreRubro)
+        {
+            SqlCommand chequearRubro =
+                new SqlCommand(
+                    string.Format("SELECT rubro_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rubro WHERE rubro_descripcion='{0}'",
+                    nombreRubro), Helper.dbOfertas);
+
+            SqlDataReader dataReaderRubro = Helper.realizarConsultaSQL(chequearRubro);
+            if (dataReaderRubro != null)
+            {
+                if (dataReaderRubro.HasRows) // Rubro ya existe
+                {
+                    dataReaderRubro.Read();
+                    string idRubro = dataReaderRubro.GetValue(0).ToString();
+                    dataReaderRubro.Close();
+
+                    SqlCommand modificarProveedor =
+                        new SqlCommand(
+                            string.Format(
+                                "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET proveedor_id_rubro='{0}' WHERE proveedor_id={1};",
+                                idRubro, idProveedor), Helper.dbOfertas);
+
+                    SqlDataReader modificarProveedorDataReader = Helper.realizarConsultaSQL(modificarProveedor);
+                    if (modificarProveedorDataReader != null)
+                    {
+                        if (modificarProveedorDataReader.RecordsAffected <= 0)
+                        {
+                            modificarProveedorDataReader.Close();
+                            return false;
+                        }
+                        modificarProveedorDataReader.Close();
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                {
+                    dataReaderRubro.Close();
+                    SqlCommand insertarNuevoRubro =
+                        new SqlCommand(
+                            string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Rubro (rubro_descripcion) VALUES ('{0}'); " +
+                                            "SELECT SCOPE_IDENTITY()", nombreRubro), Helper.dbOfertas);
+
+                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoRubro);
+                    if (dataReader != null)
+                    {
+                        if (dataReader.Read())
+                        {
+                            string idRubro = dataReader.GetValue(0).ToString();
+                            dataReader.Close();
+                            SqlCommand modificarProveedor =
+                                    new SqlCommand(
+                                           string.Format(
+                                                "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET proveedor_id_rubro='{0}' WHERE proveedor_id={1};",
+                                                    idRubro, idProveedor), Helper.dbOfertas);
+
+                            SqlDataReader modificarProveedorDataReader = modificarProveedor.ExecuteReader();
+                            if (modificarProveedorDataReader.RecordsAffected <= 0)
+                            {
+                                modificarProveedorDataReader.Close();
+                                return false;
+                            }
+                            modificarProveedorDataReader.Close();
+                        }
+                        else
+                        {
+                            dataReader.Close();
+                            return false;
+                        }
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+            }
+            else
+                return false;
+        }
+
         public static bool insertarUsuario(string usuario, string contrasenia)
         {
             SqlCommand chequearExistenciaUsuario =
@@ -471,6 +551,47 @@ namespace FrbaOfertas
                     }
                 }
             }
+        }
+
+        public static bool modificarProveedor(string idProveedor, string queModificarDelProveedor)
+        {
+            string modificarProveedorString =
+                    string.Format(
+                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET {0} WHERE proveedor_id={1}; ", queModificarDelProveedor, idProveedor);
+
+            SqlCommand modificarProveedor = new SqlCommand(modificarProveedorString, Helper.dbOfertas);
+            SqlDataReader modificarProveedorDataReader = Helper.realizarConsultaSQL(modificarProveedor);
+            if (modificarProveedorDataReader != null)
+            {
+                if (modificarProveedorDataReader.RecordsAffected <= 0)
+                {
+                    modificarProveedorDataReader.Close();
+                    return false;
+                }
+                modificarProveedorDataReader.Close();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public static bool modificarCliente(string idCliente, string queModificarDelCliente)
+        {
+            string consultaModificarCliente = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente SET {0} WHERE cliente_id={1}; ", queModificarDelCliente, idCliente);
+            SqlCommand modificarCliente = new SqlCommand(consultaModificarCliente, Helper.dbOfertas);
+            SqlDataReader modificarClienteDataReader = Helper.realizarConsultaSQL(modificarCliente);
+            if (modificarClienteDataReader != null)
+            {
+                if (modificarClienteDataReader.RecordsAffected <= 0)
+                {
+                    modificarClienteDataReader.Close();
+                    return false;
+                }
+                modificarClienteDataReader.Close();
+                return true;
+            }
+            else
+                return false;
         }
 
         public static void insertarCliente(Form form, string idDomicilio, string usuario, string nombre, string apellido, string dni, string mail, string telefono, string fechaNacimiento)
