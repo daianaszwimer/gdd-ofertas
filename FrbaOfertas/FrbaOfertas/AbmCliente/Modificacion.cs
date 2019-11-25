@@ -50,7 +50,7 @@ namespace FrbaOfertas.AbmCliente
             }
 
             //MODIFICACION LOCALIDAD DEL CLIENTE
-            if (!localidad.Text.Equals(cliente[11].ToString()))
+            if (!localidad.Text.Equals(cliente[12].ToString()))
             {
                 if (!Helper.modificarLocalidad(cliente[6].ToString(), localidad.Text))
                     return false;
