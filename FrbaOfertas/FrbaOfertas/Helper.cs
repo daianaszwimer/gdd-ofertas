@@ -99,7 +99,7 @@ namespace FrbaOfertas
             }
             catch (Exception e)
             {
-                MessageBox.Show("No se pudo realizar la consulta SQL", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //TODO: [D] que no se siga ejecutando ese form
                 cerrarSesion();
                 return null;
@@ -476,58 +476,61 @@ namespace FrbaOfertas
         public static void insertarCliente(Form form, string idDomicilio, string usuario, string nombre, string apellido, string dni, string mail, string telefono, string fechaNacimiento)
         {
 
-            string consultaInsertarRolCliente = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario (rolesxusuario_id_usuario, rolesxusuario_id_rol) VALUES('{0}',{1})", dni, "3");
-            SqlCommand insertarRolCliente = new SqlCommand(consultaInsertarRolCliente, Helper.dbOfertas);
-            SqlDataReader dataReaderRolCliente = Helper.realizarConsultaSQL(insertarRolCliente);
-            if (dataReaderRolCliente != null)
+            SqlCommand insertarRolProveedor =
+                new SqlCommand(
+                    string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario (rolesxusuario_id_usuario, rolesxusuario_id_rol) VALUES('{0}',{1})",
+                    usuario, "3"), Helper.dbOfertas);
+
+            SqlDataReader dataReaderRolProveedor = Helper.realizarConsultaSQL(insertarRolProveedor);
+            if (dataReaderRolProveedor != null)
             {
-                if (dataReaderRolCliente.RecordsAffected == 0)
+                if (dataReaderRolProveedor.RecordsAffected == 0)
                 {
-                    dataReaderRolCliente.Close();
+                    dataReaderRolProveedor.Close();
                 }
                 else
                 {
-                    dataReaderRolCliente.Close();
-                    string consultaNuevoCliente = string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Cliente (cliente_id_domicilio,cliente_nombre," +
-                           "cliente_apellido,cliente_dni,cliente_mail,cliente_telefono,cliente_fecha_nacimiento, cliente_credito, cliente_id_usuario) " +
-                           "VALUES ({0},'{1}','{2}',{3},'{4}',{5},'{6}',{7},'{8}'); SELECT SCOPE_IDENTITY()",
-                           idDomicilio, nombre, apellido, dni, mail, telefono, fechaNacimiento, 200, usuario);
-                    SqlCommand insertarNuevoCliente = new SqlCommand(consultaNuevoCliente, Helper.dbOfertas);
-                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoCliente);
+                    dataReaderRolProveedor.Close();
+                    SqlCommand insertarNuevoProveedor =
+                        new SqlCommand(
+                            string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Cliente (cliente_nombre, cliente_apellido, " +
+                            "cliente_dni, cliente_mail , cliente_telefono, cliente_fecha_nacimiento, cliente_id_domicilio ," +
+                            "cliente_credito, cliente_id_usuario) VALUES ('{0}','{1}',{2},'{3}',{4},'{5}',{6},{7},'{8}'); SELECT SCOPE_IDENTITY()",
+                            nombre, apellido, dni, mail, telefono, fechaNacimiento, idDomicilio, 200, usuario), Helper.dbOfertas);
+
+                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoProveedor);
                     if (dataReader != null)
                     {
                         if (dataReader.RecordsAffected == 0)
                         {
-                            MessageBox.Show("Error al crear cliente", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             dataReader.Close();
-                            form.Hide();
+                            MessageBox.Show("Error al crear cliente", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            form.Close();
                         }
                         else
                         {
-
-                            MessageBox.Show("Cliente REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             dataReader.Close();
-                            form.Hide();
+                            MessageBox.Show("Cliente REGISTRADO", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            form.Close();
                         }
                     }
                 }
-
             }
         }
 
         public static bool usuarioUnico(Form form, string username)
         {
-            bool usuarioUnico = true;
             SqlCommand chequearExistenciaUsername =
                 new SqlCommand(
                     string.Format("SELECT usuario_username FROM NO_LO_TESTEAMOS_NI_UN_POCO.Usuario WHERE usuario_username='{0}'", username), Helper.dbOfertas);
             SqlDataReader dataReaderUsuario = Helper.realizarConsultaSQL(chequearExistenciaUsername);
             if (dataReaderUsuario.HasRows)
             {
-                usuarioUnico = false;
                 dataReaderUsuario.Close();
+                return false;
             }
-            return usuarioUnico;
+            dataReaderUsuario.Close();
+            return true;
         }
 
         public static bool? dniNoExisten(string dni)
@@ -535,9 +538,9 @@ namespace FrbaOfertas
             SqlCommand chequearExistencia =
                     new SqlCommand(
                         string.Format(
-                            "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor WHERE cliente_dni='{0}' ", dni), Helper.dbOfertas);
+                            "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE cliente_dni='{0}' ", dni), Helper.dbOfertas);
 
-            SqlDataReader dataReaderCliente = Helper.realizarConsultaSQL(chequearExistencia);
+            SqlDataReader dataReaderCliente = chequearExistencia.ExecuteReader();
             if (dataReaderCliente != null)
             {
                 if (dataReaderCliente.HasRows)
@@ -554,19 +557,6 @@ namespace FrbaOfertas
             else
                 return null;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public static bool? cuitYRazonSocialNoExisten(string cuit, string razonSocial)
         {

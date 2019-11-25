@@ -51,7 +51,7 @@
             this.localidad = new System.Windows.Forms.TextBox();
             this.depto = new System.Windows.Forms.TextBox();
             this.codigoPostal = new System.Windows.Forms.TextBox();
-            this.confirmar = new System.Windows.Forms.Button();
+            this.confirmarCliente = new System.Windows.Forms.Button();
             this.fechaNacimiento = new System.Windows.Forms.DateTimePicker();
             this.habilitado = new System.Windows.Forms.CheckBox();
             this.errorNombre = new System.Windows.Forms.ErrorProvider(this.components);
@@ -250,20 +250,20 @@
             this.codigoPostal.Size = new System.Drawing.Size(121, 20);
             this.codigoPostal.TabIndex = 23;
             // 
-            // confirmar
+            // confirmarCliente
             // 
-            this.confirmar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.confirmar.BackColor = System.Drawing.SystemColors.MenuHighlight;
-            this.confirmar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.confirmar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.confirmar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.confirmar.Location = new System.Drawing.Point(25, 335);
-            this.confirmar.Name = "confirmar";
-            this.confirmar.Size = new System.Drawing.Size(139, 33);
-            this.confirmar.TabIndex = 24;
-            this.confirmar.Text = "CONFIRMAR";
-            this.confirmar.UseVisualStyleBackColor = false;
-            this.confirmar.Click += new System.EventHandler(this.confirmarCliente_Click);
+            this.confirmarCliente.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.confirmarCliente.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.confirmarCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.confirmarCliente.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmarCliente.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.confirmarCliente.Location = new System.Drawing.Point(25, 335);
+            this.confirmarCliente.Name = "confirmarCliente";
+            this.confirmarCliente.Size = new System.Drawing.Size(139, 33);
+            this.confirmarCliente.TabIndex = 24;
+            this.confirmarCliente.Text = "CONFIRMAR";
+            this.confirmarCliente.UseVisualStyleBackColor = false;
+            this.confirmarCliente.Click += new System.EventHandler(this.confirmarCliente_Click);
             // 
             // fechaNacimiento
             // 
@@ -331,7 +331,7 @@
             this.ClientSize = new System.Drawing.Size(484, 412);
             this.Controls.Add(this.habilitado);
             this.Controls.Add(this.fechaNacimiento);
-            this.Controls.Add(this.confirmar);
+            this.Controls.Add(this.confirmarCliente);
             this.Controls.Add(this.codigoPostal);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.localidad);
@@ -379,7 +379,7 @@
             this.Controls.SetChildIndex(this.localidad, 0);
             this.Controls.SetChildIndex(this.label12, 0);
             this.Controls.SetChildIndex(this.codigoPostal, 0);
-            this.Controls.SetChildIndex(this.confirmar, 0);
+            this.Controls.SetChildIndex(this.confirmarCliente, 0);
             this.Controls.SetChildIndex(this.fechaNacimiento, 0);
             this.Controls.SetChildIndex(this.habilitado, 0);
             ((System.ComponentModel.ISupportInitialize)(this.errorNombre)).EndInit();
@@ -419,7 +419,7 @@
         protected System.Windows.Forms.TextBox localidad;
         protected System.Windows.Forms.TextBox codigoPostal;
         protected System.Windows.Forms.Label label12;
-        protected System.Windows.Forms.Button confirmar;
+        protected System.Windows.Forms.Button confirmarCliente;
         protected System.Windows.Forms.DateTimePicker fechaNacimiento;
         protected System.Windows.Forms.CheckBox habilitado;
         private System.Windows.Forms.ErrorProvider errorNombre;

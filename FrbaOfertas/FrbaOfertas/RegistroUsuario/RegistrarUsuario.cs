@@ -11,19 +11,18 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas
 {
-    public partial class RegistrarUsuario : BarraDeOpciones
+    public partial class RegistrarUsuario : Form
     {
-        string elUsername;
-        bool usuarioOk = false;
         bool camposOk = true;
 
         public RegistrarUsuario()
         {
             InitializeComponent();
+            Helper.conectarseABaseDeDatosOfertas();
             rol.DataSource = obtenerRolesPosibles();
         }
 
-        private void confirmar_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             desactivarErrores();
             if (camposObligatorios())
@@ -95,8 +94,6 @@ namespace FrbaOfertas
             errorPassword.Clear();
             errorRol.Clear();
         }
-
-        
 
         private List<String> obtenerRolesPosibles()
         {

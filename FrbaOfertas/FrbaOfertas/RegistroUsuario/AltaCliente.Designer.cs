@@ -32,8 +32,8 @@
             // 
             // confirmar
             // 
-            this.confirmar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.confirmar.Click += new System.EventHandler(this.confirmar_Click);
+            this.confirmarCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.confirmarCliente.Click += new System.EventHandler(this.confirmarCliente_Click);
             // 
             // AltaCliente
             // 

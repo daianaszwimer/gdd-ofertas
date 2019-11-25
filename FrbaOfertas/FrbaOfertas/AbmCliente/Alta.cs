@@ -16,9 +16,10 @@ namespace FrbaOfertas.AbmCliente
         public Alta()
         {
             InitializeComponent();
-            habilitado.Visible = false;
-            confirmar.Text = "CREAR";
             desactivarErrores();
+            habilitado.Visible = false;
+            confirmarCliente.Text = "CREAR";
+            
         }
 
         override protected void confirmarCliente_Click(object sender, EventArgs e)
