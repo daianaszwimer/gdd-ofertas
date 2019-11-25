@@ -167,11 +167,11 @@ namespace FrbaOfertas.AbmProveedor
             {
                 if (modificarProveedor())
                 {
-                    MessageBox.Show("El proveedor se modifico exitosamente");
+                    MessageBox.Show("El proveedor se modifico exitosamente", "Proveedor modificado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
                 }
                 else
-                    MessageBox.Show("No se ha podido modificar el proveedor correctamente");
+                    MessageBox.Show("No se ha podido modificar el proveedor", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

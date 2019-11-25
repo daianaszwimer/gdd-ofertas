@@ -183,12 +183,12 @@ namespace FrbaOfertas.AbmRol
             {
                 if (modificarRol())
                 {
-                    MessageBox.Show("El rol se modifico exitosamente");
+                    MessageBox.Show("El rol se modifico exitosamente", "Rol modificado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("No se ha podido modificar el rol correctamente");
+                    MessageBox.Show("No se ha podido modificar el rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

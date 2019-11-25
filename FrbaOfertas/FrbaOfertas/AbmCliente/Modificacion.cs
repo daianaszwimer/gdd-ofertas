@@ -163,11 +163,11 @@ namespace FrbaOfertas.AbmCliente
             {
                 if (modificarCliente())
                 {
-                    MessageBox.Show("El cliente se modifico exitosamente");
+                    MessageBox.Show("El cliente se modifico exitosamente", "Cliente Modificado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
                 }
                 else
-                    MessageBox.Show("No se ha podido modificar el cliente correctamente");
+                    MessageBox.Show("No se ha podido modificar el cliente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

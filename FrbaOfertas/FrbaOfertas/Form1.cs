@@ -38,11 +38,10 @@ namespace FrbaOfertas
                 SqlDataReader estadoUsuario = Helper.realizarConsultaSQL(chequearUsuario);
                 if (estadoUsuario != null)
                 {
-                    estadoUsuario.Read();
-                    int intentosLogin = (int)estadoUsuario.GetValue(1);
-
                     if (estadoUsuario.HasRows) // USUARIO EXISTE 
                     {
+                        estadoUsuario.Read();
+                        int intentosLogin = (int)estadoUsuario.GetValue(1);
                         estadoUsuario.Close();
                         SqlCommand chequearLogIn =
                             new SqlCommand(
