@@ -596,29 +596,29 @@ namespace FrbaOfertas
         public static void insertarCliente(Form form, string idDomicilio, string usuario, string nombre, string apellido, string dni, string mail, string telefono, string fechaNacimiento)
         {
 
-            SqlCommand insertarRolProveedor =
+            SqlCommand insertarRolCliente =
                 new SqlCommand(
                     string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario (rolesxusuario_id_usuario, rolesxusuario_id_rol) VALUES('{0}',{1})",
                     usuario, "3"), Helper.dbOfertas);
 
-            SqlDataReader dataReaderRolProveedor = Helper.realizarConsultaSQL(insertarRolProveedor);
-            if (dataReaderRolProveedor != null)
+            SqlDataReader dataReaderRolCliente = Helper.realizarConsultaSQL(insertarRolCliente);
+            if (dataReaderRolCliente != null)
             {
-                if (dataReaderRolProveedor.RecordsAffected == 0)
+                if (dataReaderRolCliente.RecordsAffected == 0)
                 {
-                    dataReaderRolProveedor.Close();
+                    dataReaderRolCliente.Close();
                 }
                 else
                 {
-                    dataReaderRolProveedor.Close();
-                    SqlCommand insertarNuevoProveedor =
+                    dataReaderRolCliente.Close();
+                    SqlCommand insertarNuevoCliente =
                         new SqlCommand(
                             string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Cliente (cliente_nombre, cliente_apellido, " +
                             "cliente_dni, cliente_mail , cliente_telefono, cliente_fecha_nacimiento, cliente_id_domicilio ," +
                             "cliente_credito, cliente_id_usuario) VALUES ('{0}','{1}',{2},'{3}',{4},'{5}',{6},{7},'{8}'); SELECT SCOPE_IDENTITY()",
                             nombre, apellido, dni, mail, telefono, fechaNacimiento, idDomicilio, 200, usuario), Helper.dbOfertas);
 
-                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoProveedor);
+                    SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoCliente);
                     if (dataReader != null)
                     {
                         if (dataReader.RecordsAffected == 0)
@@ -653,12 +653,12 @@ namespace FrbaOfertas
             return true;
         }
 
-        public static bool? dniNoExisten(string dni)
+        public static bool? dniYMailNoExisten(string dni, string mail)
         {
             SqlCommand chequearExistencia =
                     new SqlCommand(
                         string.Format(
-                            "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE cliente_dni='{0}' ", dni), Helper.dbOfertas);
+                            "SELECT cliente_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente WHERE (cliente_dni='{0}' OR cliente_mail='{1}')", dni, mail), Helper.dbOfertas);
 
             SqlDataReader dataReaderCliente = chequearExistencia.ExecuteReader();
             if (dataReaderCliente != null)

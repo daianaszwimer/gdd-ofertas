@@ -30,7 +30,7 @@ namespace FrbaOfertas.RegistroUsuario
             desactivarErrores();
             if (validacionCampos())
             {
-                bool? clienteNoExiste = Helper.dniNoExisten(dni.Text);
+                bool? clienteNoExiste = Helper.dniYMailNoExisten(dni.Text, mail.Text);
                 if (clienteNoExiste == true)
                 {
                     string idLocalidad = Helper.insertarLocalidad(localidad.Text);
@@ -52,7 +52,7 @@ namespace FrbaOfertas.RegistroUsuario
                 }
                 else if (clienteNoExiste == false)
                 {
-                    MessageBox.Show("Ya existe un cliente con ese Dni", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Ya existe un cliente con ese Dni y/o mail", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
