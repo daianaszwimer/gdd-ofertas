@@ -21,7 +21,7 @@ namespace FrbaOfertas.CrearOferta
             desactivarErrores();
             idProv = "";
             proveedor.Text = "";
-            if (Helper.rolesActuales.Contains("proveedor"))
+            if (Helper.rolesActuales.Contains("2"))
             {
                 labelProveedor.Visible = false;
                 proveedor.Visible = false;
@@ -170,7 +170,7 @@ namespace FrbaOfertas.CrearOferta
             }
 
             // Error Proveedor
-            if (!Helper.rolesActuales.Contains("proveedor"))
+            if (!Helper.rolesActuales.Contains("2"))
             {
                 if (string.IsNullOrWhiteSpace(proveedor.Text))
                 {

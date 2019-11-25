@@ -18,7 +18,7 @@ namespace FrbaOfertas.CragaCredito
         string sqlFormattedDate;
         List<List<string>> tarjetas = new List<List<string>>();
 
-        public Form1(string idTarjeta)
+        public Form1()
         {
             InitializeComponent();
             desactivarErrores();
@@ -26,7 +26,7 @@ namespace FrbaOfertas.CragaCredito
             sqlFormattedDate = Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff");
             cargarTiposDePago();
 
-            if (Helper.rolesActuales.Contains("cliente"))
+            if (Helper.rolesActuales.Contains("3"))
             {
                 labelCliente.Visible = false;
                 cliente.Visible = false;
@@ -105,7 +105,7 @@ namespace FrbaOfertas.CragaCredito
                 }
             }
 
-            if (!Helper.rolesActuales.Contains("cliente"))
+            if (!Helper.rolesActuales.Contains("3"))
             {
                 if (string.IsNullOrWhiteSpace(cliente.Text))
                 {

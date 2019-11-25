@@ -22,7 +22,7 @@ namespace FrbaOfertas.EntregaDeOferta
         public Form1() 
         {
             InitializeComponent();
-            if (Helper.rolesActuales.Contains("proveedor"))
+            if (Helper.rolesActuales.Contains("2"))
             {
                 labelProveedor.Visible = false;
                 proveedor.Visible = false;
@@ -109,7 +109,7 @@ namespace FrbaOfertas.EntregaDeOferta
         protected bool campoObligatorio()
         {
             camposOk = true;
-            if (!Helper.rolesActuales.Contains("proveedor") && proveedor.Text == string.Empty)
+            if (!Helper.rolesActuales.Contains("2") && proveedor.Text == string.Empty)
             {
                 errorProveedor.SetError(proveedor, "Campo Obligatorio");
                 camposOk = false;

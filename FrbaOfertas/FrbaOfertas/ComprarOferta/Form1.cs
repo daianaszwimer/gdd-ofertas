@@ -23,7 +23,7 @@ namespace FrbaOfertas.ComprarOferta
         public Form1()
         {
             InitializeComponent();
-            if (Helper.rolesActuales.Contains("cliente"))
+            if (Helper.rolesActuales.Contains("3"))
             {
                 labelCliente.Visible = false;
                 cliente.Visible = false;
@@ -124,7 +124,7 @@ namespace FrbaOfertas.ComprarOferta
         protected bool cuponObligatorio()
         {
             camposOk = true;
-            if (!Helper.rolesActuales.Contains("cliente") && cliente.Text == string.Empty)
+            if (!Helper.rolesActuales.Contains("3") && cliente.Text == string.Empty)
             {
                 errorCliente.SetError(cliente, "Campo Obligatorio");
                 camposOk = false;

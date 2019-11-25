@@ -13,10 +13,80 @@ namespace FrbaOfertas
 {
     public partial class Menu : Form
     {
+        bool tieneRolEliminado;
+        bool clienteEliminado;
+        bool clienteHabilitado;
+        bool proveedorEliminado;
+        bool proveedorHabilitado;
+        bool esCliente;
+        bool esProveedor;
+
         public Menu()
         {
             InitializeComponent();
+            tieneRolEliminado = false;
+            esCliente = false;
+            esProveedor = false;
+            clienteEliminado = false;
+            clienteHabilitado = false;
+            proveedorEliminado = false;
+            proveedorHabilitado = false;
+
             List<String> funcionalidades = obtenerFuncionalidadesSegunUsuario(Helper.usuarioActual);
+            if (Helper.rolesActuales.Contains("2")) // Es proveedor
+            {
+                esProveedor = true;
+                SqlCommand obtenerIdProveedor = new SqlCommand("SELECT proveedor_eliminado, proveedor_habilitado FROM NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = proveedor_id_usuario WHERE usuario_username='" + Helper.usuarioActual + "'", Helper.dbOfertas);
+                SqlDataReader dataReaderProveedor = Helper.realizarConsultaSQL(obtenerIdProveedor);
+                if (dataReaderProveedor != null)
+                {
+                    if (dataReaderProveedor.HasRows)
+                    {
+                        dataReaderProveedor.Read();
+                        proveedorEliminado = bool.Parse(dataReaderProveedor.GetValue(0).ToString());
+                        proveedorHabilitado = bool.Parse(dataReaderProveedor.GetValue(1).ToString());
+                        dataReaderProveedor.Close();
+                        if (proveedorEliminado)
+                        {
+                            MessageBox.Show("No puede acceder a ninguna funcionalidad\nporque usted como proveedor fue eliminado.\nContacte al administrador", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            funcionalidades = new List<string>();
+                        }
+                    }
+                    else
+                        dataReaderProveedor.Close();
+                }
+                else
+                    funcionalidades = new List<string>();
+            }
+
+            if (Helper.rolesActuales.Contains("3")) // Es cliente
+            {
+                esCliente = true;
+                string consultaCliente = string.Format("SELECT cliente_eliminado, cliente_habilitado FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente " +
+                                                        "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = cliente_id_usuario " +
+                                                        "WHERE usuario_username='{0}'", Helper.usuarioActual);
+                SqlCommand obtenerIdCliente = new SqlCommand(consultaCliente, Helper.dbOfertas);
+                SqlDataReader dataReader = Helper.realizarConsultaSQL(obtenerIdCliente);
+                if (dataReader != null)
+                {
+                    if (dataReader.HasRows)
+                    {
+                        dataReader.Read();
+                        clienteEliminado = bool.Parse(dataReader.GetValue(0).ToString());
+                        clienteHabilitado = bool.Parse(dataReader.GetValue(1).ToString());
+                        dataReader.Close();
+                        if (clienteEliminado)
+                        {
+                            MessageBox.Show("No puede acceder a ninguna funcionalidad\nporque usted como cliente fue eliminado.\nContacte al administrador", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            funcionalidades = new List<string>();
+                        }
+                    }
+                    else
+                        dataReader.Close();
+                }
+                else
+                    funcionalidades = new List<string>();
+            }
             mostrarListadoDeFuncionalidades(funcionalidades);
         }
 
@@ -24,7 +94,7 @@ namespace FrbaOfertas
         {
             List<String> funcionalidades = new List<string>();
             SqlCommand seleccionarFuncionalidades =
-                new SqlCommand("SELECT funcionalidad_descripcion, rol_nombre FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol " +
+                new SqlCommand("SELECT funcionalidad_descripcion, rol_nombre, rol_id, rol_eliminado FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rol " +
                                     "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.FuncionalidadxRol ON funcionalidadxrol_id_rol = rol_id " +
                                     "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Funcionalidad ON funcionalidad_id = funcionalidadxrol_id_funcionalidad " +
                                     "JOIN NO_LO_TESTEAMOS_NI_UN_POCO.RolesxUsuario ON rolesxusuario_id_rol = rol_id " +
@@ -33,16 +103,35 @@ namespace FrbaOfertas
             SqlDataReader dataReader = Helper.realizarConsultaSQL(seleccionarFuncionalidades);
             if (dataReader != null)
             {
-                while (dataReader.Read())
+                if (dataReader.HasRows)
                 {
-                    string funcionalidad = dataReader.GetValue(0).ToString();
-                    string rol = dataReader.GetValue(1).ToString();
-                    funcionalidades.Add(funcionalidad);
+                    while (dataReader.Read())
+                    {
+                        string funcionalidad = dataReader.GetValue(0).ToString();
+                        string rol = dataReader.GetValue(1).ToString();
+                        string idRol = dataReader.GetValue(2).ToString();
+                        bool rolEliminado = bool.Parse(dataReader.GetValue(3).ToString());
 
-                    if (!Helper.rolesActuales.Contains(rol))
-                        Helper.rolesActuales.Add(rol);
+                        if (rolEliminado)
+                            tieneRolEliminado = true;
+
+                        funcionalidades.Add(funcionalidad);
+
+                        if (!Helper.rolesActuales.Contains(idRol))
+                            Helper.rolesActuales.Add(idRol);
+                    }
+                    dataReader.Close();
+                    if (tieneRolEliminado)
+                    {
+                        MessageBox.Show("No puede acceder a ninguna funcionalidad\nporque su rol fue eliminado.\nContacte al administrador", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return new List<string>();
+                    }
                 }
-                dataReader.Close();
+                else
+                {
+                    MessageBox.Show("No puede acceder a ninguna funcionalidad\nporque no tiene un rol asignado.\nContacte al administrador", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return new List<string>();
+                }
             }
             return funcionalidades;
         }
@@ -90,9 +179,51 @@ namespace FrbaOfertas
                 case "Listado Estadistico": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ListadoEstadistico.Form1()).Show(); this.Close(); }; break;
                 case "Facturacion a Proveedor": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new Facturar.Form1()).Show(); this.Close(); }; break;
                 case "Baja y Modificacion Usuario": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new BajaYModificacionUsuario.Form1()).Show(); this.Close(); }; break;
-                case "Carga de Credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CragaCredito.Form1("")).Show(); this.Close(); }; break;
-                case "Confeccion y Publicacion de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CrearOferta.Form1()).Show(); this.Close(); }; break;
-                case "Compra de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new ComprarOferta.Form1()).Show(); this.Close(); }; break;
+                case "Carga de Credito": buttonFuncionalidad.Click += (object sender, EventArgs e) => 
+                {
+                    if (esCliente)
+                    {
+                        if (!clienteHabilitado)
+                        {
+                            MessageBox.Show("No puede cargarse credito porque usted como\ncliente se encuentra inhabilitado.\nContacte al administrador", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            (new Menu()).Show();
+                        }
+                        else
+                            (new CragaCredito.Form1()).Show(); this.Close();
+                    }
+                    else
+                        (new CragaCredito.Form1()).Show(); this.Close();
+                }; break;
+                case "Confeccion y Publicacion de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => 
+                {
+                    if (esProveedor)
+                    {
+                        if (!proveedorHabilitado)
+                        {
+                            MessageBox.Show("No puede crear ofertas porque usted como\nproveedor se encuentra inhabilitado.\nContacte al administrador", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            (new Menu()).Show();
+                        }
+                        else
+                            (new CrearOferta.Form1()).Show(); this.Close(); 
+                    }
+                    else
+                        (new CrearOferta.Form1()).Show(); this.Close(); 
+                }; break;
+                case "Compra de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => 
+                {
+                    if (esCliente)
+                    {
+                        if (!clienteHabilitado)
+                        {
+                            MessageBox.Show("No puede comprar ofertas porque usted como\ncliente se encuentra inhabilitado.\nContacte al administrador", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            (new Menu()).Show();
+                        }
+                        else
+                            (new ComprarOferta.Form1()).Show(); this.Close();
+                    }
+                    else
+                        (new ComprarOferta.Form1()).Show(); this.Close(); 
+                }; break;
                 case "Entrega/Consumo de Ofertas": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new EntregaDeOferta.Form1()).Show(); this.Close(); }; break;
                 case "Cambiar Contraseña": buttonFuncionalidad.Click += (object sender, EventArgs e) => { (new CambiarPassword.Form1()).Show(); this.Close(); }; break;
                 case "Cerrar Sesion": buttonFuncionalidad.Click += (object sender, EventArgs e) => { Helper.cerrarSesion(); }; break;
