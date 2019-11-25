@@ -41,12 +41,13 @@
             // 
             // confirmar
             // 
+            this.confirmar.BackColor = System.Drawing.Color.SandyBrown;
             this.confirmar.Location = new System.Drawing.Point(659, 403);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 20;
             this.confirmar.Text = "Confirmar";
-            this.confirmar.UseVisualStyleBackColor = true;
+            this.confirmar.UseVisualStyleBackColor = false;
             this.confirmar.Click += new System.EventHandler(this.confirmar_Click);
             // 
             // ListadoClientes
@@ -56,7 +57,6 @@
             this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.confirmar);
             this.Name = "ListadoClientes";
-            this.Text = "ListadoClientes";
             this.Controls.SetChildIndex(this.modificar, 0);
             this.Controls.SetChildIndex(this.eliminar, 0);
             this.Controls.SetChildIndex(this.confirmar, 0);

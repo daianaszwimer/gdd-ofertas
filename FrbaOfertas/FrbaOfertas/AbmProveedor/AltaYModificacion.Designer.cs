@@ -85,7 +85,7 @@
             this.confirmar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
             this.confirmar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.confirmar.Location = new System.Drawing.Point(212, 279);
+            this.confirmar.Location = new System.Drawing.Point(212, 272);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(139, 32);
             this.confirmar.TabIndex = 48;
@@ -347,7 +347,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(767, 438);
+            this.ClientSize = new System.Drawing.Size(384, 362);
             this.Controls.Add(this.habilitado);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);

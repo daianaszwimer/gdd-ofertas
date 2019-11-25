@@ -163,7 +163,7 @@
             this.Controls.Add(this.comprar);
             this.Controls.Add(this.seleccionarOferta);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Compra de oferta";
             this.Controls.SetChildIndex(this.seleccionarOferta, 0);
             this.Controls.SetChildIndex(this.comprar, 0);
             this.Controls.SetChildIndex(this.descripcionOferta, 0);
