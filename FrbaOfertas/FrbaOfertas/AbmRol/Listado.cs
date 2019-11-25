@@ -20,6 +20,7 @@ namespace FrbaOfertas.AbmRol
             InitializeComponent();
             modificar.Visible = false;
             eliminar.Visible = false;
+            asignarRolAUsuario.Visible = false;
             tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
         }
 
@@ -29,11 +30,19 @@ namespace FrbaOfertas.AbmRol
             {
                 modificar.Visible = false;
                 eliminar.Visible = false;
+                asignarRolAUsuario.Visible = false;
             }
             else
             {
+                object[] rol = Helper.obtenerValoresFilaSeleccionada(tablaDeResultados);
                 modificar.Visible = true;
                 eliminar.Visible = true;
+                asignarRolAUsuario.Visible = true;
+
+                if (bool.Parse(rol[3].ToString()))
+                    asignarRolAUsuario.Enabled = true;
+                else
+                    asignarRolAUsuario.Enabled = false;
             }
         }
 
@@ -103,6 +112,12 @@ namespace FrbaOfertas.AbmRol
                 }
                 dataReader.Close();
             }
+        }
+
+        private void asignarRolAUsuario_Click(object sender, EventArgs e)
+        {
+            object[] rol = Helper.obtenerValoresFilaSeleccionada(tablaDeResultados);
+            (new AbmRol.AsignarUsuario(rol)).Show();
         }
     }
 }

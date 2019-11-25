@@ -474,7 +474,6 @@ namespace FrbaOfertas
                 {
                     dataReaderUsuario.Close();
                     MessageBox.Show("El usuario ya existe", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Helper.cerrarSesion();
                     return false;
                 }
                 else

@@ -37,6 +37,7 @@
             this.tablaDeResultados = new System.Windows.Forms.DataGridView();
             this.modificar = new System.Windows.Forms.Button();
             this.eliminar = new System.Windows.Forms.Button();
+            this.asignarRolAUsuario = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -135,11 +136,22 @@
             this.eliminar.UseVisualStyleBackColor = true;
             this.eliminar.Click += new System.EventHandler(this.eliminar_Click);
             // 
+            // asignarRolAUsuario
+            // 
+            this.asignarRolAUsuario.Location = new System.Drawing.Point(188, 319);
+            this.asignarRolAUsuario.Name = "asignarRolAUsuario";
+            this.asignarRolAUsuario.Size = new System.Drawing.Size(92, 23);
+            this.asignarRolAUsuario.TabIndex = 9;
+            this.asignarRolAUsuario.Text = "Asignar Usuario";
+            this.asignarRolAUsuario.UseVisualStyleBackColor = true;
+            this.asignarRolAUsuario.Click += new System.EventHandler(this.asignarRolAUsuario_Click);
+            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(466, 354);
+            this.Controls.Add(this.asignarRolAUsuario);
             this.Controls.Add(this.eliminar);
             this.Controls.Add(this.modificar);
             this.Controls.Add(this.funcionalidadesComboBox);
@@ -151,6 +163,16 @@
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "Listado";
             this.Text = "Listado";
+            this.Controls.SetChildIndex(this.tablaDeResultados, 0);
+            this.Controls.SetChildIndex(this.limpiar, 0);
+            this.Controls.SetChildIndex(this.buscar, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.rolTextBox, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.funcionalidadesComboBox, 0);
+            this.Controls.SetChildIndex(this.modificar, 0);
+            this.Controls.SetChildIndex(this.eliminar, 0);
+            this.Controls.SetChildIndex(this.asignarRolAUsuario, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -168,6 +190,7 @@
         private System.Windows.Forms.ComboBox funcionalidadesComboBox;
         private System.Windows.Forms.Button modificar;
         private System.Windows.Forms.Button eliminar;
+        private System.Windows.Forms.Button asignarRolAUsuario;
 
     }
 }

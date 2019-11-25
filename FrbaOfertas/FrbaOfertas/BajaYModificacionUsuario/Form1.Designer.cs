@@ -137,10 +137,10 @@
 
         private System.Windows.Forms.Button buscar;
         private System.Windows.Forms.Button limpiar;
-        private System.Windows.Forms.DataGridView tablaDeResultados;
-        private System.Windows.Forms.Button eliminar;
-        private System.Windows.Forms.Button modificar;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox username;
+        protected System.Windows.Forms.DataGridView tablaDeResultados;
+        protected System.Windows.Forms.Button eliminar;
+        protected System.Windows.Forms.Button modificar;
+        protected System.Windows.Forms.TextBox username;
     }
 }

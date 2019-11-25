@@ -13,7 +13,7 @@ namespace FrbaOfertas.BajaYModificacionUsuario
 {
     public partial class Form1 : BarraDeOpciones
     {
-        DataSet usuariosDataSet = new DataSet();
+        protected DataSet usuariosDataSet = new DataSet();
 
         public Form1()
         {
@@ -23,7 +23,7 @@ namespace FrbaOfertas.BajaYModificacionUsuario
             tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
         }
 
-        private void tablaDeResultados_SelectionChanged(object sender, EventArgs e)
+        protected virtual void tablaDeResultados_SelectionChanged(object sender, EventArgs e)
         {
             if (tablaDeResultados.SelectedRows.Count == 0)
             {
@@ -42,7 +42,7 @@ namespace FrbaOfertas.BajaYModificacionUsuario
             usuariosDataSet.Clear();
         }
 
-        private void buscar_Click(object sender, EventArgs e)
+        protected virtual void buscar_Click(object sender, EventArgs e)
         {
             usuariosDataSet.Clear();
             string consultaUsuarios =
