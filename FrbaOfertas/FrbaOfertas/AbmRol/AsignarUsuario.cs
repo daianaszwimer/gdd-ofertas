@@ -84,5 +84,10 @@ namespace FrbaOfertas.AbmRol
             usuario.Text = username;
         }
 
+        private void AsignarUsuario_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

@@ -49,7 +49,7 @@
             // 
             // seleccionarOferta
             // 
-            this.seleccionarOferta.Location = new System.Drawing.Point(336, 118);
+            this.seleccionarOferta.Location = new System.Drawing.Point(462, 160);
             this.seleccionarOferta.Name = "seleccionarOferta";
             this.seleccionarOferta.Size = new System.Drawing.Size(79, 23);
             this.seleccionarOferta.TabIndex = 3;
@@ -64,7 +64,7 @@
             this.comprar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
             this.comprar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comprar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.comprar.Location = new System.Drawing.Point(321, 230);
+            this.comprar.Location = new System.Drawing.Point(423, 270);
             this.comprar.Name = "comprar";
             this.comprar.Size = new System.Drawing.Size(118, 33);
             this.comprar.TabIndex = 4;
@@ -75,7 +75,7 @@
             // descripcionOferta
             // 
             this.descripcionOferta.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.descripcionOferta.Location = new System.Drawing.Point(85, 120);
+            this.descripcionOferta.Location = new System.Drawing.Point(211, 162);
             this.descripcionOferta.Name = "descripcionOferta";
             this.descripcionOferta.Size = new System.Drawing.Size(218, 20);
             this.descripcionOferta.TabIndex = 6;
@@ -83,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 123);
+            this.label2.Location = new System.Drawing.Point(163, 165);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 7;
@@ -92,7 +92,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 161);
+            this.label3.Location = new System.Drawing.Point(153, 203);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 13);
             this.label3.TabIndex = 8;
@@ -100,7 +100,7 @@
             // 
             // unidadDeOferta
             // 
-            this.unidadDeOferta.Location = new System.Drawing.Point(85, 159);
+            this.unidadDeOferta.Location = new System.Drawing.Point(211, 201);
             this.unidadDeOferta.Name = "unidadDeOferta";
             this.unidadDeOferta.Size = new System.Drawing.Size(52, 20);
             this.unidadDeOferta.TabIndex = 10;
@@ -108,7 +108,7 @@
             // 
             // seleccionarCliente
             // 
-            this.seleccionarCliente.Location = new System.Drawing.Point(336, 80);
+            this.seleccionarCliente.Location = new System.Drawing.Point(462, 122);
             this.seleccionarCliente.Name = "seleccionarCliente";
             this.seleccionarCliente.Size = new System.Drawing.Size(79, 23);
             this.seleccionarCliente.TabIndex = 29;
@@ -119,7 +119,7 @@
             // cliente
             // 
             this.cliente.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.cliente.Location = new System.Drawing.Point(85, 83);
+            this.cliente.Location = new System.Drawing.Point(211, 125);
             this.cliente.Name = "cliente";
             this.cliente.Size = new System.Drawing.Size(218, 20);
             this.cliente.TabIndex = 28;
@@ -127,7 +127,7 @@
             // labelCliente
             // 
             this.labelCliente.AutoSize = true;
-            this.labelCliente.Location = new System.Drawing.Point(34, 86);
+            this.labelCliente.Location = new System.Drawing.Point(160, 128);
             this.labelCliente.Name = "labelCliente";
             this.labelCliente.Size = new System.Drawing.Size(45, 13);
             this.labelCliente.TabIndex = 27;
@@ -152,7 +152,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 312);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.seleccionarCliente);
             this.Controls.Add(this.cliente);
             this.Controls.Add(this.labelCliente);

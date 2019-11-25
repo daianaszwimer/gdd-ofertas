@@ -66,17 +66,17 @@
     <Compile Include="AbmCliente\AltaYModificacion.Designer.cs">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmCliente\Alta.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AbmCliente\Alta.Designer.cs">
-      <DependentUpon>Alta.cs</DependentUpon>
-    </Compile>
     <Compile Include="AbmCliente\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AbmCliente\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCliente\Alta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCliente\Alta.Designer.cs">
+      <DependentUpon>Alta.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmCliente\Listado.cs">
       <SubType>Form</SubType>
@@ -291,9 +291,6 @@
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <EmbeddedResource Include="AbmCliente\Alta.resx">
-      <DependentUpon>Alta.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AbmCliente\AltaYModificacion.resx">
       <DependentUpon>AltaYModificacion.cs</DependentUpon>
     </EmbeddedResource>
@@ -386,6 +383,9 @@
     </Compile>
     <EmbeddedResource Include="RegistroUsuario\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistroUsuario\AltaProveedor.resx">
+      <DependentUpon>AltaProveedor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RegistroUsuario\RegistrarUsuario.resx">
       <DependentUpon>RegistrarUsuario.cs</DependentUpon>

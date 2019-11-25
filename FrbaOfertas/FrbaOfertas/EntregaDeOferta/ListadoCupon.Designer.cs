@@ -43,10 +43,10 @@
             this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(31, 83);
+            this.tablaDeResultados.Location = new System.Drawing.Point(20, 83);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(200, 190);
+            this.tablaDeResultados.Size = new System.Drawing.Size(240, 167);
             this.tablaDeResultados.TabIndex = 4;
             // 
             // confirm
@@ -61,14 +61,14 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(31, 57);
+            this.textBox1.Location = new System.Drawing.Point(20, 57);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(118, 20);
             this.textBox1.TabIndex = 8;
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(156, 57);
+            this.buscar.Location = new System.Drawing.Point(185, 54);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(75, 23);
             this.buscar.TabIndex = 9;
@@ -79,7 +79,7 @@
             // codigoCupon
             // 
             this.codigoCupon.AutoSize = true;
-            this.codigoCupon.Location = new System.Drawing.Point(31, 38);
+            this.codigoCupon.Location = new System.Drawing.Point(17, 41);
             this.codigoCupon.Name = "codigoCupon";
             this.codigoCupon.Size = new System.Drawing.Size(73, 13);
             this.codigoCupon.TabIndex = 10;
@@ -89,7 +89,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 312);
+            this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.codigoCupon);
             this.Controls.Add(this.buscar);
             this.Controls.Add(this.textBox1);

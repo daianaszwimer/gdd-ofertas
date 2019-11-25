@@ -54,15 +54,15 @@
             "Entrega/Consumo de oferta",
             "Facturacion a Proveedor",
             "Listado Estadistico"});
-            this.funcionalidadesComboBox.Location = new System.Drawing.Point(305, 26);
+            this.funcionalidadesComboBox.Location = new System.Drawing.Point(357, 45);
             this.funcionalidadesComboBox.Name = "funcionalidadesComboBox";
-            this.funcionalidadesComboBox.Size = new System.Drawing.Size(136, 21);
+            this.funcionalidadesComboBox.Size = new System.Drawing.Size(210, 21);
             this.funcionalidadesComboBox.TabIndex = 6;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(226, 30);
+            this.label2.Location = new System.Drawing.Point(269, 48);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 5;
@@ -70,15 +70,15 @@
             // 
             // rolTextBox
             // 
-            this.rolTextBox.Location = new System.Drawing.Point(48, 27);
+            this.rolTextBox.Location = new System.Drawing.Point(48, 45);
             this.rolTextBox.Name = "rolTextBox";
-            this.rolTextBox.Size = new System.Drawing.Size(120, 20);
+            this.rolTextBox.Size = new System.Drawing.Size(192, 20);
             this.rolTextBox.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 30);
+            this.label1.Location = new System.Drawing.Point(19, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 13);
             this.label1.TabIndex = 3;
@@ -86,7 +86,7 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(366, 69);
+            this.buscar.Location = new System.Drawing.Point(671, 84);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(75, 23);
             this.buscar.TabIndex = 2;
@@ -96,7 +96,7 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(22, 69);
+            this.limpiar.Location = new System.Drawing.Point(22, 84);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(75, 23);
             this.limpiar.TabIndex = 1;
@@ -108,17 +108,18 @@
             // 
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
+            this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaDeResultados.Location = new System.Drawing.Point(22, 113);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(419, 191);
+            this.tablaDeResultados.Size = new System.Drawing.Size(724, 284);
             this.tablaDeResultados.TabIndex = 0;
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(286, 319);
+            this.modificar.Location = new System.Drawing.Point(591, 403);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(75, 23);
             this.modificar.TabIndex = 7;
@@ -128,7 +129,7 @@
             // 
             // eliminar
             // 
-            this.eliminar.Location = new System.Drawing.Point(367, 319);
+            this.eliminar.Location = new System.Drawing.Point(672, 403);
             this.eliminar.Name = "eliminar";
             this.eliminar.Size = new System.Drawing.Size(75, 23);
             this.eliminar.TabIndex = 8;
@@ -138,7 +139,7 @@
             // 
             // asignarRolAUsuario
             // 
-            this.asignarRolAUsuario.Location = new System.Drawing.Point(188, 319);
+            this.asignarRolAUsuario.Location = new System.Drawing.Point(493, 403);
             this.asignarRolAUsuario.Name = "asignarRolAUsuario";
             this.asignarRolAUsuario.Size = new System.Drawing.Size(92, 23);
             this.asignarRolAUsuario.TabIndex = 9;
@@ -150,7 +151,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(466, 354);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.asignarRolAUsuario);
             this.Controls.Add(this.eliminar);
             this.Controls.Add(this.modificar);

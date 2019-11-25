@@ -29,19 +29,20 @@
         private void InitializeComponent()
         {
             this.confirmar = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.usuariosDataSet)).BeginInit();
             this.SuspendLayout();
             // 
             // eliminar
             // 
-            this.eliminar.Location = new System.Drawing.Point(294, 323);
+            this.eliminar.Location = new System.Drawing.Point(578, 403);
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(213, 323);
+            this.modificar.Location = new System.Drawing.Point(497, 403);
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(380, 323);
+            this.confirmar.Location = new System.Drawing.Point(664, 403);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 13;
@@ -53,13 +54,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 367);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.confirmar);
             this.Name = "ListadoUsuarios";
             this.Text = "ListadoUsuarios";
+            this.Controls.SetChildIndex(this.username, 0);
             this.Controls.SetChildIndex(this.modificar, 0);
             this.Controls.SetChildIndex(this.eliminar, 0);
             this.Controls.SetChildIndex(this.confirmar, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.usuariosDataSet)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

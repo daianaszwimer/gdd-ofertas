@@ -43,7 +43,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 44);
+            this.label1.Location = new System.Drawing.Point(23, 85);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 13);
             this.label1.TabIndex = 0;
@@ -52,7 +52,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 77);
+            this.label2.Location = new System.Drawing.Point(23, 135);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(95, 13);
             this.label2.TabIndex = 1;
@@ -60,21 +60,21 @@
             // 
             // passwordAnterior
             // 
-            this.passwordAnterior.Location = new System.Drawing.Point(139, 41);
+            this.passwordAnterior.Location = new System.Drawing.Point(139, 82);
             this.passwordAnterior.Name = "passwordAnterior";
             this.passwordAnterior.Size = new System.Drawing.Size(116, 20);
             this.passwordAnterior.TabIndex = 2;
             // 
             // passwordNueva
             // 
-            this.passwordNueva.Location = new System.Drawing.Point(139, 74);
+            this.passwordNueva.Location = new System.Drawing.Point(139, 132);
             this.passwordNueva.Name = "passwordNueva";
             this.passwordNueva.Size = new System.Drawing.Size(116, 20);
             this.passwordNueva.TabIndex = 3;
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(180, 107);
+            this.confirmar.Location = new System.Drawing.Point(180, 179);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 4;
@@ -94,14 +94,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 147);
+            this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.confirmar);
             this.Controls.Add(this.passwordNueva);
             this.Controls.Add(this.passwordAnterior);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Cambiar Password";
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.passwordAnterior, 0);

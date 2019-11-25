@@ -40,7 +40,7 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(380, 79);
+            this.buscar.Location = new System.Drawing.Point(659, 79);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(75, 23);
             this.buscar.TabIndex = 5;
@@ -67,12 +67,12 @@
             this.tablaDeResultados.Location = new System.Drawing.Point(36, 117);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(419, 191);
+            this.tablaDeResultados.Size = new System.Drawing.Size(698, 273);
             this.tablaDeResultados.TabIndex = 3;
             // 
             // eliminar
             // 
-            this.eliminar.Location = new System.Drawing.Point(380, 324);
+            this.eliminar.Location = new System.Drawing.Point(659, 403);
             this.eliminar.Name = "eliminar";
             this.eliminar.Size = new System.Drawing.Size(75, 23);
             this.eliminar.TabIndex = 10;
@@ -82,7 +82,7 @@
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(299, 324);
+            this.modificar.Location = new System.Drawing.Point(578, 403);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(75, 23);
             this.modificar.TabIndex = 9;
@@ -110,7 +110,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 367);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.username);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.eliminar);
@@ -119,7 +119,7 @@
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Listado de Usuarios";
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.buscar, 0);

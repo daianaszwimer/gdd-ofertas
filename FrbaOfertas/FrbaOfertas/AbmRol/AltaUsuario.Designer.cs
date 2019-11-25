@@ -43,7 +43,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 23);
+            this.label1.Location = new System.Drawing.Point(24, 64);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 0;
@@ -52,7 +52,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 53);
+            this.label2.Location = new System.Drawing.Point(61, 112);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 1;
@@ -60,14 +60,14 @@
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(144, 20);
+            this.username.Location = new System.Drawing.Point(138, 61);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(126, 20);
             this.username.TabIndex = 2;
             // 
             // password
             // 
-            this.password.Location = new System.Drawing.Point(144, 50);
+            this.password.Location = new System.Drawing.Point(138, 109);
             this.password.Name = "password";
             this.password.PasswordChar = '*';
             this.password.Size = new System.Drawing.Size(126, 20);
@@ -76,7 +76,7 @@
             // 
             // crear
             // 
-            this.crear.Location = new System.Drawing.Point(195, 83);
+            this.crear.Location = new System.Drawing.Point(189, 158);
             this.crear.Name = "crear";
             this.crear.Size = new System.Drawing.Size(75, 23);
             this.crear.TabIndex = 4;
@@ -98,7 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(310, 118);
+            this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.crear);
             this.Controls.Add(this.password);
             this.Controls.Add(this.username);

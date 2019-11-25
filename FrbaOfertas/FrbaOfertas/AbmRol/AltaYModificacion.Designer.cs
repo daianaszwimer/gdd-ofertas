@@ -44,7 +44,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(28, 40);
+            this.label1.Location = new System.Drawing.Point(45, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 0;
@@ -52,7 +52,7 @@
             // 
             // nombre
             // 
-            this.nombre.Location = new System.Drawing.Point(118, 37);
+            this.nombre.Location = new System.Drawing.Point(135, 44);
             this.nombre.Name = "nombre";
             this.nombre.Size = new System.Drawing.Size(100, 20);
             this.nombre.TabIndex = 1;
@@ -60,7 +60,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 83);
+            this.label2.Location = new System.Drawing.Point(45, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(84, 13);
             this.label2.TabIndex = 3;
@@ -69,14 +69,14 @@
             // funcionalidadesASeleccionar
             // 
             this.funcionalidadesASeleccionar.FormattingEnabled = true;
-            this.funcionalidadesASeleccionar.Location = new System.Drawing.Point(31, 108);
+            this.funcionalidadesASeleccionar.Location = new System.Drawing.Point(48, 113);
             this.funcionalidadesASeleccionar.Name = "funcionalidadesASeleccionar";
             this.funcionalidadesASeleccionar.Size = new System.Drawing.Size(187, 94);
             this.funcionalidadesASeleccionar.TabIndex = 4;
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(143, 218);
+            this.confirmar.Location = new System.Drawing.Point(160, 230);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 5;
@@ -87,7 +87,7 @@
             // habilitado
             // 
             this.habilitado.AutoSize = true;
-            this.habilitado.Location = new System.Drawing.Point(31, 222);
+            this.habilitado.Location = new System.Drawing.Point(48, 234);
             this.habilitado.Name = "habilitado";
             this.habilitado.Size = new System.Drawing.Size(73, 17);
             this.habilitado.TabIndex = 6;
@@ -108,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.habilitado);
             this.Controls.Add(this.confirmar);
             this.Controls.Add(this.funcionalidadesASeleccionar);

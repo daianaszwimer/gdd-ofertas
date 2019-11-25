@@ -30,7 +30,7 @@
         {
             this.SuspendLayout();
             // 
-            // confirmar
+            // confirmarCliente
             // 
             this.confirmarCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
             this.confirmarCliente.Click += new System.EventHandler(this.confirmarCliente_Click);
@@ -39,7 +39,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 512);
+            this.ClientSize = new System.Drawing.Size(384, 362);
             this.Name = "AltaCliente";
             this.Text = "AltaCliente";
             this.ResumeLayout(false);

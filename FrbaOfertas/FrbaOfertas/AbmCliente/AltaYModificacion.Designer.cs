@@ -257,7 +257,7 @@
             this.confirmarCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
             this.confirmarCliente.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.confirmarCliente.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.confirmarCliente.Location = new System.Drawing.Point(25, 335);
+            this.confirmarCliente.Location = new System.Drawing.Point(220, 274);
             this.confirmarCliente.Name = "confirmarCliente";
             this.confirmarCliente.Size = new System.Drawing.Size(139, 33);
             this.confirmarCliente.TabIndex = 24;
@@ -328,7 +328,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 412);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.habilitado);
             this.Controls.Add(this.fechaNacimiento);
             this.Controls.Add(this.confirmarCliente);
