@@ -43,91 +43,17 @@ namespace FrbaOfertas.AbmProveedor
         private bool modificarProveedor()
         {
             //MODIFICACION DE PROVEEDOR
-            if (controlDeModificacionEnProveedor())
+            if (seModificoAlgoEnProveedor())
             {
-                string modificarProveedorString =
-                    string.Format(
-                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET {0} WHERE proveedor_id={1}; ", queModificarDelProveedor, proveedor[0]);
-
-                SqlCommand modificarProveedor = new SqlCommand(modificarProveedorString, Helper.dbOfertas);
-                SqlDataReader modificarProveedorDataReader = modificarProveedor.ExecuteReader();
-                if (modificarProveedorDataReader.RecordsAffected <= 0)
-                {
-                    modificarProveedorDataReader.Close();
+                if (!Helper.modificarProveedor(proveedor[0].ToString(), queModificarDelProveedor))
                     return false;
-                }
-                modificarProveedorDataReader.Close();
             }
 
             //MODIFICACION RUBRO DEL PROVEEDOR
             if (!rubro.Text.Equals(proveedor[13].ToString()))
             {
-                SqlCommand chequearRubro =
-                new SqlCommand(
-                    string.Format("SELECT rubro_id FROM NO_LO_TESTEAMOS_NI_UN_POCO.Rubro WHERE rubro_descripcion='{0}'",
-                    rubro.Text), Helper.dbOfertas);
-
-                SqlDataReader dataReaderRubro = Helper.realizarConsultaSQL(chequearRubro);
-                if (dataReaderRubro != null)
-                {
-                    if (dataReaderRubro.HasRows) // Rubro ya existe
-                    {
-                        dataReaderRubro.Read();
-                        string idRubro = dataReaderRubro.GetValue(0).ToString();
-                        dataReaderRubro.Close();
-
-                        SqlCommand modificarProveedor =
-                            new SqlCommand(
-                                string.Format(
-                                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET proveedor_id_rubro='{0}' WHERE proveedor_id={1};",
-                                    idRubro, proveedor[0]), Helper.dbOfertas);
-
-                        SqlDataReader modificarProveedorDataReader = modificarProveedor.ExecuteReader();
-                        if (modificarProveedorDataReader.RecordsAffected <= 0)
-                        {
-                            modificarProveedorDataReader.Close();
-                            return false;
-                        }
-                        modificarProveedorDataReader.Close();
-
-                    }
-                    else
-                    {
-                        dataReaderRubro.Close();
-                        SqlCommand insertarNuevoRubro =
-                            new SqlCommand(
-                                string.Format("INSERT INTO NO_LO_TESTEAMOS_NI_UN_POCO.Rubro (rubro_descripcion) VALUES ('{0}'); " +
-                                                "SELECT SCOPE_IDENTITY()", rubro.Text), Helper.dbOfertas);
-
-                        SqlDataReader dataReader = Helper.realizarConsultaSQL(insertarNuevoRubro);
-                        if (dataReader != null)
-                        {
-                            if (dataReader.Read())
-                            {
-                                string idRubro = dataReader.GetValue(0).ToString();
-                                dataReader.Close();
-                                SqlCommand modificarProveedor =
-                                        new SqlCommand(
-                                               string.Format(
-                                                    "UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor SET proveedor_id_rubro='{0}' WHERE proveedor_id={1};",
-                                                        idRubro, proveedor[0]), Helper.dbOfertas);
-
-                                SqlDataReader modificarProveedorDataReader = modificarProveedor.ExecuteReader();
-                                if (modificarProveedorDataReader.RecordsAffected <= 0)
-                                {
-                                    modificarProveedorDataReader.Close();
-                                    return false;
-                                }
-                                modificarProveedorDataReader.Close();
-                            }
-                            else
-                            {
-                                //MessageBox.Show("Error al guardar el domicilio");
-                                dataReader.Close();
-                            }
-                        }
-                    }
-                }
+                if (!Helper.modificarRubro(proveedor[0].ToString(), rubro.Text))
+                    return false;
             }
 
             //MODIFICACION LOCALIDAD DEL PROVEEDOR
@@ -138,7 +64,7 @@ namespace FrbaOfertas.AbmProveedor
             }
 
             //MODIFICACION DOMICILIO DEL PROVEEDOR
-            if (controlDeModificacionEnDomicilio())
+            if (seModificoAlgoEnDomicilio())
             {
                 if (!Helper.modificarDomicilio(proveedor[3].ToString(), queModificarDeDomicilio))
                     return false;
@@ -147,7 +73,7 @@ namespace FrbaOfertas.AbmProveedor
             return true;
         }
 
-        private bool controlDeModificacionEnProveedor()
+        private bool seModificoAlgoEnProveedor()
         {
             bool seModificoAlgoDeProveedor = false;
             if (!razonSocial.Text.Equals(proveedor[1].ToString()))
@@ -198,7 +124,7 @@ namespace FrbaOfertas.AbmProveedor
             return seModificoAlgoDeProveedor;
         }
 
-        private bool controlDeModificacionEnDomicilio()
+        private bool seModificoAlgoEnDomicilio()
         {
             bool seModificoAlgoDeDomicilio = false;
 
