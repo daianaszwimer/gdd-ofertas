@@ -39,10 +39,10 @@ namespace FrbaOfertas.AbmRol
                 eliminar.Visible = true;
                 asignarRolAUsuario.Visible = true;
 
-                if (bool.Parse(rol[3].ToString()))
-                    asignarRolAUsuario.Enabled = true;
-                else
+                if (!bool.Parse(rol[3].ToString()) || rol[0].ToString().Equals("2") || rol[0].ToString().Equals("3"))
                     asignarRolAUsuario.Enabled = false;
+                else
+                    asignarRolAUsuario.Enabled = true;
             }
         }
 

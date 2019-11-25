@@ -27,7 +27,7 @@ namespace FrbaOfertas.AbmCliente
             desactivarErrores();
             if (validacionCampos()) //Campos obligatorios y formato validos
             {
-                bool? clienteNoExiste = Helper.dniNoExisten(dni.Text);
+                bool? clienteNoExiste = Helper.dniYMailNoExisten(dni.Text, mail.Text);
                 if (clienteNoExiste == true)
                 {
                     string idLocalidad = Helper.insertarLocalidad(localidad.Text);
