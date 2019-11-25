@@ -33,30 +33,30 @@
             // 
             // eliminar
             // 
-            this.eliminar.Location = new System.Drawing.Point(391, 339);
+            this.eliminar.Location = new System.Drawing.Point(567, 403);
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(310, 340);
+            this.modificar.Location = new System.Drawing.Point(472, 403);
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(472, 340);
+            this.confirmar.BackColor = System.Drawing.Color.SandyBrown;
+            this.confirmar.Location = new System.Drawing.Point(659, 403);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 20;
             this.confirmar.Text = "Confirmar";
-            this.confirmar.UseVisualStyleBackColor = true;
+            this.confirmar.UseVisualStyleBackColor = false;
             this.confirmar.Click += new System.EventHandler(this.confirmar_Click);
             // 
             // ListadoClientes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(581, 375);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.confirmar);
             this.Name = "ListadoClientes";
-            this.Text = "ListadoClientes";
             this.Controls.SetChildIndex(this.modificar, 0);
             this.Controls.SetChildIndex(this.eliminar, 0);
             this.Controls.SetChildIndex(this.confirmar, 0);

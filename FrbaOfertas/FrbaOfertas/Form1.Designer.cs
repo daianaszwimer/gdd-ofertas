@@ -49,7 +49,7 @@
             this.username.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.username.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.username.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.username.Location = new System.Drawing.Point(94, 45);
+            this.username.Location = new System.Drawing.Point(95, 45);
             this.username.Name = "username";
             this.username.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.username.Size = new System.Drawing.Size(160, 20);
@@ -59,7 +59,7 @@
             // password
             // 
             this.password.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.password.Location = new System.Drawing.Point(94, 103);
+            this.password.Location = new System.Drawing.Point(95, 103);
             this.password.Name = "password";
             this.password.PasswordChar = '*';
             this.password.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -70,14 +70,15 @@
             // login
             // 
             this.login.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.login.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.login.BackColor = System.Drawing.Color.SandyBrown;
             this.login.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.login.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.login.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.login.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.login.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.login.Location = new System.Drawing.Point(94, 149);
+            this.login.Location = new System.Drawing.Point(95, 143);
             this.login.Name = "login";
             this.login.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.login.Size = new System.Drawing.Size(160, 33);
+            this.login.Size = new System.Drawing.Size(160, 29);
             this.login.TabIndex = 2;
             this.login.Text = "LOGIN";
             this.login.UseVisualStyleBackColor = false;
@@ -86,29 +87,29 @@
             // panel1
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.BackColor = System.Drawing.Color.Beige;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.username);
             this.panel1.Controls.Add(this.password);
             this.panel1.Controls.Add(this.login);
-            this.panel1.Location = new System.Drawing.Point(24, 46);
+            this.panel1.Location = new System.Drawing.Point(54, 63);
             this.panel1.Name = "panel1";
             this.panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.panel1.Size = new System.Drawing.Size(347, 226);
+            this.panel1.Size = new System.Drawing.Size(347, 225);
             this.panel1.TabIndex = 3;
             // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(140, 82);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label3.Location = new System.Drawing.Point(144, 83);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label3.Size = new System.Drawing.Size(68, 15);
+            this.label3.Size = new System.Drawing.Size(64, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "Password";
             // 
@@ -116,12 +117,12 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Lucida Sans", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label2.Location = new System.Drawing.Point(136, 27);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label2.Location = new System.Drawing.Point(144, 25);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label2.Size = new System.Drawing.Size(70, 15);
+            this.label2.Size = new System.Drawing.Size(67, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Username";
             // 
@@ -129,11 +130,11 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Consolas", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(116, 9);
+            this.label1.Location = new System.Drawing.Point(129, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 23);
+            this.label1.Size = new System.Drawing.Size(205, 37);
             this.label1.TabIndex = 3;
             this.label1.Text = "FRBA - Ofertas";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -142,9 +143,10 @@
             // 
             this.linkLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(287, 285);
+            this.linkLabel1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabel1.Location = new System.Drawing.Point(325, 291);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(84, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(76, 15);
             this.linkLabel1.TabIndex = 6;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "REGISTRARTE";
@@ -164,9 +166,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(395, 307);
+            this.ClientSize = new System.Drawing.Size(454, 341);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);

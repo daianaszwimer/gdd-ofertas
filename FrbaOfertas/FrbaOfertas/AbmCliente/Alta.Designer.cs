@@ -30,21 +30,26 @@
         {
             this.SuspendLayout();
             // 
-            // nombre
+            // confirmarCliente
             // 
+            this.confirmarCliente.BackColor = System.Drawing.Color.SandyBrown;
+            this.confirmarCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.confirmarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.confirmarCliente.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // Alta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 512);
+            this.BackColor = System.Drawing.Color.Beige;
+            this.ClientSize = new System.Drawing.Size(384, 322);
             this.Name = "Alta";
-            this.Text = "AltaYModificacion";
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+
     }
 }

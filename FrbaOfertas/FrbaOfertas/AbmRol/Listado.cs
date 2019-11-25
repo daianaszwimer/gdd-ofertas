@@ -85,6 +85,10 @@ namespace FrbaOfertas.AbmRol
             SqlDataAdapter rolesDataAdapter = new SqlDataAdapter(consultaRoles, Helper.dbOfertas);
             rolesDataAdapter.Fill(rolesDataSet);
             tablaDeResultados.DataSource = rolesDataSet.Tables[0];
+            tablaDeResultados.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            tablaDeResultados.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            tablaDeResultados.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            tablaDeResultados.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
         }
 
         private void modificar_Click(object sender, EventArgs e)

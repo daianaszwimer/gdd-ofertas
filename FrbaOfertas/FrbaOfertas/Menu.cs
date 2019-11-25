@@ -138,11 +138,23 @@ namespace FrbaOfertas
 
         private void mostrarListadoDeFuncionalidades(List<String> funcionalidades) 
         {
-            int columnas = 2;
-            int filas = (int)Math.Ceiling((double)(funcionalidades.Count / 2));
+            int columnas;
+            int filas;
+
+            if (funcionalidades.Count <= 2)
+            {
+                columnas = 2;
+                filas = (int)Math.Ceiling((double)(funcionalidades.Count / 2));
+            }
+            else
+            {
+                columnas = 3;
+                filas = (int)Math.Ceiling((double)(funcionalidades.Count / 3));
+            }
+
             tableLayoutPanel.ColumnCount = columnas;
             tableLayoutPanel.RowCount = filas;
-            tableLayoutPanel.Dock = DockStyle.Fill;
+            //tableLayoutPanel.Dock = DockStyle.Fill;
 
             foreach (var funcionalidad in funcionalidades)
             {
@@ -151,6 +163,9 @@ namespace FrbaOfertas
                 agregarEventoOnClick(buttonFuncionalidad);
                 buttonFuncionalidad.Dock = DockStyle.Fill;
                 buttonFuncionalidad.Height = 100;
+                buttonFuncionalidad.BackColor = Color.SandyBrown;
+                buttonFuncionalidad.FlatStyle = FlatStyle.Popup;
+                buttonFuncionalidad.Font = new Font("Segoe UI", 10f);
                 tableLayoutPanel.Controls.Add(buttonFuncionalidad);
             }
 
@@ -159,6 +174,9 @@ namespace FrbaOfertas
             agregarEventoOnClick(buttonCambiarConstrasenia);
             buttonCambiarConstrasenia.Dock = DockStyle.Fill;
             buttonCambiarConstrasenia.Height = 100;
+            buttonCambiarConstrasenia.BackColor = Color.SandyBrown;
+            buttonCambiarConstrasenia.FlatStyle = FlatStyle.Popup;
+            buttonCambiarConstrasenia.Font = new Font("Segoe UI", 10f);
             tableLayoutPanel.Controls.Add(buttonCambiarConstrasenia);
 
             var buttonCerrarSesion = new Button();
@@ -166,6 +184,9 @@ namespace FrbaOfertas
             agregarEventoOnClick(buttonCerrarSesion);
             buttonCerrarSesion.Dock = DockStyle.Fill;
             buttonCerrarSesion.Height = 100;
+            buttonCerrarSesion.BackColor = Color.SandyBrown;
+            buttonCerrarSesion.FlatStyle = FlatStyle.Popup;
+            buttonCerrarSesion.Font = new Font("Segoe UI", 10f);
             tableLayoutPanel.Controls.Add(buttonCerrarSesion);
         }
 

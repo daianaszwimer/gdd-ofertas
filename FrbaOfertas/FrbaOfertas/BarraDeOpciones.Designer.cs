@@ -37,7 +37,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.menuStrip1.BackColor = System.Drawing.Color.SandyBrown;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.opcionesToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -58,14 +58,14 @@
             // volverAlMenuToolStripMenuItem
             // 
             this.volverAlMenuToolStripMenuItem.Name = "volverAlMenuToolStripMenuItem";
-            this.volverAlMenuToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.volverAlMenuToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.volverAlMenuToolStripMenuItem.Text = "Volver al menu";
             this.volverAlMenuToolStripMenuItem.Click += new System.EventHandler(this.volverAlMenuToolStripMenuItem_Click);
             // 
             // cerrarSesionToolStripMenuItem
             // 
             this.cerrarSesionToolStripMenuItem.Name = "cerrarSesionToolStripMenuItem";
-            this.cerrarSesionToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.cerrarSesionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.cerrarSesionToolStripMenuItem.Text = "Cerrar sesion";
             this.cerrarSesionToolStripMenuItem.Click += new System.EventHandler(this.cerrarSesionToolStripMenuItem_Click);
             // 
@@ -73,7 +73,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(494, 91);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

@@ -44,7 +44,7 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(361, 110);
+            this.buscar.Location = new System.Drawing.Point(666, 104);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(75, 23);
             this.buscar.TabIndex = 9;
@@ -54,7 +54,7 @@
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(17, 110);
+            this.limpiar.Location = new System.Drawing.Point(17, 104);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(75, 23);
             this.limpiar.TabIndex = 8;
@@ -68,15 +68,15 @@
             this.tablaDeResultados.AllowUserToDeleteRows = false;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(17, 154);
+            this.tablaDeResultados.Location = new System.Drawing.Point(17, 133);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(419, 191);
+            this.tablaDeResultados.Size = new System.Drawing.Size(724, 264);
             this.tablaDeResultados.TabIndex = 7;
             // 
             // razonSocial
             // 
-            this.razonSocial.Location = new System.Drawing.Point(103, 35);
+            this.razonSocial.Location = new System.Drawing.Point(108, 70);
             this.razonSocial.Name = "razonSocial";
             this.razonSocial.Size = new System.Drawing.Size(120, 20);
             this.razonSocial.TabIndex = 10;
@@ -84,7 +84,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 38);
+            this.label1.Location = new System.Drawing.Point(22, 70);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 11;
@@ -93,7 +93,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 77);
+            this.label2.Location = new System.Drawing.Point(466, 70);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 12;
@@ -101,7 +101,7 @@
             // 
             // CUIT
             // 
-            this.CUIT.Location = new System.Drawing.Point(103, 74);
+            this.CUIT.Location = new System.Drawing.Point(504, 70);
             this.CUIT.Name = "CUIT";
             this.CUIT.Size = new System.Drawing.Size(120, 20);
             this.CUIT.TabIndex = 13;
@@ -109,7 +109,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(246, 38);
+            this.label3.Location = new System.Drawing.Point(251, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(26, 13);
             this.label3.TabIndex = 14;
@@ -117,14 +117,14 @@
             // 
             // mail
             // 
-            this.mail.Location = new System.Drawing.Point(278, 35);
+            this.mail.Location = new System.Drawing.Point(283, 70);
             this.mail.Name = "mail";
             this.mail.Size = new System.Drawing.Size(158, 20);
             this.mail.TabIndex = 15;
             // 
             // eliminar
             // 
-            this.eliminar.Location = new System.Drawing.Point(361, 362);
+            this.eliminar.Location = new System.Drawing.Point(649, 403);
             this.eliminar.Name = "eliminar";
             this.eliminar.Size = new System.Drawing.Size(75, 23);
             this.eliminar.TabIndex = 17;
@@ -134,7 +134,7 @@
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(280, 362);
+            this.modificar.Location = new System.Drawing.Point(568, 403);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(75, 23);
             this.modificar.TabIndex = 16;
@@ -146,7 +146,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(453, 397);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.eliminar);
             this.Controls.Add(this.modificar);
             this.Controls.Add(this.mail);

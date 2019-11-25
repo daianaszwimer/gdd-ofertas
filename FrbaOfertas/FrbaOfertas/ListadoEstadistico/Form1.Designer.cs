@@ -47,17 +47,22 @@
             // 
             // buscar
             // 
-            this.buscar.Location = new System.Drawing.Point(379, 139);
+            this.buscar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.buscar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.buscar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.buscar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buscar.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.buscar.Location = new System.Drawing.Point(622, 141);
             this.buscar.Name = "buscar";
-            this.buscar.Size = new System.Drawing.Size(75, 23);
+            this.buscar.Size = new System.Drawing.Size(113, 30);
             this.buscar.TabIndex = 5;
-            this.buscar.Text = "Buscar";
-            this.buscar.UseVisualStyleBackColor = true;
+            this.buscar.Text = "Estadistica";
+            this.buscar.UseVisualStyleBackColor = false;
             this.buscar.Click += new System.EventHandler(this.buscar_Click);
             // 
             // limpiar
             // 
-            this.limpiar.Location = new System.Drawing.Point(38, 139);
+            this.limpiar.Location = new System.Drawing.Point(15, 144);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(72, 23);
             this.limpiar.TabIndex = 4;
@@ -69,18 +74,19 @@
             // 
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
+            this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.tablaDeResultados.Location = new System.Drawing.Point(38, 183);
+            this.tablaDeResultados.Location = new System.Drawing.Point(12, 177);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(416, 191);
+            this.tablaDeResultados.Size = new System.Drawing.Size(723, 229);
             this.tablaDeResultados.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(35, 56);
+            this.label1.Location = new System.Drawing.Point(61, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 13);
             this.label1.TabIndex = 6;
@@ -88,19 +94,20 @@
             // 
             // tipoDeListado
             // 
+            this.tipoDeListado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tipoDeListado.FormattingEnabled = true;
             this.tipoDeListado.Items.AddRange(new object[] {
             "Proveedores con mayor descuento",
             "Proveedores con mayor facturacion"});
-            this.tipoDeListado.Location = new System.Drawing.Point(128, 53);
+            this.tipoDeListado.Location = new System.Drawing.Point(143, 50);
             this.tipoDeListado.Name = "tipoDeListado";
-            this.tipoDeListado.Size = new System.Drawing.Size(228, 21);
+            this.tipoDeListado.Size = new System.Drawing.Size(274, 21);
             this.tipoDeListado.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(84, 99);
+            this.label2.Location = new System.Drawing.Point(61, 96);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(26, 13);
             this.label2.TabIndex = 8;
@@ -108,7 +115,7 @@
             // 
             // anio
             // 
-            this.anio.Location = new System.Drawing.Point(128, 94);
+            this.anio.Location = new System.Drawing.Point(93, 91);
             this.anio.Name = "anio";
             this.anio.Size = new System.Drawing.Size(121, 20);
             this.anio.TabIndex = 9;
@@ -116,7 +123,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(278, 99);
+            this.label3.Location = new System.Drawing.Point(241, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 13);
             this.label3.TabIndex = 10;
@@ -124,11 +131,12 @@
             // 
             // semestre
             // 
+            this.semestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.semestre.FormattingEnabled = true;
             this.semestre.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.semestre.Location = new System.Drawing.Point(335, 94);
+            this.semestre.Location = new System.Drawing.Point(298, 91);
             this.semestre.Name = "semestre";
             this.semestre.Size = new System.Drawing.Size(119, 21);
             this.semestre.TabIndex = 11;
@@ -147,7 +155,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 394);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.semestre);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.anio);

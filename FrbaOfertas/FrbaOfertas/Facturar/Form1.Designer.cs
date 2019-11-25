@@ -52,7 +52,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 50);
+            this.label1.Location = new System.Drawing.Point(27, 39);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 2;
@@ -61,7 +61,7 @@
             // desde
             // 
             this.desde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.desde.Location = new System.Drawing.Point(30, 129);
+            this.desde.Location = new System.Drawing.Point(34, 105);
             this.desde.Name = "desde";
             this.desde.Size = new System.Drawing.Size(100, 20);
             this.desde.TabIndex = 10;
@@ -70,7 +70,7 @@
             // hasta
             // 
             this.hasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.hasta.Location = new System.Drawing.Point(158, 129);
+            this.hasta.Location = new System.Drawing.Point(189, 105);
             this.hasta.Name = "hasta";
             this.hasta.Size = new System.Drawing.Size(98, 20);
             this.hasta.TabIndex = 11;
@@ -78,7 +78,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 113);
+            this.label2.Location = new System.Drawing.Point(31, 89);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 12;
@@ -87,7 +87,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(155, 113);
+            this.label3.Location = new System.Drawing.Point(186, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 13;
@@ -97,12 +97,13 @@
             // 
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
+            this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaDeResultados.Location = new System.Drawing.Point(16, 54);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(424, 191);
+            this.tablaDeResultados.Size = new System.Drawing.Size(677, 191);
             this.tablaDeResultados.TabIndex = 14;
             // 
             // facturar
@@ -112,7 +113,7 @@
             this.facturar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
             this.facturar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.facturar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.facturar.Location = new System.Drawing.Point(332, 120);
+            this.facturar.Location = new System.Drawing.Point(618, 105);
             this.facturar.Name = "facturar";
             this.facturar.Size = new System.Drawing.Size(114, 32);
             this.facturar.TabIndex = 16;
@@ -130,14 +131,15 @@
             // 
             // proveedor
             // 
-            this.proveedor.Location = new System.Drawing.Point(30, 67);
+            this.proveedor.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.proveedor.Location = new System.Drawing.Point(30, 56);
             this.proveedor.Name = "proveedor";
-            this.proveedor.Size = new System.Drawing.Size(154, 20);
+            this.proveedor.Size = new System.Drawing.Size(191, 20);
             this.proveedor.TabIndex = 18;
             // 
             // seleccionar
             // 
-            this.seleccionar.Location = new System.Drawing.Point(227, 64);
+            this.seleccionar.Location = new System.Drawing.Point(227, 53);
             this.seleccionar.Name = "seleccionar";
             this.seleccionar.Size = new System.Drawing.Size(75, 23);
             this.seleccionar.TabIndex = 19;
@@ -181,10 +183,10 @@
             this.panel2.Controls.Add(this.nroFactura);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.montoFactura);
-            this.panel2.Location = new System.Drawing.Point(12, 191);
+            this.panel2.Location = new System.Drawing.Point(12, 145);
             this.panel2.Name = "panel2";
             this.panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.panel2.Size = new System.Drawing.Size(460, 262);
+            this.panel2.Size = new System.Drawing.Size(720, 269);
             this.panel2.TabIndex = 24;
             // 
             // errorProveedor
@@ -196,7 +198,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 469);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.seleccionar);
             this.Controls.Add(this.proveedor);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace FrbaOfertas.ComprarOferta
     public partial class ListadoOfertas : BarraDeOpciones
     {
         Action<string, string, string, string> agregarCuponSeleccionado;
+        DataSet ofertasDataSet = new DataSet();
 
         public ListadoOfertas(Action<string, string, string, string> agregarCuponSeleccionado, DataSet ofertasDataSet)
         {
@@ -46,5 +48,48 @@ namespace FrbaOfertas.ComprarOferta
             );
             this.Close();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                ofertasDataSet.Clear();
+                string consultaOferta = string.Format("SELECT oferta_id, oferta_descripcion, oferta_precio_lista, oferta_cantidad, oferta_restriccion_compra " +
+                                      "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Oferta " +
+                                      "WHERE oferta_fecha_venc >= '{0}' AND oferta_fecha_publicacion >= '{0}' AND oferta_cantidad > 0",
+                                      Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff"));
+                SqlDataAdapter ofertasDataAdapter = new SqlDataAdapter(consultaOferta, Helper.dbOfertas);
+
+                string descripcionAFiltrar = descripcion.Text;
+                string precioAFiltrar = precio.Text;
+                string cantidadAFiltrar = cantidad.Text;
+                if (!string.IsNullOrWhiteSpace(descripcionAFiltrar))
+                {
+                    consultaOferta += string.Format(" AND oferta_descripcion LIKE '%{0}%'", descripcionAFiltrar);
+                }
+                if (!string.IsNullOrWhiteSpace(precioAFiltrar))
+                {
+                    consultaOferta += string.Format(" AND oferta_precio_lista > {0}", int.Parse(precioAFiltrar));
+                }
+                if (!string.IsNullOrWhiteSpace(precioAFiltrar))
+                {
+                    consultaOferta += string.Format(" AND oferta_cantidad > {0}", int.Parse(cantidadAFiltrar));
+                }
+                SqlDataAdapter cuponesDataAdapter = new SqlDataAdapter(consultaOferta, Helper.dbOfertas);
+                cuponesDataAdapter.Fill(ofertasDataSet);
+                tablaDeResultados.DataSource = ofertasDataSet.Tables[0];
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void limpiar_Click(object sender, EventArgs e)
+        {
+            ofertasDataSet.Clear();
+        }
+
     }
 }

@@ -43,7 +43,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(37, 45);
+            this.label1.Location = new System.Drawing.Point(34, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 13);
             this.label1.TabIndex = 0;
@@ -52,7 +52,7 @@
             // descripcionRol
             // 
             this.descripcionRol.Enabled = false;
-            this.descripcionRol.Location = new System.Drawing.Point(83, 42);
+            this.descripcionRol.Location = new System.Drawing.Point(80, 48);
             this.descripcionRol.Name = "descripcionRol";
             this.descripcionRol.Size = new System.Drawing.Size(139, 20);
             this.descripcionRol.TabIndex = 1;
@@ -60,7 +60,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 80);
+            this.label2.Location = new System.Drawing.Point(34, 89);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 2;
@@ -69,39 +69,48 @@
             // usuario
             // 
             this.usuario.Enabled = false;
-            this.usuario.Location = new System.Drawing.Point(83, 77);
+            this.usuario.Location = new System.Drawing.Point(80, 86);
             this.usuario.Name = "usuario";
             this.usuario.Size = new System.Drawing.Size(139, 20);
             this.usuario.TabIndex = 3;
             // 
             // seleccionar
             // 
-            this.seleccionar.Location = new System.Drawing.Point(83, 103);
+            this.seleccionar.BackColor = System.Drawing.Color.SandyBrown;
+            this.seleccionar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.seleccionar.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seleccionar.Location = new System.Drawing.Point(80, 112);
             this.seleccionar.Name = "seleccionar";
             this.seleccionar.Size = new System.Drawing.Size(79, 23);
             this.seleccionar.TabIndex = 4;
             this.seleccionar.Text = "Seleccionar";
-            this.seleccionar.UseVisualStyleBackColor = true;
+            this.seleccionar.UseVisualStyleBackColor = false;
             this.seleccionar.Click += new System.EventHandler(this.seleccionar_Click);
             // 
             // nuevo
             // 
-            this.nuevo.Location = new System.Drawing.Point(168, 103);
+            this.nuevo.BackColor = System.Drawing.Color.SandyBrown;
+            this.nuevo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.nuevo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nuevo.Location = new System.Drawing.Point(165, 112);
             this.nuevo.Name = "nuevo";
             this.nuevo.Size = new System.Drawing.Size(54, 23);
             this.nuevo.TabIndex = 5;
             this.nuevo.Text = "Nuevo";
-            this.nuevo.UseVisualStyleBackColor = true;
+            this.nuevo.UseVisualStyleBackColor = false;
             this.nuevo.Click += new System.EventHandler(this.nuevo_Click);
             // 
             // asignar
             // 
-            this.asignar.Location = new System.Drawing.Point(147, 145);
+            this.asignar.BackColor = System.Drawing.Color.SandyBrown;
+            this.asignar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.asignar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.asignar.Location = new System.Drawing.Point(144, 155);
             this.asignar.Name = "asignar";
             this.asignar.Size = new System.Drawing.Size(75, 23);
             this.asignar.TabIndex = 6;
             this.asignar.Text = "Asignar";
-            this.asignar.UseVisualStyleBackColor = true;
+            this.asignar.UseVisualStyleBackColor = false;
             this.asignar.Click += new System.EventHandler(this.asignar_Click);
             // 
             // errorUsuario
@@ -113,7 +122,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(274, 189);
+            this.ClientSize = new System.Drawing.Size(269, 199);
             this.Controls.Add(this.asignar);
             this.Controls.Add(this.nuevo);
             this.Controls.Add(this.seleccionar);
@@ -123,6 +132,7 @@
             this.Controls.Add(this.label1);
             this.Name = "AsignarUsuario";
             this.Text = "AsignarUsuario";
+            this.Load += new System.EventHandler(this.AsignarUsuario_Load);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.descripcionRol, 0);
             this.Controls.SetChildIndex(this.label2, 0);

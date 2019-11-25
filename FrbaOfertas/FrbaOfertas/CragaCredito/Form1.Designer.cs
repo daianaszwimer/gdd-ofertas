@@ -53,7 +53,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 39);
+            this.label2.Location = new System.Drawing.Point(30, 54);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 13);
             this.label2.TabIndex = 1;
@@ -62,7 +62,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(67, 70);
+            this.label1.Location = new System.Drawing.Point(63, 98);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 2;
@@ -71,7 +71,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(64, 106);
+            this.label3.Location = new System.Drawing.Point(60, 140);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 3;
@@ -79,7 +79,7 @@
             // 
             // monto
             // 
-            this.monto.Location = new System.Drawing.Point(249, 67);
+            this.monto.Location = new System.Drawing.Point(245, 95);
             this.monto.Name = "monto";
             this.monto.Size = new System.Drawing.Size(76, 20);
             this.monto.TabIndex = 4;
@@ -87,46 +87,58 @@
             // tipoDePago
             // 
             this.tipoDePago.FormattingEnabled = true;
-            this.tipoDePago.Location = new System.Drawing.Point(116, 36);
+            this.tipoDePago.Location = new System.Drawing.Point(112, 51);
             this.tipoDePago.Name = "tipoDePago";
             this.tipoDePago.Size = new System.Drawing.Size(209, 21);
             this.tipoDePago.TabIndex = 5;
             // 
             // cargarCredito
             // 
-            this.cargarCredito.Location = new System.Drawing.Point(218, 169);
+            this.cargarCredito.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cargarCredito.BackColor = System.Drawing.Color.SandyBrown;
+            this.cargarCredito.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.cargarCredito.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cargarCredito.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cargarCredito.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.cargarCredito.Location = new System.Drawing.Point(214, 220);
             this.cargarCredito.Name = "cargarCredito";
-            this.cargarCredito.Size = new System.Drawing.Size(107, 23);
+            this.cargarCredito.Size = new System.Drawing.Size(107, 33);
             this.cargarCredito.TabIndex = 7;
             this.cargarCredito.Text = "Cargar";
-            this.cargarCredito.UseVisualStyleBackColor = true;
+            this.cargarCredito.UseVisualStyleBackColor = false;
             this.cargarCredito.Click += new System.EventHandler(this.cargarCredito_Click);
             // 
             // nuevaTarjeta
             // 
-            this.nuevaTarjeta.Location = new System.Drawing.Point(249, 102);
+            this.nuevaTarjeta.BackColor = System.Drawing.Color.SandyBrown;
+            this.nuevaTarjeta.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.nuevaTarjeta.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nuevaTarjeta.Location = new System.Drawing.Point(245, 136);
             this.nuevaTarjeta.Name = "nuevaTarjeta";
             this.nuevaTarjeta.Size = new System.Drawing.Size(76, 23);
             this.nuevaTarjeta.TabIndex = 8;
             this.nuevaTarjeta.Text = "Añadir";
-            this.nuevaTarjeta.UseVisualStyleBackColor = true;
+            this.nuevaTarjeta.UseVisualStyleBackColor = false;
             this.nuevaTarjeta.Click += new System.EventHandler(this.nuevaTarjeta_Click);
             // 
             // seleccionarCliente
             // 
-            this.seleccionarCliente.Location = new System.Drawing.Point(249, 140);
+            this.seleccionarCliente.BackColor = System.Drawing.Color.SandyBrown;
+            this.seleccionarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.seleccionarCliente.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seleccionarCliente.Location = new System.Drawing.Point(244, 180);
             this.seleccionarCliente.Name = "seleccionarCliente";
             this.seleccionarCliente.Size = new System.Drawing.Size(76, 23);
             this.seleccionarCliente.TabIndex = 32;
             this.seleccionarCliente.Text = "Seleccionar";
-            this.seleccionarCliente.UseVisualStyleBackColor = true;
+            this.seleccionarCliente.UseVisualStyleBackColor = false;
             this.seleccionarCliente.Click += new System.EventHandler(this.seleccionarCliente_Click);
             // 
             // cliente
             // 
             this.cliente.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.cliente.Enabled = false;
-            this.cliente.Location = new System.Drawing.Point(116, 142);
+            this.cliente.Location = new System.Drawing.Point(111, 182);
             this.cliente.Name = "cliente";
             this.cliente.Size = new System.Drawing.Size(127, 20);
             this.cliente.TabIndex = 31;
@@ -134,7 +146,7 @@
             // labelCliente
             // 
             this.labelCliente.AutoSize = true;
-            this.labelCliente.Location = new System.Drawing.Point(65, 145);
+            this.labelCliente.Location = new System.Drawing.Point(60, 185);
             this.labelCliente.Name = "labelCliente";
             this.labelCliente.Size = new System.Drawing.Size(45, 13);
             this.labelCliente.TabIndex = 30;
@@ -144,7 +156,7 @@
             // 
             this.tarjetaTextBox.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.tarjetaTextBox.Enabled = false;
-            this.tarjetaTextBox.Location = new System.Drawing.Point(116, 104);
+            this.tarjetaTextBox.Location = new System.Drawing.Point(112, 138);
             this.tarjetaTextBox.Name = "tarjetaTextBox";
             this.tarjetaTextBox.Size = new System.Drawing.Size(127, 20);
             this.tarjetaTextBox.TabIndex = 33;
@@ -173,7 +185,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 203);
+            this.ClientSize = new System.Drawing.Size(373, 275);
             this.Controls.Add(this.tarjetaTextBox);
             this.Controls.Add(this.seleccionarCliente);
             this.Controls.Add(this.cliente);

@@ -39,20 +39,20 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Consolas", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(322, 83);
+            this.label1.Location = new System.Drawing.Point(322, 89);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 23);
+            this.label1.Size = new System.Drawing.Size(130, 28);
             this.label1.TabIndex = 4;
-            this.label1.Text = "ADM Cliente";
+            this.label1.Text = "ABM Cliente";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
             // 
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.panel1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.BackColor = System.Drawing.Color.Beige;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.altaCliente);
             this.panel1.Controls.Add(this.listadoCliente);
             this.panel1.Location = new System.Drawing.Point(214, 125);
@@ -64,11 +64,12 @@
             // altaCliente
             // 
             this.altaCliente.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.altaCliente.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.altaCliente.BackColor = System.Drawing.Color.SandyBrown;
             this.altaCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.altaCliente.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.altaCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.altaCliente.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.altaCliente.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.altaCliente.Location = new System.Drawing.Point(90, 55);
+            this.altaCliente.Location = new System.Drawing.Point(91, 56);
             this.altaCliente.Name = "altaCliente";
             this.altaCliente.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.altaCliente.Size = new System.Drawing.Size(160, 33);
@@ -80,11 +81,12 @@
             // listadoCliente
             // 
             this.listadoCliente.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.listadoCliente.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.listadoCliente.BackColor = System.Drawing.Color.SandyBrown;
             this.listadoCliente.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.listadoCliente.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listadoCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.listadoCliente.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listadoCliente.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.listadoCliente.Location = new System.Drawing.Point(90, 125);
+            this.listadoCliente.Location = new System.Drawing.Point(91, 126);
             this.listadoCliente.Name = "listadoCliente";
             this.listadoCliente.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.listadoCliente.Size = new System.Drawing.Size(160, 33);
@@ -102,6 +104,8 @@
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Controls.SetChildIndex(this.panel1, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

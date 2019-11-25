@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace FrbaOfertas.AbmRol
 {
-    public partial class AltaUsuario : Form
+    public partial class AltaUsuario : BarraDeOpciones
     {
         Action<string> agregarUsuario;
 

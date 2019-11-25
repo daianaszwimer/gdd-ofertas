@@ -33,15 +33,15 @@
             // 
             // eliminar
             // 
-            this.eliminar.Location = new System.Drawing.Point(278, 362);
+            this.eliminar.Location = new System.Drawing.Point(579, 403);
             // 
             // modificar
             // 
-            this.modificar.Location = new System.Drawing.Point(197, 362);
+            this.modificar.Location = new System.Drawing.Point(498, 403);
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(361, 362);
+            this.confirmar.Location = new System.Drawing.Point(662, 403);
             this.confirmar.Name = "confirmar";
             this.confirmar.Size = new System.Drawing.Size(75, 23);
             this.confirmar.TabIndex = 18;
@@ -53,7 +53,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(453, 397);
+            this.ClientSize = new System.Drawing.Size(767, 438);
             this.Controls.Add(this.confirmar);
             this.Name = "ListadoProveedores";
             this.Text = "ListadoProveedores";

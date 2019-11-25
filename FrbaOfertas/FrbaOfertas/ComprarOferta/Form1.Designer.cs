@@ -49,22 +49,26 @@
             // 
             // seleccionarOferta
             // 
-            this.seleccionarOferta.Location = new System.Drawing.Point(336, 118);
+            this.seleccionarOferta.BackColor = System.Drawing.Color.SandyBrown;
+            this.seleccionarOferta.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.seleccionarOferta.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seleccionarOferta.Location = new System.Drawing.Point(335, 90);
             this.seleccionarOferta.Name = "seleccionarOferta";
             this.seleccionarOferta.Size = new System.Drawing.Size(79, 23);
             this.seleccionarOferta.TabIndex = 3;
             this.seleccionarOferta.Text = "Seleccionar";
-            this.seleccionarOferta.UseVisualStyleBackColor = true;
+            this.seleccionarOferta.UseVisualStyleBackColor = false;
             this.seleccionarOferta.Click += new System.EventHandler(this.seleccionarOferta_Click);
             // 
             // comprar
             // 
             this.comprar.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.comprar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.comprar.BackColor = System.Drawing.Color.SandyBrown;
             this.comprar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
-            this.comprar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comprar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.comprar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comprar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.comprar.Location = new System.Drawing.Point(321, 230);
+            this.comprar.Location = new System.Drawing.Point(296, 144);
             this.comprar.Name = "comprar";
             this.comprar.Size = new System.Drawing.Size(118, 33);
             this.comprar.TabIndex = 4;
@@ -75,7 +79,7 @@
             // descripcionOferta
             // 
             this.descripcionOferta.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.descripcionOferta.Location = new System.Drawing.Point(85, 120);
+            this.descripcionOferta.Location = new System.Drawing.Point(84, 92);
             this.descripcionOferta.Name = "descripcionOferta";
             this.descripcionOferta.Size = new System.Drawing.Size(218, 20);
             this.descripcionOferta.TabIndex = 6;
@@ -83,7 +87,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(37, 123);
+            this.label2.Location = new System.Drawing.Point(36, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 7;
@@ -92,7 +96,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 161);
+            this.label3.Location = new System.Drawing.Point(26, 133);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 13);
             this.label3.TabIndex = 8;
@@ -100,7 +104,7 @@
             // 
             // unidadDeOferta
             // 
-            this.unidadDeOferta.Location = new System.Drawing.Point(85, 159);
+            this.unidadDeOferta.Location = new System.Drawing.Point(84, 131);
             this.unidadDeOferta.Name = "unidadDeOferta";
             this.unidadDeOferta.Size = new System.Drawing.Size(52, 20);
             this.unidadDeOferta.TabIndex = 10;
@@ -108,18 +112,21 @@
             // 
             // seleccionarCliente
             // 
-            this.seleccionarCliente.Location = new System.Drawing.Point(336, 80);
+            this.seleccionarCliente.BackColor = System.Drawing.Color.SandyBrown;
+            this.seleccionarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.seleccionarCliente.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.seleccionarCliente.Location = new System.Drawing.Point(335, 53);
             this.seleccionarCliente.Name = "seleccionarCliente";
             this.seleccionarCliente.Size = new System.Drawing.Size(79, 23);
             this.seleccionarCliente.TabIndex = 29;
             this.seleccionarCliente.Text = "Seleccionar";
-            this.seleccionarCliente.UseVisualStyleBackColor = true;
+            this.seleccionarCliente.UseVisualStyleBackColor = false;
             this.seleccionarCliente.Click += new System.EventHandler(this.seleccionarCliente_Click);
             // 
             // cliente
             // 
             this.cliente.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.cliente.Location = new System.Drawing.Point(85, 83);
+            this.cliente.Location = new System.Drawing.Point(84, 55);
             this.cliente.Name = "cliente";
             this.cliente.Size = new System.Drawing.Size(218, 20);
             this.cliente.TabIndex = 28;
@@ -127,7 +134,7 @@
             // labelCliente
             // 
             this.labelCliente.AutoSize = true;
-            this.labelCliente.Location = new System.Drawing.Point(34, 86);
+            this.labelCliente.Location = new System.Drawing.Point(33, 58);
             this.labelCliente.Name = "labelCliente";
             this.labelCliente.Size = new System.Drawing.Size(45, 13);
             this.labelCliente.TabIndex = 27;
@@ -152,7 +159,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 312);
+            this.ClientSize = new System.Drawing.Size(452, 198);
             this.Controls.Add(this.seleccionarCliente);
             this.Controls.Add(this.cliente);
             this.Controls.Add(this.labelCliente);
@@ -163,7 +170,7 @@
             this.Controls.Add(this.comprar);
             this.Controls.Add(this.seleccionarOferta);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Compra de oferta";
             this.Controls.SetChildIndex(this.seleccionarOferta, 0);
             this.Controls.SetChildIndex(this.comprar, 0);
             this.Controls.SetChildIndex(this.descripcionOferta, 0);

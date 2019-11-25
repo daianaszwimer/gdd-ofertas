@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace FrbaOfertas.AbmCliente
 {
@@ -18,8 +18,7 @@ namespace FrbaOfertas.AbmCliente
             InitializeComponent();
             desactivarErrores();
             habilitado.Visible = false;
-            confirmarCliente.Text = "CREAR";
-            
+            confirmarCliente.Text = "Crear";
         }
 
         override protected void confirmarCliente_Click(object sender, EventArgs e)
@@ -62,3 +61,4 @@ namespace FrbaOfertas.AbmCliente
 
     }
 }
+
