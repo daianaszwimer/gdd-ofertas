@@ -95,12 +95,17 @@
             // 
             // guardar
             // 
-            this.guardar.Location = new System.Drawing.Point(192, 186);
+            this.guardar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.guardar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.guardar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.guardar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guardar.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.guardar.Location = new System.Drawing.Point(175, 186);
             this.guardar.Name = "guardar";
-            this.guardar.Size = new System.Drawing.Size(75, 23);
+            this.guardar.Size = new System.Drawing.Size(92, 33);
             this.guardar.TabIndex = 7;
             this.guardar.Text = "Guardar";
-            this.guardar.UseVisualStyleBackColor = true;
+            this.guardar.UseVisualStyleBackColor = false;
             this.guardar.Click += new System.EventHandler(this.guardar_Click);
             // 
             // errorNumero

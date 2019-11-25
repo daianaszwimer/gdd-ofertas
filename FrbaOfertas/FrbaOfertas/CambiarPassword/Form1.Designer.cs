@@ -74,12 +74,17 @@
             // 
             // confirmar
             // 
-            this.confirmar.Location = new System.Drawing.Point(180, 179);
+            this.confirmar.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.confirmar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.confirmar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.confirmar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmar.ForeColor = System.Drawing.SystemColors.InfoText;
+            this.confirmar.Location = new System.Drawing.Point(171, 179);
             this.confirmar.Name = "confirmar";
-            this.confirmar.Size = new System.Drawing.Size(75, 23);
+            this.confirmar.Size = new System.Drawing.Size(84, 27);
             this.confirmar.TabIndex = 4;
             this.confirmar.Text = "Confirmar";
-            this.confirmar.UseVisualStyleBackColor = true;
+            this.confirmar.UseVisualStyleBackColor = false;
             this.confirmar.Click += new System.EventHandler(this.confirmar_Click);
             // 
             // errorPasswordAnterior

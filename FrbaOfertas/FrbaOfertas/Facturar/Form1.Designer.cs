@@ -70,7 +70,7 @@
             // hasta
             // 
             this.hasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.hasta.Location = new System.Drawing.Point(162, 105);
+            this.hasta.Location = new System.Drawing.Point(189, 105);
             this.hasta.Name = "hasta";
             this.hasta.Size = new System.Drawing.Size(98, 20);
             this.hasta.TabIndex = 11;
@@ -87,7 +87,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(159, 89);
+            this.label3.Location = new System.Drawing.Point(186, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 13;
@@ -97,12 +97,13 @@
             // 
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
+            this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaDeResultados.Location = new System.Drawing.Point(16, 54);
             this.tablaDeResultados.Name = "tablaDeResultados";
             this.tablaDeResultados.ReadOnly = true;
-            this.tablaDeResultados.Size = new System.Drawing.Size(544, 191);
+            this.tablaDeResultados.Size = new System.Drawing.Size(677, 191);
             this.tablaDeResultados.TabIndex = 14;
             // 
             // facturar
@@ -112,7 +113,7 @@
             this.facturar.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
             this.facturar.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.facturar.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.facturar.Location = new System.Drawing.Point(483, 102);
+            this.facturar.Location = new System.Drawing.Point(618, 105);
             this.facturar.Name = "facturar";
             this.facturar.Size = new System.Drawing.Size(114, 32);
             this.facturar.TabIndex = 16;
@@ -130,9 +131,10 @@
             // 
             // proveedor
             // 
+            this.proveedor.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.proveedor.Location = new System.Drawing.Point(30, 56);
             this.proveedor.Name = "proveedor";
-            this.proveedor.Size = new System.Drawing.Size(154, 20);
+            this.proveedor.Size = new System.Drawing.Size(191, 20);
             this.proveedor.TabIndex = 18;
             // 
             // seleccionar
@@ -184,7 +186,7 @@
             this.panel2.Location = new System.Drawing.Point(12, 145);
             this.panel2.Name = "panel2";
             this.panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.panel2.Size = new System.Drawing.Size(585, 269);
+            this.panel2.Size = new System.Drawing.Size(720, 269);
             this.panel2.TabIndex = 24;
             // 
             // errorProveedor

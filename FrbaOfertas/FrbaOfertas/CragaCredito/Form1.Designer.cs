@@ -94,12 +94,17 @@
             // 
             // cargarCredito
             // 
+            this.cargarCredito.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cargarCredito.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.cargarCredito.FlatAppearance.BorderColor = System.Drawing.Color.Navy;
+            this.cargarCredito.Font = new System.Drawing.Font("Lucida Sans", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cargarCredito.ForeColor = System.Drawing.SystemColors.InfoText;
             this.cargarCredito.Location = new System.Drawing.Point(387, 297);
             this.cargarCredito.Name = "cargarCredito";
-            this.cargarCredito.Size = new System.Drawing.Size(107, 23);
+            this.cargarCredito.Size = new System.Drawing.Size(107, 33);
             this.cargarCredito.TabIndex = 7;
             this.cargarCredito.Text = "Cargar";
-            this.cargarCredito.UseVisualStyleBackColor = true;
+            this.cargarCredito.UseVisualStyleBackColor = false;
             this.cargarCredito.Click += new System.EventHandler(this.cargarCredito_Click);
             // 
             // nuevaTarjeta

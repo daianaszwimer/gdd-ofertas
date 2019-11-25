@@ -74,6 +74,7 @@
             // 
             this.tablaDeResultados.AllowUserToAddRows = false;
             this.tablaDeResultados.AllowUserToDeleteRows = false;
+            this.tablaDeResultados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.tablaDeResultados.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.tablaDeResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tablaDeResultados.Location = new System.Drawing.Point(12, 177);
@@ -93,13 +94,14 @@
             // 
             // tipoDeListado
             // 
+            this.tipoDeListado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tipoDeListado.FormattingEnabled = true;
             this.tipoDeListado.Items.AddRange(new object[] {
             "Proveedores con mayor descuento",
             "Proveedores con mayor facturacion"});
-            this.tipoDeListado.Location = new System.Drawing.Point(154, 50);
+            this.tipoDeListado.Location = new System.Drawing.Point(143, 50);
             this.tipoDeListado.Name = "tipoDeListado";
-            this.tipoDeListado.Size = new System.Drawing.Size(228, 21);
+            this.tipoDeListado.Size = new System.Drawing.Size(274, 21);
             this.tipoDeListado.TabIndex = 7;
             // 
             // label2
@@ -113,7 +115,7 @@
             // 
             // anio
             // 
-            this.anio.Location = new System.Drawing.Point(105, 91);
+            this.anio.Location = new System.Drawing.Point(93, 91);
             this.anio.Name = "anio";
             this.anio.Size = new System.Drawing.Size(121, 20);
             this.anio.TabIndex = 9;
@@ -121,7 +123,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(255, 96);
+            this.label3.Location = new System.Drawing.Point(241, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 13);
             this.label3.TabIndex = 10;
@@ -129,11 +131,12 @@
             // 
             // semestre
             // 
+            this.semestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.semestre.FormattingEnabled = true;
             this.semestre.Items.AddRange(new object[] {
             "1",
             "2"});
-            this.semestre.Location = new System.Drawing.Point(312, 91);
+            this.semestre.Location = new System.Drawing.Point(298, 91);
             this.semestre.Name = "semestre";
             this.semestre.Size = new System.Drawing.Size(119, 21);
             this.semestre.TabIndex = 11;

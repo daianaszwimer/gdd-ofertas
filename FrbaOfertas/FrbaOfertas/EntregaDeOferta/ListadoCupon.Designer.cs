@@ -63,7 +63,7 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(20, 57);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(118, 20);
+            this.textBox1.Size = new System.Drawing.Size(148, 20);
             this.textBox1.TabIndex = 8;
             // 
             // buscar
