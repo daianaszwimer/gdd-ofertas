@@ -175,7 +175,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente(
 	cliente_eliminado BIT DEFAULT 0,
 	cliente_fecha_nacimiento datetime NULL,
 	cliente_id_domicilio INT NOT NULL,
-	cliente_credito decimal(12, 2) DEFAULT 0
+	cliente_credito int DEFAULT 0
 	
 	CONSTRAINT [FK_Cliente_domicilio_id] FOREIGN KEY(cliente_id_domicilio)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Domicilio] (domicilio_id),
@@ -202,7 +202,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Carga_Credito(
 	carga_credito_id_tipo_pago INT NOT NULL,
 	carga_credito_id_tarjeta INT,
 	carga_credito_fecha datetime NOT NULL,
-	carga_credito_monto decimal(12, 2) NOT NULL,
+	carga_credito_monto int NOT NULL,
 	
 	CONSTRAINT [FK_Carga_Credito_tipo_pago_id] FOREIGN KEY(carga_credito_id_tipo_pago)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Tipo_Pago] (tipo_pago_id),
@@ -392,11 +392,11 @@ INSERT INTO [NO_LO_TESTEAMOS_NI_UN_POCO].[Localidad] (localidad_nombre)
 -- inserto las direcciones
 -- cod postal, departamento y numero piso no conozco, va 0
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Domicilio (domicilio_calle, domicilio_id_localidad, domicilio_codigo_postal, domicilio_departamento, domicilio_numero_piso)
-select distinct d.Cli_Direccion, l.localidad_id, 0, 0, 0
+select distinct d.Cli_Direccion, l.localidad_id, 0, '', 0
 from [gd_esquema].[Maestra] d
 inner join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad l on l.localidad_nombre = d.Cli_Ciudad 
 where d.Cli_Direccion is not null
-union select distinct p.Provee_Dom, lo.localidad_id, 0, 0, 0
+union select distinct p.Provee_Dom, lo.localidad_id, 0, '', 0
 from [gd_esquema].[Maestra] p
 inner join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad lo on lo.localidad_nombre = p.Provee_Ciudad
 where p.Provee_Dom is not null
@@ -432,7 +432,6 @@ where m.Tipo_Pago_Desc is not null and m.Carga_Credito is not null and m.Carga_F
 
 -- inserto a mis usuarios con el rol correspondiente
 -- hasta aca solo cargue clientes, por lo tanto, todos tienen el rol de cliente
--- todo: mejorar esto e insertar clientes y provee juntos con union
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
 select 3, u.usuario_username from [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u
 
@@ -452,14 +451,13 @@ from [gd_esquema].[Maestra] m
 where m.Provee_Rubro is not null
 
 -- inserto proveedores
-insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor (proveedor_id_usuario, proveedor_razon_social, proveedor_telefono, proveedor_cuit, proveedor_id_rubro, proveedor_id_domicilio)
-select distinct u.usuario_username, m.Provee_RS, m.Provee_Telefono, m.Provee_CUIT, r.rubro_id, d.domicilio_id
+insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Proveedor (proveedor_id_usuario, proveedor_razon_social, proveedor_telefono, proveedor_cuit, proveedor_id_rubro, proveedor_id_domicilio, proveedor_nombre_contacto, proveedor_mail)
+select distinct u.usuario_username, m.Provee_RS, m.Provee_Telefono, m.Provee_CUIT, r.rubro_id, d.domicilio_id, '', ''
 from [gd_esquema].[Maestra] m
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Localidad l on l.localidad_nombre = m.Provee_Ciudad
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Domicilio d on d.domicilio_calle = m.Provee_Dom and l.localidad_id = d.domicilio_id_localidad
 join [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u on u.usuario_username = m.Provee_CUIT
 left join [NO_LO_TESTEAMOS_NI_UN_POCO].Rubro r on r.rubro_descripcion = Provee_Rubro
--- validar que no sea nulo
 
 -- busco los proveedores y les asigno el rol
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].RolesxUsuario (rolesxusuario_id_rol, rolesxusuario_id_usuario)
@@ -469,8 +467,6 @@ select 2, u.usuario_username from  [NO_LO_TESTEAMOS_NI_UN_POCO].Usuario u where 
 
 -- inserto ofertas
 -- cada oferta tiene mismo cuit, misma fechas y misma descripcion
--- la fecha de duracion del cupon no la sabemos -> ponemos 0
--- todo: averiguar si hay alguna compra que no se haya retirado
   insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Oferta(oferta_descripcion, oferta_fecha_publicacion, oferta_fecha_venc, oferta_precio, oferta_precio_lista, 
   oferta_restriccion_compra, oferta_cantidad, oferta_id_proveedor, oferta_tiempo_validez_cupon)
   select distinct m.Oferta_Descripcion, m.Oferta_Fecha, m.Oferta_Fecha_Venc, m.Oferta_Precio, m.Oferta_Precio_Ficticio, m.Oferta_Cantidad, m.Oferta_Cantidad, p.proveedor_id, 0
@@ -518,7 +514,7 @@ update CTE_Codigos set compra_oferta_codigo = concat(SUBSTRING(compra_oferta_cod
 
 
 insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_consumo, cupon_id_compra_oferta, cupon_id_cliente, cupon_codigo)
-  select distinct  m.Oferta_Fecha_Venc, m.Oferta_Entregado_Fecha,
+  select distinct m.Oferta_Fecha_Venc, m.Oferta_Entregado_Fecha,
   co.compra_oferta_id, 
   c.cliente_id, co.compra_oferta_codigo
   from [gd_esquema].Maestra m 
@@ -531,7 +527,7 @@ insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Cupon(cupon_fecha_venc, cupon_fecha_con
   o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Compra_Oferta co on 
 	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
-	and co.compra_oferta_id_cliente = c.cliente_id
+	and co.compra_oferta_id_cliente = c.cliente_id and co.compra_oferta_codigo like (m.Oferta_Codigo + '%')
   where m.Oferta_Entregado_Fecha is not null
 
 -- inserto cupones que no fueron retirados todavia
@@ -566,7 +562,7 @@ update NO_LO_TESTEAMOS_NI_UN_POCO.Cupon SET NO_LO_TESTEAMOS_NI_UN_POCO.Cupon.cup
 SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura ON
 
 -- validar que no se inserte la misma oferta mas de 1 vez
-insert into  [NO_LO_TESTEAMOS_NI_UN_POCO].Factura(factura_id, factura_fecha_fin, factura_id_proveedor, factura_fecha_inicio, factura_importe)
+insert into [NO_LO_TESTEAMOS_NI_UN_POCO].Factura(factura_id, factura_fecha_fin, factura_id_proveedor, factura_fecha_inicio, factura_importe)
 select distinct m.Factura_Nro, m.Factura_Fecha, p.proveedor_id,
 (select min(ma.Oferta_Fecha_Compra)
 from  [gd_esquema].Maestra ma
@@ -594,7 +590,7 @@ SET IDENTITY_INSERT [NO_LO_TESTEAMOS_NI_UN_POCO].Factura OFF
   o.oferta_cantidad = m.Oferta_Cantidad and o.oferta_id_proveedor = p.proveedor_id
   left join [NO_LO_TESTEAMOS_NI_UN_POCO].Compra_Oferta co on 
 	co.compra_oferta_id_oferta = o.oferta_id and co.compra_oferta_fecha = m.Oferta_Fecha_Compra
-	and co.compra_oferta_id_cliente = c.cliente_id
+	and co.compra_oferta_id_cliente = c.cliente_id and co.compra_oferta_codigo like (m.Oferta_Codigo + '%')
 	left join [NO_LO_TESTEAMOS_NI_UN_POCO].Factura f on f.factura_id = m.Factura_Nro and f.factura_fecha_fin = m.Factura_Fecha
   where m.Factura_Nro is not null
 
@@ -618,11 +614,6 @@ WHILE @@FETCH_STATUS = 0
 END
 CLOSE cursor_cliente
 DEALLOCATE cursor_cliente
-
--- calculo stock de cada oferta ///// dado que hay ofertas cuya cantidad es menor a la cantidad de compras que se hicieron, asumimos que l cantidad es el stock actual
--- calcular que las compras de las ofertas no superen la cantidad
--- todas las compras fueron retiradas? no
--- crear los cupones para las compras que no fueron retiradas
 
 -- FIN DE MIGRACION
 -- estadisticas
@@ -672,7 +663,7 @@ begin transaction
 				raiserror('El cliente está deshabilitado y no puede realizar compras.', 16, 1)
 			return
 		end
-	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where cliente_credito < (select oferta_precio from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta) and cliente_id = @id_cliente)
+	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cliente where convert(decimal(12,2), cliente_credito) < (select (oferta_precio * @cantidad) from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta) and cliente_id = @id_cliente)
 		begin
 			rollback
 				raiserror('El cliente no posee crédito suficiente.', 16, 1)
@@ -731,7 +722,7 @@ begin transaction
 		end
 	
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta(compra_oferta_codigo, compra_oferta_fecha, compra_oferta_cantidad, compra_oferta_id_cliente, compra_oferta_id_oferta) values (@codigo, @fecha, @cantidad, @id_cliente, @id_oferta)
-	update NO_LO_TESTEAMOS_NI_UN_POCO.Cliente set cliente_credito = (cliente_credito - (select oferta_precio from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta)) where cliente_id = @id_cliente
+	update NO_LO_TESTEAMOS_NI_UN_POCO.Cliente set cliente_credito = (cliente_credito - convert(int, (select (oferta_precio * @cantidad) from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta))) where cliente_id = @id_cliente
 	update NO_LO_TESTEAMOS_NI_UN_POCO.Oferta set oferta_cantidad = oferta_cantidad - @cantidad where oferta_id = @id_oferta
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Cupon (cupon_codigo, cupon_fecha_venc, cupon_id_compra_oferta) 
 	values (@codigo_cup, DATEADD(DAY, (select oferta_tiempo_validez_cupon from NO_LO_TESTEAMOS_NI_UN_POCO.Oferta where oferta_id = @id_oferta), @fecha), (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta where compra_oferta_codigo = @codigo and compra_oferta_id_cliente = @id_cliente and compra_oferta_id_oferta = @id_oferta))
@@ -758,9 +749,7 @@ begin transaction
 			return
 		end
 	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
-	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
-	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
-	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_consumo is not null or cupon_id_cliente is not null)
+	where cupon_codigo = @codigo_cup and cupon_fecha_consumo is not null and cupon_id_cliente is not null)
 		begin
 			-- cupón ya fue consumido
 			rollback
@@ -768,9 +757,7 @@ begin transaction
 			return
 		end
 	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Cupon
-	join NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta on compra_oferta_id = cupon_id_compra_oferta
-	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on compra_oferta_id_oferta = oferta_id
-	where cupon_codigo = @codigo_cup and oferta_id_proveedor = @id_proveedor and cupon_fecha_venc < @fecha_consumo)
+	where cupon_codigo = @codigo_cup and cupon_fecha_venc < @fecha_consumo)
 		begin
 			-- cupón vencido
 			rollback
