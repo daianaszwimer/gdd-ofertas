@@ -789,6 +789,17 @@ begin transaction
 				raiserror('No existen compras en ese período', 16, 1)
 			return
 		end
+	if exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Item 
+	where item_id_compra_oferta in (select compra_oferta_id from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
+	join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
+	where compra_oferta_fecha >= @fecha_inicio and compra_oferta_fecha <= @fecha_fin
+	and oferta_id_proveedor = @id_proveedor))
+		begin
+			-- no hay nada que facturar
+			rollback
+				raiserror('En el período seleccionado ya se han facturado alguna/s compra/s', 16, 1)
+			return
+		end
 	insert into NO_LO_TESTEAMOS_NI_UN_POCO.Factura(factura_id_proveedor, factura_importe, factura_fecha_inicio, factura_fecha_fin) values (@id_proveedor, 
 		(select isnull(sum(compra_oferta_cantidad * oferta_precio), 0) from NO_LO_TESTEAMOS_NI_UN_POCO.Compra_Oferta
 		join NO_LO_TESTEAMOS_NI_UN_POCO.Oferta on oferta_id = compra_oferta_id_oferta
