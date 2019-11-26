@@ -178,7 +178,7 @@ CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente(
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Domicilio] (domicilio_id),
 	CONSTRAINT [FK_Cliente_usuario_id] FOREIGN KEY(cliente_id_usuario)
 		REFERENCES [NO_LO_TESTEAMOS_NI_UN_POCO].[Usuario] (usuario_username),
-	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni, cliente_mail, cliente_nombre, cliente_apellido, cliente_fecha_nacimiento, cliente_telefono)
+	CONSTRAINT UN_Cliente_unico UNIQUE (cliente_dni, cliente_mail)
 )
 
 CREATE TABLE NO_LO_TESTEAMOS_NI_UN_POCO.Tarjeta(
@@ -647,6 +647,13 @@ as
 			group by f.factura_id_proveedor
 		), 0) as 'facturacion'
 		from NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor p
+		where exists (select 1 from NO_LO_TESTEAMOS_NI_UN_POCO.Factura fa 
+			where fa.factura_id_proveedor = p.proveedor_id 
+			and year(fa.factura_fecha_inicio) = @anio
+			and year(fa.factura_fecha_fin) = @anio
+			and 1 =
+			(case when @semestre = 1 and month(fa.factura_fecha_inicio) in (1,2,3,4,5,6) and month(fa.factura_fecha_fin) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(fa.factura_fecha_inicio) in (7,8,9,10,11,12) and month(fa.factura_fecha_fin) in (7,8,9,10,11,12) then 1 else 0 end)
+			)
 		order by 'facturacion' desc
 	)
 go
