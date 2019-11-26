@@ -14,7 +14,7 @@ namespace FrbaOfertas.Facturar
     public partial class Form1 : BarraDeOpciones
     {
         string idProveedor;
-        int idFactura;
+        string idFactura;
         decimal monto;
         bool camposOk = true;
         DataSet cuponesDataSet = new DataSet();
@@ -45,27 +45,23 @@ namespace FrbaOfertas.Facturar
                         cmd.Parameters.AddWithValue("fecha_inicio", sqlFormattedDateDesde);
                         cmd.Parameters.AddWithValue("fecha_fin", sqlFormattedDateHasta);
                         cmd.Parameters.AddWithValue("id_proveedor", idProveedor);
-                        cmd.Parameters.AddWithValue("id_factura", 0);
 
                         var returnParameter = cmd.Parameters.Add("@id_factura", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        returnParameter.Direction = ParameterDirection.Output;
 
                         cmd.ExecuteNonQuery();
                         var result = returnParameter.Value;
 
-                        idFactura = int.Parse(result.ToString());
+                        idFactura = result.ToString();
                     }
                     nroFactura.Text = idFactura.ToString();
+                    obtenerMontoFactura();
                     montoFactura.Text = monto.ToString();
                     cargarTablaResultados();
-
-                    if (idFactura == 0)
-                        MessageBox.Show("NO HAY OFERTAS QUE FACTURAR", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -101,7 +97,7 @@ namespace FrbaOfertas.Facturar
         {
             string consultaMonto =
                 string.Format(
-                    "SELECT factura_importe FROM NO_LO_TESTEAMOS_NI_UN_POCO.Factura WHERE factura_id={0}", idFactura);
+                    "SELECT factura_importe FROM NO_LO_TESTEAMOS_NI_UN_POCO.Factura WHERE factura_id='{0}'", idFactura);
 
             SqlCommand obtenerMontoFactura = new SqlCommand(consultaMonto, Helper.dbOfertas);
             SqlDataReader dataReaderFactura = Helper.realizarConsultaSQL(obtenerMontoFactura);
@@ -114,7 +110,6 @@ namespace FrbaOfertas.Facturar
                 }
                 dataReaderFactura.Close();
             }
-            dataReaderFactura.Close();
         }
 
 

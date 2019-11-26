@@ -86,6 +86,7 @@
             // 
             // tipoDePago
             // 
+            this.tipoDePago.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.tipoDePago.FormattingEnabled = true;
             this.tipoDePago.Location = new System.Drawing.Point(112, 51);
             this.tipoDePago.Name = "tipoDePago";

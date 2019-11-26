@@ -73,7 +73,7 @@ namespace FrbaOfertas.ListadoEstadistico
                 proveedoresDataSet.Clear();
                 string consultaProveedores;
 
-                if (tipoDeListado.SelectedIndex == 1) // Proveedores con mayor descuento
+                if (tipoDeListado.SelectedIndex == 0) // Proveedores con mayor descuento
                 {
                     consultaProveedores =
                         string.Format(
