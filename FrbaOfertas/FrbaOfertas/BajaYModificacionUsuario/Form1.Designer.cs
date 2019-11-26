@@ -169,6 +169,6 @@
         protected System.Windows.Forms.Button eliminar;
         protected System.Windows.Forms.Button modificar;
         protected System.Windows.Forms.TextBox username;
-        private System.Windows.Forms.GroupBox groupBox1;
+        protected System.Windows.Forms.GroupBox groupBox1;
     }
 }
