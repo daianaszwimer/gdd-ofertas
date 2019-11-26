@@ -35,7 +35,9 @@
             this.modificar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.username = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buscar
@@ -107,7 +109,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 54);
+            this.label1.Location = new System.Drawing.Point(21, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 11;
@@ -115,18 +117,28 @@
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(135, 51);
+            this.username.Location = new System.Drawing.Point(123, 22);
             this.username.Name = "username";
             this.username.Size = new System.Drawing.Size(186, 20);
             this.username.TabIndex = 12;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.username);
+            this.groupBox1.Location = new System.Drawing.Point(12, 27);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(330, 55);
+            this.groupBox1.TabIndex = 13;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Filtro";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 438);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.username);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.eliminar);
             this.Controls.Add(this.modificar);
             this.Controls.Add(this.buscar);
@@ -139,9 +151,10 @@
             this.Controls.SetChildIndex(this.buscar, 0);
             this.Controls.SetChildIndex(this.modificar, 0);
             this.Controls.SetChildIndex(this.eliminar, 0);
-            this.Controls.SetChildIndex(this.username, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.groupBox1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,5 +169,6 @@
         protected System.Windows.Forms.Button eliminar;
         protected System.Windows.Forms.Button modificar;
         protected System.Windows.Forms.TextBox username;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

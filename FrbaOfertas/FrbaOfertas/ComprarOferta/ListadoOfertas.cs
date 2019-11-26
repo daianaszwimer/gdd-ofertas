@@ -22,6 +22,11 @@ namespace FrbaOfertas.ComprarOferta
             confirmar.Visible = false;
             this.agregarCuponSeleccionado = agregarCuponSeleccionado;
             tablaDeResultados.DataSource = ofertasDataSet.Tables[0];
+            tablaDeResultados.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            tablaDeResultados.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            tablaDeResultados.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            tablaDeResultados.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            tablaDeResultados.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             tablaDeResultados.SelectionChanged += tablaDeResultados_SelectionChanged;
         }
 
@@ -55,7 +60,7 @@ namespace FrbaOfertas.ComprarOferta
             try
             {
                 ofertasDataSet.Clear();
-                string consultaOferta = string.Format("SELECT oferta_id, oferta_descripcion, oferta_precio_lista, oferta_cantidad, oferta_restriccion_compra " +
+                string consultaOferta = string.Format("SELECT oferta_id AS Id, oferta_descripcion AS Descripcion, oferta_precio_lista AS PrecioLista, oferta_cantidad AS Cantidad, oferta_restriccion_compra AS Restriccion " +
                                       "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Oferta " +
                                       "WHERE oferta_fecha_venc >= '{0}' AND oferta_fecha_publicacion >= '{0}' AND oferta_cantidad > 0",
                                       Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff"));
@@ -79,6 +84,11 @@ namespace FrbaOfertas.ComprarOferta
                 SqlDataAdapter cuponesDataAdapter = new SqlDataAdapter(consultaOferta, Helper.dbOfertas);
                 cuponesDataAdapter.Fill(ofertasDataSet);
                 tablaDeResultados.DataSource = ofertasDataSet.Tables[0];
+                tablaDeResultados.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                tablaDeResultados.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                tablaDeResultados.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                tablaDeResultados.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                tablaDeResultados.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             }
             catch (SqlException ex)
             {

@@ -87,7 +87,7 @@ namespace FrbaOfertas.ComprarOferta
                 SqlDataAdapter ofertasDataAdapter =
                     new SqlDataAdapter(
                         string.Format(
-                            "SELECT oferta_id, oferta_descripcion, oferta_precio_lista, oferta_cantidad, oferta_restriccion_compra " +
+                            "SELECT oferta_id AS Id, oferta_descripcion AS Descripcion, oferta_precio_lista AS PrecioLista, oferta_cantidad AS Cantidad, oferta_restriccion_compra AS Restriccion " +
                                   "FROM NO_LO_TESTEAMOS_NI_UN_POCO.Oferta " +
                                   "WHERE oferta_fecha_venc >= '{0}' AND oferta_fecha_publicacion >= '{0}' AND oferta_cantidad > 0",
                                   Helper.obtenerFechaActual().ToString("yyyy-MM-dd HH:mm:ss.fff")), Helper.dbOfertas);
