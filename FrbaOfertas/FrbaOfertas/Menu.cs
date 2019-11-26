@@ -33,7 +33,7 @@ namespace FrbaOfertas
             proveedorHabilitado = false;
 
             List<String> funcionalidades = obtenerFuncionalidadesSegunUsuario(Helper.usuarioActual);
-            if (Helper.rolesActuales.Contains("2")) // Es proveedor
+            if ((funcionalidades.Count != 0) && Helper.rolesActuales.Contains("2")) // Es proveedor
             {
                 esProveedor = true;
                 SqlCommand obtenerIdProveedor = new SqlCommand("SELECT proveedor_eliminado, proveedor_habilitado FROM NO_LO_TESTEAMOS_NI_UN_POCO.Proveedor JOIN NO_LO_TESTEAMOS_NI_UN_POCO.Usuario ON usuario_username = proveedor_id_usuario WHERE usuario_username='" + Helper.usuarioActual + "'", Helper.dbOfertas);
@@ -59,7 +59,7 @@ namespace FrbaOfertas
                     funcionalidades = new List<string>();
             }
 
-            if (Helper.rolesActuales.Contains("3")) // Es cliente
+            if ((funcionalidades.Count != 0) && Helper.rolesActuales.Contains("3")) // Es cliente
             {
                 esCliente = true;
                 string consultaCliente = string.Format("SELECT cliente_eliminado, cliente_habilitado FROM NO_LO_TESTEAMOS_NI_UN_POCO.Cliente " +
@@ -129,6 +129,7 @@ namespace FrbaOfertas
                 }
                 else
                 {
+                    dataReader.Close();
                     MessageBox.Show("No puede acceder a ninguna funcionalidad\nporque no tiene un rol asignado.\nContacte al administrador", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return new List<string>();
                 }

@@ -107,7 +107,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 54);
+            this.label1.Location = new System.Drawing.Point(63, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 11;
@@ -115,9 +115,9 @@
             // 
             // username
             // 
-            this.username.Location = new System.Drawing.Point(135, 51);
+            this.username.Location = new System.Drawing.Point(165, 50);
             this.username.Name = "username";
-            this.username.Size = new System.Drawing.Size(186, 20);
+            this.username.Size = new System.Drawing.Size(173, 20);
             this.username.TabIndex = 12;
             // 
             // Form1

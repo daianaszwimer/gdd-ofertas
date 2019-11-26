@@ -28,6 +28,21 @@ namespace FrbaOfertas.CambiarPassword
         private bool validacionCampos()
         {
             bool camposOk = true;
+            if (string.IsNullOrWhiteSpace(passwordAnterior.Text))
+            {
+                errorPasswordAnterior.SetError(passwordAnterior, "Campos Obligatorios");
+                camposOk = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(passwordNueva.Text))
+            {
+                errorPasswordNueva.SetError(passwordNueva, "Campos Obligatorios");
+                camposOk = false;
+            }
+
+            if (!camposOk)
+                return camposOk;
+
             SqlCommand chequearSiLaPasswordAnteriorEsCorrecta =
                 new SqlCommand(
                     string.Format(

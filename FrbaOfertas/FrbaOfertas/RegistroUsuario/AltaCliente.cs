@@ -62,7 +62,6 @@ namespace FrbaOfertas.RegistroUsuario
                 else if (dniNoExiste == false)
                 {
                     MessageBox.Show("Ya existe un cliente con ese Dni", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Show();
                 }
             }
         }
