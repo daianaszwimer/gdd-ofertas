@@ -33,9 +33,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buscar = new System.Windows.Forms.Button();
             this.codigoCupon = new System.Windows.Forms.Label();
-            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,54 +92,23 @@
             this.codigoCupon.TabIndex = 10;
             this.codigoCupon.Text = "Codigo cupon";
             // 
-            // rectangleShape1
-            // 
-            this.rectangleShape1.BorderColor = System.Drawing.SystemColors.AppWorkspace;
-            this.rectangleShape1.Location = new System.Drawing.Point(10, 44);
-            this.rectangleShape1.Name = "rectangleShape1";
-            this.rectangleShape1.Size = new System.Drawing.Size(259, 59);
-            // 
-            // shapeContainer1
-            // 
-            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.rectangleShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(284, 311);
-            this.shapeContainer1.TabIndex = 11;
-            this.shapeContainer1.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 35);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 13);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "Filtros";
-            // 
             // ListadoCupon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 311);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.codigoCupon);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.confirm);
             this.Controls.Add(this.buscar);
             this.Controls.Add(this.tablaDeResultados);
-            this.Controls.Add(this.shapeContainer1);
             this.Name = "ListadoCupon";
             this.Text = "Listado Cupon";
-            this.Controls.SetChildIndex(this.shapeContainer1, 0);
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.buscar, 0);
             this.Controls.SetChildIndex(this.confirm, 0);
             this.Controls.SetChildIndex(this.textBox1, 0);
             this.Controls.SetChildIndex(this.codigoCupon, 0);
-            this.Controls.SetChildIndex(this.label5, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -156,8 +122,5 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buscar;
         private System.Windows.Forms.Label codigoCupon;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private System.Windows.Forms.Label label5;
     }
 }

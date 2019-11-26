@@ -39,9 +39,6 @@
             this.mail = new System.Windows.Forms.TextBox();
             this.CUIT = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -158,39 +155,11 @@
             this.label3.TabIndex = 23;
             this.label3.Text = "Mail";
             // 
-            // rectangleShape1
-            // 
-            this.rectangleShape1.BorderColor = System.Drawing.SystemColors.AppWorkspace;
-            this.rectangleShape1.Location = new System.Drawing.Point(19, 48);
-            this.rectangleShape1.Name = "rectangleShape1";
-            this.rectangleShape1.Size = new System.Drawing.Size(716, 51);
-            // 
-            // shapeContainer1
-            // 
-            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.rectangleShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(767, 438);
-            this.shapeContainer1.TabIndex = 25;
-            this.shapeContainer1.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(39, 40);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 13);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "Filtros";
-            // 
             // Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 438);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.razonSocial);
             this.Controls.Add(this.label2);
@@ -202,10 +171,8 @@
             this.Controls.Add(this.buscar);
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
-            this.Controls.Add(this.shapeContainer1);
             this.Name = "Listado";
             this.Text = "Listado Proveedores";
-            this.Controls.SetChildIndex(this.shapeContainer1, 0);
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.buscar, 0);
@@ -217,7 +184,6 @@
             this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.razonSocial, 0);
             this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.label5, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -237,8 +203,5 @@
         protected System.Windows.Forms.TextBox mail;
         protected System.Windows.Forms.TextBox CUIT;
         private System.Windows.Forms.Label label3;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private System.Windows.Forms.Label label5;
     }
 }

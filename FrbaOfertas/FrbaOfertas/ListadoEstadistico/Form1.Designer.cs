@@ -40,9 +40,6 @@
             this.semestre = new System.Windows.Forms.ComboBox();
             this.errorListado = new System.Windows.Forms.ErrorProvider(this.components);
             this.errorSemestre = new System.Windows.Forms.ErrorProvider(this.components);
-            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
-            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorListado)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorSemestre)).BeginInit();
@@ -159,39 +156,11 @@
             this.errorSemestre.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorSemestre.ContainerControl = this;
             // 
-            // rectangleShape1
-            // 
-            this.rectangleShape1.BorderColor = System.Drawing.SystemColors.AppWorkspace;
-            this.rectangleShape1.Location = new System.Drawing.Point(12, 41);
-            this.rectangleShape1.Name = "rectangleShape1";
-            this.rectangleShape1.Size = new System.Drawing.Size(511, 83);
-            // 
-            // shapeContainer1
-            // 
-            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
-            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.shapeContainer1.Name = "shapeContainer1";
-            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
-            this.rectangleShape1});
-            this.shapeContainer1.Size = new System.Drawing.Size(767, 438);
-            this.shapeContainer1.TabIndex = 12;
-            this.shapeContainer1.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(32, 34);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(34, 13);
-            this.label5.TabIndex = 30;
-            this.label5.Text = "Filtros";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 438);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.semestre);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.anio);
@@ -201,10 +170,8 @@
             this.Controls.Add(this.buscar);
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
-            this.Controls.Add(this.shapeContainer1);
             this.Name = "Form1";
             this.Text = "Listado Estadistico";
-            this.Controls.SetChildIndex(this.shapeContainer1, 0);
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.buscar, 0);
@@ -214,7 +181,6 @@
             this.Controls.SetChildIndex(this.anio, 0);
             this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.semestre, 0);
-            this.Controls.SetChildIndex(this.label5, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorListado)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorSemestre)).EndInit();
@@ -236,8 +202,5 @@
         private System.Windows.Forms.ComboBox semestre;
         private System.Windows.Forms.ErrorProvider errorListado;
         private System.Windows.Forms.ErrorProvider errorSemestre;
-        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
-        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
-        private System.Windows.Forms.Label label5;
     }
 }
