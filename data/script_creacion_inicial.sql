@@ -630,7 +630,8 @@ as
 		where year(o.oferta_fecha_publicacion) = @anio
 			and 1 =
 			(case when @semestre = 1 and month(o.oferta_fecha_publicacion) in (1,2,3,4,5,6) then 1 when @semestre = 2 and month(o.oferta_fecha_publicacion) in (7,8,9,10,11,12) then 1 else 0 end)
-			group by p.proveedor_cuit, p.proveedor_razon_social, p.proveedor_nombre_contacto
+		group by p.proveedor_cuit, p.proveedor_razon_social, p.proveedor_nombre_contacto
+		having avg( (o.oferta_precio_lista - o.oferta_precio)/o.oferta_precio_lista*100 ) <> 0
 		order by 'descuento' desc
 	)
 go
