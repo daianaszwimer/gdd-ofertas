@@ -39,9 +39,10 @@
             this.modificar = new System.Windows.Forms.Button();
             this.eliminar = new System.Windows.Forms.Button();
             this.asignarRolAUsuario = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // funcionalidadesComboBox
@@ -59,7 +60,7 @@
             "Entrega/Consumo de oferta",
             "Facturacion a Proveedor",
             "Listado Estadistico"});
-            this.funcionalidadesComboBox.Location = new System.Drawing.Point(399, 33);
+            this.funcionalidadesComboBox.Location = new System.Drawing.Point(421, 69);
             this.funcionalidadesComboBox.Name = "funcionalidadesComboBox";
             this.funcionalidadesComboBox.Size = new System.Drawing.Size(210, 21);
             this.funcionalidadesComboBox.TabIndex = 6;
@@ -68,7 +69,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(311, 36);
+            this.label2.Location = new System.Drawing.Point(342, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 5;
@@ -77,7 +78,7 @@
             // rolTextBox
             // 
             this.rolTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.rolTextBox.Location = new System.Drawing.Point(46, 33);
+            this.rolTextBox.Location = new System.Drawing.Point(134, 69);
             this.rolTextBox.Name = "rolTextBox";
             this.rolTextBox.Size = new System.Drawing.Size(179, 20);
             this.rolTextBox.TabIndex = 4;
@@ -86,7 +87,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 36);
+            this.label1.Location = new System.Drawing.Point(105, 72);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(23, 13);
             this.label1.TabIndex = 3;
@@ -191,20 +192,32 @@
             this.asignarRolAUsuario.UseVisualStyleBackColor = false;
             this.asignarRolAUsuario.Click += new System.EventHandler(this.asignarRolAUsuario_Click);
             // 
-            // groupBox1
+            // rectangleShape1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.rolTextBox);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.funcionalidadesComboBox);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(22, 54);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(626, 70);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Filtros de búsqueda";
+            this.rectangleShape1.BorderColor = System.Drawing.SystemColors.AppWorkspace;
+            this.rectangleShape1.Location = new System.Drawing.Point(22, 58);
+            this.rectangleShape1.Name = "rectangleShape1";
+            this.rectangleShape1.Size = new System.Drawing.Size(623, 49);
+            // 
+            // shapeContainer1
+            // 
+            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.rectangleShape1});
+            this.shapeContainer1.Size = new System.Drawing.Size(669, 441);
+            this.shapeContainer1.TabIndex = 10;
+            this.shapeContainer1.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(36, 53);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 13);
+            this.label5.TabIndex = 31;
+            this.label5.Text = "Filtros";
             // 
             // Listado
             // 
@@ -212,25 +225,33 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(669, 441);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.rolTextBox);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.funcionalidadesComboBox);
             this.Controls.Add(this.asignarRolAUsuario);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.eliminar);
             this.Controls.Add(this.modificar);
             this.Controls.Add(this.buscar);
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
+            this.Controls.Add(this.shapeContainer1);
             this.Name = "Listado";
             this.Text = "Listado Roles";
+            this.Controls.SetChildIndex(this.shapeContainer1, 0);
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.buscar, 0);
             this.Controls.SetChildIndex(this.modificar, 0);
             this.Controls.SetChildIndex(this.eliminar, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.asignarRolAUsuario, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.funcionalidadesComboBox, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.rolTextBox, 0);
+            this.Controls.SetChildIndex(this.label5, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,7 +269,9 @@
         private System.Windows.Forms.Button modificar;
         private System.Windows.Forms.Button eliminar;
         private System.Windows.Forms.Button asignarRolAUsuario;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        private System.Windows.Forms.Label label5;
 
     }
 }

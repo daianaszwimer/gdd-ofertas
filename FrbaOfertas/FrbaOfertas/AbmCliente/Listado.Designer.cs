@@ -33,17 +33,18 @@
             this.tablaDeResultados = new System.Windows.Forms.DataGridView();
             this.eliminar = new System.Windows.Forms.Button();
             this.modificar = new System.Windows.Forms.Button();
-            this.dni = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.apellido = new System.Windows.Forms.TextBox();
-            this.mail = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.nombre = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dni = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.mail = new System.Windows.Forms.TextBox();
+            this.apellido = new System.Windows.Forms.TextBox();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // buscar
@@ -108,86 +109,96 @@
             this.modificar.UseVisualStyleBackColor = false;
             this.modificar.Click += new System.EventHandler(this.modificar_Click);
             // 
-            // dni
-            // 
-            this.dni.Location = new System.Drawing.Point(356, 32);
-            this.dni.Name = "dni";
-            this.dni.Size = new System.Drawing.Size(120, 20);
-            this.dni.TabIndex = 15;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(479, 16);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(26, 13);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Mail";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(353, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "DNI";
-            // 
-            // apellido
-            // 
-            this.apellido.Location = new System.Drawing.Point(230, 32);
-            this.apellido.Name = "apellido";
-            this.apellido.Size = new System.Drawing.Size(120, 20);
-            this.apellido.TabIndex = 13;
-            // 
-            // mail
-            // 
-            this.mail.Location = new System.Drawing.Point(482, 32);
-            this.mail.Name = "mail";
-            this.mail.Size = new System.Drawing.Size(120, 20);
-            this.mail.TabIndex = 17;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(227, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Apellido";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(101, 16);
+            this.label1.Location = new System.Drawing.Point(104, 54);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 10;
+            this.label1.TabIndex = 20;
             this.label1.Text = "Nombre";
             // 
             // nombre
             // 
-            this.nombre.Location = new System.Drawing.Point(104, 32);
+            this.nombre.Location = new System.Drawing.Point(107, 70);
             this.nombre.Name = "nombre";
             this.nombre.Size = new System.Drawing.Size(120, 20);
-            this.nombre.TabIndex = 11;
+            this.nombre.TabIndex = 21;
             // 
-            // groupBox1
+            // dni
             // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.nombre);
-            this.groupBox1.Controls.Add(this.dni);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.mail);
-            this.groupBox1.Controls.Add(this.apellido);
-            this.groupBox1.Location = new System.Drawing.Point(25, 38);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(709, 69);
-            this.groupBox1.TabIndex = 21;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Filtros";
+            this.dni.Location = new System.Drawing.Point(359, 70);
+            this.dni.Name = "dni";
+            this.dni.Size = new System.Drawing.Size(120, 20);
+            this.dni.TabIndex = 25;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(482, 54);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(26, 13);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "Mail";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(230, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "Apellido";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(356, 54);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(26, 13);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "DNI";
+            // 
+            // mail
+            // 
+            this.mail.Location = new System.Drawing.Point(485, 70);
+            this.mail.Name = "mail";
+            this.mail.Size = new System.Drawing.Size(120, 20);
+            this.mail.TabIndex = 27;
+            // 
+            // apellido
+            // 
+            this.apellido.Location = new System.Drawing.Point(233, 70);
+            this.apellido.Name = "apellido";
+            this.apellido.Size = new System.Drawing.Size(120, 20);
+            this.apellido.TabIndex = 23;
+            // 
+            // shapeContainer1
+            // 
+            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.rectangleShape1});
+            this.shapeContainer1.Size = new System.Drawing.Size(767, 438);
+            this.shapeContainer1.TabIndex = 28;
+            this.shapeContainer1.TabStop = false;
+            // 
+            // rectangleShape1
+            // 
+            this.rectangleShape1.BorderColor = System.Drawing.SystemColors.AppWorkspace;
+            this.rectangleShape1.Location = new System.Drawing.Point(26, 49);
+            this.rectangleShape1.Name = "rectangleShape1";
+            this.rectangleShape1.Size = new System.Drawing.Size(704, 53);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(45, 42);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 13);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Filtros";
             // 
             // Listado
             // 
@@ -195,23 +206,39 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(767, 438);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.nombre);
+            this.Controls.Add(this.dni);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.mail);
+            this.Controls.Add(this.apellido);
             this.Controls.Add(this.eliminar);
             this.Controls.Add(this.modificar);
             this.Controls.Add(this.buscar);
             this.Controls.Add(this.limpiar);
             this.Controls.Add(this.tablaDeResultados);
+            this.Controls.Add(this.shapeContainer1);
             this.Name = "Listado";
             this.Text = "Listado Clientes";
+            this.Controls.SetChildIndex(this.shapeContainer1, 0);
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
             this.Controls.SetChildIndex(this.buscar, 0);
             this.Controls.SetChildIndex(this.modificar, 0);
             this.Controls.SetChildIndex(this.eliminar, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.apellido, 0);
+            this.Controls.SetChildIndex(this.mail, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
+            this.Controls.SetChildIndex(this.label4, 0);
+            this.Controls.SetChildIndex(this.dni, 0);
+            this.Controls.SetChildIndex(this.nombre, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.label5, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,14 +251,16 @@
         protected System.Windows.Forms.Button eliminar;
         protected System.Windows.Forms.Button modificar;
         protected System.Windows.Forms.DataGridView tablaDeResultados;
-        private System.Windows.Forms.TextBox dni;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox apellido;
-        private System.Windows.Forms.TextBox mail;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox nombre;
-        protected System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox dni;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox mail;
+        private System.Windows.Forms.TextBox apellido;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
+        private System.Windows.Forms.Label label5;
     }
 }

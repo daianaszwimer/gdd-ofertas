@@ -38,9 +38,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.limpiar = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rectangleShape1 = new Microsoft.VisualBasic.PowerPacks.RectangleShape();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // confirmar
@@ -71,7 +72,7 @@
             // 
             // descripcion
             // 
-            this.descripcion.Location = new System.Drawing.Point(65, 35);
+            this.descripcion.Location = new System.Drawing.Point(110, 71);
             this.descripcion.Name = "descripcion";
             this.descripcion.Size = new System.Drawing.Size(206, 20);
             this.descripcion.TabIndex = 3;
@@ -79,7 +80,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(65, 16);
+            this.label1.Location = new System.Drawing.Point(110, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 4;
@@ -88,7 +89,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(274, 16);
+            this.label2.Location = new System.Drawing.Point(319, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 5;
@@ -96,14 +97,14 @@
             // 
             // precio
             // 
-            this.precio.Location = new System.Drawing.Point(277, 35);
+            this.precio.Location = new System.Drawing.Point(322, 71);
             this.precio.Name = "precio";
             this.precio.Size = new System.Drawing.Size(144, 20);
             this.precio.TabIndex = 6;
             // 
             // cantidad
             // 
-            this.cantidad.Location = new System.Drawing.Point(427, 35);
+            this.cantidad.Location = new System.Drawing.Point(472, 71);
             this.cantidad.Name = "cantidad";
             this.cantidad.Size = new System.Drawing.Size(147, 20);
             this.cantidad.TabIndex = 8;
@@ -111,7 +112,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(424, 19);
+            this.label3.Location = new System.Drawing.Point(469, 52);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(94, 13);
             this.label3.TabIndex = 7;
@@ -143,41 +144,65 @@
             this.limpiar.UseVisualStyleBackColor = false;
             this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
-            // groupBox1
+            // rectangleShape1
             // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.descripcion);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.cantidad);
-            this.groupBox1.Controls.Add(this.precio);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Location = new System.Drawing.Point(22, 28);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(712, 64);
-            this.groupBox1.TabIndex = 11;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Filtros";
+            this.rectangleShape1.BorderColor = System.Drawing.SystemColors.AppWorkspace;
+            this.rectangleShape1.Location = new System.Drawing.Point(26, 40);
+            this.rectangleShape1.Name = "rectangleShape1";
+            this.rectangleShape1.Size = new System.Drawing.Size(706, 60);
+            // 
+            // shapeContainer1
+            // 
+            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.rectangleShape1});
+            this.shapeContainer1.Size = new System.Drawing.Size(767, 438);
+            this.shapeContainer1.TabIndex = 11;
+            this.shapeContainer1.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(49, 34);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(34, 13);
+            this.label5.TabIndex = 30;
+            this.label5.Text = "Filtros";
             // 
             // ListadoOfertas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(767, 438);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.descripcion);
             this.Controls.Add(this.limpiar);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.cantidad);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.precio);
             this.Controls.Add(this.tablaDeResultados);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.confirmar);
+            this.Controls.Add(this.shapeContainer1);
             this.Name = "ListadoOfertas";
             this.Text = "Listado de Ofertas";
+            this.Controls.SetChildIndex(this.shapeContainer1, 0);
             this.Controls.SetChildIndex(this.confirmar, 0);
+            this.Controls.SetChildIndex(this.label3, 0);
             this.Controls.SetChildIndex(this.tablaDeResultados, 0);
+            this.Controls.SetChildIndex(this.precio, 0);
             this.Controls.SetChildIndex(this.button2, 0);
+            this.Controls.SetChildIndex(this.cantidad, 0);
+            this.Controls.SetChildIndex(this.label2, 0);
             this.Controls.SetChildIndex(this.limpiar, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
+            this.Controls.SetChildIndex(this.descripcion, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.label5, 0);
             ((System.ComponentModel.ISupportInitialize)(this.tablaDeResultados)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,6 +220,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button limpiar;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private Microsoft.VisualBasic.PowerPacks.RectangleShape rectangleShape1;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        private System.Windows.Forms.Label label5;
     }
 }
