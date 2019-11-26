@@ -41,6 +41,8 @@
             // buscar
             // 
             this.buscar.BackColor = System.Drawing.Color.SandyBrown;
+            this.buscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buscar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buscar.Location = new System.Drawing.Point(246, 88);
             this.buscar.Name = "buscar";
             this.buscar.Size = new System.Drawing.Size(75, 23);
@@ -52,6 +54,8 @@
             // limpiar
             // 
             this.limpiar.BackColor = System.Drawing.Color.SandyBrown;
+            this.limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.limpiar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.limpiar.Location = new System.Drawing.Point(36, 88);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(75, 23);
@@ -77,6 +81,8 @@
             // eliminar
             // 
             this.eliminar.BackColor = System.Drawing.Color.SandyBrown;
+            this.eliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.eliminar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eliminar.Location = new System.Drawing.Point(246, 403);
             this.eliminar.Name = "eliminar";
             this.eliminar.Size = new System.Drawing.Size(75, 23);
@@ -88,6 +94,8 @@
             // modificar
             // 
             this.modificar.BackColor = System.Drawing.Color.SandyBrown;
+            this.modificar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.modificar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.modificar.Location = new System.Drawing.Point(165, 403);
             this.modificar.Name = "modificar";
             this.modificar.Size = new System.Drawing.Size(75, 23);

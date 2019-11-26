@@ -67,7 +67,9 @@ namespace FrbaOfertas.ComprarOferta
 
                         codigoCompra = result.ToString();
                     }
-                    MessageBox.Show(codigoCompra, "Codigo de compra", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                    MessageBox.Show("Su compra fue realizada con exito\nEl codigo de compra es: " + codigoCompra, "Compra exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    (new Menu()).Show();
+                    this.Close();
                 }
                 catch (SqlException ex)
                 {

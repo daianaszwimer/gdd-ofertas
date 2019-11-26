@@ -167,7 +167,11 @@ namespace FrbaOfertas.CragaCredito
                 {
                     if (dataReader.RecordsAffected > 0)
                     {
-                        MessageBox.Show("Carga de credito realizada", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        dataReader.Close();
+                        if (actualizarCreditoCliente(montoString))
+                            MessageBox.Show("Carga de credito realizada", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else
+                            MessageBox.Show("No se pudo cargar el credito correctamente", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
@@ -179,6 +183,25 @@ namespace FrbaOfertas.CragaCredito
                 (new Menu()).Show();
                 this.Close();
             }
+        }
+
+        private bool actualizarCreditoCliente(string dinero)
+        {
+            string consultaModificarCliente = string.Format("UPDATE NO_LO_TESTEAMOS_NI_UN_POCO.Cliente SET cliente_credito = cliente_credito + {0} WHERE cliente_id={1}; ", dinero, idCliente);
+            SqlCommand modificarCliente = new SqlCommand(consultaModificarCliente, Helper.dbOfertas);
+            SqlDataReader modificarClienteDataReader = modificarCliente.ExecuteReader();
+            if (modificarClienteDataReader != null)
+            {
+                if (modificarClienteDataReader.RecordsAffected <= 0)
+                {
+                    modificarClienteDataReader.Close();
+                    return false;
+                }
+                modificarClienteDataReader.Close();
+                return true;
+            }
+            else
+                return false;
         }
 
         private void nuevaTarjeta_Click(object sender, EventArgs e)
