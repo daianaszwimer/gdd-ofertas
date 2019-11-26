@@ -58,14 +58,10 @@ namespace FrbaOfertas.Facturar
                     obtenerMontoFactura();
                     montoFactura.Text = monto.ToString();
                     cargarTablaResultados();
-
-                    //if (idFactura == "")
-                        //MessageBox.Show("NO HAY OFERTAS QUE FACTURAR", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
