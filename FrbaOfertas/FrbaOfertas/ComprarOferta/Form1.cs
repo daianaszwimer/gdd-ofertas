@@ -56,11 +56,10 @@ namespace FrbaOfertas.ComprarOferta
                         cmd.Parameters.AddWithValue("id_cliente", idCliente);
                         cmd.Parameters.AddWithValue("id_oferta", idOferta);
                         cmd.Parameters.AddWithValue("fecha", sqlFormattedDate);
-                        cmd.Parameters.AddWithValue("cantidad", unidadDeOferta.Value);
-                        cmd.Parameters.AddWithValue("codigo", "");
+                        cmd.Parameters.AddWithValue("cantidad", unidadDeOferta.Text);
 
-                        var returnParameter = cmd.Parameters.Add("@codigo", SqlDbType.Int);
-                        returnParameter.Direction = ParameterDirection.ReturnValue;
+                        var returnParameter = cmd.Parameters.Add("@codigo", SqlDbType.VarChar,64);
+                        returnParameter.Direction = ParameterDirection.Output;
 
                         cmd.ExecuteNonQuery();
                         var result = returnParameter.Value;

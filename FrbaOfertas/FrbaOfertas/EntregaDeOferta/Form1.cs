@@ -62,6 +62,8 @@ namespace FrbaOfertas.EntregaDeOferta
                             cmd.ExecuteNonQuery();
                         }
                         MessageBox.Show("Cupon "+codigoCompra+" fue dado de baja", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        (new Menu()).Show();
+                        this.Close();
                     }
                     catch (SqlException ex)
                     {
